@@ -8,7 +8,7 @@ LocalRadio is an experimental, GPL-2 licensed open-source application for listen
 
 LocalRadio's easy-to-use web interface allows the radio to be shared from a Mac to iPhones, iPads, Android devices, and other PCs on your home network.  No additional software or hardware is required for sharing with mobile devices, simply use the built-in mobile web browser to connect to LocalRadio and tune to your favorite stations.  You can also listen to LocalRadio audio on your Apple TV and other AirPlay-compatible devices.
 
-(LINK TO LocalRadio-poster.svg GOES HERE)
+<img src="https://rawgit.com/dsward2/LocalRadio/master/Documents/LocalRadio-poster.svg">
 
 LocalRadio does not provide features like FFT waterfalls, panadapters, or signal recording that are found on other SDR software.  For those features, GQRX for Mac is highly recommended.  GQRX is a good way to discover radio frequencies that can be used with LocalRadio.
 
@@ -50,7 +50,9 @@ To minimize electrical interference and improve radio reception, it may be helpf
 
 Currently, LocalRadio does not play FM stereo audio.  LocalRadio can receive FM stereo stations, but they will be played as monophonic audio.  A future release of LocalRadio may support stereo, either by modifying the rtl_fm_localradio source, or by using a different tool.
 
-LocalRadio supports multiple devices by using a built-in LAME MP3 encoder, EZStream and Icecast server.  Due to the buffering required to process the audio through compression and streaming, there is typically a delay of ten seconds between the radio signal and the audio output.  On the Mac running LocalRadio, that delay can be removed temporarily by removing the checkmark for "Use
+LocalRadio supports multiple devices by using a built-in LAME MP3 encoder, EZStream and Icecast server.  Due to the buffering required to process the audio through compression and streaming, there is typically a delay of ten seconds between the radio signal and the audio output.  On the Mac running LocalRadio, that delay can be removed temporarily by removing the checkmark for "Use Web View Player".
+
+If you like LocalRadio, please click the "Star" button on this GitHub project, and check out my other app on GitHub, macSVG.
 
 Copyright (c) 2017 by ArkPhone, LLC.
 
