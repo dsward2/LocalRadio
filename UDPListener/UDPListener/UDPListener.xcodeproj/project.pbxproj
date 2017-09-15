@@ -1,0 +1,271 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E0A95321F129400002E2E5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A95311F129400002E2E5B /* main.m */; };
+		0E0A95A01F136582002E2E5B /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A959F1F136582002E2E5B /* GCDAsyncUdpSocket.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0E0A952C1F129400002E2E5B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0E0A952E1F129400002E2E5B /* UDPListener */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = UDPListener; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0A95311F129400002E2E5B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0E0A959F1F136582002E2E5B /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = "../../../LocalRadio/CocoaAsyncSocket-master/Source/GCD/GCDAsyncUdpSocket.m"; sourceTree = "<group>"; };
+		0E7293C81F14C46C00350F03 /* UDPListener.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UDPListener.entitlements; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E0A952B1F129400002E2E5B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E0A95251F129400002E2E5B = {
+			isa = PBXGroup;
+			children = (
+				0E0A95301F129400002E2E5B /* UDPListener */,
+				0E0A952F1F129400002E2E5B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0E0A952F1F129400002E2E5B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E0A952E1F129400002E2E5B /* UDPListener */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E0A95301F129400002E2E5B /* UDPListener */ = {
+			isa = PBXGroup;
+			children = (
+				0E0A95311F129400002E2E5B /* main.m */,
+				0E0A959F1F136582002E2E5B /* GCDAsyncUdpSocket.m */,
+				0E7293C81F14C46C00350F03 /* UDPListener.entitlements */,
+			);
+			path = UDPListener;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E0A952D1F129400002E2E5B /* UDPListener */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0A95351F129400002E2E5B /* Build configuration list for PBXNativeTarget "UDPListener" */;
+			buildPhases = (
+				0E0A952A1F129400002E2E5B /* Sources */,
+				0E0A952B1F129400002E2E5B /* Frameworks */,
+				0E0A952C1F129400002E2E5B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UDPListener;
+			productName = UDPListener;
+			productReference = 0E0A952E1F129400002E2E5B /* UDPListener */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E0A95261F129400002E2E5B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "ArkPhone LLC";
+				TargetAttributes = {
+					0E0A952D1F129400002E2E5B = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = AM3K5RX83D;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 0E0A95291F129400002E2E5B /* Build configuration list for PBXProject "UDPListener" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0E0A95251F129400002E2E5B;
+			productRefGroup = 0E0A952F1F129400002E2E5B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0E0A952D1F129400002E2E5B /* UDPListener */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E0A952A1F129400002E2E5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0A95321F129400002E2E5B /* main.m in Sources */,
+				0E0A95A01F136582002E2E5B /* GCDAsyncUdpSocket.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0E0A95331F129400002E2E5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0E0A95341F129400002E2E5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0E0A95361F129400002E2E5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = UDPListener.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = AM3K5RX83D;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
+				INFOPLIST_FILE = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0E0A95371F129400002E2E5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = UDPListener.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				DEVELOPMENT_TEAM = AM3K5RX83D;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
+				INFOPLIST_FILE = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E0A95291F129400002E2E5B /* Build configuration list for PBXProject "UDPListener" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0A95331F129400002E2E5B /* Debug */,
+				0E0A95341F129400002E2E5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E0A95351F129400002E2E5B /* Build configuration list for PBXNativeTarget "UDPListener" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0A95361F129400002E2E5B /* Debug */,
+				0E0A95371F129400002E2E5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E0A95261F129400002E2E5B /* Project object */;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
+
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>LocalRadio</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="dist/css/normalize.css">
+  <link rel="stylesheet" href="dist/css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="js/jquery.min.js"></script>
+  <!-- <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script> -->
+  <link rel="stylesheet" href="css/github-prettify-theme.css">
+  <script src="js/site.js"></script>
+
+  <script src="js/localradio.js"></script>
+  
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="dist/images/favicon.png">
+  
+  <script>
+    // modify values declared in localradio.js for FM broadcast range
+    frequency_min = 87500000;   // 87.5 MHz
+    frequency_max = 107900000;  // 107.9 MHz
+  </script>
+
+</head>
+
+<body class="code-snippets-visible" onload="resizeIframe(this)">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+    <div class="container">
+        <section class="header">
+            <h2 class="title">LocalRadio</h2>
+            <h3 class="title">Wide-band FM Tuner</h3>
+
+            <form class="wbfm-tuner-form" id="wbfm-tuner-form" onsubmit="event.preventDefault(); return insertNewFrequencyRecord(this);" method="POST">
+        
+                <label for="station_name">Station Name:</label>
+                <input class="twelve columns value-prop" type="text" id="station_name" name="station_name" value="" placeholder="Station Name">
+
+                <label for="tuner">FM Frequency:</label>
+                <section class="tuner">
+
+                    <div class="tuner-digits">
+                        <span id="XXXX-MHz" class="tuner-digit tuner-digit-hidden">0</span>
+                        <span id="XXX-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);">0</span>
+                        <span id="XX-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);">8</span>
+                        <span id="X-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);">7</span>
+                        <span id="decimal-MHz" class="tuner-text">.</span>
+                        <span id="X-KHz" class="tuner-digit" onclick="tunerDigitClicked(this);">9</span>
+                        <span id="XX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
+                        <span id="XXX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
+                        <span id="XXXX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
+                        <span id="XXXXX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
+                        <span id="XXXXXX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
+                        <span id="MHz-label" class="tuner-text">&nbsp;MHz</span>
+                    </div>
+                    
+                <input type="hidden" id="frequency" name="frequency" value="87900000">
+                </section>
+
+                <span style="display: inline;">
+                
+                    <button id="down_button" name="down_button" type="button" class="frequency-button" onclick="frequencyDownButtonClicked(self);">-</button>
+                    <button id="up_button" name="up_button" type="button" class="frequency-button" onclick="frequencyUpButtonClicked(self);">+</button>
+                    
+                </span>
+                
+                &nbsp;<br>
+                &nbsp;<br>
+            
+                <label for="tuner_gain">Tuner Gain:</label>
+                <select class="twelve columns value-prop" id="tuner_gain" name="tuner_gain">
+                    <option value="12.5">12.5</option>
+                    <option value="25.4">25.4</option>
+                    <option value="49.6" selected="">49.6</option>
+                </select>
+
+                <label for="sample_rate">Sample Rate:</label>
+                <select class="twelve columns value-prop" id="sample_rate" name="sample_rate">
+                    <option value="85000">85000</option>
+                    <option value="170000" selected="">170000</option>
+                </select>
+                
+                %%CATEGORY_SELECT%%
+
+                <br>&nbsp;
+                <br>&nbsp;
+                <br>
+
+                <input class="twelve columns button button-primary" type="button" value="Listen" onclick="var tunerDigits=getElementById('tuner-digits'); frequencyListenButtonClicked();">
+                
+                <br>&nbsp;
+                <br>&nbsp;
+                <br>
+            
+                <input class="twelve columns button button-primary" type="submit" value="Add New Favorite">
+                
+            </form>
+
+        </select>
+
+    </div>
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

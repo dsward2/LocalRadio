@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "0820"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0E4ECFBA1EAB633B00D2157B"
+               BuildableName = "LocalRadio.app"
+               BlueprintName = "LocalRadio"
+               ReferencedContainer = "container:LocalRadio.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+      </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0E4ECFBA1EAB633B00D2157B"
+            BuildableName = "LocalRadio.app"
+            BlueprintName = "LocalRadio"
+            ReferencedContainer = "container:LocalRadio.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "if pgrep -x &quot;LocalRadio&quot; &gt; /dev/null&#10;then&#10;    echo &quot;LocalRadio is running, no extra processes will be stopped&quot;&#10;else&#10;    echo &quot;LocalRadio is not running, extra processes will be stopped&quot;&#10;&#10;&#9;if pgrep -x &quot;UDPSender&quot; &gt; /dev/null&#10;&#9;then&#10;    &#9;echo &quot;pkill UDPSender&quot;&#10;&#9;&#9;pkill UDPSender&#10;&#9;fi&#10;&#10;&#9;if pgrep -x &quot;UDPListener&quot; &gt; /dev/null&#10;&#9;then&#10;    &#9;echo &quot;pkill UDPListener&quot;&#10;&#9;&#9;pkill UDPListener&#10;&#9;fi&#10;&#10;&#9;if pgrep -x &quot;rtl_fm_localradio&quot; &gt; /dev/null&#10;&#9;then&#10;    &#9;echo &quot;pkill rtl_fm_localradio&quot;&#10;&#9;&#9;pkill rtl_fm_localradio&#10;&#9;fi&#10;&#10;&#9;if pgrep -x &quot;icecast&quot; &gt; /dev/null&#10;&#9;then&#10;    &#9;echo &quot;pkill icecast&quot;&#10;&#9;&#9;pkill icecast&#10;&#9;fi&#10;&#10;&#9;if pgrep -x &quot;ezstream&quot; &gt; /dev/null&#10;&#9;then&#10;    &#9;echo &quot;pkill ezstream&quot;&#10;&#9;&#9;pkill ezstream&#10;&#9;fi&#10;&#10;&#9;if pgrep -x &quot;sox&quot; &gt; /dev/null&#10;&#9;then&#10;    &#9;echo &quot;pkill sox&quot;&#10;&#9;&#9;pkill sox&#10;&#9;fi&#10;&#10;&#9;if pgrep -x &quot;AudioMonitor&quot; &gt; /dev/null&#10;&#9;then&#10;    &#9;echo &quot;pkill AudioMonitor&quot;&#10;&#9;&#9;pkill AudioMonitor&#10;&#9;fi&#10;fi&#10;">
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0E4ECFBA1EAB633B00D2157B"
+            BuildableName = "LocalRadio.app"
+            BlueprintName = "LocalRadio"
+            ReferencedContainer = "container:LocalRadio.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "CA_DEBUG_TRANSACTIONS"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
+      <AdditionalOptions>
+      </AdditionalOptions>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

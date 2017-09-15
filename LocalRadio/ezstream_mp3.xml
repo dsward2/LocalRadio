@@ -1,0 +1,38 @@
+<!--
+   EXAMPLE: MP3 playlist stream WITHOUT reencoding
+
+   This example streams a playlist that contains only MP3 files. No other file
+   formats may be listed. Since ezstream will not be doing any reencoding, the
+   resulting stream format (bitrate, samplerate, channels) will be of the
+   respective input files.
+ -->
+<ezstream>
+    <url>http://127.0.0.1:17003/live</url>
+    <!--
+      If a different user name than "source" should be used, set it in
+      <sourceuser/>:
+     -->
+    <!-- <sourceuser>mr_stream</sourceuser> -->
+    <sourcepassword>myPassword123</sourcepassword>
+    <format>MP3</format>
+    <filename>stdin</filename>
+    <!-- Once done streaming playlist.m3u, exit: -->
+    <stream_once>0</stream_once>
+    <!--
+      The following settings are used to describe your stream to the server.
+      It's up to you to make sure that the bitrate/samplerate/channels
+      information matches up with your input stream files. Note that
+      <svrinfoquality /> only applies to Ogg Vorbis streams.
+     -->
+    <svrinfoname>My Stream</svrinfoname>
+    <svrinfourl>http://127.0.0.1/localradio</svrinfourl>
+    <svrinfogenre>LocalRadio</svrinfogenre>
+    <svrinfodescription>LocalRadio streaming audio</svrinfodescription>
+    <svrinfobitrate>128</svrinfobitrate>
+    <svrinfochannels>2</svrinfochannels>
+    <svrinfosamplerate>48000</svrinfosamplerate>
+    <!--
+      Prohibit the server to advertise the stream on a public YP directory:
+     -->
+    <svrinfopublic>0</svrinfopublic>
+</ezstream>

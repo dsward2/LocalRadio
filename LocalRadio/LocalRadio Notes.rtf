@@ -1,0 +1,113 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red67\green67\blue67;\red38\green38\blue38;\red242\green242\blue242;
+\red0\green128\blue0;\red0\green0\blue255;\red163\green21\blue21;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+References -\
+\
+======================================\
+\
+Rtl_fm Guide\
+	Updates for rtl_fm overhaul\
+	{\field{\*\fldinst{HYPERLINK "http://kmkeen.com/rtl-demod-guide/"}}{\fldrslt http://kmkeen.com/rtl-demod-guide/}}\
+\
+======================================\
+\
+See: Using RTL_FM and FFMPEG to stream radio audio over network\
+	{\field{\*\fldinst{HYPERLINK "https://lansley.com/2014/09/27/using-rtl_fm-and-ffmpeg-to-stream-radio-audio-over-network/"}}{\fldrslt https://lansley.com/2014/09/27/using-rtl_fm-and-ffmpeg-to-stream-radio-audio-over-network/}}\
+	Example:\
+	rtl_fm -f 106.2M -M fm -s 170k -A std  -l 0 -E deemp -r 44.1k  | ffmpeg -f s16le -ac 1 -i pipe:0  -acodec libmp3lame -ab 128k -f rtp rtp://127.0.0.1:1234\
+\
+======================================\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \expnd0\expndtw0\kerning0
+RTL-SDR NOAA Weather Radio Streamer in Linux\
+	{\field{\*\fldinst{HYPERLINK "https://one-button.org/node/48"}}{\fldrslt https://one-button.org/node/48}}\
+	Example: \
+	\cf3 \cb4 rtl_fm -f 162.500m -M fm - | lame -r -s 24 -m m -b 64 --cbr - - | ezstream -c /etc/ezstream.xml\
+\
+\cf2 \cb1 RTL-SDR NOAA Weather Radio player, good quality\cf3 \cb4 \
+	"/Users/dsward/Library/Developer/Xcode/DerivedData/LocalRadio-ddsodcaiskiovrbpbiioihlrnhbo/Build/Products/Debug/LocalRadio.app/Contents/MacOS/rtl_fm_localradio" -M fm -l 0 -t 3 -F 9 -g 49.6 -f 162400000 -s 20k -o 4 -A std - | play -V -r 10k -e signed -b 16 -c 2 -t raw - bass -20 400 treble -20\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \cb1 \kerning1\expnd0\expndtw0 ======================================\
+\pard\pardeftab720\partightenfactor0
+\cf3 \cb4 \expnd0\expndtw0\kerning0
+\
+The dylibs bundled in the project were copied from MacPorts.  The install_name_tooll was used to change the id and dependent libraryt paths to @executable_path/../Frameworks/\
+\
+libssl and libcrypto were recompiled with MacPorts patches to make these changes, due to lack of space in the dylib for renaming paths:\
+\
+	In /usr/local/ports/security/openssl/Portfile for private patched copies, added this line -\
+\
+	configure.ldflags-append -headerpad_max_install_names\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \cb1 \kerning1\expnd0\expndtw0 ======================================\
+\pard\pardeftab720\partightenfactor0
+\cf3 \cb4 \expnd0\expndtw0\kerning0
+\
+disabled script phase -\
+\
+\pard\tx560\pardeftab560\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf5 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 #!/bin/sh\cf0 \
+\
+\cf5 #  import_dylibs.sh\cf0 \
+\cf5 #  \cf0 LocalRadio\
+\cf5 #\cf0 \
+\cf5 #  Created by Douglas Ward on 5/14/17.\cf0 \
+\cf5 #  Copyright \'a9 2017 ArkPhone LLC. All rights reserved.\cf0 \
+\
+\cf5 # Modify MacPorts libraries for embed in application bundle\cf0 \
+\
+\cf5 #{\field{\*\fldinst{HYPERLINK "https://github.com/auriamg/macdylibbundler"}}{\fldrslt \cf6 https://github.com/auriamg/macdylibbundler}}\cf0 \
+\cf5 #dylibbundler -b -x ./\cf0 LocalRadio\cf5 .app/Contents/MacOS/\cf0 LocalRadio\cf5  -d ./MacPorts_Libraries/ -p @executable_path/../Frameworks/\cf0 \
+\
+EXECFILE=$\{BUILT_PRODUCTS_DIR\}/$\{EXECUTABLE_PATH\}\
+\cf5 #EXECFILE=/Users/dsward/Library/Developer/Xcode/DerivedData/\cf0 LocalRadio\cf5 -fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/\cf0 LocalRadio\cf5 .app/Contents/MacOS/\cf0 LocalRadio\
+\
+LIBPATH=$\{BUILT_PRODUCTS_DIR\}/$\{FRAMEWORKS_FOLDER_PATH\}\
+\cf5 #LIBPATH=/Users/dsward/Library/Developer/Xcode/DerivedData/\cf0 LocalRadio\cf5 -fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/\cf0 LocalRadio\cf5 .app/Contents/Frameworks\cf0 \
+\
+NEWLIBPATH=\cf7 "@executable_path/../Frameworks"\cf0 \
+\
+echo \cf7 "Run dylibbundler against main app executable"\cf0 \
+echo /opt/local/bin/dylibbundler -of -b -x \cf7 "$\{EXECFILE\}"\cf0  -d \cf7 "$\{LIBPATH\}"\cf0  -p \cf7 "$\{NEWLIBPATH\}"\cf0 \
+\
+/opt/local/bin/dylibbundler -of -b -x \cf7 "$\{EXECFILE\}"\cf0  -d \cf7 "$\{LIBPATH\}"\cf0  -p \cf7 "$\{NEWLIBPATH\}"\cf0 \
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \cb1 \kerning1\expnd0\expndtw0 ======================================\
+\pard\pardeftab720\partightenfactor0
+\cf3 \cb4 \expnd0\expndtw0\kerning0
+\
+removed script phase -\
+\
+\pard\tx560\pardeftab560\pardirnatural\partightenfactor0
+
+\f1\fs22 \cf5 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 # fix load paths for MacPorts libraries embedded in app bundle\cf0 \
+\
+echo run install_name_tool for $\{BUILT_PRODUCTS_DIR\}/$\{FRAMEWORKS_FOLDER_PATH\}/libusb-1.0.0.dylib\
+\
+install_name_tool -change \cf7 "/opt/local/lib/libusb-1.0.0.dylib"\cf0  \cf7 "@executable_path/../Frameworks/libusb-1.0.0.dylib"\cf0  \cf7 "$\{BUILT_PRODUCTS_DIR\}/$\{EXECUTABLE_FOLDER_PATH\}/\cf0 LocalRadio\cf7 "\cf0 \
+\
+echo run install_name_tool for $\{BUILT_PRODUCTS_DIR\}/$\{FRAMEWORKS_FOLDER_PATH\}/libev.4.dylib\
+\
+install_name_tool -change \cf7 "/opt/local/lib/libev.4.dylib"\cf0  \cf7 "@executable_path/../Frameworks/libev.4.dylib"\cf0  \cf7 "$\{BUILT_PRODUCTS_DIR\}/$\{EXECUTABLE_FOLDER_PATH\}/\cf0 LocalRadio\cf7 "\cf0 \
+\
+\
+\
+echo run install_name_tool for $\{BUILT_PRODUCTS_DIR\}/$\{FRAMEWORKS_FOLDER_PATH\}/libsox.3.dylib\
+\
+install_name_tool -change \cf7 "/opt/local/lib/libsox.3.dylib"\cf0  \cf7 "@executable_path/../Frameworks/libsox.3.dylib"\cf0  \cf7 "$\{BUILT_PRODUCTS_DIR\}/$\{EXECUTABLE_FOLDER_PATH\}/\cf0 LocalRadio\cf7 "\cf0 \
+\
+}

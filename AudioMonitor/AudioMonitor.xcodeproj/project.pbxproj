@@ -1,0 +1,475 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E02EC391F494F7C008BAC27 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E02EC381F494F7C008BAC27 /* main.mm */; };
+		0E213D8A1F55485400BCE3CB /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E213D611F55483B00BCE3CB /* Novocaine.m */; };
+		0E213D8B1F55485A00BCE3CB /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E213D631F55483B00BCE3CB /* RingBuffer.mm */; };
+		0E213DB31F566BFB00BCE3CB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */; };
+		0ED9ED6E1F540F9800898460 /* AudioMonitor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0E213D861F55483C00BCE3CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA55267C152A63B6003D9601;
+			remoteInfo = "Novocaine Mac Example";
+		};
+		0E213D881F55483C00BCE3CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FA5526CE152A6451003D9601;
+			remoteInfo = "Novocaine iOS Example";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0E02EC331F494F7C008BAC27 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0E02EC351F494F7C008BAC27 /* AudioMonitor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AudioMonitor; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E02EC381F494F7C008BAC27 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		0E213D591F55483B00BCE3CB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		0E213D5A1F55483B00BCE3CB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		0E213D5C1F55483B00BCE3CB /* AudioFileReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioFileReader.h; sourceTree = "<group>"; };
+		0E213D5D1F55483B00BCE3CB /* AudioFileReader.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioFileReader.mm; sourceTree = "<group>"; };
+		0E213D5E1F55483B00BCE3CB /* AudioFileWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioFileWriter.h; sourceTree = "<group>"; };
+		0E213D5F1F55483B00BCE3CB /* AudioFileWriter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioFileWriter.m; sourceTree = "<group>"; };
+		0E213D601F55483B00BCE3CB /* Novocaine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Novocaine.h; sourceTree = "<group>"; };
+		0E213D611F55483B00BCE3CB /* Novocaine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Novocaine.m; sourceTree = "<group>"; };
+		0E213D621F55483B00BCE3CB /* RingBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
+		0E213D631F55483B00BCE3CB /* RingBuffer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RingBuffer.mm; sourceTree = "<group>"; };
+		0E213D651F55483B00BCE3CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0E213D661F55483B00BCE3CB /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		0E213D681F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E213D6A1F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		0E213D6C1F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
+		0E213D6D1F55483B00BCE3CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0E213D6E1F55483B00BCE3CB /* Novocaine iOS Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Novocaine iOS Example-Info.plist"; sourceTree = "<group>"; };
+		0E213D6F1F55483B00BCE3CB /* Novocaine iOS Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Novocaine iOS Example-Prefix.pch"; sourceTree = "<group>"; };
+		0E213D701F55483B00BCE3CB /* TLC.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TLC.mp3; sourceTree = "<group>"; };
+		0E213D711F55483B00BCE3CB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0E213D721F55483B00BCE3CB /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		0E213D741F55483B00BCE3CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0E213D751F55483B00BCE3CB /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		0E213D771F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		0E213D791F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0E213D7B1F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		0E213D7C1F55483B00BCE3CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0E213D7D1F55483B00BCE3CB /* Novocaine Mac Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Novocaine Mac Example-Info.plist"; sourceTree = "<group>"; };
+		0E213D7E1F55483B00BCE3CB /* Novocaine Mac Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Novocaine Mac Example-Prefix.pch"; sourceTree = "<group>"; };
+		0E213D7F1F55483B00BCE3CB /* Novocaine.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Novocaine.podspec; sourceTree = "<group>"; };
+		0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Novocaine.xcodeproj; sourceTree = "<group>"; };
+		0E213D831F55483B00BCE3CB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0ED9ED6C1F540F9800898460 /* AudioMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMonitor.h; sourceTree = "<group>"; };
+		0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioMonitor.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0E02EC321F494F7C008BAC27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E213DB31F566BFB00BCE3CB /* AudioToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E02EC2C1F494F7C008BAC27 = {
+			isa = PBXGroup;
+			children = (
+				0E02EC371F494F7C008BAC27 /* AudioMonitor */,
+				0E02EC361F494F7C008BAC27 /* Products */,
+				0E213DB11F566BFA00BCE3CB /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0E02EC361F494F7C008BAC27 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E02EC351F494F7C008BAC27 /* AudioMonitor */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E02EC371F494F7C008BAC27 /* AudioMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				0E02EC381F494F7C008BAC27 /* main.mm */,
+				0ED9ED6C1F540F9800898460 /* AudioMonitor.h */,
+				0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */,
+				0E213D581F55483B00BCE3CB /* novocaine-master */,
+			);
+			path = AudioMonitor;
+			sourceTree = "<group>";
+		};
+		0E213D581F55483B00BCE3CB /* novocaine-master */ = {
+			isa = PBXGroup;
+			children = (
+				0E213D591F55483B00BCE3CB /* .gitignore */,
+				0E213D5A1F55483B00BCE3CB /* Default-568h@2x.png */,
+				0E213D5B1F55483B00BCE3CB /* Novocaine */,
+				0E213D641F55483B00BCE3CB /* Novocaine iOS Example */,
+				0E213D731F55483B00BCE3CB /* Novocaine Mac Example */,
+				0E213D7F1F55483B00BCE3CB /* Novocaine.podspec */,
+				0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */,
+				0E213D831F55483B00BCE3CB /* README.md */,
+			);
+			path = "novocaine-master";
+			sourceTree = "<group>";
+		};
+		0E213D5B1F55483B00BCE3CB /* Novocaine */ = {
+			isa = PBXGroup;
+			children = (
+				0E213D5C1F55483B00BCE3CB /* AudioFileReader.h */,
+				0E213D5D1F55483B00BCE3CB /* AudioFileReader.mm */,
+				0E213D5E1F55483B00BCE3CB /* AudioFileWriter.h */,
+				0E213D5F1F55483B00BCE3CB /* AudioFileWriter.m */,
+				0E213D601F55483B00BCE3CB /* Novocaine.h */,
+				0E213D611F55483B00BCE3CB /* Novocaine.m */,
+				0E213D621F55483B00BCE3CB /* RingBuffer.h */,
+				0E213D631F55483B00BCE3CB /* RingBuffer.mm */,
+			);
+			path = Novocaine;
+			sourceTree = "<group>";
+		};
+		0E213D641F55483B00BCE3CB /* Novocaine iOS Example */ = {
+			isa = PBXGroup;
+			children = (
+				0E213D651F55483B00BCE3CB /* AppDelegate.h */,
+				0E213D661F55483B00BCE3CB /* AppDelegate.mm */,
+				0E213D671F55483B00BCE3CB /* InfoPlist.strings */,
+				0E213D691F55483B00BCE3CB /* ViewController_iPad.xib */,
+				0E213D6B1F55483B00BCE3CB /* ViewController_iPhone.xib */,
+				0E213D6D1F55483B00BCE3CB /* main.m */,
+				0E213D6E1F55483B00BCE3CB /* Novocaine iOS Example-Info.plist */,
+				0E213D6F1F55483B00BCE3CB /* Novocaine iOS Example-Prefix.pch */,
+				0E213D701F55483B00BCE3CB /* TLC.mp3 */,
+				0E213D711F55483B00BCE3CB /* ViewController.h */,
+				0E213D721F55483B00BCE3CB /* ViewController.mm */,
+			);
+			path = "Novocaine iOS Example";
+			sourceTree = "<group>";
+		};
+		0E213D731F55483B00BCE3CB /* Novocaine Mac Example */ = {
+			isa = PBXGroup;
+			children = (
+				0E213D741F55483B00BCE3CB /* AppDelegate.h */,
+				0E213D751F55483B00BCE3CB /* AppDelegate.mm */,
+				0E213D761F55483B00BCE3CB /* Credits.rtf */,
+				0E213D781F55483B00BCE3CB /* InfoPlist.strings */,
+				0E213D7A1F55483B00BCE3CB /* MainMenu.xib */,
+				0E213D7C1F55483B00BCE3CB /* main.m */,
+				0E213D7D1F55483B00BCE3CB /* Novocaine Mac Example-Info.plist */,
+				0E213D7E1F55483B00BCE3CB /* Novocaine Mac Example-Prefix.pch */,
+			);
+			path = "Novocaine Mac Example";
+			sourceTree = "<group>";
+		};
+		0E213D811F55483B00BCE3CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E213D871F55483C00BCE3CB /* Novocaine Mac Example.app */,
+				0E213D891F55483C00BCE3CB /* Novocaine iOS Example.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E213DB11F566BFA00BCE3CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E02EC341F494F7C008BAC27 /* AudioMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E02EC3C1F494F7C008BAC27 /* Build configuration list for PBXNativeTarget "AudioMonitor" */;
+			buildPhases = (
+				0E02EC311F494F7C008BAC27 /* Sources */,
+				0E02EC321F494F7C008BAC27 /* Frameworks */,
+				0E02EC331F494F7C008BAC27 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AudioMonitor;
+			productName = AudioMonitor;
+			productReference = 0E02EC351F494F7C008BAC27 /* AudioMonitor */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E02EC2D1F494F7C008BAC27 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "ArkPhone LLC";
+				TargetAttributes = {
+					0E02EC341F494F7C008BAC27 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = MMFBWVS455;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0E02EC301F494F7C008BAC27 /* Build configuration list for PBXProject "AudioMonitor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0E02EC2C1F494F7C008BAC27;
+			productRefGroup = 0E02EC361F494F7C008BAC27 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0E213D811F55483B00BCE3CB /* Products */;
+					ProjectRef = 0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				0E02EC341F494F7C008BAC27 /* AudioMonitor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0E213D871F55483C00BCE3CB /* Novocaine Mac Example.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Novocaine Mac Example.app";
+			remoteRef = 0E213D861F55483C00BCE3CB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0E213D891F55483C00BCE3CB /* Novocaine iOS Example.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Novocaine iOS Example.app";
+			remoteRef = 0E213D881F55483C00BCE3CB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E02EC311F494F7C008BAC27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E02EC391F494F7C008BAC27 /* main.mm in Sources */,
+				0E213D8B1F55485A00BCE3CB /* RingBuffer.mm in Sources */,
+				0ED9ED6E1F540F9800898460 /* AudioMonitor.mm in Sources */,
+				0E213D8A1F55485400BCE3CB /* Novocaine.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0E213D671F55483B00BCE3CB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E213D681F55483B00BCE3CB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0E213D691F55483B00BCE3CB /* ViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E213D6A1F55483B00BCE3CB /* en */,
+			);
+			name = ViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		0E213D6B1F55483B00BCE3CB /* ViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E213D6C1F55483B00BCE3CB /* en */,
+			);
+			name = ViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		0E213D761F55483B00BCE3CB /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E213D771F55483B00BCE3CB /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		0E213D781F55483B00BCE3CB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E213D791F55483B00BCE3CB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0E213D7A1F55483B00BCE3CB /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E213D7B1F55483B00BCE3CB /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E02EC3A1F494F7C008BAC27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0E02EC3B1F494F7C008BAC27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0E02EC3D1F494F7C008BAC27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0E02EC3E1F494F7C008BAC27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E02EC301F494F7C008BAC27 /* Build configuration list for PBXProject "AudioMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E02EC3A1F494F7C008BAC27 /* Debug */,
+				0E02EC3B1F494F7C008BAC27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0E02EC3C1F494F7C008BAC27 /* Build configuration list for PBXNativeTarget "AudioMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E02EC3D1F494F7C008BAC27 /* Debug */,
+				0E02EC3E1F494F7C008BAC27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E02EC2D1F494F7C008BAC27 /* Project object */;
+}

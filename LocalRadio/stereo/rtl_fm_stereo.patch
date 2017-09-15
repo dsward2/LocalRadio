@@ -1,0 +1,1028 @@
+--- rtl_fm.c	2013-09-13 15:18:13.000000000 +0200
++++ rtl_fm.c	2013-09-13 15:08:46.000000000 +0200
+@@ -28,7 +28,6 @@
+  *       remove float math (disqualifies complex.h)
+  *       in-place array operations
+  *       sanity checks
+- *       nicer FIR than square
+  *       scale squelch to other input parameters
+  *       test all the demodulations
+  *       pad output on hop
+@@ -43,6 +42,8 @@
+ #include <stdlib.h>
+ #include <math.h>
+ 
++#include <emmintrin.h>
++
+ #ifndef _WIN32
+ #include <unistd.h>
+ #else
+@@ -77,6 +78,40 @@
+ static int atan_lut_size = 131072; /* 512 KB */
+ static int atan_lut_coef = 8;
+ 
++struct lp_complex
++{
++	int16_t  *br;
++	int16_t  *bi;
++	int16_t  *fc;
++	int16_t  **fc_lut;
++	int      freq;
++	int      pos;
++	int      size;
++	int      mode;
++	int      sum;
++};
++
++struct lp_real
++{
++	int16_t  *br;
++	int16_t  *bm;
++	int16_t  *bs;
++	int16_t  *fm;
++	int16_t  *fp;
++	int16_t  *fs;
++	int16_t  **fm_lut;
++	int16_t  **fp_lut;
++	int16_t  **fs_lut;
++	int      swf;
++	int      pp;
++	int      cwf;
++	int      freq;
++	int      pos;
++	int      size;
++	int      mode;
++	int      sum;
++};
++
+ struct fm_state
+ {
+ 	int      now_r, now_j;
+@@ -100,15 +135,18 @@
+ 	int      freq_now;
+ 	uint32_t sample_rate;
+ 	int      output_rate;
+-	int      fir_enable;
+-	int      fir[256];  /* fir_len == downsample */
+-	int      fir_sum;
+ 	int      custom_atan;
+-	int      deemph, deemph_a;
++	double   deemph;
++	int      deemph_a;
++	int      deemph_l;
++	int      deemph_r;
+ 	int      now_lpr;
+ 	int      prev_lpr_index;
+ 	int      dc_block, dc_avg;
++	int      stereo;
+ 	void     (*mode_demod)(struct fm_state*);
++	struct lp_complex lpc;
++	struct lp_real lpr;
+ };
+ 
+ void usage(void)
+@@ -122,13 +160,16 @@
+ 		"\t[-s sample_rate (default: 24k)]\n"
+ 		"\t[-d device_index (default: 0)]\n"
+ 		"\t[-g tuner_gain (default: automatic)]\n"
++		"\t[-a agc (default: 1/on)]\n"
+ 		"\t[-l squelch_level (default: 0/off)]\n"
+ 		"\t[-o oversampling (default: 1, 4 recommended)]\n"
+ 		"\t[-p ppm_error (default: 0)]\n"
+ 		"\t[-E sets lower edge tuning (default: center)]\n"
+ 		"\t[-N enables NBFM mode (default: on)]\n"
+ 		"\t[-W enables WBFM mode (default: off)]\n"
+-		"\t (-N -s 170k -o 4 -A fast -r 32k -l 0 -D)\n"
++		"\t (-N -s 192k -o 1 -A fast -r 48k -l 0 -D -F 4 -H 96000 -I 32 -J 7 -K 17000 -O 64 -D 0.000075)\n"
++		"\t[-X enables WBFM EU mode (default: off)]\n"
++		"\t (-N -s 192k -o 1 -A fast -r 48k -l 0 -D -F 4 -H 96000 -I 32 -J 7 -K 17000 -O 64 -D 0.00005)\n"
+ 		"\tfilename (a '-' dumps samples to stdout)\n"
+ 		"\t (omitting the filename also uses stdout)\n\n"
+ 		"Experimental options:\n"
+@@ -140,8 +181,13 @@
+ 		"\t[-U enables USB mode (default: off)]\n"
+ 		//"\t[-D enables DSB mode (default: off)]\n"
+ 		"\t[-R enables raw mode (default: off, 2x16 bit output)]\n"
+-		"\t[-F enables high quality FIR (default: off/square)]\n"
+-		"\t[-D enables de-emphasis (default: off)]\n"
++		"\t[-F complex low pass filter (default: off, 1: triangle, 2: hamming, 3: hamming lut, 4: hamming sse)]\n"
++		"\t[-H complex low pass frequency (default: 96000)]\n"
++		"\t[-I complex low pass size (default: 32)]\n"
++		"\t[-J real low pass filter (default: 0/off, 1: reserved, 2: hamming, 3: hamming lut, 4: hamming sse, 5: hamming stereo, 6: hamming stereo lut, 7: hamming stereo sse)]\n"
++		"\t[-K real low pass frequency (default: 17000)]\n"
++		"\t[-O real low pass size (default: 64)]\n"
++		"\t[-D de-emphasis value (default: off, 0.000075 for US FM, 0.00005 for EU FM)]\n"
+ 		"\t[-C enables DC blocking of output (default: off)]\n"
+ 		"\t[-A std/fast/lut choose atan math (default: std)]\n\n"
+ 		"Produces signed 16 bit ints, use Sox or aplay to hear them.\n"
+@@ -193,18 +239,117 @@
+ 	}
+ }
+ 
+-void low_pass(struct fm_state *fm, unsigned char *buf, uint32_t len)
+-/* simple square window FIR */
++void build_low_pass_complex(struct fm_state *fm)
++{
++	int i, j;
++	double ft, fv, fi;
++	switch (fm->lpc.mode) {
++	case 0:
++		fprintf(stderr, "LP Complex: sum\n");
++		break;
++	case 1:
++/* for now, a simple triangle 
++ * fancy FIRs are equally expensive, so use one */
++/* point = sum(sample[i] * fir[i] * fir_len / fir_sum) */
++		fm->lpc.size = fm->downsample;
++		fprintf(stderr, "LP Complex: FIR triangle, size: %d\n",fm->lpc.size);
++		fm->lpc.fc = malloc(fm->lpc.size << 1);
++		for(i = 0; i < (fm->lpc.size/2); i++) {
++			fm->lpc.fc[i] = i;
++		}
++		for(i = fm->lpc.size-1; i >= (fm->lpc.size/2); i--) {
++			fm->lpc.fc[i] = fm->lpc.size - i;
++		}
++		fm->lpc.sum = 0;
++		for(i = 0; i < fm->lpc.size; i++) {
++			fm->lpc.sum += fm->lpc.fc[i];
++		}
++		break;
++	case 2:
++		fprintf(stderr, "LP Complex: FIR hamming, size: %d\n",fm->lpc.size);
++		ft = (double) fm->lpc.freq / (double) (fm->downsample * fm->sample_rate);
++		fm->lpc.br = malloc(fm->lpc.size << 1);
++		fm->lpc.bi = malloc(fm->lpc.size << 1);
++		fm->lpc.fc = malloc(fm->lpc.size << 1);
++		fm->lpc.pos = 0;
++		for(i = 0; i < fm->lpc.size; i++) {
++			fm->lpc.br[i] = 0;
++			fm->lpc.bi[i] = 0;
++			fi = (double) i - ((double) (fm->lpc.size - 1) / 2.);
++			/* low pass */
++			fv = (fi == 0) ? 2. * ft : sin(2. * M_PI * ft * fi) / (M_PI * fi);
++			/* hamming window */
++			fv*= (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (fm->lpc.size - 1)));
++			/* convert to int16, always below 1 */
++			fm->lpc.fc[i] = (int16_t) lrint(fv * 32768.);
++		}
++		fm->lpc.sum = 32768;
++		break;
++	case 3:
++		fprintf(stderr, "LP Complex: FIR hamming (LUT), size: %d\n",fm->lpc.size);
++		ft = (double) fm->lpc.freq / (double) (fm->downsample * fm->sample_rate);
++		fm->lpc.br = malloc(fm->lpc.size << 1);
++		fm->lpc.bi = malloc(fm->lpc.size << 1);
++		fm->lpc.fc_lut = malloc(fm->lpc.size * sizeof(*fm->lpc.fc_lut));
++		fm->lpc.pos = 0;
++		for(i = 0; i < fm->lpc.size; i++) {
++			fm->lpc.br[i] = 0;
++			fm->lpc.bi[i] = 0;
++			fm->lpc.fc_lut[i] = malloc(256 * sizeof(**fm->lpc.fc_lut));
++			fi = (double) i - ((double) (fm->lpc.size - 1) / 2.);
++			/* low pass */
++			fv = (fi == 0) ? 2. * ft : sin(2. * M_PI * ft * fi) / (M_PI * fi);
++			/* hamming window */
++			fv*= (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (fm->lpc.size - 1)));
++			for (j = 0; j < 256; j++) {
++				fm->lpc.fc_lut[i][j] = (int16_t) lrint(fv * ((double)j - 127.5) * 256.);
++			}
++		}
++		fm->lpc.sum = 256;
++		break;
++	case 4:
++		fprintf(stderr, "LP Complex: FIR hamming (SSE2), size: %d\n",fm->lpc.size);
++		ft = (double) fm->lpc.freq / (double) (fm->downsample * fm->sample_rate);
++		/* for SSE size must be multiple of 8 */
++		j = fm->lpc.size;
++		fm->lpc.size+= (fm->lpc.size % 8 == 0) ? 0 : 8 - (fm->lpc.size % 8);
++		fm->lpc.br = malloc(fm->lpc.size << 1);
++		fm->lpc.bi = malloc(fm->lpc.size << 1);
++		fm->lpc.fc = malloc(fm->lpc.size << 1);
++		fm->lpc.pos = 0;
++		for(i = 0; i < j; i++) {
++			fm->lpc.br[i] = 0;
++			fm->lpc.bi[i] = 0;
++			fi = (double) i - ((double) (fm->lpc.size - 1) / 2.);
++			/* low pass */
++			fv = (fi == 0) ? 2. * ft : sin(2. * M_PI * ft * fi) / (M_PI * fi);
++			/* hamming window */
++			fv*= (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (j - 1)));
++			/* convert to int16 */
++			fm->lpc.fc[i] = (int16_t) lrint(fv * 32768.);
++		}
++		/* everything to multiply 8 set to zero */
++		for(;i < fm->lpc.size; i++) {
++			fm->lpc.br[i] = 0;
++			fm->lpc.bi[i] = 0;
++			fm->lpc.fc[i] = 0;
++		}
++		fm->lpc.sum = 32768;
++		break;
++	}
++}
++
++void low_pass_complex(struct fm_state *fm, unsigned char *buf, uint32_t len)
+ {
+-	int i=0, i2=0;
++	int i=0, i2=0, i3=0;
++	switch (fm->lpc.mode) {
++	case 0:
++/* simple square window FIR */
+ 	while (i < (int)len) {
+ 		fm->now_r += ((int)buf[i]   - 128);
+ 		fm->now_j += ((int)buf[i+1] - 128);
+ 		i += 2;
+-		fm->prev_index++;
+-		if (fm->prev_index < fm->downsample) {
+-			continue;
+-		}
++			if (++fm->prev_index < fm->downsample) continue;
+ 		fm->signal[i2]   = fm->now_r * fm->output_scale;
+ 		fm->signal[i2+1] = fm->now_j * fm->output_scale;
+ 		fm->prev_index = 0;
+@@ -212,42 +357,16 @@
+ 		fm->now_j = 0;
+ 		i2 += 2;
+ 	}
+-	fm->signal_len = i2;
+-}
+-
+-void build_fir(struct fm_state *fm)
+-/* for now, a simple triangle 
+- * fancy FIRs are equally expensive, so use one */
+-/* point = sum(sample[i] * fir[i] * fir_len / fir_sum) */
+-{
+-	int i, len;
+-	len = fm->downsample;
+-	for(i = 0; i < (len/2); i++) {
+-		fm->fir[i] = i;
+-	}
+-	for(i = len-1; i >= (len/2); i--) {
+-		fm->fir[i] = len - i;
+-	}
+-	fm->fir_sum = 0;
+-	for(i = 0; i < len; i++) {
+-		fm->fir_sum += fm->fir[i];
+-	}
+-}
+-
+-void low_pass_fir(struct fm_state *fm, unsigned char *buf, uint32_t len)
++		break;
++	case 1:
+ /* perform an arbitrary FIR, doubles CPU use */
+ // possibly bugged, or overflowing
+-{
+-	int i=0, i2=0, i3=0;
+ 	while (i < (int)len) {
+ 		i3 = fm->prev_index;
+-		fm->now_r += ((int)buf[i]   - 128) * fm->fir[i3] * fm->downsample / fm->fir_sum;
+-		fm->now_j += ((int)buf[i+1] - 128) * fm->fir[i3] * fm->downsample / fm->fir_sum;
++			fm->now_r += ((int)buf[i]   - 128) * fm->lpc.fc[i3] * fm->downsample / fm->lpc.sum;
++			fm->now_j += ((int)buf[i+1] - 128) * fm->lpc.fc[i3] * fm->downsample / fm->lpc.sum;
+ 		i += 2;
+-		fm->prev_index++;
+-		if (fm->prev_index < fm->downsample) {
+-			continue;
+-		}
++			if (++fm->prev_index < fm->downsample) continue;
+ 		fm->signal[i2]   = fm->now_r * fm->output_scale;
+ 		fm->signal[i2+1] = fm->now_j * fm->output_scale;
+ 		fm->prev_index = 0;
+@@ -255,6 +374,93 @@
+ 		fm->now_j = 0;
+ 		i2 += 2;
+ 	}
++		break;
++/* Slow HQ FIR complex filter */
++	case 2:
++		while (i < (int)len) {
++			fm->lpc.br[fm->lpc.pos] = ((int16_t)buf[i]   - 128);
++			fm->lpc.bi[fm->lpc.pos] = ((int16_t)buf[i+1] - 128);
++			fm->lpc.pos++;
++			i += 2;
++			if (++fm->prev_index < fm->downsample) continue;
++			for (i3 = 0; i3 < fm->lpc.size; i3++) {
++				fm->now_r += (int)(fm->lpc.br[i3] * fm->lpc.fc[i3]);
++				fm->now_j += (int)(fm->lpc.bi[i3] * fm->lpc.fc[i3]);
++			}
++			fm->signal[i2]   = (fm->now_r * fm->output_scale) / fm->lpc.sum;
++			fm->signal[i2+1] = (fm->now_j * fm->output_scale) / fm->lpc.sum;
++			fm->prev_index = 0;
++			fm->now_r = 0;
++			fm->now_j = 0;
++			i2 += 2;
++			/* shift buffers, we can skip few samples at begining, but not big deal */
++			if (fm->lpc.pos + fm->downsample >= fm->lpc.size) {
++				fm->lpc.pos = fm->lpc.size - fm->downsample;
++				memmove(fm->lpc.br, &fm->lpc.br[fm->downsample], fm->lpc.pos << 1);
++				memmove(fm->lpc.bi, &fm->lpc.bi[fm->downsample], fm->lpc.pos << 1);
++			}
++		}
++		break;
++/* Slow HQ FIR LUT complex filter */
++	case 3:
++		while (i < (int)len) {
++			fm->lpc.br[fm->lpc.pos] = buf[i];
++			fm->lpc.bi[fm->lpc.pos] = buf[i+1];
++			fm->lpc.pos++;
++			i += 2;
++			if (++fm->prev_index < fm->downsample) continue;
++			for (i3 = 0; i3 < fm->lpc.size; i3++) {
++				fm->now_r += fm->lpc.fc_lut[i3][fm->lpc.br[i3]];
++				fm->now_j += fm->lpc.fc_lut[i3][fm->lpc.bi[i3]];
++			}
++			fm->signal[i2]   = (fm->now_r * fm->output_scale) / fm->lpc.sum;
++			fm->signal[i2+1] = (fm->now_j * fm->output_scale) / fm->lpc.sum;
++			fm->prev_index = 0;
++			fm->now_r = 0;
++			fm->now_j = 0;
++			i2 += 2;
++			/* shift buffers, we can skip few samples at begining, but not big deal */
++			if (fm->lpc.pos + fm->downsample >= fm->lpc.size) {
++				fm->lpc.pos = fm->lpc.size - fm->downsample;
++				memmove(fm->lpc.br, &fm->lpc.br[fm->downsample], fm->lpc.pos << 1);
++				memmove(fm->lpc.bi, &fm->lpc.bi[fm->downsample], fm->lpc.pos << 1);
++			}
++		}
++		break;
++/* Slow HQ FIR SSE complex filter */
++	case 4:{
++		/* all buffers has to be 16-bit aligned */
++		__m128i m_r, m_i,
++		        *m_br = (__m128i*) fm->lpc.br, *m_bi = (__m128i*) fm->lpc.bi,
++		        *m_f = (__m128i*) fm->lpc.fc, m_255 = _mm_set1_epi16(255);
++		int32_t *v_r = (int32_t*) &m_r, *v_i = (int32_t*) &m_i;
++		const int i3_max = fm->lpc.size / 8;
++		while (i < (int)len) {
++			fm->lpc.br[fm->lpc.pos] = buf[i];
++			fm->lpc.bi[fm->lpc.pos] = buf[i+1];
++			fm->lpc.pos++;
++			i += 2;
++			if (++fm->prev_index < fm->downsample) continue;
++			m_r = _mm_madd_epi16(_mm_sub_epi16(_mm_slli_epi16(m_br[0], 1), m_255), m_f[0]);
++			m_i = _mm_madd_epi16(_mm_sub_epi16(_mm_slli_epi16(m_bi[0], 1), m_255), m_f[0]);
++			for (i3 = 1; i3 < i3_max; i3++) {
++				m_r = _mm_add_epi32(_mm_madd_epi16(_mm_sub_epi16(_mm_slli_epi16(m_br[i3], 1), m_255), m_f[i3]), m_r);
++				m_i = _mm_add_epi32(_mm_madd_epi16(_mm_sub_epi16(_mm_slli_epi16(m_bi[i3], 1), m_255), m_f[i3]), m_i);
++			}
++			/* simple sum or use SSSE3 _mm_hadd_epi32 2 times, result is in v_r[0] */
++			fm->signal[i2]   = ((v_r[0] + v_r[1] + v_r[2] + v_r[3]) * fm->output_scale) / fm->lpc.sum;
++			fm->signal[i2+1] = ((v_i[0] + v_i[1] + v_i[2] + v_i[3]) * fm->output_scale) / fm->lpc.sum;
++			fm->prev_index = 0;
++			i2 += 2;
++			/* shift buffers, we can skip few samples at begining, but not big deal */
++			if (fm->lpc.pos + fm->downsample >= fm->lpc.size) {
++				fm->lpc.pos = fm->lpc.size - fm->downsample;
++				memmove(fm->lpc.br, &fm->lpc.br[fm->downsample], fm->lpc.pos << 1);
++				memmove(fm->lpc.bi, &fm->lpc.bi[fm->downsample], fm->lpc.pos << 1);
++			}
++		}
++		}break;
++	}
+ 	fm->signal_len = i2;
+ }
+ 
+@@ -274,24 +480,402 @@
+ 	return len / step;
+ }
+ 
++void build_low_pass_real(struct fm_state *fm)
++{
++	int i, j;
++	double fmh, fpl, fph, fsl, fsh, fv, fi, fh, wf;
++	switch (fm->lpr.mode) {
++	case 0:
++		fprintf(stderr, "LP Real: sum\n");
++		break;
++	case 1:
++		fprintf(stderr, "LP Real: triangle not supported, using sum\n");
++		break;
++	case 2:
++		fprintf(stderr, "LP Real: FIR hamming, size: %d\n",fm->lpr.size);
++		fmh = (double) fm->lpr.freq / (double) fm->sample_rate;
++		fm->lpr.br = malloc(fm->lpr.size << 1);
++		fm->lpr.fm = malloc(fm->lpr.size << 1);
++		fm->lpr.pos = 0;
++		for(i = 0; i < fm->lpr.size; i++) {
++			fm->lpr.br[i] = 0;
++			fi = (double) i - ((double) (fm->lpr.size - 1) / 2.);
++			/* low pass */
++			fv = (fi == 0) ? 2. * fmh : sin(2. * M_PI * fmh * fi) / (M_PI * fi);
++			/* hamming window */
++			fv*= (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (fm->lpr.size - 1)));
++			/* convert to int16, always below 1 */
++			fm->lpr.fm[i] = (int16_t) lrint(fv * 32768.);
++		}
++		fm->lpr.sum = 32768;
++		break;
++	case 3:
++		fprintf(stderr, "LP Real: FIR hamming (LUT), size: %d\n",fm->lpr.size);
++		fmh = (double) fm->lpr.freq / (double) fm->sample_rate;
++		fm->lpr.br = malloc(fm->lpr.size << 1);
++		fm->lpr.fm_lut = malloc(fm->lpr.size * sizeof(*fm->lpr.fm_lut));
++		fm->lpr.pos = 0;
++		for(i = 0; i < fm->lpr.size; i++) {
++			fm->lpr.br[i] = 0;
++			fm->lpr.fm_lut[i] = malloc(65536 * sizeof(**fm->lpr.fm_lut));
++			fi = (double) i - ((double) (fm->lpr.size - 1) / 2.);
++			/* low pass */
++			fv = (fi == 0) ? 2. * fmh : sin(2. * M_PI * fmh * fi) / (M_PI * fi);
++			/* hamming window */
++			fv*= (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (fm->lpr.size - 1)));
++			for (j = 0; j < 32768; j++) fm->lpr.fm_lut[i][j] = (int16_t) lrint(fv * (double) j);
++			for (;j < 65536; j++) fm->lpr.fm_lut[i][j] = (int16_t) lrint(fv * (double) (j - 65536));
++		}
++		fm->lpr.sum = 256;
++		break;
++	case 4:
++		fprintf(stderr, "LP Real: FIR hamming (SSE2), size: %d\n",fm->lpr.size);
++		fmh = (double) fm->lpr.freq / (double) fm->sample_rate;
++		/* for SSE size must be multiple of 8 */
++		j = fm->lpr.size;
++		fm->lpr.size+= (fm->lpr.size % 8 == 0) ? 0 : 8 - (fm->lpr.size % 8);
++		fm->lpr.br = malloc(fm->lpr.size << 1);
++		fm->lpr.fm = malloc(fm->lpr.size << 1);
++		fm->lpr.pos = 0;
++		for(i = 0; i < j; i++) {
++			fm->lpr.br[i] = 0;
++			fi = (double) i - ((double) (fm->lpr.size - 1) / 2.);
++			/* low pass */
++			fv = (fi == 0) ? 2. * fmh : sin(2. * M_PI * fmh * fi) / (M_PI * fi);
++			/* hamming window */
++			fv*= (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (j - 1)));
++			/* convert to int16 */
++			fm->lpr.fm[i] = (int16_t) lrint(fv * 32768.);
++		}
++		/* everything to multiply 8 set to zero */
++		for(;i < fm->lpr.size; i++) {
++			fm->lpr.br[i] = 0;
++			fm->lpr.fm[i] = 0;
++		}
++		fm->lpr.sum = 32768;
++		break;
++	case 5:
++		fprintf(stderr, "LP Real: FIR hamming stereo, size: %d\n",fm->lpr.size);
++		fm->stereo = 1;
++		wf = 2.* M_PI * 19000. / (double) fm->sample_rate;
++		fm->lpr.swf = lrint(32767. * sin(wf));
++		fm->lpr.cwf = lrint(32767. * cos(wf));
++		fm->lpr.pp = 0;
++		fmh = (double) fm->lpr.freq / (double) fm->sample_rate;
++		fpl = 18000. / (double) fm->sample_rate;
++		fph = 20000. / (double) fm->sample_rate;
++		fsl = 21000. / (double) fm->sample_rate;
++		fsh = 55000. / (double) fm->sample_rate;
++		fm->lpr.br = malloc(fm->lpr.size << 1);
++		fm->lpr.bm = malloc(fm->lpr.size << 1);
++		fm->lpr.bs = malloc(fm->lpr.size << 1);
++		fm->lpr.fm = malloc(fm->lpr.size << 1);
++		fm->lpr.fp = malloc(fm->lpr.size << 1);
++		fm->lpr.fs = malloc(fm->lpr.size << 1);
++		fm->lpr.pos = 0;
++		for(i = 0; i < fm->lpr.size; i++) {
++			fm->lpr.br[i] = 0;
++			fm->lpr.bm[i] = 0;
++			fm->lpr.bs[i] = 0;
++			fi = (double) i - ((double) (fm->lpr.size - 1) / 2.);
++			/* hamming window */
++			fh = (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (fm->lpr.size - 1)));
++			/* low pass */
++			fv = (fi == 0) ? 2. * fmh : sin(2. * M_PI * fmh * fi) / (M_PI * fi);
++			fm->lpr.fm[i] = (int16_t) lrint(fv * fh * 32768.);
++			/* pilot band pass */
++			fv = (fi == 0) ? 2. * (fph - fpl) : (sin(2. * M_PI * fph * fi) - sin(2. * M_PI * fpl * fi)) / (M_PI * fi);
++			fm->lpr.fp[i] = (int16_t) lrint(fv * fh * 32768.);
++			/* stereo band pass */
++			fv = (fi == 0) ? 2. * (fsh - fsl) : (sin(2. * M_PI * fsh * fi) - sin(2. * M_PI * fsl * fi)) / (M_PI * fi);
++			fm->lpr.fs[i] = (int16_t) lrint(fv * fh * 32768.);
++		}
++		fm->lpr.sum = 32768;
++		break;
++	case 6:
++		fprintf(stderr, "LP Real: FIR hamming stereo (LUT), size: %d\n",fm->lpr.size);
++		fm->stereo = 1;
++		wf = 2.* M_PI * 19000. / (double) fm->sample_rate;
++		fm->lpr.swf = lrint(32767. * sin(wf));
++		fm->lpr.cwf = lrint(32767. * cos(wf));
++		fm->lpr.pp = 0;
++		fmh = (double) fm->lpr.freq / (double) fm->sample_rate;
++		fpl = 18000. / (double) fm->sample_rate;
++		fph = 20000. / (double) fm->sample_rate;
++		fsl = 21000. / (double) fm->sample_rate;
++		fsh = 55000. / (double) fm->sample_rate;
++		fm->lpr.br = malloc(fm->lpr.size << 1);
++		fm->lpr.bm = malloc(fm->lpr.size << 1);
++		fm->lpr.bs = malloc(fm->lpr.size << 1);
++		fm->lpr.fm_lut = malloc(fm->lpr.size * sizeof(*fm->lpr.fm_lut));
++		fm->lpr.fp_lut = malloc(fm->lpr.size * sizeof(*fm->lpr.fp_lut));
++		fm->lpr.fs_lut = malloc(fm->lpr.size * sizeof(*fm->lpr.fs_lut));
++		fm->lpr.pos = 0;
++		for(i = 0; i < fm->lpr.size; i++) {
++			fm->lpr.br[i] = 0;
++			fm->lpr.bm[i] = 0;
++			fm->lpr.bs[i] = 0;
++			fm->lpr.fm_lut[i] = malloc(65536 * sizeof(**fm->lpr.fm_lut));
++			fm->lpr.fp_lut[i] = malloc(65536 * sizeof(**fm->lpr.fp_lut));
++			fm->lpr.fs_lut[i] = malloc(65536 * sizeof(**fm->lpr.fs_lut));
++			fi = (double) i - ((double) (fm->lpr.size - 1) / 2.);
++			/* hamming window */
++			fh = (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (fm->lpr.size - 1)));
++			/* low pass */
++			fv = (fi == 0) ? 2. * fmh : sin(2. * M_PI * fmh * fi) / (M_PI * fi);
++			for (j = 0; j < 32768; j++) fm->lpr.fm_lut[i][j] = (int16_t) lrint(fv * fh * (double) j);
++			for (;j < 65536; j++) fm->lpr.fm_lut[i][j] = (int16_t) lrint(fv * fh * (double) (j - 65536));
++			/* pilot band pass */
++			fv = (fi == 0) ? 2. * (fph - fpl) : (sin(2. * M_PI * fph * fi) - sin(2. * M_PI * fpl * fi)) / (M_PI * fi);
++			for (j = 0; j < 32768; j++) fm->lpr.fp_lut[i][j] = (int16_t) lrint(fv * fh * (double) j);
++			for (;j < 65536; j++) fm->lpr.fp_lut[i][j] = (int16_t) lrint(fv * fh * (double) (j - 65536));
++			/* stereo band pass */
++			fv = (fi == 0) ? 2. * (fsh - fsl) : (sin(2. * M_PI * fsh * fi) - sin(2. * M_PI * fsl * fi)) / (M_PI * fi);
++			for (j = 0; j < 32768; j++) fm->lpr.fs_lut[i][j] = (int16_t) lrint(fv * fh * (double) j);
++			for (;j < 65536; j++) fm->lpr.fs_lut[i][j] = (int16_t) lrint(fv * fh * (double) (j - 65536));
++		}
++		fm->lpr.sum = 1;
++		break;
++	case 7:
++		fprintf(stderr, "LP Real: FIR hamming stereo (SSE2), size: %d\n",fm->lpr.size);
++		fm->stereo = 1;
++		/* for SSE size must be multiple of 8 */
++		wf = 2.* M_PI * 19000. / (double) fm->sample_rate;
++		fm->lpr.swf = lrint(32767. * sin(wf));
++		fm->lpr.cwf = lrint(32767. * cos(wf));
++		fm->lpr.pp = 0;
++		j = fm->lpr.size;
++		fm->lpr.size+= (fm->lpr.size % 8 == 0) ? 0 : 8 - (fm->lpr.size % 8);
++		fmh = (double) fm->lpr.freq / (double) fm->sample_rate;
++		fpl = 18000. / (double) fm->sample_rate;
++		fph = 20000. / (double) fm->sample_rate;
++		fsl = 21000. / (double) fm->sample_rate;
++		fsh = 55000. / (double) fm->sample_rate;
++		fm->lpr.br = malloc(fm->lpr.size << 1);
++		fm->lpr.bm = malloc(fm->lpr.size << 1);
++		fm->lpr.bs = malloc(fm->lpr.size << 1);
++		fm->lpr.fm = malloc(fm->lpr.size << 1);
++		fm->lpr.fp = malloc(fm->lpr.size << 1);
++		fm->lpr.fs = malloc(fm->lpr.size << 1);
++		fm->lpr.pos = 0;
++		for(i = 0; i < j; i++) {
++			fm->lpr.br[i] = 0;
++			fm->lpr.bm[i] = 0;
++			fm->lpr.bs[i] = 0;
++			fi = (double) i - ((double) (j - 1) / 2.);
++			/* hamming window */
++			fh = (0.54 - 0.46 * cos(2. * M_PI * (double) i / (double) (j - 1)));
++			/* low pass */
++			fv = (fi == 0) ? 2. * fmh : sin(2. * M_PI * fmh * fi) / (M_PI * fi);
++			fm->lpr.fm[i] = (int16_t) lrint(fv * fh * 32768.);
++			/* pilot band pass */
++			fv = (fi == 0) ? 2. * (fph - fpl) : (sin(2. * M_PI * fph * fi) - sin(2. * M_PI * fpl * fi)) / (M_PI * fi);
++			fm->lpr.fp[i] = (int16_t) lrint(fv * fh * 32768.);
++			/* stereo band pass */
++			fv = (fi == 0) ? 2. * (fsh - fsl) : (sin(2. * M_PI * fsh * fi) - sin(2. * M_PI * fsl * fi)) / (M_PI * fi);
++			fm->lpr.fs[i] = (int16_t) lrint(fv * fh * 32768.);
++		}
++		/* everything to multiply 8 set to zero */
++		for(;i < fm->lpr.size; i++) {
++			fm->lpr.br[i] = 0;
++			fm->lpr.bm[i] = 0;
++			fm->lpr.bs[i] = 0;
++			fm->lpr.fm[i] = 0;
++			fm->lpr.fp[i] = 0;
++			fm->lpr.fs[i] = 0;
++		}
++		fm->lpr.sum = 32768;
++		break;
++	}
++}
++
++float sin2atan2f(int x, int y) {
++    /* y = 0 projde bez problémů dále */
++    if (x == 0) return 0.f;
++
++    float z = (float) y / (float) x;
++
++    return (z + z) / (1.f + (z * z));
++}
++
+ void low_pass_real(struct fm_state *fm)
+-/* simple square window FIR */
+-// add support for upsampling?
+ {
+-	int i=0, i2=0;
++	int i=0, i2=0, i3=0, i4=0;
+ 	int fast = (int)fm->sample_rate / fm->post_downsample;
+ 	int slow = fm->output_rate;
++	switch (fm->lpr.mode) {
++/* simple square window FIR */
++// add support for upsampling?
++	case 0:
++	case 1:
++		while (i < fm->signal2_len) {
++			fm->now_lpr+= fm->signal2[i++];
++			i3++;
++			if ((fm->prev_lpr_index+= slow) < fast) continue;
++			fm->prev_lpr_index-= fast;
++			fm->signal2[i2++] = (int16_t)(fm->now_lpr / i3);
++			fm->now_lpr = 0;
++			i3 = 0;
++		}
++		break;
++	case 2:
+ 	while (i < fm->signal2_len) {
+-		fm->now_lpr += fm->signal2[i];
+-		i++;
+-		fm->prev_lpr_index += slow;
+-		if (fm->prev_lpr_index < fast) {
+-			continue;
++			fm->lpr.br[fm->lpr.pos] = fm->signal2[i++];
++			/* circular buffer */
++			if (++fm->lpr.pos == fm->lpr.size) fm->lpr.pos = 0;
++			if ((fm->prev_lpr_index+= slow) < fast) continue;
++			fm->prev_lpr_index-= fast;
++			for (i3 = 0, i4 = fm->lpr.pos; i3 < fm->lpr.size; i3++) {
++				fm->now_lpr += (int)(fm->lpr.br[i4] * fm->lpr.fm[i3]);
++				if (++i4 == fm->lpr.size) i4 = 0;
+ 		}
+-		fm->signal2[i2] = (int16_t)(fm->now_lpr / (fast/slow));
++			fm->signal2[i2++] = (int16_t)(fm->now_lpr / fm->lpr.sum);
++			fm->now_lpr = 0;
++		}
++		break;
++	case 3:{
++		uint16_t *br = (uint16_t*) fm->lpr.br;
++		while (i < fm->signal2_len) {
++			fm->lpr.br[fm->lpr.pos] = fm->signal2[i++];
++			if (++fm->lpr.pos == fm->lpr.size) fm->lpr.pos = 0;
++			if ((fm->prev_lpr_index+= slow) < fast) continue;
+ 		fm->prev_lpr_index -= fast;
++			for (i3 = 0, i4 = fm->lpr.pos; i3 < fm->lpr.size; i3++) {
++				fm->now_lpr += (int)fm->lpr.fm_lut[i3][br[i4]];
++				if (++i4 == fm->lpr.size) i4 = 0;
++			}
++			fm->signal2[i2++] = (int16_t)fm->now_lpr;
+ 		fm->now_lpr = 0;
+-		i2 += 1;
++		}
++		}break;
++	case 4:{
++		/* all buffers has to be 16-bit aligned */
++		int16_t tb[fm->lpr.size];
++		__m128i m_m, *m_br = (__m128i*) tb, *m_fm = (__m128i*) fm->lpr.fm;
++		int32_t *v_m = (int32_t*) &m_m;
++		const int i3_max = fm->lpr.size / 8;
++		while (i < fm->signal2_len) {
++			fm->lpr.br[fm->lpr.pos] = fm->signal2[i++];
++			if (++fm->lpr.pos == fm->lpr.size) fm->lpr.pos = 0;
++			if ((fm->prev_lpr_index+= slow) < fast) continue;
++			fm->prev_lpr_index-= fast;
++			/* align buffer */
++			memcpy(tb, &fm->lpr.br[fm->lpr.pos], (fm->lpr.size - fm->lpr.pos) << 1);
++			memcpy(&tb[(fm->lpr.size - fm->lpr.pos)], fm->lpr.br, fm->lpr.pos << 1);
++			/* madd */
++			m_m = _mm_madd_epi16(m_br[0], m_fm[0]);
++			for (i3 = 1; i3 < i3_max; i3++) m_m = _mm_add_epi32(_mm_madd_epi16(m_br[i3], m_fm[i3]), m_m);
++			/* simple sum or use SSSE3 _mm_hadd_epi32 2 times, result is in v_m[0] */
++			fm->signal2[i2++] = (int16_t)((v_m[0] + v_m[1] + v_m[2] + v_m[3]) / fm->lpr.sum);
++			fm->now_lpr = 0;
++		}
++		}break;
++	case 5:{
++		int vm, vs, vp;
++		while (i < fm->signal2_len) {
++			fm->lpr.br[fm->lpr.pos] = fm->signal2[i++];
++			for (i3 = 0, i4 = fm->lpr.pos, vm = 0, vp = 0, vs = 0; i3 < fm->lpr.size; i3++) {
++				if (++i4 == fm->lpr.size) i4 = 0;
++				vm+= (int)(fm->lpr.br[i4] * fm->lpr.fm[i3]);
++				vp+= (int)(fm->lpr.br[i4] * fm->lpr.fp[i3]);
++				vs+= (int)(fm->lpr.br[i4] * fm->lpr.fs[i3]);
++			}
++			vp/= fm->lpr.sum;
++			fm->lpr.bm[fm->lpr.pos] = (int16_t)(vm / fm->lpr.sum);
++			fm->lpr.bs[fm->lpr.pos] = (int16_t)(lrintf((float) vs * sin2atan2f(vp * fm->lpr.swf, vp * fm->lpr.cwf - fm->lpr.pp * 32767)) / fm->lpr.sum);
++			fm->lpr.pp = vp;
++			if (++fm->lpr.pos == fm->lpr.size) fm->lpr.pos = 0;
++			if ((fm->prev_lpr_index+= slow) < fast) continue;
++			fm->prev_lpr_index-= fast;
++			for (i3 = 0, i4 = fm->lpr.pos, vm = 0, vs = 0; i3 < fm->lpr.size; i3++) {
++				vm+= (int)(fm->lpr.bm[i4] * fm->lpr.fm[i3]);
++				vs+= (int)(fm->lpr.bs[i4] * fm->lpr.fm[i3]);
++				if (++i4 == fm->lpr.size) i4 = 0;
++			}
++			fm->signal2[i2] = (int16_t)((vm + vs) / fm->lpr.sum);
++			fm->signal2[i2 + 1] = (int16_t)((vm - vs) / fm->lpr.sum);
++			i2+= 2;
++		}
++		}break;
++	case 6:{
++		int vm, vs, vp;
++		uint16_t *br = (uint16_t*) fm->lpr.br, *bm = (uint16_t*) fm->lpr.bm, *bs = (uint16_t*) fm->lpr.bs;
++		while (i < fm->signal2_len) {
++			fm->lpr.br[fm->lpr.pos] = fm->signal2[i++];
++			for (i3 = 0, i4 = fm->lpr.pos, vm = 0, vp = 0, vs = 0; i3 < fm->lpr.size; i3++) {
++				if (++i4 == fm->lpr.size) i4 = 0;
++				vm+= (int)fm->lpr.fm_lut[i3][br[i4]];
++				vp+= (int)fm->lpr.fp_lut[i3][br[i4]];
++				vs+= (int)fm->lpr.fs_lut[i3][br[i4]];
++			}
++			vp/= fm->lpr.sum;
++			fm->lpr.bm[fm->lpr.pos] = (int16_t)(vm / fm->lpr.sum);
++			fm->lpr.bs[fm->lpr.pos] = (int16_t)(lrintf((float) vs * sin2atan2f(vp * fm->lpr.swf, vp * fm->lpr.cwf - fm->lpr.pp * 32767)) / fm->lpr.sum);
++			fm->lpr.pp = vp;
++			if (++fm->lpr.pos == fm->lpr.size) fm->lpr.pos = 0;
++			if ((fm->prev_lpr_index+= slow) < fast) continue;
++			fm->prev_lpr_index-= fast;
++			for (i3 = 0, i4 = fm->lpr.pos, vm = 0, vs = 0; i3 < fm->lpr.size; i3++) {
++				vm+= (int)fm->lpr.fm_lut[i3][bm[i4]];
++				vs+= (int)fm->lpr.fm_lut[i3][bs[i4]];
++				if (++i4 == fm->lpr.size) i4 = 0;
++			}
++			fm->signal2[i2] = (int16_t)((vm + vs) / fm->lpr.sum);
++			fm->signal2[i2 + 1] = (int16_t)((vm - vs) / fm->lpr.sum);
++			i2+= 2;
++		}
++		}break;
++/* Most complicated version of stereo demultiplexer */
++	case 7:{
++		int16_t tbm[fm->lpr.size], tbs[fm->lpr.size];
++		__m128i m_m, m_p, m_s, *m_br = (__m128i*) fm->lpr.br, *m_fm = (__m128i*) fm->lpr.fm,
++		        *m_fp = (__m128i*) fm->lpr.fp, *m_fs = (__m128i*) fm->lpr.fs,
++		        *m_bm = (__m128i*) tbm, *m_bs = (__m128i*) tbs;
++		int32_t *v_m = (int32_t*) &m_m, *v_p = (int32_t*) &m_p, *v_s = (int32_t*) &m_s;
++		const int i3_max = fm->lpr.size / 8;
++		int vm, vp, vs;
++		while (i < fm->signal2_len) {
++			/* permanent align */
++			memmove(fm->lpr.br, &fm->lpr.br[1], (fm->lpr.size - 1) << 1);
++			fm->lpr.br[fm->lpr.size - 1] = fm->signal2[i++];
++			/* sum */
++			m_m = _mm_madd_epi16(m_br[0], m_fm[0]);
++			m_p = _mm_madd_epi16(m_br[0], m_fp[0]);
++			m_s = _mm_madd_epi16(m_br[0], m_fs[0]);
++			for (i3 = 1; i3 < i3_max; i3++) {
++			    m_m = _mm_add_epi32(_mm_madd_epi16(m_br[i3], m_fm[i3]), m_m);
++			    m_p = _mm_add_epi32(_mm_madd_epi16(m_br[i3], m_fp[i3]), m_p);
++			    m_s = _mm_add_epi32(_mm_madd_epi16(m_br[i3], m_fs[i3]), m_s);
++			}
++			vm = v_m[0] + v_m[1] + v_m[2] + v_m[3];
++			vp = (v_p[0] + v_p[1] + v_p[2] + v_p[3]) / fm->lpr.sum;
++			vs = v_s[0] + v_s[1] + v_s[2] + v_s[3];
++			fm->lpr.bm[fm->lpr.pos] = (int16_t)(vm / fm->lpr.sum);
++			/* sin2atan2f is still slow */
++			fm->lpr.bs[fm->lpr.pos] = (int16_t)(lrintf((float) vs * sin2atan2f(vp * fm->lpr.swf, vp * fm->lpr.cwf - fm->lpr.pp * 32767)) / fm->lpr.sum);
++			fm->lpr.pp = vp;
++			if (++fm->lpr.pos == fm->lpr.size) fm->lpr.pos = 0;
++			if ((fm->prev_lpr_index+= slow) < fast) continue;
++			fm->prev_lpr_index-= fast;
++			/* align */
++			memcpy(tbm, &fm->lpr.bm[fm->lpr.pos], (fm->lpr.size - fm->lpr.pos) << 1);
++			memcpy(&tbm[(fm->lpr.size - fm->lpr.pos)], fm->lpr.bm, fm->lpr.pos << 1);
++			memcpy(tbs, &fm->lpr.bs[fm->lpr.pos], (fm->lpr.size - fm->lpr.pos) << 1);
++			memcpy(&tbs[(fm->lpr.size - fm->lpr.pos)], fm->lpr.bs, fm->lpr.pos << 1);
++			/* sum */
++			m_m = _mm_madd_epi16(m_bm[0], m_fm[0]);
++			m_s = _mm_madd_epi16(m_bs[0], m_fm[0]);
++			for (i3 = 1; i3 < i3_max; i3++) {
++			    m_m = _mm_add_epi32(_mm_madd_epi16(m_bm[i3], m_fm[i3]), m_m);
++			    m_s = _mm_add_epi32(_mm_madd_epi16(m_bs[i3], m_fm[i3]), m_s);
++			}
++			vm = v_m[0] + v_m[1] + v_m[2] + v_m[3];
++			vs = v_s[0] + v_s[1] + v_s[2] + v_s[3];
++			fm->signal2[i2] = (int16_t)((vm + vs) / fm->lpr.sum);
++			fm->signal2[i2 + 1] = (int16_t)((vm - vs) / fm->lpr.sum);
++			i2+= 2;
++		}
++		}break;
+ 	}
+ 	fm->signal2_len = i2;
+ }
+@@ -470,18 +1054,38 @@
+ 
+ void deemph_filter(struct fm_state *fm)
+ {
+-	static int avg;  // cheating...
+ 	int i, d;
+ 	// de-emph IIR
+ 	// avg = avg * (1 - alpha) + sample * alpha;
++	if (fm->stereo) {
++		for (i = 0; i < fm->signal2_len; i+= 2) {
++			/* left */
++			d = fm->signal2[i] - fm->deemph_l;
++			if (d > 0) {
++				fm->deemph_l += (d + fm->deemph_a/2) / fm->deemph_a;
++			} else {
++				fm->deemph_l += (d - fm->deemph_a/2) / fm->deemph_a;
++			}
++			fm->signal2[i] = (int16_t)fm->deemph_l;
++			/* right */
++			d = fm->signal2[i + 1] - fm->deemph_r;
++			if (d > 0) {
++				fm->deemph_r += (d + fm->deemph_a/2) / fm->deemph_a;
++			} else {
++				fm->deemph_r += (d - fm->deemph_a/2) / fm->deemph_a;
++			}
++			fm->signal2[i + 1] = (int16_t)fm->deemph_r;
++		}
++	} else {
+ 	for (i = 0; i < fm->signal2_len; i++) {
+-		d = fm->signal2[i] - avg;
++			d = fm->signal2[i] - fm->deemph_l;
+ 		if (d > 0) {
+-			avg += (d + fm->deemph_a/2) / fm->deemph_a;
++				fm->deemph_l += (d + fm->deemph_a/2) / fm->deemph_a;
+ 		} else {
+-			avg += (d - fm->deemph_a/2) / fm->deemph_a;
++				fm->deemph_l += (d - fm->deemph_a/2) / fm->deemph_a;
++			}
++			fm->signal2[i] = (int16_t)fm->deemph_l;
+ 		}
+-		fm->signal2[i] = (int16_t)avg;
+ 	}
+ }
+ 
+@@ -575,11 +1179,7 @@
+ {
+ 	int i, sr, freq_next, hop = 0;
+ 	rotate_90(fm->buf, fm->buf_len);
+-	if (fm->fir_enable) {
+-		low_pass_fir(fm, fm->buf, fm->buf_len);
+-	} else {
+-		low_pass(fm, fm->buf, fm->buf_len);
+-	}
++	low_pass_complex(fm, fm->buf, fm->buf_len);
+ 	pthread_mutex_unlock(&data_write);
+ 	fm->mode_demod(fm);
+         if (fm->mode_demod == &raw_demod) {
+@@ -602,10 +1202,8 @@
+ 	if (fm->output_rate > 0) {
+ 		low_pass_real(fm);
+ 	}
+-	if (fm->deemph) {
+-		deemph_filter(fm);}
+-	if (fm->dc_block) {
+-		dc_block_filter(fm);}
++	if (fm->deemph) deemph_filter(fm);
++	if (fm->dc_block) dc_block_filter(fm);
+ 	/* ignore under runs for now */
+ 	fwrite(fm->signal2, 2, fm->signal2_len, fm->file);
+ 	if (hop) {
+@@ -695,7 +1293,6 @@
+ 	fm->squelch_hits = 0;
+ 	fm->freq_len = 0;
+ 	fm->edge = 0;
+-	fm->fir_enable = 0;
+ 	fm->prev_index = 0;
+ 	fm->post_downsample = 1;  // once this works, default = 4
+ 	fm->custom_atan = 0;
+@@ -705,9 +1302,18 @@
+ 	fm->pre_j = fm->pre_r = fm->now_r = fm->now_j = 0;
+ 	fm->prev_lpr_index = 0;
+ 	fm->deemph_a = 0;
++	fm->deemph_l = 0;
++	fm->deemph_r = 0;
+ 	fm->now_lpr = 0;
+ 	fm->dc_block = 0;
+ 	fm->dc_avg = 0;
++	fm->lpc.mode = 0;
++	fm->lpc.freq = 96000;
++	fm->lpc.size = 32;
++	fm->lpr.mode = 0;
++	fm->lpr.freq = 17000;
++	fm->lpr.size = 64;
++	fm->stereo = 0;
+ }
+ 
+ int main(int argc, char **argv)
+@@ -718,7 +1324,7 @@
+ 	struct fm_state fm; 
+ 	char *filename = NULL;
+ 	int n_read, r, opt, wb_mode = 0;
+-	int i, gain = AUTO_GAIN; // tenths of a dB
++	int i, gain = AUTO_GAIN, agc = 1; // tenths of a dB
+ 	uint8_t *buffer;
+ 	uint32_t dev_index = 0;
+ 	int device_count;
+@@ -728,8 +1334,11 @@
+ 	pthread_mutex_init(&data_ready, NULL);
+ 	pthread_mutex_init(&data_write, NULL);
+ 
+-	while ((opt = getopt(argc, argv, "d:f:g:s:b:l:o:t:r:p:EFA:NWMULRDC")) != -1) {
++	while ((opt = getopt(argc, argv, "a:d:f:g:s:b:l:o:t:r:p:EF:G:H:I:J:K:O:A:NWXMULRD:C")) != -1) {
+ 		switch (opt) {
++		case 'a':
++			agc = atoi(optarg);
++			break;
+ 		case 'd':
+ 			dev_index = atoi(optarg);
+ 			break;
+@@ -773,7 +1382,22 @@
+ 			fm.edge = 1;
+ 			break;
+ 		case 'F':
+-			fm.fir_enable = 1;
++			fm.lpc.mode = atoi(optarg);
++			break;
++		case 'H':
++			fm.lpc.freq = atoi(optarg);
++			break;
++		case 'I':
++			fm.lpc.size = atoi(optarg);
++			break;
++		case 'J':
++			fm.lpr.mode = atoi(optarg);
++			break;
++		case 'K':
++			fm.lpr.freq = atoi(optarg);
++			break;
++		case 'O':
++			fm.lpr.size = atoi(optarg);
+ 			break;
+ 		case 'A':
+ 			if (strcmp("std",  optarg) == 0) {
+@@ -785,7 +1409,7 @@
+ 				fm.custom_atan = 2;}
+ 			break;
+ 		case 'D':
+-			fm.deemph = 1;
++			fm.deemph = atof(optarg);
+ 			break;
+ 		case 'C':
+ 			fm.dc_block = 1;
+@@ -796,12 +1420,36 @@
+ 		case 'W':
+ 			wb_mode = 1;
+ 			fm.mode_demod = &fm_demod;
+-			fm.sample_rate = 170000;
+-			fm.output_rate = 32000;
++			fm.sample_rate = 192000;
++			fm.output_rate = 48000;
++			fm.custom_atan = 1;
++			fm.post_downsample = 1;
++			fm.deemph = 0.000075;
++			fm.squelch_level = 0;
++			fm.lpc.mode = 4; /* SSE */
++			fm.lpc.freq = 96000;
++			fm.lpc.size = 32;
++			fm.lpr.mode = 7; /* SSE stereo */
++			fm.lpr.freq = 17000;
++			fm.lpr.size = 64;
++			agc = 1;
++			break;
++		case 'X':
++			wb_mode = 1;
++			fm.mode_demod = &fm_demod;
++			fm.sample_rate = 192000;
++			fm.output_rate = 48000;
+ 			fm.custom_atan = 1;
+-			fm.post_downsample = 4;
+-			fm.deemph = 1;
++			fm.post_downsample = 1;
++			fm.deemph = 0.00005;
+ 			fm.squelch_level = 0;
++			fm.lpc.mode = 4; /* SSE */
++			fm.lpc.freq = 96000;
++			fm.lpc.size = 32;
++			fm.lpr.mode = 7; /* SSE stereo */
++			fm.lpr.freq = 17000;
++			fm.lpr.size = 64;
++			agc = 1;
+ 			break;
+ 		case 'M':
+ 			fm.mode_demod = &am_demod;
+@@ -879,12 +1527,10 @@
+ 		fm.freqs[0] += 16000;
+ 	}
+ 
+-	if (fm.deemph) {
+-		fm.deemph_a = (int)round(1.0/((1.0-exp(-1.0/(fm.output_rate * 75e-6)))));
+-	}
+ 
+ 	optimal_settings(&fm, 0, 0);
+-	build_fir(&fm);
++	build_low_pass_complex(&fm);
++	build_low_pass_real(&fm);
+ 
+ 	/* Set the tuner gain */
+ 	if (gain == AUTO_GAIN) {
+@@ -900,8 +1546,22 @@
+ 	} else {
+ 		fprintf(stderr, "Tuner gain set to %0.2f dB.\n", gain/10.0);
+ 	}
++	/* AGC */
++	r = rtlsdr_set_agc_mode(dev, (agc) ? 1 : 0);
++	if (r != 0) {
++		fprintf(stderr, "WARNING: Failed to set tuner AGC.\n");
++	} else if (agc) {
++		fprintf(stderr, "Tuner AGC ON.\n");
++	} else {
++		fprintf(stderr, "Tuner AGC OFF.\n");
++	}
+ 	r = rtlsdr_set_freq_correction(dev, ppm_error);
+ 
++	if (fm.deemph) {
++		fprintf(stderr, "De-epmhasis IIR: %.1f us\n", fm.deemph * 1e6);
++		fm.deemph_a = (int)lrint(1.0/((1.0-exp(-1.0/((double)fm.output_rate * fm.deemph)))));
++	}
++
+ 	if (strcmp(filename, "-") == 0) { /* Write samples to stdout */
+ 		fm.file = stdout;
+ #ifdef _WIN32
