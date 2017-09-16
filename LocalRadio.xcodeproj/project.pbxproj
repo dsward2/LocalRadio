@@ -2380,8 +2380,7 @@
 				0E51DDF01F6CA152009B388F /* scanning_status.gif */,
 				0E51DDF11F6CA152009B388F /* tiff */,
 			);
-			name = screen_caps;
-			path = "screen caps";
+			path = screen_caps;
 			sourceTree = "<group>";
 		};
 		0E51DDF11F6CA152009B388F /* tiff */ = {

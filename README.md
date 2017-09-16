@@ -20,18 +20,40 @@ LocalRadio is intended for use as in-home entertainment, using a local area netw
 
 ## LocalRadio native macOS app
 
-**Images go here**
+<img src="Documents/Images/screen_caps/LocalRadio1.png?raw=true" width="50%">
 
-![LocalRadio screen 1](/Documents/Images/screen_caps/LocalRadio1.png?raw=true "LocalRadio for macOS")
+<img src="Documents/Images/screen_caps/LocalRadio2.png?raw=true" width="50%">
+
+<img src="Documents/Images/screen_caps/LocalRadio3.png?raw=true" width="50%">
+
+<img src="Documents/Images/screen_caps/scanning_status.gif?raw=true" width="50%">
+
+<img src="Documents/Images/screen_caps/LocalRadio5.png?raw=true" width="50%">
+
+<img src="Documents/Images/screen_caps/LocalRadio6.png?raw=true" width="80%">
 
 ## LocalRadio in macOS Safari web browser
 
-**Images go here**
+<img src="Documents/Images/screen_caps/MacSafari.png?raw=true" width="80%">
 
 ## LocalRadio in iPhone Safari web browser
 
+<img src="Documents/Images/screen_caps/iPhone1.png?raw=true" width="50%">
 
-**Images go here**
+<br><br>
+<img src="Documents/Images/screen_caps/iPhone2.png?raw=true" width="50%">
+
+<br><br>
+<img src="Documents/Images/screen_caps/iPhone3.png?raw=true" width="50%">
+
+<br><br>
+<img src="Documents/Images/screen_caps/iPhone4.png?raw=true" width="50%">
+
+<br><br>
+<img src="Documents/Images/screen_caps/iPhone5.png?raw=true" width="50%">
+
+<br><br>
+<img src="Documents/Images/screen_caps/iPhone6.png?raw=true" width="50%">
 
 #
 
