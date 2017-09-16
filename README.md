@@ -1,6 +1,6 @@
 # LocalRadio
 
-REPOSITORY UNDER CONSTRUCTION - THIS DOCUMENT WILL BE UPDATED SHORTLY
+### REPOSITORY UNDER CONSTRUCTION - THIS PROJECT WILL BE UPDATED THIS WEEKEND, INCLUDING A DOWNLOADABLE APPLICATION
 
 <img src="https://rawgit.com/dsward2/LocalRadio/master/Documents/LocalRadio-poster.svg">
 
@@ -61,7 +61,7 @@ LocalRadio is intended for use as in-home entertainment, using a local area netw
 
 The LocalRadio application is built for Mac OS X 10.11 or later.
 
-An inexpensive "RTL-SDR" USB device and a suitable antenna are required.  A variety of those devices are available from Amazon and other online store, all using the Realtek RTL2832U chip.
+An inexpensive "RTL-SDR" USB device with the Realtek RTL2832U chip and a suitable antenna are required.  A variety of those devices are available from Amazon and other online stores.
 
 LocalRadio has been tested with the "RTL-SDR.com v3" device.  It is well-designed and supports all of the features of LocalRadio, including direct sampling "Q-branch" mode to receive AM and shortwave frequencies.  This device - and an excellent blog - are available at [https://rtl-sdr.com]().  
 
