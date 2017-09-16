@@ -770,6 +770,7 @@
 		0E4461911F4420A9003C7851 /* scannerlistenbuttonclicked.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = scannerlistenbuttonclicked.html; sourceTree = "<group>"; };
 		0E4461931F451B67003C7851 /* tuner_general.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_general.html; sourceTree = "<group>"; };
 		0E4461951F472370003C7851 /* frequencylistenbuttonclicked.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = frequencylistenbuttonclicked.html; sourceTree = "<group>"; };
+		0E496FEC1F6DBFE700E41A06 /* credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		0E4ECFBB1EAB633B00D2157B /* LocalRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4ECFBE1EAB633B00D2157B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -3265,6 +3266,7 @@
 				0E6890241F3D836D00F34AE4 /* addcategoryform.html */,
 				0EEE99351EEF974D00A16CA8 /* category.html */,
 				0EEE99291EEF957F00A16CA8 /* categories.html */,
+				0E496FEC1F6DBFE700E41A06 /* credits.html */,
 				0E02EC751F4B958E008BAC27 /* deletecategory.html */,
 				0E6890231F3D6A7F00F34AE4 /* deletefrequency.html */,
 				0E170F4D1EF23B2C00B5489E /* editcategory.html */,

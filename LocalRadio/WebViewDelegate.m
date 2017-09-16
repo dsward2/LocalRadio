@@ -31,7 +31,7 @@
         self.webView.frameLoadDelegate = self;
         self.webView.resourceLoadDelegate = self;
         
-        self.webView.customUserAgent = @"LocalRadio/0.5";
+        self.webView.customUserAgent = @"LocalRadio/1.0";
 
         NSString * urlString = [self.appDelegate webServerControllerURLString];
         NSURL * url = [NSURL URLWithString:urlString];
@@ -89,6 +89,19 @@
     }
 }
 
+
+
+
+- (void)webView:(WebView *)webView decidePolicyForNewWindowAction:(NSDictionary *)actionInformation
+        request:(NSURLRequest *)request newFrameName:(NSString *)frameName
+        decisionListener:(id<WebPolicyDecisionListener>)listener
+{
+    [listener ignore];      // Ignore requests for new WebView window
+
+    // handle URL request with default web browser
+    NSString * urlString = request.URL.absoluteString;
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlString]];
+}
 
 
 

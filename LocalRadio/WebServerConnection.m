@@ -979,6 +979,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         {
             
         }
+        #pragma mark relativePath=credits.html
+        else if ([relativePath isEqualToString:@"/credits.html"])
+        {
+            
+        }
         #pragma mark relativePath=settings.html
         else if ([relativePath isEqualToString:@"/settings.html"])
         {
