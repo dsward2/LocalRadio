@@ -2345,7 +2345,7 @@
 				0E51DDDD1F6CA152009B388F /* rtl-sdr-kit.jpeg */,
 				0E51DDDE1F6CA152009B388F /* rtl-sdr.jpeg */,
 				0E51DDDF1F6CA152009B388F /* rtl-sdr.png */,
-				0E51DDE01F6CA152009B388F /* screen caps */,
+				0E51DDE01F6CA152009B388F /* screen_caps */,
 				0E51DDFB1F6CA152009B388F /* touch_screen_digitizer_for_celkon_a125_white_by_maxbhi.com_92064.jpg */,
 			);
 			path = Images;
@@ -2359,7 +2359,7 @@
 			path = AppIcon;
 			sourceTree = "<group>";
 		};
-		0E51DDE01F6CA152009B388F /* screen caps */ = {
+		0E51DDE01F6CA152009B388F /* screen_caps */ = {
 			isa = PBXGroup;
 			children = (
 				0E51DDE11F6CA152009B388F /* iPhone1.png */,
@@ -2380,6 +2380,7 @@
 				0E51DDF01F6CA152009B388F /* scanning_status.gif */,
 				0E51DDF11F6CA152009B388F /* tiff */,
 			);
+			name = screen_caps;
 			path = "screen caps";
 			sourceTree = "<group>";
 		};
