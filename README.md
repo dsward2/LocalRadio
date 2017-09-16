@@ -34,7 +34,7 @@ LocalRadio is intended for use as in-home entertainment, using a local area netw
 
 ## LocalRadio in macOS Safari web browser
 
-<img src="Documents/Images/screen_caps/MacSafari.png?raw=true" width="80%">
+<img src="Documents/Images/screen_caps/MacSafari.png?raw=true" width="345px">
 
 ## LocalRadio in iPhone Safari web browser
 
