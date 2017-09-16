@@ -38,22 +38,22 @@ LocalRadio is intended for use as in-home entertainment, using a local area netw
 
 ## LocalRadio in iPhone Safari web browser
 
-<img src="Documents/Images/screen_caps/iPhone1.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/iPhone1.png?raw=true" width="311px">
 
 <br><br>
-<img src="Documents/Images/screen_caps/iPhone2.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/iPhone2.png?raw=true" width="311px">
 
 <br><br>
-<img src="Documents/Images/screen_caps/iPhone3.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/iPhone3.png?raw=true" width="311px">
 
 <br><br>
-<img src="Documents/Images/screen_caps/iPhone4.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/iPhone4.png?raw=true" width="311px">
 
 <br><br>
-<img src="Documents/Images/screen_caps/iPhone5.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/iPhone5.png?raw=true" width="311px">
 
 <br><br>
-<img src="Documents/Images/screen_caps/iPhone6.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/iPhone6.png?raw=true" width="311px">
 
 #
 
