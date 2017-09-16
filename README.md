@@ -20,17 +20,17 @@ LocalRadio is intended for use as in-home entertainment, using a local area netw
 
 ## LocalRadio native macOS app
 
-<img src="Documents/Images/screen_caps/LocalRadio1.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/LocalRadio1.png?raw=true" width="227px">
 
-<img src="Documents/Images/screen_caps/LocalRadio2.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/LocalRadio2.png?raw=true" width="227px%">
 
-<img src="Documents/Images/screen_caps/LocalRadio3.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/LocalRadio3.png?raw=true" width="227px">
 
-<img src="Documents/Images/screen_caps/scanning_status.gif?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/scanning_status.gif?raw=true" width="229px">
 
-<img src="Documents/Images/screen_caps/LocalRadio5.png?raw=true" width="50%">
+<img src="Documents/Images/screen_caps/LocalRadio5.png?raw=true" width="227px">
 
-<img src="Documents/Images/screen_caps/LocalRadio6.png?raw=true" width="80%">
+<img src="Documents/Images/screen_caps/LocalRadio6.png?raw=true">
 
 ## LocalRadio in macOS Safari web browser
 
