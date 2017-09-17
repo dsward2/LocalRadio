@@ -24,6 +24,9 @@
 #import "WebViewDelegate.h"
 #import "UDPStatusListenerController.h"
 #import "FCCSearchController.h"
+#import <IOKit/usb/IOUSBLib.h>
+//#import <IOKit/hid/IOHIDManager.h>
+#import <IOKit/hid/IOHIDLib.h>
 
 // for GetBSDProcessList
 #include <assert.h>
@@ -93,35 +96,44 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    BOOL conflictsFound = NO;
+
+    [self checkForRTLSDRUSBDevice];
     
-    BOOL conflictsFound = [self checkForProcessConflicts];
-    
-    if (conflictsFound == NO)
+    if (self.rtlsdrDeviceFound  == YES)
     {
-        [self.sqliteController startSQLiteConnection];
+        conflictsFound = [self checkForProcessConflicts];
+        
+        if (conflictsFound == NO)
+        {
+            [self.sqliteController startSQLiteConnection];
 
-        [self.localRadioAppSettings registerDefaultSettings];
+            [self.localRadioAppSettings registerDefaultSettings];
+                
+            [self.icecastController configureIcecast];
             
-        [self.icecastController configureIcecast];
-        
-        self.useWebViewAudioPlayerCheckbox.state = YES;
-        self.listenMode = kListenModeIdle;
-        
-        [NSThread detachNewThreadSelector:@selector(startServices) toTarget:self withObject:NULL];
-        
-        [self resetRtlsdrStatusText];
+            self.useWebViewAudioPlayerCheckbox.state = YES;
+            self.listenMode = kListenModeIdle;
+            
+            [NSThread detachNewThreadSelector:@selector(startServices) toTarget:self withObject:NULL];
+            
+            [self resetRtlsdrStatusText];
 
-        [self updateViews:self];
-        
-        self.periodicUpdateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(periodicUpdateTimerFired:) userInfo:self repeats:YES];
-        
-        NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
-        [self.udpStatusListenerController runServerOnPort:statusPortNumber.integerValue];
+            [self updateViews:self];
+            
+            self.periodicUpdateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(periodicUpdateTimerFired:) userInfo:self repeats:YES];
+            
+            NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
+            [self.udpStatusListenerController runServerOnPort:statusPortNumber.integerValue];
+        }
+        else
+        {
+            // app termination in progress due to process confict
+        }
     }
     else
     {
-        // this app should be terminating
+        // app termination in progress due RTL-SDR device not found
     }
 }
 
@@ -498,11 +510,122 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         // Quit button clicked
         exit(0);
     }];
-
-
-
 }
 
+
+//==================================================================================
+//	checkForRTLSDRUSBDevice
+//==================================================================================
+
+- (void)checkForRTLSDRUSBDevice
+{
+    // Realtek Semiconductor Corp. Vendor ID 0x0bda, RTL2832U product IDs 0x2832 and 0x2838
+
+    // see https://stackoverflow.com/questions/10843559/cocoa-detecting-usb-devices-by-vendor-id
+    
+    self.rtlsdrDeviceFound = NO;
+    
+    io_iterator_t iter;
+    kern_return_t kr;
+    io_service_t device;
+    long usbVendor = 0x0bda;        // Vendor ID for Realtek Semiconductor Corp.
+
+    CFMutableDictionaryRef matchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+    if (matchingDict == NULL)
+    {
+        NSLog(@"IOServiceMatching returned NULL");
+        return;
+    }
+
+    CFNumberRef refVendorId = CFNumberCreate (kCFAllocatorDefault, kCFNumberIntType, &usbVendor);
+    CFDictionarySetValue (matchingDict, CFSTR (kUSBVendorID), refVendorId);
+    CFRelease(refVendorId);
+
+    //CFDictionarySetValue (matchingDict, CFSTR (kUSBProductID), CFSTR("*"));     // wildcard product ID
+
+    long productID = 0x2838;        // Generic RTL2832U
+    CFNumberRef refProductId = CFNumberCreate (kCFAllocatorDefault, kCFNumberIntType, &productID);
+    CFDictionarySetValue (matchingDict, CFSTR (kUSBProductID), refProductId);
+    CFRelease(refProductId);
+
+    kr = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &iter);
+    if (kr == KERN_SUCCESS)
+    {
+        while ((device = IOIteratorNext(iter)))
+        {
+            self.rtlsdrDeviceFound = YES;
+
+        }
+    }
+    IOObjectRelease(iter);
+    
+    if (self.rtlsdrDeviceFound == NO)
+    {
+        CFMutableDictionaryRef matchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+        if (matchingDict == NULL)
+        {
+            NSLog(@"IOServiceMatching returned NULL");
+            return;
+        }
+
+        CFNumberRef refVendorId = CFNumberCreate (kCFAllocatorDefault, kCFNumberIntType, &usbVendor);
+        CFDictionarySetValue (matchingDict, CFSTR (kUSBVendorID), refVendorId);
+        CFRelease(refVendorId);
+
+        productID = 0x2832;             // Generic RTL2832U OEM
+        refProductId = CFNumberCreate (kCFAllocatorDefault, kCFNumberIntType, &productID);
+        CFDictionarySetValue (matchingDict, CFSTR (kUSBProductID), refProductId);
+        CFRelease(refProductId);
+
+        kr = IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &iter);
+        if (kr == KERN_SUCCESS)
+        {
+            while ((device = IOIteratorNext(iter)))
+            {
+                self.rtlsdrDeviceFound = YES;
+
+            }
+        }
+        IOObjectRelease(iter);
+    }
+    
+    if (self.rtlsdrDeviceFound == NO)
+    {
+        [self performSelectorOnMainThread:@selector(poseRTLSDRNotFoundAlert) withObject:NULL waitUntilDone:YES];
+    }
+}
+
+//==================================================================================
+//	poseRTLSDRNotFoundAlert
+//==================================================================================
+
+- (void)poseRTLSDRNotFoundAlert
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    
+    [alert addButtonWithTitle:@"Quit"];
+    [alert addButtonWithTitle:@"More Info"];
+    
+    [alert setMessageText:@"RTL-SDR USB Device Not Found"];
+    
+    NSString * informativeText = @"LocalRadio requires an RTL-SDR device plugged into this Mac's USB port.  Please check the USB connection and try again.  For additional information, click the \"More Info\" button to open the LocalRadio project web page.";
+    
+    [alert setInformativeText:informativeText];
+    
+    [alert setAlertStyle:NSWarningAlertStyle];
+
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertSecondButtonReturn) {
+            // Show LocalRadio Clean-Up Workflow button
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/dsward2/LocalRadio"]];
+            
+            exit(0);
+        }
+        
+        // Quit button clicked
+        exit(0);
+    }];
+}
 
 //==================================================================================
 //	tabView:didSelectTabViewItem:

@@ -106,6 +106,7 @@
 		0E3CB0E91F679AB40088B498 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E81F679AB40088B498 /* LICENSE */; };
 		0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E4461911F4420A9003C7851 /* scannerlistenbuttonclicked.html */; };
 		0E4461941F451B67003C7851 /* tuner_general.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E4461931F451B67003C7851 /* tuner_general.html */; };
+		0E4970031F6E0E6F00E41A06 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4970021F6E0E6F00E41A06 /* IOKit.framework */; };
 		0E4ECFC01EAB633B00D2157B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */; };
 		0E4ECFC31EAB633B00D2157B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ECFC21EAB633B00D2157B /* main.m */; };
 		0E4ECFC81EAB633B00D2157B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E4ECFC61EAB633B00D2157B /* MainMenu.xib */; };
@@ -771,6 +772,8 @@
 		0E4461931F451B67003C7851 /* tuner_general.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_general.html; sourceTree = "<group>"; };
 		0E4461951F472370003C7851 /* frequencylistenbuttonclicked.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = frequencylistenbuttonclicked.html; sourceTree = "<group>"; };
 		0E496FEC1F6DBFE700E41A06 /* credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
+		0E4970021F6E0E6F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		0E4970041F6E180F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		0E4ECFBB1EAB633B00D2157B /* LocalRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4ECFBE1EAB633B00D2157B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1030,7 +1033,6 @@
 		0E51DDFB1F6CA152009B388F /* touch_screen_digitizer_for_celkon_a125_white_by_maxbhi.com_92064.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = touch_screen_digitizer_for_celkon_a125_white_by_maxbhi.com_92064.jpg; sourceTree = "<group>"; };
 		0E51DDFC1F6CA152009B388F /* LocalRadio-poster copy.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "LocalRadio-poster copy.svg"; sourceTree = "<group>"; };
 		0E51DDFD1F6CA152009B388F /* LocalRadio-poster.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "LocalRadio-poster.svg"; sourceTree = "<group>"; };
-		0E51DE221F6CA180009B388F /* SInt16 85000 Hz audio.lpcm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SInt16 85000 Hz audio.lpcm"; sourceTree = "<group>"; };
 		0E5C50801F064217005CA515 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		0E5C50811F064217005CA515 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		0E5C50821F064217005CA515 /* CocoaAsyncSocket.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = CocoaAsyncSocket.podspec; sourceTree = "<group>"; };
@@ -1412,6 +1414,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E4970031F6E0E6F00E41A06 /* IOKit.framework in Frameworks */,
 				0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */,
 				0E05631C1F1A44510093B473 /* WebKit.framework in Frameworks */,
 				0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */,
@@ -1677,6 +1680,14 @@
 			path = MacPorts_Tools;
 			sourceTree = "<group>";
 		};
+		0E4970011F6E0E6E00E41A06 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E4970021F6E0E6F00E41A06 /* IOKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0E4ECFB21EAB633B00D2157B = {
 			isa = PBXGroup;
 			children = (
@@ -1692,9 +1703,9 @@
 				0E7294051F17D21500350F03 /* UDPSender.xcodeproj */,
 				0E0A95381F129400002E2E5B /* UDPListener.xcodeproj */,
 				0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */,
-				0E51DE221F6CA180009B388F /* SInt16 85000 Hz audio.lpcm */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
+				0E4970011F6E0E6E00E41A06 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2300,6 +2311,7 @@
 			isa = PBXGroup;
 			children = (
 				0E1BA0A91EC885CA00130DB9 /* MacPorts_Libraries */,
+				0E4970041F6E180F00E41A06 /* IOKit.framework */,
 				0E7F2C3C1EC1B7250050BD7F /* AudioToolbox.framework */,
 				0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */,
 				0E9A64E91EC290C000F12613 /* CoreAudio.framework */,

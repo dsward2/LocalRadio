@@ -120,6 +120,8 @@
 
 @property (assign) NSInteger listenMode;
 
+@property (assign) BOOL rtlsdrDeviceFound;
+
 //NS_ASSUME_NONNULL_END
 
 - (void)restartServices;
