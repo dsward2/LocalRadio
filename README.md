@@ -93,6 +93,8 @@ Sox filter effects can be configured as a "processing chain".  For broadcast FM 
 
 Currently, the Sox filter is a plain text representation, and LocalRadio does not evaluate the Sox audio filter for correctness, so the user must be careful to enter a valid configuration.  
 
+Do not use the Sox "rate" effect.  LocalRadio always sets the rate value to 48000, then adds the Sox effects you specify to the audio processing chain.
+
 Due to the various factors that can affect the final output volume, be cautious when tuning to a new frequency.  When using the "vol" filter, start with a low value, then adjust accordingly.  
 
 It is also recommended to start with the the Apple system audio volume turned down, or turn down the volume knobs on your speakers.  If you are tuned to the aviation band, and a nearby airplane starts transmitting, the audio can suddenly become extremely loud and distorted compared to distant airplanes on the same frequency. 
