@@ -2,9 +2,19 @@
 
 ### REPOSITORY UNDER CONSTRUCTION
 
-### Test-release announcement here soon
+### A “pre-release” of LocalRadio v1.0 is now available for download –
 
-<br><br>
+[https://github.com/dsward2/LocalRadio/releases](https://github.com/dsward2/LocalRadio/releases)
+
+It is still very experimental, with no independent testing yet.
+
+The best way to report problems is at this GitHub Issues page –
+
+[https://github.com/dsward2/LocalRadio/issues/2](https://github.com/dsward2/LocalRadio/issues/2)
+
+<br>
+<hr>
+<br>
 
 <img src="https://cdn.rawgit.com/dsward2/LocalRadio/4a6a79bc/Documents/LocalRadio-poster.svg">
 
