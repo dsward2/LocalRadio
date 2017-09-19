@@ -6,7 +6,7 @@
 //  Copyright © 2017 ArkPhone LLC. All rights reserved.
 //
 
-//  Resample audio to 41000 Hz with AudioConverter, and output to Novocaine buffer for playthrough with stdio
+//  Resample stdin audio to 41000 Hz with AudioConverter then output to Novocaine buffer for Mac playthrough, also echo stdin to stdout
 //  https://github.com/alexbw/novocaine
 //  http://atastypixel.com/blog/four-common-mistakes-in-audio-development/
 
@@ -81,7 +81,7 @@
 
 - (void)runAudioMonitorOnThread
 {
-    //NSLog(@"AudioMonitor starting with sample rate %ld", self.sampleRate);
+    NSLog(@"AudioMonitor starting with input sample rate %ld", self.sampleRate);
 
     pid_t originalParentProcessPID = getppid();
     

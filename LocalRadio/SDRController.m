@@ -219,9 +219,9 @@
 //	startRtlsdrTaskForFrequencies:category:
 //==================================================================================
 
-- (void)startRtlsdrTaskForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary
+- (void)startRtlsdrTaskForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary
 {
-    NSLog(@"startRtlsdrTaskForFrequencies:category");
+    //NSLog(@"startRtlsdrTaskForFrequencies:category");
 
     CGFloat delay = 0.0;
     
@@ -677,7 +677,6 @@
         useSecondaryStreamSource = YES;     // create a separate task to get audio to EZStream
     }
     
-
     self.rtlsdrTask = [[NSTask alloc] init];
     self.rtlsdrTask.launchPath = rtl_fmPath;
     self.rtlsdrTask.arguments = rtlfmArgsArray;
@@ -698,7 +697,9 @@
 
 
 
-
+    // TODO: BUG: For an undetermined reason, AudioMonitor fails to launch as an NSTask in a sandboxed app extracted from an Xcode Archive
+    // if the application path contains a space (e.g., "~/Untitled Folder/LocalRadio.app".
+    // Prefixing backslashes before spaces in the path did not help.  The error message in Console.log says "launch path not accessible".
     self.audioMonitorTask = [[NSTask alloc] init];
     self.audioMonitorTask.launchPath = audioMonitorPath;
     self.audioMonitorTask.arguments = audioMonitorArgsArray;

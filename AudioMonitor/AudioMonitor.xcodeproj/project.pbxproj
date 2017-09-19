@@ -79,6 +79,7 @@
 		0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Novocaine.xcodeproj; sourceTree = "<group>"; };
 		0E213D831F55483B00BCE3CB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0E4970071F6F1EC200E41A06 /* AudioMonitor.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AudioMonitor.entitlements; sourceTree = "<group>"; };
 		0ED9ED6C1F540F9800898460 /* AudioMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMonitor.h; sourceTree = "<group>"; };
 		0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioMonitor.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,6 +120,7 @@
 				0ED9ED6C1F540F9800898460 /* AudioMonitor.h */,
 				0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */,
 				0E213D581F55483B00BCE3CB /* novocaine-master */,
+				0E4970071F6F1EC200E41A06 /* AudioMonitor.entitlements */,
 			);
 			path = AudioMonitor;
 			sourceTree = "<group>";
@@ -235,7 +237,7 @@
 					0E02EC341F494F7C008BAC27 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MMFBWVS455;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -435,7 +437,9 @@
 		0E02EC3D1F494F7C008BAC27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -443,7 +447,9 @@
 		0E02EC3E1F494F7C008BAC27 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

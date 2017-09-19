@@ -15,7 +15,7 @@
 		0E0C69331F1C8F9100A7EE5E /* tuner_fc0013.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C692E1F1C8F9100A7EE5E /* tuner_fc0013.c */; };
 		0E0C69341F1C8F9100A7EE5E /* tuner_fc2580.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C692F1F1C8F9100A7EE5E /* tuner_fc2580.c */; };
 		0E0C69351F1C8F9100A7EE5E /* tuner_r82xx.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C69301F1C8F9100A7EE5E /* tuner_r82xx.c */; };
-		0E0C693B1F1C926100A7EE5E /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0C693A1F1C926100A7EE5E /* libusb-1.0.0.dylib */; };
+		0E0C693B1F1C926100A7EE5E /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0C693A1F1C926100A7EE5E /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0E28BEA91F2DC830005999FB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E28BEA81F2DC830005999FB /* AudioToolbox.framework */; };
 		0E29A2821F3061C50099854B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E29A27E1F3061C50099854B /* CoreAudio.framework */; };
 		0E29A2831F3061C50099854B /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E29A27F1F3061C50099854B /* CoreAudioKit.framework */; };
@@ -114,6 +114,7 @@
 			buildPhases = (
 				0E0C69121F1C8C8E00A7EE5E /* Sources */,
 				0E0C69131F1C8C8E00A7EE5E /* Frameworks */,
+				0E49700D1F70CBAC00E41A06 /* Run fix_rtl_fm_localradio Script */,
 			);
 			buildRules = (
 			);
@@ -136,7 +137,7 @@
 					0E0C69151F1C8C8E00A7EE5E = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MMFBWVS455;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -156,6 +157,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E49700D1F70CBAC00E41A06 /* Run fix_rtl_fm_localradio Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run fix_rtl_fm_localradio Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo bash ${SRCROOT}/../LocalRadio/Scripts/fix_rtl_fm_localradio.sh\n\nbash ${SRCROOT}/../LocalRadio/Scripts/fix_rtl_fm_localradio.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0E0C69121F1C8C8E00A7EE5E /* Sources */ = {
@@ -267,13 +285,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = rtl_fm_localradio.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../LocalRadio/rtl-sdr-master\"/**",
 					"/opt/local/include/libusb-1.0",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@rpath/Frameworks/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,
@@ -287,13 +305,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = rtl_fm_localradio.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../LocalRadio/rtl-sdr-master\"/**",
 					"/opt/local/include/libusb-1.0",
 				);
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@rpath/Frameworks/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/opt/local/lib,

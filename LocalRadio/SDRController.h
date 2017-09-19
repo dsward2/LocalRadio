@@ -50,7 +50,7 @@
 - (void)terminateTasks;
 
 - (void)startRtlsdrTaskForFrequency:(NSDictionary *)frequencyDictionary;
-- (void)startRtlsdrTaskForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary;
+- (void)startRtlsdrTaskForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
 
 //- (NSString *)frequencyNumberString:(NSString *)mhzString;
 //- (NSString *)megahertzString:(NSString *)mhzNumericString;

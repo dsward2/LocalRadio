@@ -472,6 +472,20 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         conflictFound = YES;
     }
     
+    NSString * bundlePath = [[NSBundle mainBundle] bundlePath];
+    NSArray * pathComponents = [bundlePath pathComponents];
+    for (NSString * aPathComponent in pathComponents)
+    {
+        NSRange spaceRange = [aPathComponent rangeOfString:@" "];
+        if (spaceRange.location != NSNotFound)
+        {
+            [self performSelectorOnMainThread:@selector(poseAppPathErrorAlert:) withObject:aPathComponent waitUntilDone:YES];
+            
+            conflictFound = YES;
+            break;
+        }
+    }
+    
     return conflictFound;
 }
 
@@ -505,6 +519,38 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
             exit(0);
             
             return;
+        }
+        
+        // Quit button clicked
+        exit(0);
+    }];
+}
+
+//==================================================================================
+//	poseAppPathErrorAlert
+//==================================================================================
+
+- (void)poseAppPathErrorAlert:(NSString *)folderName
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    
+    [alert addButtonWithTitle:@"Quit"];
+    [alert addButtonWithTitle:@"Open LocalRadio Project Web Page"];
+    
+    [alert setMessageText:@"LocalRadio Cannot Launch Due To Folder Name Problem"];
+    
+    NSString * informativeText = [NSString stringWithFormat:@"LocalRadio cannot launch due to a problem with a folder name.\n\nPlease remove all space characters from this folder name: \n\n%@\n\nAfter the folder is renamed, try launching the LocalRadio app again.\n\nSee the LocalRadio project web page for more information about the folder name bug.", folderName];
+    
+    [alert setInformativeText:informativeText];
+    
+    [alert setAlertStyle:NSWarningAlertStyle];
+
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertSecondButtonReturn) {
+            // Show LocalRadio Clean-Up Workflow button
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/dsward2/LocalRadio"]];
+            
+            exit(0);
         }
         
         // Quit button clicked

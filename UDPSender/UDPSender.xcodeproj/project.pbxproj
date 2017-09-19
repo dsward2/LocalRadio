@@ -99,7 +99,7 @@
 					0E7293FA1F17D21500350F03 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MMFBWVS455;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -224,8 +224,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -234,8 +236,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

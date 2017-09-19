@@ -242,6 +242,11 @@ Photo by Gregory F. Maxwell <gmaxwell@gmail.com>
 [https://en.wikipedia.org/wiki/CONELRAD#/media/File:Regency_transistor_radio.jpg]()
 Licensed with Gnu Free Documentation License v1.2, see below.
 
+## Testing
+
+Special thanks to Andy Griebel at SpaceAgeApps.com for buying an RTL-SDR and testing the app.
+
+
 ## GNU GENERAL PUBLIC LICENSE
 
 

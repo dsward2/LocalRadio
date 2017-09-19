@@ -18,7 +18,7 @@ int main(int argc, const char * argv[])
 {
     @autoreleasepool {
         //raise(SIGSTOP); // Stop and wait for debugger. Click the Debugger's Resume button to continue execution
-        
+                
         NSString * argMode = @"";
         NSString * argSampleRate = @"10000";
         NSString * argVolume = @"0";

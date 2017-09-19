@@ -98,7 +98,7 @@
 				TargetAttributes = {
 					0E0A952D1F129400002E2E5B = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = AM3K5RX83D;
+						DevelopmentTeam = MMFBWVS455;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -224,10 +224,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = UDPListener.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				DEVELOPMENT_TEAM = AM3K5RX83D;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
 				INFOPLIST_FILE = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -236,10 +237,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = UDPListener.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				DEVELOPMENT_TEAM = AM3K5RX83D;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
 				INFOPLIST_FILE = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

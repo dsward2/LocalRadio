@@ -3310,11 +3310,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 //	startRtlsdrTaskForFrequenciesWithDictionary:
 //==================================================================================
 
-- (void)startRtlsdrTaskForFrequenciesWithDictionary:(NSDictionary *)freqCatDictionary
+- (void)startRtlsdrTaskForFrequenciesWithDictionary:(NSMutableDictionary *)freqCatDictionary
 {
     NSArray * frequenciesArray = [freqCatDictionary objectForKey:@"frequencies"];
     
-    NSDictionary * categoryDictionary = NULL;
+    NSMutableDictionary * categoryDictionary = NULL;
     id categoryDictionaryRef = [freqCatDictionary objectForKey:@"category"];
     if (categoryDictionaryRef != [NSNull null])
     {
