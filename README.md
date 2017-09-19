@@ -6,7 +6,7 @@
 
 <br><br>
 
-<img src="https://rawgit.com/dsward2/LocalRadio/master/Documents/LocalRadio-poster.svg">
+<img src="https://cdn.rawgit.com/dsward2/LocalRadio/4a6a79bc/Documents/LocalRadio-poster.svg">
 
 Project page: https://github.com/dsward2/LocalRadio
 
@@ -89,7 +89,7 @@ LocalRadio uses the Sox audio processing tool for various tasks, and the user ca
 
 Sox filter effects can be configured as a "processing chain".  For broadcast FM frequencies stored as LocalRadio Favorites, the default configuration is "vol 1 deemph dither -s".  Other common filter effects are bass, treble, lowpass, highpass, and many others.  See the Sox filters page for more filter options, under the "EFFECTS" heading: 
 
-[http://sox.sourceforge.net/sox.html#EFFECTS]()
+[http://sox.sourceforge.net/sox.html#EFFECTS](http://sox.sourceforge.net/sox.html#EFFECTS)
 
 Currently, the Sox filter is a plain text representation, and LocalRadio does not evaluate the Sox audio filter for correctness, so the user must be careful to enter a valid configuration.  
 

@@ -98,7 +98,6 @@
 		0E1BA1791EC8A0C200130DB9 /* libz.1.2.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA1351EC8A09700130DB9 /* libz.1.2.11.dylib */; };
 		0E207E731F1DA81C001AA972 /* editcategorysettings.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E207E721F1DA81C001AA972 /* editcategorysettings.html */; };
 		0E207E991F1DCA99001AA972 /* storecategory.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E207E981F1DCA99001AA972 /* storecategory.html */; };
-		0E213DB01F55574300BCE3CB /* AudioMonitor in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E02EC441F494F7E008BAC27 /* AudioMonitor */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E23B3161F1F36EE00565394 /* SoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E23B3151F1F36ED00565394 /* SoxController.m */; };
 		0E28BE6B1F2B6A48005999FB /* UDPStatusListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */; };
 		0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */; };
@@ -107,6 +106,9 @@
 		0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E4461911F4420A9003C7851 /* scannerlistenbuttonclicked.html */; };
 		0E4461941F451B67003C7851 /* tuner_general.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E4461931F451B67003C7851 /* tuner_general.html */; };
 		0E4970031F6E0E6F00E41A06 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4970021F6E0E6F00E41A06 /* IOKit.framework */; };
+		0E49700A1F6F1FF700E41A06 /* codesign_tools.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0E4970091F6F1FF700E41A06 /* codesign_tools.sh */; };
+		0E49700C1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */; };
+		0E49700F1F70F74D00E41A06 /* AudioMonitor in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E02EC441F494F7E008BAC27 /* AudioMonitor */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E4ECFC01EAB633B00D2157B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */; };
 		0E4ECFC31EAB633B00D2157B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ECFC21EAB633B00D2157B /* main.m */; };
 		0E4ECFC81EAB633B00D2157B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E4ECFC61EAB633B00D2157B /* MainMenu.xib */; };
@@ -574,7 +576,7 @@
 				0E0A95641F129E01002E2E5B /* UDPListener in Copy Tools */,
 				0E0562F01F19A0090093B473 /* UDPSender in Copy Tools */,
 				0E0C69391F1C913200A7EE5E /* rtl_fm_localradio in Copy Tools */,
-				0E213DB01F55574300BCE3CB /* AudioMonitor in Copy Tools */,
+				0E49700F1F70F74D00E41A06 /* AudioMonitor in Copy Tools */,
 			);
 			name = "Copy Tools";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,6 +776,8 @@
 		0E496FEC1F6DBFE700E41A06 /* credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		0E4970021F6E0E6F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		0E4970041F6E180F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		0E4970091F6F1FF700E41A06 /* codesign_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = codesign_tools.sh; sourceTree = "<group>"; };
+		0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build_standard_rtl_sdr_tools.sh; sourceTree = "<group>"; };
 		0E4ECFBB1EAB633B00D2157B /* LocalRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4ECFBE1EAB633B00D2157B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -1031,7 +1035,6 @@
 		0E51DDF91F6CA152009B388F /* iPhone8.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iPhone8.tiff; sourceTree = "<group>"; };
 		0E51DDFA1F6CA152009B388F /* MacSafari.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = MacSafari.tiff; sourceTree = "<group>"; };
 		0E51DDFB1F6CA152009B388F /* touch_screen_digitizer_for_celkon_a125_white_by_maxbhi.com_92064.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = touch_screen_digitizer_for_celkon_a125_white_by_maxbhi.com_92064.jpg; sourceTree = "<group>"; };
-		0E51DDFC1F6CA152009B388F /* LocalRadio-poster copy.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "LocalRadio-poster copy.svg"; sourceTree = "<group>"; };
 		0E51DDFD1F6CA152009B388F /* LocalRadio-poster.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "LocalRadio-poster.svg"; sourceTree = "<group>"; };
 		0E5C50801F064217005CA515 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		0E5C50811F064217005CA515 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
@@ -1490,7 +1493,9 @@
 		0E0C693E1F1C9DA900A7EE5E /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
+				0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */,
 				0E0C693F1F1C9E3100A7EE5E /* fix_rtl_fm_localradio.sh */,
+				0E4970091F6F1FF700E41A06 /* codesign_tools.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -2326,7 +2331,6 @@
 			isa = PBXGroup;
 			children = (
 				0E51DDC71F6CA152009B388F /* Images */,
-				0E51DDFC1F6CA152009B388F /* LocalRadio-poster copy.svg */,
 				0E51DDFD1F6CA152009B388F /* LocalRadio-poster.svg */,
 			);
 			path = Documents;
@@ -3510,9 +3514,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0E4ECFCC1EAB633B00D2157B /* Build configuration list for PBXNativeTarget "LocalRadio" */;
 			buildPhases = (
-				0E0FD9E21EF4A84A00FEEA06 /* Run Build RTL-SDR Script */,
+				0E0FD9E21EF4A84A00FEEA06 /* Run Build Standard RTL-SDR Tools Script */,
 				0E4ECFB71EAB633B00D2157B /* Sources */,
 				0E4ECFB81EAB633B00D2157B /* Frameworks */,
+				0E0C693D1F1C9D4800A7EE5E /* Run fix_rtl_fm_localradio Script */,
 				0E4ED0121EAB65E900D2157B /* Copy Libraries */,
 				0E4ECFB91EAB633B00D2157B /* Resources */,
 				0E4ED21E1EABDC6900D2157B /* Copy Tools */,
@@ -3521,7 +3526,7 @@
 				0EA2129E1ED72DAB004DE453 /* Copy Icecast Doc Files */,
 				0E84C9A31ED8FFC90065864B /* Run Copy HTTP Files Script */,
 				0EAB5E801ECF955E00EE49F4 /* Run dylibbundler install_tool_name Script */,
-				0E0C693D1F1C9D4800A7EE5E /* Run fix_rtl_fm_localradio Script */,
+				0E4970081F6F1F1F00E41A06 /* Codesign Tools */,
 			);
 			buildRules = (
 			);
@@ -3548,7 +3553,7 @@
 					0E4ECFBA1EAB633B00D2157B = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = MMFBWVS455;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Maps.Mac = {
 								enabled = 0;
@@ -4014,7 +4019,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0ED12CE91F359B0700D9DCDC /* tuner.html in Resources */,
+				0E49700A1F6F1FF700E41A06 /* codesign_tools.sh in Resources */,
 				0EF2A9431F39BB8F009DB5C8 /* tuner_wbfm.html in Resources */,
+				0E49700C1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh in Resources */,
 				0E207E991F1DCA99001AA972 /* storecategory.html in Resources */,
 				0E4461941F451B67003C7851 /* tuner_general.html in Resources */,
 				0E688FFE1F3C460D00F34AE4 /* insertnewfrequency.html in Resources */,
@@ -4055,21 +4062,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_rtl_fm_localradio.sh";
+			shellScript = "# Moved to rtl_fm_localradio subproject\n\n#bash ${SRCROOT}/LocalRadio/Scripts/fix_rtl_fm_localradio.sh";
 		};
-		0E0FD9E21EF4A84A00FEEA06 /* Run Build RTL-SDR Script */ = {
+		0E0FD9E21EF4A84A00FEEA06 /* Run Build Standard RTL-SDR Tools Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Build RTL-SDR Script";
+			name = "Run Build Standard RTL-SDR Tools Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\n# echo SRCROOT = ${SRCROOT}\n\n# modify PATH environment to find MacPorts tools first, particularily the cmake tools\nexport PATH=\"/opt/local/bin:/opt/local/sbin:$PATH\"\n\nRTLSDRSRC=${SRCROOT}/LocalRadio/rtl-sdr-master\necho Make RTL-SDR and rtl_fm_localradio at ${RTLSDRSRC}\n\nRTLSDRBLD=${RTLSDRSRC}/build\nRTLSDRPRD=${RTLSDRBLD}/src\nmkdir -p \"${RTLSDRBLD}\"\ncd \"${RTLSDRBLD}\"\ncmake ../\nmake\n\nLIBPATH=${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\nEXECPATH=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\n\nmv ${RTLSDRPRD}/librtlsdr.0.5git.dylib ${RTLSDRPRD}/librtlsdr.0.dylib\n\ninstall_name_tool -id @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/librtlsdr.0.dylib\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/librtlsdr.0.dylib\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_adsb\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_adsb\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_adsb\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_adsb\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_eeprom\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_eeprom\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_fm\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_fm\n\n#install_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_fm_localradio\n#install_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_fm_localradio\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_power\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_power\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_sdr\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_sdr\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_tcp\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_tcp\n\ninstall_name_tool -change ${RTLSDRPRD}/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${RTLSDRPRD}/rtl_test\ninstall_name_tool -change /usr/local/opt/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${RTLSDRPRD}/rtl_test\n\n";
+			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/build_standard_rtl_sdr_tools.sh";
+		};
+		0E4970081F6F1F1F00E41A06 /* Codesign Tools */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Codesign Tools";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/codesign_tools.sh";
 		};
 		0E84C9A31ED8FFC90065864B /* Run Copy HTTP Files Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4097,7 +4118,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "#!/bin/sh\nexit\n\n#  import_dylibs.sh\n#  SDR_Server\n#\n#  Created by Douglas Ward on 5/14/17.\n#  Copyright © 2017 ArkPhone LLC. All rights reserved.\n\n# Modify MacPorts libraries for embed in application bundle\n\n#https://github.com/auriamg/macdylibbundler\n#dylibbundler -b -x ./LocalRadio.app/Contents/MacOS/LocalRadio -d ./MacPorts_Libraries/ -p @executable_path/../Frameworks/\n\nEXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\n#EXECFILE=/Users/dsward/Library/Developer/Xcode/DerivedData/LocalRadio-fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/LocalRadio.app/Contents/MacOS/LocalRadio\n\nLIBPATH=${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\n#LIBPATH=/Users/dsward/Library/Developer/Xcode/DerivedData/LocalRadio-fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/LocalRadio.app/Contents/Frameworks\n\nNEWLIBPATH=\"@executable_path/../Frameworks\"\n\necho \"Run dylibbundler against main app executable\"\necho /opt/local/bin/dylibbundler -of -b -x \"${EXECFILE}\" -d \"${LIBPATH}\" -p \"${NEWLIBPATH}\"\n\n/opt/local/bin/dylibbundler -of -b -x \"${EXECFILE}\" -d \"${LIBPATH}\" -p \"${NEWLIBPATH}\"";
+			shellScript = "#!/bin/sh\n# currently not used\nexit\n\n#  import_dylibs.sh\n#  SDR_Server\n#\n#  Created by Douglas Ward on 5/14/17.\n#  Copyright © 2017 ArkPhone LLC. All rights reserved.\n\n# Modify MacPorts libraries for embed in application bundle\n\n#https://github.com/auriamg/macdylibbundler\n#dylibbundler -b -x ./LocalRadio.app/Contents/MacOS/LocalRadio -d ./MacPorts_Libraries/ -p @executable_path/../Frameworks/\n\nEXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\n#EXECFILE=/Users/dsward/Library/Developer/Xcode/DerivedData/LocalRadio-fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/LocalRadio.app/Contents/MacOS/LocalRadio\n\nLIBPATH=${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\n#LIBPATH=/Users/dsward/Library/Developer/Xcode/DerivedData/LocalRadio-fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/LocalRadio.app/Contents/Frameworks\n\nNEWLIBPATH=\"@executable_path/../Frameworks\"\n\necho \"Run dylibbundler against main app executable\"\necho /opt/local/bin/dylibbundler -of -b -x \"${EXECFILE}\" -d \"${LIBPATH}\" -p \"${NEWLIBPATH}\"\n\n/opt/local/bin/dylibbundler -of -b -x \"${EXECFILE}\" -d \"${LIBPATH}\" -p \"${NEWLIBPATH}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4792,7 +4813,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LocalRadio/LocalRadio.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (
@@ -4800,7 +4821,7 @@
 					"\"/opt/local/include/libusb-1.0\"",
 				);
 				INFOPLIST_FILE = LocalRadio/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@rpath/Frameworks/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LocalRadio/MacPorts_Libraries",
@@ -4811,7 +4832,8 @@
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arkphone.LocalRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
+				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
 			};
 			name = Debug;
@@ -4821,7 +4843,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LocalRadio/LocalRadio.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (
@@ -4829,7 +4851,7 @@
 					"\"/opt/local/include/libusb-1.0\"",
 				);
 				INFOPLIST_FILE = LocalRadio/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
+				LD_RUNPATH_SEARCH_PATHS = "@rpath/Frameworks/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LocalRadio/MacPorts_Libraries",
@@ -4840,7 +4862,8 @@
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arkphone.LocalRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
+				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
 			};
 			name = Release;
