@@ -25,7 +25,7 @@ LocalRadio is an experimental, GPL-2 licensed open-source application for listen
 LocalRadio's easy-to-use web interface allows the radio to be shared from a Mac to iPhones, iPads, Android devices, and other PCs on your home network.  No additional software or hardware is required for sharing with mobile devices, simply use the built-in mobile web browser to connect to LocalRadio and tune to your favorite stations.  You can also listen to LocalRadio audio on your Apple TV and other AirPlay-compatible devices.
 
 
-LocalRadio does not provide features like FFT waterfalls, panadapters, or signal recording that are found on other SDR software.  For those features, GQRX for Mac is highly recommended.  GQRX is a good way to discover radio frequencies that can be used with LocalRadio.
+LocalRadio does not provide features like FFT waterfalls, panadapters, or signal recording that are found on other SDR software.  For those features, GQRX for Mac is highly recommended.  GQRX is a good way to discover radio frequencies that can be used with LocalRadio. GQRX is available at [http://gqrx.dk](http://gqrx.dk)
 
 LocalRadio is intended for use as in-home entertainment, using a local area network with a private IP address.  It has not been tested with a public IP address, particularly for security testing, therefore it is not recommended for that purpose.  For simply listening to LocalRadio on the Mac with the RTL-SDR device plugged in, no network is required at all.
 
