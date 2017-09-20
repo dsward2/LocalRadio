@@ -1,7 +1,5 @@
 # LocalRadio
 
-### REPOSITORY UNDER CONSTRUCTION
-
 ### A “pre-release” of LocalRadio v1.0 is now available for download –
 
 [https://github.com/dsward2/LocalRadio/releases](https://github.com/dsward2/LocalRadio/releases)
