@@ -281,7 +281,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         
         
-                #pragma mark relativePath=listenbuttonclicked.html
+        #pragma mark relativePath=applymp3settings.html
         else if ([relativePath isEqualToString:@"/applymp3settings.html"])
         {
             // this action is for the Listen button for Favorites frequencies (not the Listen button for the full record HTML form)
@@ -371,7 +371,17 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 }
                 
                 NSString * freqIDString = [frequencyDictionary objectForKey:@"id"]; // frequencyDictionary.id normally NSNumber, but NSString here
-                [self listenButtonClickedForFrequencyID:freqIDString];
+                NSInteger freqID = freqIDString.integerValue;
+                if (freqID > 0)
+                {
+                    [self listenButtonClickedForFrequencyID:freqIDString];
+                }
+                else
+                {
+                    [self convertNumericFieldsInFrequencyDictionary:frequencyDictionary];
+
+                    [self listenButtonClickedForFrequency:frequencyDictionary];
+                }
             }
             
             [replacementDict setObject:@"OK" forKey:@"LISTEN_BUTTON_CLICKED_RESULT"];
@@ -734,6 +744,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     }
                 }
 
+                /*
                 NSString * frequencyMegahertzString = [frequencyDictionary objectForKey:@"frequency"];
                 NSInteger frequencyInteger = [self.appDelegate hertzWithString:frequencyMegahertzString];
                 NSNumber * frequencyNumber = [NSNumber numberWithInteger:frequencyInteger];
@@ -749,6 +760,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSInteger frequencyScanIntervalInteger = [frequencyScanIntervalMegahertzString integerValue];
                 NSNumber * frequencyScanIntervalNumber = [NSNumber numberWithInteger:frequencyScanIntervalInteger];
                 [frequencyDictionary setObject:frequencyScanIntervalNumber forKey:@"frequency_scan_interval"];
+                */
+                
+                [self convertNumericFieldsInFrequencyDictionary:frequencyDictionary];
                 
                 [self.sqliteController storeRecord:frequencyDictionary table:@"frequency"];
 
@@ -1172,6 +1186,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     }
                 }
 
+                /*
                 id frequencyMegahertzObject = [frequencyDictionary objectForKey:@"frequency"];
                 if ([frequencyMegahertzObject isKindOfClass:[NSString class]] == YES)
                 {
@@ -1197,6 +1212,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     NSNumber * frequencyScanIntervalNumber = [NSNumber numberWithInteger:frequencyScanIntervalInteger];
                     [frequencyDictionary setObject:frequencyScanIntervalNumber forKey:@"frequency_scan_interval"];
                 }
+                */
+                
+                [self convertNumericFieldsInFrequencyDictionary:frequencyDictionary];
 
                 int64_t queryResult = [self.sqliteController storeRecord:frequencyDictionary table:@"frequency"];
                 
@@ -1305,6 +1323,110 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 	
 	return [super httpResponseForMethod:method URI:path];
 }
+
+
+
+- (void)convertNumericFieldsInFrequencyDictionary:(NSMutableDictionary *)frequencyDictionary
+{
+    // for dictionaries constructed from web forms, convert strings to NSNumber object to match the database fields
+    id frequencyModeObject = [frequencyDictionary objectForKey:@"frequency_mode"];
+    if ([frequencyModeObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * frequencyModeString = frequencyModeObject;
+        NSInteger frequencyModeInteger = frequencyModeString.integerValue;
+        NSNumber * frequencyModeNumber = [NSNumber numberWithInteger:frequencyModeInteger];
+        [frequencyDictionary setObject:frequencyModeNumber forKey:@"frequency_mode"];
+    }
+
+    id frequencyMegahertzObject = [frequencyDictionary objectForKey:@"frequency"];
+    if ([frequencyMegahertzObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSInteger frequencyInteger = [self.appDelegate hertzWithString:frequencyMegahertzObject];
+        NSNumber * frequencyNumber = [NSNumber numberWithInteger:frequencyInteger];
+        [frequencyDictionary setObject:frequencyNumber forKey:@"frequency"];
+    }
+    
+    id frequencyScanEndMegahertzObject = [frequencyDictionary objectForKey:@"frequency_scan_end"];
+    if ([frequencyScanEndMegahertzObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSInteger frequencyScanEndInteger = [self.appDelegate hertzWithString:frequencyScanEndMegahertzObject];
+        NSNumber * frequencyScanEndNumber = [NSNumber numberWithInteger:frequencyScanEndInteger];
+        [frequencyDictionary setObject:frequencyScanEndNumber forKey:@"frequency_scan_end"];
+    }
+    
+    id frequencyScanIntervalMegahertzObject = [frequencyDictionary objectForKey:@"frequency_scan_interval"];
+    if ([frequencyScanIntervalMegahertzObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * frequencyScanIntervalMegahertzString = frequencyScanIntervalMegahertzObject;
+        NSInteger frequencyScanIntervalInteger = [frequencyScanIntervalMegahertzString integerValue];
+        NSNumber * frequencyScanIntervalNumber = [NSNumber numberWithInteger:frequencyScanIntervalInteger];
+        [frequencyDictionary setObject:frequencyScanIntervalNumber forKey:@"frequency_scan_interval"];
+    }
+    
+    id tunerGainObject = [frequencyDictionary objectForKey:@"tuner_gain"];
+    if ([tunerGainObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * tunerGainString = tunerGainObject;
+        double tunerGainDouble = tunerGainString.doubleValue;
+        NSNumber * tunerGainNumber = [NSNumber numberWithDouble:tunerGainDouble];
+        [frequencyDictionary setObject:tunerGainNumber forKey:@"tuner_gain"];
+    }
+
+    id tunerAGCObject = [frequencyDictionary objectForKey:@"tuner_agc"];
+    if ([tunerAGCObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * tunerGainString = tunerAGCObject;
+        NSInteger tunerGainInteger = tunerGainString.integerValue;
+        NSNumber * tunerGainNumber = [NSNumber numberWithInteger:tunerGainInteger];
+        [frequencyDictionary setObject:tunerGainNumber forKey:@"tuner_agc"];
+    }
+    
+    id samplingModeObject = [frequencyDictionary objectForKey:@"sampling_mode"];
+    if ([samplingModeObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * samplingModeString = samplingModeObject;
+        NSInteger samplingModeInteger = samplingModeString.integerValue;
+        NSNumber * samplingModeNumber = [NSNumber numberWithInteger:samplingModeInteger];
+        [frequencyDictionary setObject:samplingModeNumber forKey:@"sampling_mode"];
+    }
+    
+    id sampleRateObject = [frequencyDictionary objectForKey:@"sample_rate"];
+    if ([sampleRateObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * sampleRateString = sampleRateObject;
+        NSInteger sampleRateInteger = sampleRateString.integerValue;
+        NSNumber * sampleRateNumber = [NSNumber numberWithInteger:sampleRateInteger];
+        [frequencyDictionary setObject:sampleRateNumber forKey:@"sample_rate"];
+    }
+    
+    id oversamplingObject = [frequencyDictionary objectForKey:@"oversampling"];
+    if ([oversamplingObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * oversamplingString = oversamplingObject;
+        NSInteger oversamplingInteger = oversamplingString.integerValue;
+        NSNumber * oversamplingNumber = [NSNumber numberWithInteger:oversamplingInteger];
+        [frequencyDictionary setObject:oversamplingNumber forKey:@"oversampling"];
+    }
+    
+    id squelchLevelObject = [frequencyDictionary objectForKey:@"squelch_level"];
+    if ([squelchLevelObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * squelchLevelString = squelchLevelObject;
+        double squelchLevelDouble = squelchLevelString.doubleValue;
+        NSNumber * squelchLevelNumber = [NSNumber numberWithDouble:squelchLevelDouble];
+        [frequencyDictionary setObject:squelchLevelNumber forKey:@"squelch_level"];
+    }
+    
+    id firSizeObject = [frequencyDictionary objectForKey:@"fir_size"];
+    if ([firSizeObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * firSizeString = firSizeObject;
+        NSInteger firSizeInteger = firSizeString.integerValue;
+        NSNumber * firSizeNumber = [NSNumber numberWithInteger:firSizeInteger];
+        [frequencyDictionary setObject:firSizeNumber forKey:@"fir_size"];
+    }
+}
+
 
 //==================================================================================
 //	processBodyData:
