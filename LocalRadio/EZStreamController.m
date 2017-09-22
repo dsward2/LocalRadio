@@ -17,7 +17,11 @@
 
 - (void)terminateTasks
 {
-    [self.ezStreamTask terminate];
+    //[self.ezStreamTask terminate];
+    
+    [self stopEZStreamTask];
+    [self stopSoxTask];
+    [self stopUDPListenerTask];
 }
 
 //==================================================================================
@@ -69,15 +73,215 @@
     }
 }
 
-
 //==================================================================================
 //	startEZStreamTask
 //==================================================================================
 
 - (void)startEZStreamTask
 {
-    // generate a process with nc (netcat) UDP front end, piped to EZStream
+    NSString * udpListenerPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"UDPListener"];
+    udpListenerPath = [udpListenerPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
+    self.quotedUDPListenerPath = [NSString stringWithFormat:@"\"%@\"", udpListenerPath];
+    NSMutableArray * udpListenerArgsArray = [NSMutableArray array];
 
+    NSString * soxPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"sox"];
+    soxPath = [soxPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
+    self.quotedSoxPath = [NSMutableString stringWithFormat:@"\"%@\"", soxPath];
+    NSMutableArray * soxArgsArray = [NSMutableArray array];
+
+    NSString * ezStreamPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"ezstream"];
+    ezStreamPath = [ezStreamPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
+    self.quotedEZStreamPath = [NSMutableString stringWithFormat:@"\"%@\"", ezStreamPath];
+    NSMutableArray * ezStreamArgsArray = [NSMutableArray array];
+    
+    // write EZStream config file to sandboxed directory ~/Library/Containers/com.arkphone.LocalRadio/Data/Library/Application Support/
+    NSString * ezstreamConfigPath = [self writeEZStreamConfig];
+
+    NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"AudioPort"];
+    if (audioPortNumber.integerValue == 0)
+    {
+        audioPortNumber = [NSNumber numberWithInteger:17006];
+    }
+    NSString * audioPortString = [audioPortNumber stringValue];
+
+    // sox MP3 encoder quality: "Instead of 0 you have to use .01 (or .99) to specify the highest quality (128.01 or 128.99)."
+    NSString * mp3Settings = self.appDelegate.mp3SettingsTextField.stringValue;
+    mp3Settings = [mp3Settings stringByReplacingOccurrencesOfString:@".0" withString:@".01"];
+    
+    // Set UDPListener arguments
+    [udpListenerArgsArray addObject:@"-l"];
+    [udpListenerArgsArray addObject:audioPortString];
+    
+    // Set Sox arguments
+    [soxArgsArray addObject:@"-e"];     // start input arguments
+    [soxArgsArray addObject:@"signed-integer"];
+    [soxArgsArray addObject:@"-b"];
+    [soxArgsArray addObject:@"16"];
+    [soxArgsArray addObject:@"-c"];
+    [soxArgsArray addObject:@"1"];
+    [soxArgsArray addObject:@"-r"];
+    [soxArgsArray addObject:@"48000"];
+    [soxArgsArray addObject:@"-t"];
+    [soxArgsArray addObject:@"raw"];
+    [soxArgsArray addObject:@"-"];      // stdin
+    [soxArgsArray addObject:@"-t"];     // start output arguments
+    [soxArgsArray addObject:@"mp3"];    // LAME mp3 encode output
+    [soxArgsArray addObject:@"-C"];     // variable or constant bit rate,  encoding quality - http://sox.sourceforge.net/soxformat.html
+    [soxArgsArray addObject:mp3Settings];
+    [soxArgsArray addObject:@"-"];      // stdout
+
+    // Set EZStream arguments
+    [ezStreamArgsArray addObject:@"-c"];
+    [ezStreamArgsArray addObject:ezstreamConfigPath];
+
+    // Create NSTasks
+    self.udpListenerTask = [[NSTask alloc] init];
+    self.udpListenerTask.launchPath = udpListenerPath;
+    self.udpListenerTask.arguments = udpListenerArgsArray;
+
+    self.soxTask = [[NSTask alloc] init];
+    self.soxTask.launchPath = soxPath;
+    self.soxTask.arguments = soxArgsArray;
+
+    self.ezStreamTask = [[NSTask alloc] init];
+    self.ezStreamTask.launchPath = ezStreamPath;
+    self.ezStreamTask.arguments = ezStreamArgsArray;
+
+
+    
+    // configure NSPipe to connect UDPListener stdout to sox stdin
+    self.udpListenerSoxPipe = [NSPipe pipe];
+    [self.udpListenerTask setStandardOutput:self.udpListenerSoxPipe];
+    [self.soxTask setStandardInput:self.udpListenerSoxPipe];
+    
+    // configure NSPipe to connect UDPListener stdout to sox stdin
+    self.soxEZStreamPipe = [NSPipe pipe];
+    [self.soxTask setStandardOutput:self.soxEZStreamPipe];
+    [self.ezStreamTask setStandardInput:self.soxEZStreamPipe];
+    
+    
+    
+    [self.ezStreamTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]]; // last stage stdout to /dev/null
+
+    EZStreamController * weakSelf = self;
+
+    [self.udpListenerTask setTerminationHandler:^(NSTask* task)
+    {           
+        int processIdentifier = task.processIdentifier;
+        int terminationStatus = task.terminationStatus;
+        long terminationReason = task.terminationReason;
+        
+        NSLog(@"EZStreamController enter udpListenerTask terminationHandler, PID=%d", processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"EZStreamController - udpListenerTask - terminationStatus 0");
+            NSLog(@"EZStreamController - udpListenerTask - terminationReason %ld", terminationReason);
+        }
+        else
+        {
+            NSLog(@"EZStreamController - udpListenerTask - terminationStatus %d", terminationStatus);
+            NSLog(@"EZStreamController - udpListenerTask - terminationReason %ld", terminationReason);
+        }
+
+        //[NSThread sleepForTimeInterval:1.0f];
+        
+        weakSelf.udpListenerTask = NULL;
+        weakSelf.udpListenerTaskStandardErrorPipe = NULL;
+        weakSelf.udpListenerTaskProcessID = 0;
+
+        [weakSelf.appDelegate updateCurrentTasksText];
+
+        NSLog(@"EZStreamController exit udpListenerTask terminationHandler, PID=%d", processIdentifier);
+    }];
+    
+    [self.soxTask setTerminationHandler:^(NSTask* task)
+    {           
+        int processIdentifier = task.processIdentifier;
+        int terminationStatus = task.terminationStatus;
+        long terminationReason = task.terminationReason;
+        
+        NSLog(@"EZStreamController enter soxTask terminationHandler, PID=%d", processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"EZStreamController - soxTask - terminationStatus 0");
+            NSLog(@"EZStreamController - soxTask - terminationReason %ld", terminationReason);
+        }
+        else
+        {
+            NSLog(@"EZStreamController - soxTask - terminationStatus %d", terminationStatus);
+            NSLog(@"EZStreamController - soxTask - terminationReason %ld", terminationReason);
+        }
+
+        //[NSThread sleepForTimeInterval:1.0f];
+        
+        weakSelf.soxTask = NULL;
+        weakSelf.soxTaskStandardErrorPipe = NULL;
+        weakSelf.soxTaskProcessID = 0;
+
+        [weakSelf.appDelegate updateCurrentTasksText];
+
+        NSLog(@"EZStreamController exit soxTask terminationHandler, PID=%d", processIdentifier);
+    }];
+    
+    [self.ezStreamTask setTerminationHandler:^(NSTask* task)
+    {           
+        int processIdentifier = task.processIdentifier;
+        int terminationStatus = task.terminationStatus;
+        long terminationReason = task.terminationReason;
+        
+        NSLog(@"EZStreamController enter ezStreamTask terminationHandler, PID=%d", processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"EZStreamController - ezStreamTask - terminationStatus 0");
+            NSLog(@"EZStreamController - ezStreamTask - terminationReason %ld", terminationReason);
+        }
+        else
+        {
+            NSLog(@"EZStreamController - ezStreamTask - terminationStatus %d", terminationStatus);
+            NSLog(@"EZStreamController - ezStreamTask - terminationReason %ld", terminationReason);
+        }
+
+        //[NSThread sleepForTimeInterval:1.0f];
+        
+        weakSelf.ezStreamTask = NULL;
+        weakSelf.ezStreamTaskStandardErrorPipe = NULL;
+        weakSelf.ezStreamTaskProcessID = 0;
+
+        [weakSelf.appDelegate updateCurrentTasksText];
+
+        NSLog(@"EZStreamController exit ezStreamTask terminationHandler, PID=%d", processIdentifier);
+    }];
+    
+
+    self.udpListenerArgsString = [udpListenerArgsArray componentsJoinedByString:@" "];
+    self.soxArgsString = [soxArgsArray componentsJoinedByString:@" "];
+    self.ezStreamArgsString = [ezStreamArgsArray componentsJoinedByString:@" "];
+
+    [self.udpListenerTask launch];
+    NSLog(@"EZStreamController - Launched NSTask udpListenerTask, PID=%d, args= %@ %@", self.udpListenerTask.processIdentifier, self.quotedUDPListenerPath, self.udpListenerArgsString);
+
+    [self.soxTask launch];
+    NSLog(@"EZStreamController - Launched NSTask soxTask, PID=%d, args= %@ %@", self.soxTask.processIdentifier, self.quotedSoxPath, self.soxArgsString);
+
+    [self.ezStreamTask launch];
+    NSLog(@"EZStreamController - Launched NSTask ezStreamTask, PID=%d, args= %@ %@", self.ezStreamTask.processIdentifier, self.quotedEZStreamPath, self.ezStreamArgsString);
+
+    self.udpListenerTaskProcessID = self.udpListenerTask.processIdentifier;
+    self.soxTaskProcessID = self.soxTask.processIdentifier;
+    self.ezStreamTaskProcessID = self.ezStreamTask.processIdentifier;
+
+    [self.appDelegate.statusEZStreamServerTextField performSelectorOnMainThread:@selector(setStringValue:) withObject:@"Running" waitUntilDone:NO];
+}
+
+//==================================================================================
+//	startEZStreamTaskOLD
+//==================================================================================
+
+- (void)startEZStreamTaskOLD
+{
     NSString * udpListenerPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"UDPListener"];
 
     NSString * soxPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"sox"];
@@ -178,6 +382,7 @@
     [self.appDelegate.statusEZStreamServerTextField performSelectorOnMainThread:@selector(setStringValue:) withObject:@"Running" waitUntilDone:NO];
 }
 
+
 //==================================================================================
 //	ezStreamTaskReceivedStderrData:
 //==================================================================================
@@ -197,7 +402,7 @@
 //==================================================================================
 //	stopEZStreamServer
 //==================================================================================
-
+/*
 - (void)stopEZStreamServer
 {
     NSLog(@"Stopping EZStream server");
@@ -216,6 +421,97 @@
             kill(knownEZStreamProcessID, SIGTERM);
         }
     }
+}
+*/
+
+//==================================================================================
+//	stopEZStreamTask
+//==================================================================================
+
+- (void)stopEZStreamTask
+{
+    NSLog(@"EZStreamController stopEZStreamServer enter");
+
+    if ([(NSThread*)[NSThread currentThread] isMainThread] == YES)
+    {
+        NSLog(@"stopEZStreamServer called on main thread");
+    }
+
+    if (self.ezStreamTask != NULL)
+    {
+        if (self.ezStreamTask.isRunning == YES)
+        {
+            NSLog(@"EZStreamController stopEZStreamServer sending terminate signal to ezStreamTask");
+            [self.ezStreamTask terminate];
+        }
+
+        while (self.ezStreamTask != NULL)
+        {
+            [NSThread sleepForTimeInterval:0.1f];
+        }
+    }
+
+    NSLog(@"SoxController stopEZStreamServer exit");
+}
+
+//==================================================================================
+//	stopUDPListenerTask
+//==================================================================================
+
+- (void)stopUDPListenerTask
+{
+    NSLog(@"EZStreamController stopUDPListenerTask enter");
+
+    if ([(NSThread*)[NSThread currentThread] isMainThread] == YES)
+    {
+        NSLog(@"stopUDPListenerTask called on main thread");
+    }
+
+    if (self.udpListenerTask != NULL)
+    {
+        if (self.udpListenerTask.isRunning == YES)
+        {
+            NSLog(@"EZStreamController stopUDPListenerTask sending terminate signal to udpListenerTask");
+            [self.udpListenerTask terminate];
+        }
+
+        while (self.udpListenerTask != NULL)
+        {
+            [NSThread sleepForTimeInterval:0.1f];
+        }
+    }
+
+    NSLog(@"SoxController stopUDPListenerTask exit");
+}
+
+//==================================================================================
+//	stopSoxTask
+//==================================================================================
+
+- (void)stopSoxTask
+{
+    NSLog(@"EZStreamController stopSoxTask enter");
+
+    if ([(NSThread*)[NSThread currentThread] isMainThread] == YES)
+    {
+        NSLog(@"stopSoxTask called on main thread");
+    }
+
+    if (self.soxTask != NULL)
+    {
+        if (self.soxTask.isRunning == YES)
+        {
+            NSLog(@"EZStreamController stopSoxTask sending terminate signal to soxTask");
+            [self.soxTask terminate];
+        }
+
+        while (self.soxTask != NULL)
+        {
+            [NSThread sleepForTimeInterval:0.1f];
+        }
+    }
+
+    NSLog(@"SoxController stopSoxTask exit");
 }
 
 //==================================================================================

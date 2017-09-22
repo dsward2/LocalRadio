@@ -2119,7 +2119,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
     if (favoriteDictionary != NULL)
     {
-        [self.sdrController startRtlsdrTaskForFrequency:favoriteDictionary];
+        [self.sdrController startRtlsdrTasksForFrequency:favoriteDictionary];
     }
 }
 
@@ -3443,7 +3443,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         categoryDictionary = categoryDictionaryRef;
     }
 
-    [self.sdrController startRtlsdrTaskForFrequencies:frequenciesArray category:categoryDictionary];
+    [self.sdrController startRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary];
 }
 
 

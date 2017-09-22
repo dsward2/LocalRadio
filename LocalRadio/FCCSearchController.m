@@ -457,7 +457,7 @@
             [frequencyDictionary setObject:sampleRateNumber forKey:@"sample_rate"];
             [frequencyDictionary setObject:tunerGainNumber forKey:@"tuner_gain"];
 
-            [self.appDelegate.sdrController startRtlsdrTaskForFrequency:frequencyDictionary];
+            [self.appDelegate.sdrController startRtlsdrTasksForFrequency:frequencyDictionary];
         }
         else
         {

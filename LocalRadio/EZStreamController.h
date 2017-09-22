@@ -14,8 +14,29 @@
 
 @property(strong) IBOutlet AppDelegate * appDelegate;
 
+@property (strong) NSTask * udpListenerTask;
+@property (strong) NSPipe * udpListenerTaskStandardErrorPipe;
+
 @property (strong) NSTask * ezStreamTask;
 @property (strong) NSPipe * ezStreamTaskStandardErrorPipe;
+
+@property (strong) NSTask * soxTask;
+@property (strong) NSPipe * soxTaskStandardErrorPipe;
+
+@property (strong) NSPipe * udpListenerSoxPipe;
+@property (strong) NSPipe * soxEZStreamPipe;
+
+@property (strong) NSString * quotedUDPListenerPath;
+@property (strong) NSString * quotedSoxPath;
+@property (strong) NSString * quotedEZStreamPath;
+
+@property (strong) NSString * udpListenerArgsString;
+@property (strong) NSString * soxArgsString;
+@property (strong) NSString * ezStreamArgsString;
+
+@property (assign) int ezStreamTaskProcessID;
+@property (assign) int soxTaskProcessID;
+@property (assign) int udpListenerTaskProcessID;
 
 - (void)terminateTasks;
 

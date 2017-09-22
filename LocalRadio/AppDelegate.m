@@ -60,7 +60,7 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    // Insert code here to tear down your application
+    self.applicationIsTerminating = YES;
     
     //[self performSelectorInBackground:@selector(terminateTasks) withObject:NULL];
     
@@ -88,6 +88,8 @@ typedef struct kinfo_proc kinfo_proc;
     [self.soxController terminateTasks];
 
     [self.sdrController terminateTasks];
+    
+    [self updateCurrentTasksText];
 }
 
 //==================================================================================
@@ -135,6 +137,8 @@ typedef struct kinfo_proc kinfo_proc;
     {
         // app termination in progress due RTL-SDR device not found
     }
+
+    [self updateCurrentTasksText];
 }
 
 //==================================================================================
@@ -163,6 +167,8 @@ typedef struct kinfo_proc kinfo_proc;
     [self.webServerController startHTTPServer];
     
     [self.webViewDelegate loadMainPage];
+
+    [self updateCurrentTasksText];
 }
 
 
@@ -200,9 +206,11 @@ typedef struct kinfo_proc kinfo_proc;
         
         if (frequencyDictionary != NULL)
         {
-            [self.sdrController startRtlsdrTaskForFrequency:frequencyDictionary];
+            [self.sdrController startRtlsdrTasksForFrequency:frequencyDictionary];
         }
     }
+
+    [self updateCurrentTasksText];
 }
 
 //==================================================================================
@@ -224,6 +232,102 @@ typedef struct kinfo_proc kinfo_proc;
     self.statusTunerGainTextField.stringValue = @"";
     self.statusSignalLevelTextField.stringValue = @"";
     */
+}
+
+
+//==================================================================================
+//	updateCurrentTasksText:
+//==================================================================================
+
+- (void)updateCurrentTasksText
+{
+    NSMutableString * tasksString = [NSMutableString string];
+
+    if (self.ezStreamController.udpListenerTaskProcessID != 0)
+    {
+        [tasksString appendFormat:@"EZStreamController UDPListener - process ID = %d\n\n", self.ezStreamController.udpListenerTaskProcessID];
+        
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.ezStreamController.quotedUDPListenerPath, self.ezStreamController.udpListenerArgsString];
+    }
+
+    if (self.ezStreamController.soxTaskProcessID != 0)
+    {
+        [tasksString appendFormat:@"EZStreamController Sox - process ID = %d\n\n", self.ezStreamController.soxTaskProcessID];
+        
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.ezStreamController.quotedSoxPath, self.ezStreamController.soxArgsString];
+    }
+    
+    if (self.ezStreamController.ezStreamTaskProcessID != 0)
+    {
+        [tasksString appendFormat:@"EZStreamController EZStream - process ID = %d\n\n", self.ezStreamController.ezStreamTaskProcessID];
+        
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.ezStreamController.quotedEZStreamPath, self.ezStreamController.ezStreamArgsString];
+    }
+    
+    if (self.icecastController.icecastTaskProcessID != 0)
+    {
+        [tasksString appendFormat:@"IcecastController Icecast - process ID = %d\n\n", self.icecastController.icecastTaskProcessID];
+     
+        [tasksString appendFormat:@"%@ %@\n\n",
+            self.icecastController.quotedIcecastPath, self.icecastController.icecastTaskArgsString];
+    }
+    
+    if (self.sdrController.rtlfmTaskProcessID != 0)
+    {
+        [tasksString appendFormat:@"SDRController rtl_fm_localradio - process ID = %d\n\n", self.sdrController.rtlfmTaskProcessID];
+       
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.sdrController.quotedRtlfmPath, self.sdrController.rtlfmTaskArgsString];
+    }
+    
+        if (self.sdrController.audioMonitorTaskProcessID != 0)
+    {
+        [tasksString appendFormat:@"SDRController AudioMonitor - process ID = %d\n\n", self.sdrController.audioMonitorTaskProcessID];
+       
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.sdrController.quotedAudioMonitorPath, self.sdrController.audioMonitorTaskArgsString];
+    }
+    
+    if (self.sdrController.soxTaskProcessID != 0)
+    {
+        [tasksString appendFormat:@"SDRController Sox - process ID = %d\n\n", self.sdrController.soxTaskProcessID];
+
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.sdrController.quotedSoxPath, self.sdrController.soxTaskArgsString];
+    }
+    
+    if (self.sdrController.udpSenderTask != NULL)
+    {
+        [tasksString appendFormat:@"SDRController UDPSender - process ID = %d\n\n", self.sdrController.udpSenderTaskProcessID];
+
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.sdrController.quotedUDPSenderPath, self.sdrController.udpSenderTaskArgsString];
+    }
+
+    if (self.soxController.soxTask != NULL)
+    {
+        [tasksString appendFormat:@"SoxController Sox - process ID = %d\n\n", self.soxController.soxTask.processIdentifier];
+    
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.soxController.quotedSoxPath, self.soxController.soxTaskArgsString];
+    }
+
+
+    if (self.soxController.udpSenderTask != NULL)
+    {
+        [tasksString appendFormat:@"SoxController UDPSender - process ID = %d\n\n", self.soxController.udpSenderTask.processIdentifier];
+    
+        [tasksString appendFormat:@"%@ %@\n\n",
+                self.soxController.quotedUDPSenderPath, self.soxController.udpSenderTaskArgsString];
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
+        [self.statusCurrentTasksTextView setString:tasksString];
+    });
 }
 
 

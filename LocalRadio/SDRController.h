@@ -25,10 +25,10 @@
 @property (strong) NSString * rtlsdrTaskMode;   // "frequency", "scan", or "stopped"
 @property (strong) NSMutableDictionary * rtlsdrCategoryDictionary;
 
-@property (strong) NSTask * rtlsdrTask; // output to soxTask
-@property (strong) NSPipe * rtlsdrTaskStandardErrorPipe;
+@property (strong) NSTask * rtlfmTask; // output to soxTask
+@property (strong) NSPipe * rtlfmTaskStandardErrorPipe;
 
-@property (strong) NSTask * audioMonitorTask;
+@property (strong) NSTask * audioMonitorTask;   // output to Sox via stdin and optionally to current Mac audio device
 @property (strong) NSPipe * rtlsdrAudioMonitorPipe;
 @property (strong) NSPipe * audioMonitorTaskStandardErrorPipe;
 
@@ -45,12 +45,26 @@
 @property (strong) NSArray * rtlsdrTaskFrequenciesArray;
 @property (assign) NSInteger udpTag;
 
+@property (strong) NSString * quotedRtlfmPath;
+@property (strong) NSString * quotedAudioMonitorPath;
+@property (strong) NSString * quotedSoxPath;
+@property (strong) NSString * quotedUDPSenderPath;
+
+@property (strong) NSString * rtlfmTaskArgsString;
+@property (strong) NSString * audioMonitorTaskArgsString;
+@property (strong) NSString * soxTaskArgsString;
+@property (strong) NSString * udpSenderTaskArgsString;
+
+@property (assign) int rtlfmTaskProcessID;
+@property (assign) int audioMonitorTaskProcessID;
+@property (assign) int soxTaskProcessID;
+@property (assign) int udpSenderTaskProcessID;
 
 
 - (void)terminateTasks;
 
-- (void)startRtlsdrTaskForFrequency:(NSDictionary *)frequencyDictionary;
-- (void)startRtlsdrTaskForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
+- (void)startRtlsdrTasksForFrequency:(NSDictionary *)frequencyDictionary;
+- (void)startRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
 
 //- (NSString *)frequencyNumberString:(NSString *)mhzString;
 //- (NSString *)megahertzString:(NSString *)mhzNumericString;

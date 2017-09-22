@@ -121,6 +121,7 @@
 @property (assign) NSInteger listenMode;
 
 @property (assign) BOOL rtlsdrDeviceFound;
+@property (assign) BOOL applicationIsTerminating;
 
 //NS_ASSUME_NONNULL_END
 
@@ -141,6 +142,7 @@
 - (IBAction)mp3BitrateRadioButtonClicked:(id)sender;
 
 - (void)resetRtlsdrStatusText;
+- (void)updateCurrentTasksText;
 
 - (NSString *)localHostString;
 - (NSString *)portString;

@@ -24,6 +24,12 @@
 @property (strong) NSMutableDictionary * parserOutputDictionary;
 @property (strong) NSMutableDictionary * currentSourceDictionary;
 
+@property (strong) NSArray * icecastTaskArgsArray;
+@property (strong) NSString * icecastTaskArgsString;
+@property (strong) NSString * quotedIcecastPath;
+
+@property (assign) int icecastTaskProcessID;
+
 - (void)terminateTasks;
 
 - (void)configureIcecast;

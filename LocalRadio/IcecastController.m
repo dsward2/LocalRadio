@@ -249,21 +249,24 @@
 - (void)startIcecastTask
 {
     NSString * icecastPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"icecast"];
+    self.quotedIcecastPath = [NSString stringWithFormat:@"\"%@\"", icecastPath];
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
 
     NSString * icecastConfigPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.xml"];
 
-    NSArray * icecastTaskArgs = [NSArray arrayWithObjects:
+    self.icecastTaskArgsArray = [NSArray arrayWithObjects:
             @"-c",
             icecastConfigPath,
             NULL];
+    
+    self.icecastTaskArgsString = [self.icecastTaskArgsArray componentsJoinedByString:@" "];
     
     NSLog(@"Launching icecast NSTask: \"%@\" -c \"%@\"", icecastPath, icecastConfigPath);
     
     self.icecastTask = [[NSTask alloc] init];
     self.icecastTask.launchPath = icecastPath;
-    self.icecastTask.arguments = icecastTaskArgs;
+    self.icecastTask.arguments = self.icecastTaskArgsArray;
 
     IcecastController * weakSelf = self;
     
@@ -290,11 +293,16 @@
         [weakSelf.appDelegate.statusIcecastServerTextField performSelectorOnMainThread:@selector(setStringValue:) withObject:@"Not Running" waitUntilDone:NO];
         
         weakSelf.icecastTask = NULL;
+        weakSelf.icecastTaskProcessID = 0;
+
+        [weakSelf.appDelegate updateCurrentTasksText];
     }];
     
     [self.icecastTask launch];
     
     NSLog(@"Launched icecastTask, PID=%d", self.icecastTask.processIdentifier);
+    
+    self.icecastTaskProcessID = self.icecastTask.processIdentifier;
 
     if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
     {
