@@ -542,7 +542,7 @@
     
     if ([audioOutputString isEqualToString:@"icecast"])
     {
-        // send rtl_fm output to UDPSender (then to EZStream/Icecast)
+        // configure rtl_fm_localradio for output to UDPSender (then to EZStream/Icecast)
         
         [soxArgsArray addObject:@"-r"];
         [soxArgsArray addObject:tunerSampleRateNumber];
@@ -587,19 +587,21 @@
         }
         soxArgsArray = fixSoxArgsArray;
 
+        // configure UDPSender task
+
         [udpSenderArgsArray addObject:@"-p"];
-        //[udpSenderArgsArray addObject:@"1234"];
-        //NSString * audioPort = self.appDelegate.audioPortTextField.stringValue;
         NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"AudioPort"];
         [udpSenderArgsArray addObject:audioPortNumber.stringValue];
     }
     else
     {
+        // configure rtl_fm_localradio for output to a Core Audio device
         // audioOutputString should be a Core Audio output devicename
-        // send rtl_fm output to core audio, and start a secondary sox task to relay a different core audio to UDPSender
+        // and start a secondary sox task to relay from a different Core Audio device to UDPSender
+        // This can be useful with some third-party audio routing utilities, like SoundFlower
         
-        [soxArgsArray addObject:@"-V0"];    // debug verbosity, -V4 is max
-        [soxArgsArray addObject:@"-q"];    // debug verbosity, -V4 is max
+        [soxArgsArray addObject:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
+        [soxArgsArray addObject:@"-q"];    // quiet mode - don't show terminal-style audio meter
         
         // input args
 
@@ -623,24 +625,25 @@
         // output args
         
         [soxArgsArray addObject:@"-e"];
-        [soxArgsArray addObject:@"signed-integer"];
+        //[soxArgsArray addObject:@"signed-integer"];
+        [soxArgsArray addObject:@"float"];
         
         [soxArgsArray addObject:@"-b"];
-        [soxArgsArray addObject:@"16"];
+        //[soxArgsArray addObject:@"16"];
+        [soxArgsArray addObject:@"32"];
         
         [soxArgsArray addObject:@"-c"];
-        [soxArgsArray addObject:@"1"];
+        //[soxArgsArray addObject:@"1"];
+        [soxArgsArray addObject:@"2"];
         
         // send output to a Core Audio device
         [soxArgsArray addObject:@"-t"];
-        [soxArgsArray addObject:@"coreaudio"];
+
+        [soxArgsArray addObject:@"coreaudio"];       // first stage audio output
+        [soxArgsArray addObject:audioOutputString];  // quotes are omitted intentionally
         
-        [soxArgsArray addObject:audioOutputString]; // first stage audio output
-        ////NSString * escapedAudioOutputString = [audioOutputString stringByReplacingOccurrencesOfString:@"(" withString:@"\\("];
-        ////escapedAudioOutputString = [escapedAudioOutputString stringByReplacingOccurrencesOfString:@")" withString:@"\\)"];
-        ////NSString * quotedAudioOutput = [NSString stringWithFormat:@"\"%@\"", escapedAudioOutputString];
-        //NSString * quotedAudioOutput = [NSString stringWithFormat:@"\"%@\"", audioOutputString];
-        //[soxArgsArray addObject:quotedAudioOutput];
+        [soxArgsArray addObject:@"rate"];
+        [soxArgsArray addObject:@"48000"];
 
         // output sox options like vol, etc.
         NSArray * audioOutputFilterStringArray = [audioOutputFilterString componentsSeparatedByString:@" "];
@@ -663,6 +666,11 @@
         
         useSecondaryStreamSource = YES;     // create a separate task to get audio to EZStream
     }
+
+    self.rtlfmTaskArgsString = [rtlfmArgsArray componentsJoinedByString:@" "];
+    self.audioMonitorTaskArgsString = [audioMonitorArgsArray componentsJoinedByString:@" "];
+    self.soxTaskArgsString = [soxArgsArray componentsJoinedByString:@" "];
+    self.udpSenderTaskArgsString = [udpSenderArgsArray componentsJoinedByString:@" "];
     
     self.rtlfmTask = [[NSTask alloc] init];
     self.rtlfmTask.launchPath = rtl_fmPath;
@@ -673,21 +681,12 @@
     self.soxTask.launchPath = soxPath;
     self.soxTask.arguments = soxArgsArray;
     
-    NSString * audioMonitorArgsString = [audioMonitorArgsArray componentsJoinedByString:@" "];
-    
-    self.rtlfmTaskArgsString = [rtlfmArgsArray componentsJoinedByString:@" "];
-    self.audioMonitorTaskArgsString = [audioMonitorArgsArray componentsJoinedByString:@" "];
-    self.soxTaskArgsString = [soxArgsArray componentsJoinedByString:@" "];
-    self.udpSenderTaskArgsString = [udpSenderArgsArray componentsJoinedByString:@" "];
-    
     [self.rtlfmTask setStandardInput:[NSPipe pipe]];       // empty pipe for first stage stdin
-
-
-
 
     // TODO: BUG: For an undetermined reason, AudioMonitor fails to launch as an NSTask in a sandboxed app extracted from an Xcode Archive
     // if the application path contains a space (e.g., "~/Untitled Folder/LocalRadio.app".
     // Prefixing backslashes before spaces in the path did not help.  The error message in Console.log says "launch path not accessible".
+    // As a workaround, alert the user if the condition exists and suggest removing the spaces from the folder name.
     self.audioMonitorTask = [[NSTask alloc] init];
     self.audioMonitorTask.launchPath = audioMonitorPath;
     self.audioMonitorTask.arguments = audioMonitorArgsArray;
@@ -716,12 +715,12 @@
         [self.soxTask setStandardOutput:self.soxUDPSenderPipe];
         [self.udpSenderTask setStandardInput:self.soxUDPSenderPipe];
         
-        [self.udpSenderTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]]; // last stage stdout to /dev/null
+        [self.udpSenderTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]]; // set last stage stdout to /dev/null
     }
     else
     {
-        [self.soxTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]]; // last stage stdout to /dev/null
-        [self.soxTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+        //[self.soxTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]]; // set last stage stdout to /dev/null
+        //[self.soxTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
     }
     
     SDRController * weakSelf = self;
@@ -844,17 +843,18 @@
     
     //NSLog(@"SDRController - launch delayedStartRtlsdrTaskForFrequency");
 
+
+    [self.audioMonitorTask launch];
+    NSLog(@"SDRController - Launched NSTask audioMonitorTask, PID=%d, args= %@ %@", self.audioMonitorTask.processIdentifier, self.quotedAudioMonitorPath, self.audioMonitorTaskArgsString);
+    
+    self.audioMonitorTaskProcessID = self.audioMonitorTask.processIdentifier;
+
     if (useSecondaryStreamSource == YES)
     {
         [self.appDelegate.soxController startSecondaryStreamForFrequencies:frequenciesArray category:categoryDictionary];
     }
     else
     {
-        [self.audioMonitorTask launch];
-        NSLog(@"SDRController - Launched NSTask audioMonitorTask, PID=%d, args= %@ %@", self.audioMonitorTask.processIdentifier, self.quotedAudioMonitorPath, self.audioMonitorTaskArgsString);
-        
-        self.audioMonitorTaskProcessID = self.audioMonitorTask.processIdentifier;
-    
         [self.udpSenderTask launch];
         NSLog(@"SDRController - Launched NSTask udpSenderTask, PID=%d, args= %@ %@", self.udpSenderTask.processIdentifier, self.quotedUDPSenderPath, self.udpSenderTaskArgsString);
         

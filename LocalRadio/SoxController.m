@@ -264,28 +264,21 @@
     NSMutableArray * udpSenderArgsArray = [NSMutableArray array];
 
     // sox input
-    //[soxArgsArray addObject:@"-V0"];    // verbosity
-    [soxArgsArray addObject:@"-V4"];    // verbosity
-    //[soxArgsArray addObject:@"-q"];     // quiet mode
+    [soxArgsArray addObject:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
+    [soxArgsArray addObject:@"-q"];     // quiet mode - don't show terminal-style audio meter
     [soxArgsArray addObject:@"-r"];     // sample rate
     [soxArgsArray addObject:@"48000"];
     [soxArgsArray addObject:@"-e"];     // data type
     [soxArgsArray addObject:@"signed-integer"];
     [soxArgsArray addObject:@"-b"];     // bits per channel
     [soxArgsArray addObject:@"16"];
-    [soxArgsArray addObject:@"-c"];     // one channel
-    [soxArgsArray addObject:@"1"];
+    [soxArgsArray addObject:@"-c"];     // channels
+    //[soxArgsArray addObject:@"1"];
+    [soxArgsArray addObject:@"2"];
     [soxArgsArray addObject:@"-t"];      // audio format
     [soxArgsArray addObject:@"coreaudio"];
     
-    [soxArgsArray addObject:streamSourceString];
-    ////NSString * escapedStreamSourceString = [streamSourceString stringByReplacingOccurrencesOfString:@"(" withString:@"\\("];
-    ////escapedStreamSourceString = [escapedStreamSourceString stringByReplacingOccurrencesOfString:@")" withString:@"\\)"];
-    ////NSString * quotedStreamSource = [NSString stringWithFormat:@"\"%@\"", escapedStreamSourceString];
-    //NSString * quotedStreamSource = [NSString stringWithFormat:@"\"%@\"", streamSourceString];
-    //[soxArgsArray addObject:quotedStreamSource];
-    
-    
+    [soxArgsArray addObject:streamSourceString];    // quotes are omitted intentionally
     
     //sox output
     [soxArgsArray addObject:@"-e"];     // data type
