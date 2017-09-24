@@ -1339,6 +1339,19 @@
 		0EB5B0EE1F690813008DBE9A /* BUILD.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = BUILD.md; sourceTree = "<group>"; };
 		0EB5B0F01F6915D3008DBE9A /* CREDITS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CREDITS.md; sourceTree = "<group>"; };
 		0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Documents/Images/AppIcon/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		0EB8CA711F77F790004B6D05 /* icon_128x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_128x128.png; sourceTree = "<group>"; };
+		0EB8CA721F77F790004B6D05 /* icon_128x128@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_128x128@2x.png"; sourceTree = "<group>"; };
+		0EB8CA731F77F790004B6D05 /* icon_16x16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_16x16.png; sourceTree = "<group>"; };
+		0EB8CA741F77F790004B6D05 /* icon_16x16@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_16x16@2x.png"; sourceTree = "<group>"; };
+		0EB8CA751F77F790004B6D05 /* icon_256x256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_256x256.png; sourceTree = "<group>"; };
+		0EB8CA761F77F790004B6D05 /* icon_256x256@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_256x256@2x.png"; sourceTree = "<group>"; };
+		0EB8CA771F77F790004B6D05 /* icon_32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_32x32.png; sourceTree = "<group>"; };
+		0EB8CA781F77F790004B6D05 /* icon_32x32@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_32x32@2x.png"; sourceTree = "<group>"; };
+		0EB8CA791F77F790004B6D05 /* icon_512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_512x512.png; sourceTree = "<group>"; };
+		0EB8CA7A1F77F790004B6D05 /* icon_512x512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_512x512@2x.png"; sourceTree = "<group>"; };
+		0EB8CA7B1F77F790004B6D05 /* redphone.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = redphone.svg; sourceTree = "<group>"; };
+		0EB8CA7C1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WP_20161221_18_05_04_Pro.jpg; sourceTree = "<group>"; };
+		0EB8CA7D1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg 825×1250 pixels.webloc */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "WP_20161221_18_05_04_Pro.jpg 825×1250 pixels.webloc"; sourceTree = "<group>"; };
 		0EC2075A1EDB83DD006899EB /* listen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listen.html; sourceTree = "<group>"; };
 		0EC207651EDCE11A006899EB /* SDRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRController.h; sourceTree = "<group>"; };
 		0EC207661EDCE11A006899EB /* SDRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRController.m; sourceTree = "<group>"; };
@@ -1771,6 +1784,7 @@
 				0E4ED0531EAB7D5300D2157B /* CocoaHTTPServer-master */,
 				0EA212581ED68139004DE453 /* NSFileManager_DirectoryLocations */,
 				0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */,
+				0EB8CA701F77F790004B6D05 /* Red-Radio-Icon */,
 				0E84C96A1ED8CD2D0065864B /* Web */,
 				0E0C693E1F1C9DA900A7EE5E /* Scripts */,
 				0E4ED21A1EABAE3900D2157B /* Frameworks */,
@@ -3447,6 +3461,26 @@
 				0EA212891ED72D17004DE453 /* xml2json.xslt */,
 			);
 			path = web;
+			sourceTree = "<group>";
+		};
+		0EB8CA701F77F790004B6D05 /* Red-Radio-Icon */ = {
+			isa = PBXGroup;
+			children = (
+				0EB8CA711F77F790004B6D05 /* icon_128x128.png */,
+				0EB8CA721F77F790004B6D05 /* icon_128x128@2x.png */,
+				0EB8CA731F77F790004B6D05 /* icon_16x16.png */,
+				0EB8CA741F77F790004B6D05 /* icon_16x16@2x.png */,
+				0EB8CA751F77F790004B6D05 /* icon_256x256.png */,
+				0EB8CA761F77F790004B6D05 /* icon_256x256@2x.png */,
+				0EB8CA771F77F790004B6D05 /* icon_32x32.png */,
+				0EB8CA781F77F790004B6D05 /* icon_32x32@2x.png */,
+				0EB8CA791F77F790004B6D05 /* icon_512x512.png */,
+				0EB8CA7A1F77F790004B6D05 /* icon_512x512@2x.png */,
+				0EB8CA7B1F77F790004B6D05 /* redphone.svg */,
+				0EB8CA7C1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg */,
+				0EB8CA7D1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg 825×1250 pixels.webloc */,
+			);
+			path = "Red-Radio-Icon";
 			sourceTree = "<group>";
 		};
 		0ED12CF11F35D14000D9DCDC /* fonts */ = {

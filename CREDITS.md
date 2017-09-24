@@ -196,14 +196,13 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ## Artwork
 
-Favorites icon -
-"Heart Icon (Deselected)" by pianoBrad
+Favorites icon -<br>
+"Heart Icon (Deselected)" by pianoBrad<br>
 [https://openclipart.org/detail/135559/heart-icon-deselected]()
 
-Tuner icon -
-"Old Radio with Antenna free icon"
-[https://www.flaticon.com/free-icon/old-radio-with-antenna_76933]()
-Creative Commons license - [https://creativecommons.org/licenses/by/3.0/]()
+Tuner icon -<br>
+Google Material Design icons<br>
+[https://material.io/icons/#ic_radio]()
 
 Settings icon -<br>
 "gear" by hank0071<br>
@@ -218,7 +217,7 @@ Unknown artist<br>
 [http://www.z103rocks.com/img/radio-tower.svg]()
 
 RTL-SDR device and antenna photos<br>
-By Carl Laufer
+By Carl Laufer<br>
 [http://rtl-sdr.com]()
 
 Wi-Fi symbol<br>
@@ -233,14 +232,14 @@ Treble clef symbol<br>
 "Treble clef" by jaschon<br>
 [https://openclipart.org/detail/132361/treble-clef]()
 
-Firetruck
-"Firetruck" by j4p4n
+Firetruck<br>
+"Firetruck" by j4p4n<br><br>
 [https://openclipart.org/detail/195033/firetruck]()
 
-Antique radio icon
-Photo by Gregory F. Maxwell <gmaxwell@gmail.com>
+Antique radio icon<br>
+Photo by Gregory F. Maxwell <gmaxwell@gmail.com><br>
+Licensed with Gnu Free Documentation License v1.2, see below.<br>
 [https://en.wikipedia.org/wiki/CONELRAD#/media/File:Regency_transistor_radio.jpg]()
-Licensed with Gnu Free Documentation License v1.2, see below.
 
 ## Testing
 
