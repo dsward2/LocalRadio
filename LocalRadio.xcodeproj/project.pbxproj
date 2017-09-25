@@ -184,6 +184,7 @@
 		0EB8CB3F1F793880004B6D05 /* SCREENSHOTS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB3E1F793880004B6D05 /* SCREENSHOTS.md */; };
 		0EB8CB651F793C29004B6D05 /* HARDWARE.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB641F793C28004B6D05 /* HARDWARE.md */; };
 		0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB661F793CDE004B6D05 /* APPNOTES.md */; };
+		0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0EB8CB681F794A2B004B6D05 /* LocalRadio-animation.svg */; };
 		0EC207671EDCE11A006899EB /* SDRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC207661EDCE11A006899EB /* SDRController.m */; };
 		0ED12CE91F359B0700D9DCDC /* tuner.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CE81F359B0700D9DCDC /* tuner.html */; };
 		0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEA1F35A86800D9DCDC /* index2.html */; };
@@ -1358,6 +1359,7 @@
 		0EB8CB3E1F793880004B6D05 /* SCREENSHOTS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SCREENSHOTS.md; sourceTree = "<group>"; };
 		0EB8CB641F793C28004B6D05 /* HARDWARE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = HARDWARE.md; sourceTree = "<group>"; };
 		0EB8CB661F793CDE004B6D05 /* APPNOTES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = APPNOTES.md; sourceTree = "<group>"; };
+		0EB8CB681F794A2B004B6D05 /* LocalRadio-animation.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "LocalRadio-animation.svg"; sourceTree = "<group>"; };
 		0EC2075A1EDB83DD006899EB /* listen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listen.html; sourceTree = "<group>"; };
 		0EC207651EDCE11A006899EB /* SDRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRController.h; sourceTree = "<group>"; };
 		0EC207661EDCE11A006899EB /* SDRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRController.m; sourceTree = "<group>"; };
@@ -2355,6 +2357,7 @@
 			children = (
 				0E51DDC71F6CA152009B388F /* Images */,
 				0E51DDFD1F6CA152009B388F /* LocalRadio-poster.svg */,
+				0EB8CB681F794A2B004B6D05 /* LocalRadio-animation.svg */,
 			);
 			path = Documents;
 			sourceTree = "<group>";
@@ -4085,6 +4088,7 @@
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
 				0E02EC771F4D8446008BAC27 /* tuner_aviation.html in Resources */,
 				0E0936C91F42E3E400BF2B46 /* nowplayingstatus.html in Resources */,
+				0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */,
 				0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */,
 				0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */,
 			);
