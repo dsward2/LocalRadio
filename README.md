@@ -14,9 +14,7 @@ The best way to report problems is at this GitHub Issues page –
 <hr>
 <br>
 
-<img src="https://cdn.rawgit.com/dsward2/LocalRadio/4a6a79bc/Documents/LocalRadio-poster.svg">
-
-<img src="https://cdn.rawgit.com/dsward2/LocalRadio/4a6a79bc/Documents/LocalRadio-animation.svg">
+<img src="https://cdn.rawgit.com/dsward2/LocalRadio/d3eb87c/Documents/LocalRadio-animation.svg">
 
 Project page: https://github.com/dsward2/LocalRadio
 
