@@ -181,6 +181,9 @@
 		0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0EE1F690813008DBE9A /* BUILD.md */; };
 		0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F01F6915D3008DBE9A /* CREDITS.md */; };
 		0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */; };
+		0EB8CB3F1F793880004B6D05 /* SCREENSHOTS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB3E1F793880004B6D05 /* SCREENSHOTS.md */; };
+		0EB8CB651F793C29004B6D05 /* HARDWARE.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB641F793C28004B6D05 /* HARDWARE.md */; };
+		0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB661F793CDE004B6D05 /* APPNOTES.md */; };
 		0EC207671EDCE11A006899EB /* SDRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC207661EDCE11A006899EB /* SDRController.m */; };
 		0ED12CE91F359B0700D9DCDC /* tuner.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CE81F359B0700D9DCDC /* tuner.html */; };
 		0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEA1F35A86800D9DCDC /* index2.html */; };
@@ -1352,6 +1355,9 @@
 		0EB8CA7B1F77F790004B6D05 /* redphone.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = redphone.svg; sourceTree = "<group>"; };
 		0EB8CA7C1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = WP_20161221_18_05_04_Pro.jpg; sourceTree = "<group>"; };
 		0EB8CA7D1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg 825×1250 pixels.webloc */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "WP_20161221_18_05_04_Pro.jpg 825×1250 pixels.webloc"; sourceTree = "<group>"; };
+		0EB8CB3E1F793880004B6D05 /* SCREENSHOTS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SCREENSHOTS.md; sourceTree = "<group>"; };
+		0EB8CB641F793C28004B6D05 /* HARDWARE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = HARDWARE.md; sourceTree = "<group>"; };
+		0EB8CB661F793CDE004B6D05 /* APPNOTES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = APPNOTES.md; sourceTree = "<group>"; };
 		0EC2075A1EDB83DD006899EB /* listen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listen.html; sourceTree = "<group>"; };
 		0EC207651EDCE11A006899EB /* SDRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRController.h; sourceTree = "<group>"; };
 		0EC207661EDCE11A006899EB /* SDRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRController.m; sourceTree = "<group>"; };
@@ -1711,8 +1717,11 @@
 			children = (
 				0E3CB0E81F679AB40088B498 /* LICENSE */,
 				0E3CB0E61F65FAD50088B498 /* README.md */,
+				0EB8CB3E1F793880004B6D05 /* SCREENSHOTS.md */,
 				0EB5B0EE1F690813008DBE9A /* BUILD.md */,
 				0EB5B0F01F6915D3008DBE9A /* CREDITS.md */,
+				0EB8CB641F793C28004B6D05 /* HARDWARE.md */,
+				0EB8CB661F793CDE004B6D05 /* APPNOTES.md */,
 				0E3FE8921ECE20D7003BE837 /* LocalRadio.entitlements */,
 				0E4ED0511EAB73B000D2157B /* LocalRadio Notes.rtf */,
 				0E7309181F3EBB6300004907 /* Automator Scripts */,
@@ -4161,9 +4170,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */,
 				0E4ED1871EAB7E0500D2157B /* DDLog.m in Sources */,
 				0E4ED1851EAB7DC700D2157B /* WebSocket.m in Sources */,
 				0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */,
+				0EB8CB3F1F793880004B6D05 /* SCREENSHOTS.md in Sources */,
 				0E0FDA031EF76AF800FEEA06 /* IcecastController.m in Sources */,
 				0E4ED18F1EAB7E5400D2157B /* HTTPErrorResponse.m in Sources */,
 				0E4ECFC31EAB633B00D2157B /* main.m in Sources */,
@@ -4180,6 +4191,7 @@
 				0EA2125B1ED68139004DE453 /* NSFileManager+DirectoryLocations.m in Sources */,
 				0E4ED1931EAB7E7D00D2157B /* HTTPMessage.m in Sources */,
 				0E4ED1881EAB7E1B00D2157B /* DDAbstractDatabaseLogger.m in Sources */,
+				0EB8CB651F793C29004B6D05 /* HARDWARE.md in Sources */,
 				0E4ED18A1EAB7E2300D2157B /* DDFileLogger.m in Sources */,
 				0E7309401F4027EC00004907 /* URLTextField.m in Sources */,
 				0ED9ED471F529A2A00898460 /* LocalRadioAppSettings.m in Sources */,

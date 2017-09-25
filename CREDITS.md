@@ -725,3 +725,8 @@ If you have Invariant Sections without Cover Texts, or some other combination of
 
 If your document contains nontrivial examples of program code, we recommend releasing these examples in parallel under your choice of free software license, such as the GNU General Public License, to permit their use in free software.
 
+<hr>
+
+Copyright (c) 2017 by ArkPhone, LLC.
+
+All trademarks are the property of their respective holders.
