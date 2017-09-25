@@ -16,8 +16,6 @@ The best way to report problems is at this GitHub Issues page –
 
 <img src="https://cdn.rawgit.com/dsward2/LocalRadio/4a6a79bc/Documents/LocalRadio-poster.svg">
 
-<img src="https://github.com/dsward2/LocalRadio/blob/660fca102314e6d1c003d3ca5a3427f5e9d93c71/Documents/LocalRadio-poster.svg">
-
 Project page: https://github.com/dsward2/LocalRadio
 
 LocalRadio is an experimental, GPL-2 licensed open-source application for listening to "software defined radio" on your Mac and mobile devices.  With an inexpensive RTL-SDR device plugged into the Mac's USB port, LocalRadio provides a casual listening experience for your favorite local FM broadcasts, free music, news, sports, weather, public safety and aviation scanner monitoring, and other radio sources.  
