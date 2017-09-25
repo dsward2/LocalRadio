@@ -115,6 +115,7 @@ The libssl and libcrypto libraries from MacPorts were patched and relinked to fi
 
 configure.ldflags-append -headerpad\_max\_install\_names
 
+<hr>
 
 Copyright (c) 2017 by ArkPhone, LLC.
 

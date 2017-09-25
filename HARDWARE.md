@@ -15,6 +15,8 @@ To minimize electrical interference and improve radio reception, it may be helpf
 
 **If you decide to use an outdoor antenna with RTL-SDR, be aware of the risk of damage to your equipment from lightning storms.  Disconnect the outdoor antenna from your computer during thunderstorms, or whenever it is not in use.  An indoor antenna is the safer option for a permanent antenna connection.**
 
+<hr>
+
 Copyright (c) 2017 by ArkPhone, LLC.
 
 All trademarks are the property of their respective holders.
