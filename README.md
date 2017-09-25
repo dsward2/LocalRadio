@@ -1,18 +1,5 @@
 # LocalRadio
 
-### A “pre-release” of LocalRadio v1.x is now available for download –
-
-[https://github.com/dsward2/LocalRadio/releases](https://github.com/dsward2/LocalRadio/releases)
-
-It is still experimental, with no independent testing yet.
-
-The best way to report problems is at this GitHub Issues page –
-
-[https://github.com/dsward2/LocalRadio/issues/2](https://github.com/dsward2/LocalRadio/issues/2)
-
-<br>
-<hr>
-<br>
 
 <p align="center">
 <img src="https://cdn.rawgit.com/dsward2/LocalRadio/d3eb87c/Documents/LocalRadio-animation.svg">
@@ -25,6 +12,8 @@ LocalRadio's easy-to-use web interface allows the radio to be shared from a Mac 
 
 LocalRadio is intended for use as in-home entertainment, using a local area network with a private IP address.  It has not been tested with a public IP address, particularly for security testing, therefore it is not recommended for that purpose.  For simply listening to LocalRadio on the Mac with the RTL-SDR device plugged in, no network is required at all.
 
+<hr>
+
 [LocalRadio Screen Captures](https://github.com/dsward2/LocalRadio/blob/master/SCREENSHOTS.md)
 
 [LocalRadio Hardware Requirements](https://github.com/dsward2/LocalRadio/blob/master/HARDWARE.md)
@@ -32,6 +21,18 @@ LocalRadio is intended for use as in-home entertainment, using a local area netw
 [LocalRadio Application Notes](https://github.com/dsward2/LocalRadio/blob/master/APPNOTES.md)
 
 Project page: [https://github.com/dsward2/LocalRadio](https://github.com/dsward2/LocalRadio)
+
+<hr>
+
+### A “pre-release” of LocalRadio v1.x is now available for download –
+
+[https://github.com/dsward2/LocalRadio/releases](https://github.com/dsward2/LocalRadio/releases)
+
+It is still experimental, with no independent testing yet.
+
+The best way to report problems is at this GitHub Issues page –
+
+[https://github.com/dsward2/LocalRadio/issues/2](https://github.com/dsward2/LocalRadio/issues/2)
 
 <hr>
 
