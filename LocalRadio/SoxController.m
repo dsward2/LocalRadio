@@ -10,6 +10,7 @@
 
 #import "SoxController.h"
 #import "AppDelegate.h"
+#import "LocalRadioAppSettings.h"
 
 @implementation SoxController
 
@@ -282,7 +283,7 @@
     
     [soxArgsArray addObject:streamSourceString];    // quotes are omitted intentionally
     
-    //sox output
+    // sox output
     [soxArgsArray addObject:@"-e"];     // data type
     [soxArgsArray addObject:@"signed-integer"];
     [soxArgsArray addObject:@"-b"];     // bits per channel
@@ -292,13 +293,25 @@
     [soxArgsArray addObject:@"-t"];      // audio format
     [soxArgsArray addObject:@"raw"];
     [soxArgsArray addObject:@"-"];       // pipe output
-    [soxArgsArray addObject:@"rate"];     // sox audio processing chain
-    [soxArgsArray addObject:@"48000"];    // sox audio processing chain
-    [soxArgsArray addObject:@"vol"];      // sox audio processing chain
-    [soxArgsArray addObject:@"10"];       // sox audio processing chain
-    [soxArgsArray addObject:@"dither"];   // sox audio processing chain
-    [soxArgsArray addObject:@"-s"];       // sox audio processing chain
     
+    // sox output filter
+    [soxArgsArray addObject:@"rate"];     // sox audio processing chain
+    [soxArgsArray addObject:@"48000"];    // LocalRadio always sets the filter rate 48000, users should not use rate
+    
+    //[soxArgsArray addObject:@"vol"];      // sox audio processing chain
+    //[soxArgsArray addObject:@"10"];       // sox audio processing chain
+    //[soxArgsArray addObject:@"dither"];   // sox audio processing chain
+    //[soxArgsArray addObject:@"-s"];       // sox audio processing chain
+
+    NSString * secondStageSoxFilterString = [self.appDelegate.localRadioAppSettings valueForKey:@"SecondStageSoxFilter"];
+    if (secondStageSoxFilterString != NULL)
+    {
+        NSArray * soxFilterItems = [secondStageSoxFilterString componentsSeparatedByString:@" "];
+        for (NSString * filterItem in soxFilterItems)
+        {
+            [soxArgsArray addObject:filterItem];
+        }
+    }
     
     [udpSenderArgsArray addObject:@"-p"];
     NSString * audioPort = self.appDelegate.audioPortTextField.stringValue;

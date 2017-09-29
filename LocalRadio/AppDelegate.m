@@ -808,6 +808,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSNumber * controlPortNumber = [self.localRadioAppSettings integerForKey:@"ControlPort"];
     NSNumber * audioPortNumber = [self.localRadioAppSettings integerForKey:@"AudioPort"];
     NSString * mp3SettingsString = [self.localRadioAppSettings valueForKey:@"MP3Settings"];
+    NSString * secondStageSoxFilterString = [self.localRadioAppSettings valueForKey:@"SecondStageSoxFilter"];
 
     NSString * httpHostName = [self localHostString];
     
@@ -1069,6 +1070,11 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     BOOL useWebViewAudioPlayer = self.editUseWebViewAudioPlayerCheckbox.state;
     self.useWebViewAudioPlayerCheckbox.state = useWebViewAudioPlayer;
+
+
+    NSString * secondStageSoxFilterString = self.editSecondStageSoxFilterTextField.stringValue;
+    [self.localRadioAppSettings setValue:secondStageSoxFilterString forKey:@"SecondStageSoxFilter"];
+
     
     NSString * vbrBitrateString = self.editMP3VariablePopUpButton.titleOfSelectedItem;
     NSInteger vbrBitrateInteger = vbrBitrateString.integerValue;
@@ -1144,6 +1150,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
     NSNumber * controlPortNumber = [self.localRadioAppSettings integerForKey:@"ControlPort"];
     NSNumber * audioPortNumber = [self.localRadioAppSettings integerForKey:@"AudioPort"];
+    NSString * secondStageSoxFilterString = [self.localRadioAppSettings valueForKey:@"SecondStageSoxFilter"];
 
     self.editIcecastServerHostTextField.stringValue = icecastServerHost;
     self.editIcecastServerPortTextField.integerValue = icecastServerPortNumber.integerValue;
@@ -1153,6 +1160,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     self.editStatusPortTextField.integerValue = statusPortNumber.integerValue;
     self.editControlPortTextField.integerValue = controlPortNumber.integerValue;
     self.editAudioPortTextField.integerValue = audioPortNumber.integerValue;
+    self.editSecondStageSoxFilterTextField.stringValue = secondStageSoxFilterString;
 
     [self.window beginSheet:self.editConfigurationSheetWindow  completionHandler:^(NSModalResponse returnCode) {
     }];

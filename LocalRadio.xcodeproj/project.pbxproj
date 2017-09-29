@@ -105,7 +105,6 @@
 		0E3CB0E91F679AB40088B498 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E81F679AB40088B498 /* LICENSE */; };
 		0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E4461911F4420A9003C7851 /* scannerlistenbuttonclicked.html */; };
 		0E4461941F451B67003C7851 /* tuner_general.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E4461931F451B67003C7851 /* tuner_general.html */; };
-		0E4970031F6E0E6F00E41A06 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4970021F6E0E6F00E41A06 /* IOKit.framework */; };
 		0E49700A1F6F1FF700E41A06 /* codesign_tools.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0E4970091F6F1FF700E41A06 /* codesign_tools.sh */; };
 		0E49700C1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */; };
 		0E49700F1F70F74D00E41A06 /* AudioMonitor in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E02EC441F494F7E008BAC27 /* AudioMonitor */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -778,7 +777,6 @@
 		0E4461931F451B67003C7851 /* tuner_general.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_general.html; sourceTree = "<group>"; };
 		0E4461951F472370003C7851 /* frequencylistenbuttonclicked.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = frequencylistenbuttonclicked.html; sourceTree = "<group>"; };
 		0E496FEC1F6DBFE700E41A06 /* credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
-		0E4970021F6E0E6F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		0E4970041F6E180F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		0E4970091F6F1FF700E41A06 /* codesign_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = codesign_tools.sh; sourceTree = "<group>"; };
 		0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build_standard_rtl_sdr_tools.sh; sourceTree = "<group>"; };
@@ -1360,6 +1358,10 @@
 		0EB8CB641F793C28004B6D05 /* HARDWARE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = HARDWARE.md; sourceTree = "<group>"; };
 		0EB8CB661F793CDE004B6D05 /* APPNOTES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = APPNOTES.md; sourceTree = "<group>"; };
 		0EB8CB681F794A2B004B6D05 /* LocalRadio-animation.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "LocalRadio-animation.svg"; sourceTree = "<group>"; };
+		0EB8CB7F1F797509004B6D05 /* apple-icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-57x57.png"; sourceTree = "<group>"; };
+		0EB8CB801F797509004B6D05 /* apple-icon-72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-72x72.png"; sourceTree = "<group>"; };
+		0EB8CB811F797509004B6D05 /* apple-icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-114x114.png"; sourceTree = "<group>"; };
+		0EB8CB821F797509004B6D05 /* apple-icon-144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-144x144.png"; sourceTree = "<group>"; };
 		0EC2075A1EDB83DD006899EB /* listen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listen.html; sourceTree = "<group>"; };
 		0EC207651EDCE11A006899EB /* SDRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRController.h; sourceTree = "<group>"; };
 		0EC207661EDCE11A006899EB /* SDRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRController.m; sourceTree = "<group>"; };
@@ -1419,6 +1421,9 @@
 		0ED12D221F35D14000D9DCDC /* raleway-v11-latin-regular.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "raleway-v11-latin-regular.woff"; sourceTree = "<group>"; };
 		0ED12D231F35D14000D9DCDC /* raleway-v11-latin-regular.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "raleway-v11-latin-regular.woff2"; sourceTree = "<group>"; };
 		0ED12D241F35D36800D9DCDC /* jquery.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
+		0ED148011F7A286700705A24 /* apple-icon-152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-152x152.png"; sourceTree = "<group>"; };
+		0ED148021F7A286700705A24 /* apple-icon-167x167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-167x167.png"; sourceTree = "<group>"; };
+		0ED148031F7A286700705A24 /* apple-icon-180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-180x180.png"; sourceTree = "<group>"; };
 		0ED9ED451F529A2A00898460 /* LocalRadioAppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalRadioAppSettings.h; sourceTree = "<group>"; };
 		0ED9ED461F529A2A00898460 /* LocalRadioAppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalRadioAppSettings.m; sourceTree = "<group>"; };
 		0EEE99291EEF957F00A16CA8 /* categories.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = categories.html; sourceTree = "<group>"; };
@@ -1438,7 +1443,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E4970031F6E0E6F00E41A06 /* IOKit.framework in Frameworks */,
 				0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */,
 				0E05631C1F1A44510093B473 /* WebKit.framework in Frameworks */,
 				0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */,
@@ -1706,14 +1710,6 @@
 			path = MacPorts_Tools;
 			sourceTree = "<group>";
 		};
-		0E4970011F6E0E6E00E41A06 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0E4970021F6E0E6F00E41A06 /* IOKit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		0E4ECFB21EAB633B00D2157B = {
 			isa = PBXGroup;
 			children = (
@@ -1734,7 +1730,6 @@
 				0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
-				0E4970011F6E0E6E00E41A06 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3303,6 +3298,13 @@
 				0E84C9791ED8FD1B0065864B /* images */,
 				0E84C9871ED8FD1B0065864B /* js */,
 				0E84C96B1ED8CDAC0065864B /* index.html.original */,
+				0EB8CB7F1F797509004B6D05 /* apple-icon-57x57.png */,
+				0EB8CB801F797509004B6D05 /* apple-icon-72x72.png */,
+				0EB8CB811F797509004B6D05 /* apple-icon-114x114.png */,
+				0EB8CB821F797509004B6D05 /* apple-icon-144x144.png */,
+				0ED148011F7A286700705A24 /* apple-icon-152x152.png */,
+				0ED148021F7A286700705A24 /* apple-icon-167x167.png */,
+				0ED148031F7A286700705A24 /* apple-icon-180x180.png */,
 				0E6890251F3DC69B00F34AE4 /* addcategory.html */,
 				0EF173881F653C130067E8C0 /* applymp3settings.html */,
 				0E6890241F3D836D00F34AE4 /* addcategoryform.html */,

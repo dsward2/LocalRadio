@@ -49,6 +49,7 @@
 
 - (id)localRadioAppSettingsValueForKey:(NSString *)aKey
 {
+    // This retrieves from the app's general-purpose key-store database for the settings and preferences
     id resultObject = NULL;
     
     if (self.sqliteIsRunning == NO)
@@ -75,6 +76,8 @@
 
 - (void)storeLocalRadioAppSettingsValue:(id)aValue ForKey:(NSString *)aKey
 {
+    // This stores to the app's general-purpose key-store database for the settings and preferences
+
     id existingValue = [self localRadioAppSettingsValueForKey:aKey];
 
     int64_t queryResult = 0;

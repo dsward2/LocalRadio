@@ -14,6 +14,11 @@
 
 - (void) registerDefaultSettings
 {
+    // set default key-store values in local_radio_config SQLite table
+    
+    [self setDefaultInteger:0 forKey:@"LocalRadioConfigVersion"];   // version 0 did not contain LocalRadioConfigVersion, version 1 does
+    
+    // these are all valid for versions 0 and 1
     [self setDefaultInteger:17002 forKey:@"HTTPServerPort"];
     [self setDefaultInteger:17003 forKey:@"IcecastServerPort"];
     [self setDefaultInteger:17004 forKey:@"StatusPort"];
@@ -26,6 +31,7 @@
     [self setDefaultValue:@"localradio" forKey:@"IcecastServerMountName"];
     [self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
 
+    [self setDefaultValue:@"vol 10 dither -s" forKey:@"SecondStageSoxFilter"];
     [self setDefaultValue:@"-4.2" forKey:@"MP3Settings"];
 }
 
