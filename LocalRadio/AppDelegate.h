@@ -83,6 +83,7 @@
 @property (weak) IBOutlet NSTextField * mp3SettingsDescriptionTextField;
 
 @property (weak) IBOutlet NSButton * useWebViewAudioPlayerCheckbox;
+@property (weak) IBOutlet NSButton * useAutoPlayCheckbox;
 
 
 @property (weak) IBOutlet NSTextField * editHttpServerPortTextField;

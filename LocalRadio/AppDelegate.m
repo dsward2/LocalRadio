@@ -1281,7 +1281,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     NSInteger inputLength = [hertzString length];
     
-    if (inputLength > 6)
+    if (inputLength >= 6)
     {
         doConvertString = YES;
     }
@@ -1344,6 +1344,11 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
                     mhzMinor = [mhzMinor substringToIndex:minorLength - 1];
                 }
             }
+        }
+        
+        if (mhzMajor.length == 0)
+        {
+            mhzMajor = @"0";
         }
         
         [resultString appendFormat:@"%@.%@ MHz", mhzMajor, mhzMinor];

@@ -150,7 +150,7 @@
             {
                 while (self.rtlfmTask != NULL)
                 {
-                    //NSLog(@"stopRtlsdrTask waiting for self.rtlsdrTask != NULL");
+                    //NSLog(@"SDRController stopRtlsdrTask waiting for self.rtlsdrTask != NULL");
                     [NSThread sleepForTimeInterval:0.1f];
                 }
             }

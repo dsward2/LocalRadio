@@ -254,6 +254,18 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         {
             NSString * currentTunerString = [self generateCurrentTunerString];
             [replacementDict setObject:currentTunerString forKey:@"CURRENT_TUNER"];
+
+            NSString * favoritesIconSVGString = [self getSVGWithFileName:@"favorites.svg"];
+            [replacementDict setObject:favoritesIconSVGString forKey:@"FAVORITES_ICON"];
+
+            NSString * categoriesIconSVGString = [self getSVGWithFileName:@"categories.svg"];
+            [replacementDict setObject:categoriesIconSVGString forKey:@"CATEGORIES_ICON"];
+
+            NSString * tunerIconSVGString = [self getSVGWithFileName:@"tuner.svg"];
+            [replacementDict setObject:tunerIconSVGString forKey:@"TUNER_ICON"];
+
+            NSString * settingsIconSVGString = [self getSVGWithFileName:@"gear.svg"];
+            [replacementDict setObject:settingsIconSVGString forKey:@"GEAR_ICON"];
         }
         #pragma mark relativePath=favorites.html
         else if ([relativePath isEqualToString:@"/favorites.html"])
@@ -1324,7 +1336,35 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 	return [super httpResponseForMethod:method URI:path];
 }
 
+//==================================================================================
+//	getSVGWithFileName:
+//==================================================================================
 
+- (NSString *)getSVGWithFileName:(NSString *)svgFileName
+{
+
+	NSString * webPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Web"];
+    NSString * imagesPath = [webPath stringByAppendingString:@"/images/"];
+    NSString * filePath = [imagesPath stringByAppendingString:svgFileName];
+    
+    NSError * fileError = NULL;
+    NSString * svgString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&fileError];
+    
+    NSError * xmlError = NULL;
+    NSXMLDocument * xmlDocument = [[NSXMLDocument alloc] initWithXMLString:svgString options:NSXMLNodeOptionsNone error:&xmlError];
+    
+    xmlDocument.standalone = YES;        // omit DTD
+    
+    NSString * xmlString = [xmlDocument XMLString];
+    
+    xmlString = [xmlString stringByReplacingOccurrencesOfString:@"<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" withString:@""];
+    
+    return xmlString;
+}
+
+//==================================================================================
+//	convertNumericFieldsInFrequencyDictionary:
+//==================================================================================
 
 - (void)convertNumericFieldsInFrequencyDictionary:(NSMutableDictionary *)frequencyDictionary
 {
@@ -1473,9 +1513,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 @"   <nav class=\"navbar\">\n"
 @"      <div class=\"container\">\n"
 @"        <ul class=\"navbar-list\">\n"
-@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"backButtonClicked(self);\">Back</a></li>\n"
-@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"index.html\" target=\"_top\">Top</a></li>\n"
-@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"nowplaying.html\" target=\"top_iframe\">Now Playing</a></li>\n"
+@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"backButtonClicked(self);\" title=\"Click the Back button to return to the previous page in the web interface\">Back</a></li>\n"
+@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"index.html\" target=\"_top\" title=\"Click the Top button to fully reload the LocalRadio web interface.\">Top</a></li>\n"
+@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"nowplaying.html\" target=\"top_iframe\" title=\"Click the Now Playing button to see the current activity on the radio, including the live Signal Level, which can be helpful for setting the correct Squelch Level.  Note that the Now Playing page will generate more network traffic, and consume more energy on mobile devices.\">Now Playing</a></li>\n"
 @"        </ul>\n"
 @"      </div>\n"
 @"    </nav>\n";
@@ -1531,7 +1571,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         //NSString * listenButtonString = @"<br><input class='twelve columns button button-primary' type='submit' value='Listen'>";
         //[formString appendString:listenButtonString];
 
-        NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var listenForm=getElementById('listenForm'); listenButtonClicked(listenForm);\">";
+        NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var listenForm=getElementById('listenForm'); listenButtonClicked(listenForm);\"  title=\"Click the Listen button to tune the RTL-SDR radio to the frequency shown above.  You may also need to click on the Play button in the audio controls below.\">";
         [formString appendString:listenButtonString];
 
         [formString appendString:@"</form>"];
@@ -2053,12 +2093,18 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSString * autoplayFlag = @"";
                 NSString * audioPlayerJS = @"";
                 
-                //[resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' onloadeddata='var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 1000)' onplay='audioPlayerStarted(this);'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString];
+                BOOL addAutoplayAttributes = YES;
                 
-                if (self.appDelegate.useWebViewAudioPlayerCheckbox.state == YES)
+                if (userAgentIsLocalRadioApp == YES)
+                {
+                    addAutoplayAttributes = self.appDelegate.useAutoPlayCheckbox.state;
+                }
+                
+                if (addAutoplayAttributes == YES)
                 {
                     autoplayFlag = @"autoplay";
                     audioPlayerJS = @" onloadeddata='var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 1000)' onplay='audioPlayerStarted(this);' ";
+                    
                 }
                 
                 [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
@@ -2682,7 +2728,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         [formString appendFormat:@"<form class='editfavorite' id='editfavorite' onsubmit='event.preventDefault(); return %@(this);' method='POST'>\n", formAction];
 
-        NSString * formNameString = [NSString stringWithFormat:@"<label for='station_name'>Name:</label>\n<input class='twelve columns value-prop' type='text' id='station_name' name='station_name' value='%@'>\n", stationNameString];
+        NSString * formNameString = [NSString stringWithFormat:@"<label for='station_name'>Name:</label>\n<input class='twelve columns value-prop' type='text' id='station_name' name='station_name' value='%@' title='The Name field is used to save the name of the radio frequency in the database.  The Name could be the callsign of a radio station, for example.'>\n", stationNameString];
         [formString appendString:formNameString];
         
 
@@ -2690,7 +2736,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 
         [formString appendString:@"<label for='frequency_mode'>Frequency Mode:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='frequency_mode'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='frequency_mode' title='Set the Frequency Mode to \"Frequency\" for a single radio frequeny, or to \"Frequency Range\" to scan a range of frequencies.'>\n"];
         NSString * frequencyModeSelectedString = @"";
         if (frequencyMode == 0)
         {
@@ -2710,17 +2756,17 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         
         
-        NSString * formFrequencyString = [NSString stringWithFormat:@"<label for='frequency'>Frequency or Scan Range Start Frequency:</label>\n<input class='twelve columns value-prop' type='text' id='frequency' name='frequency' value='%@'>\n", frequencyString];
+        NSString * formFrequencyString = [NSString stringWithFormat:@"<label for='frequency'>Frequency or Scan Range Start Frequency:</label>\n<input class='twelve columns value-prop' type='text' id='frequency' name='frequency' value='%@' title='The Frequency field should contain a radio frequency, either a numeric value like \"89100000\", or \"89.1 MHz\" for the same frequency.  In Frequency Range mode, this frequency starts the scanning range.'>\n", frequencyString];
         [formString appendString:formFrequencyString];
         
 
 
 
 
-        NSString * formFrequencyScanEndString = [NSString stringWithFormat:@"<label for='frequency_scan_end'>Scan Range End Frequency:</label>\n<input class='twelve columns value-prop' type='text' id='frequency_scan_end' name='frequency_scan_end' value='%@'>\n", frequencyScanEndString];
+        NSString * formFrequencyScanEndString = [NSString stringWithFormat:@"<label for='frequency_scan_end'>Scan Range End Frequency:</label>\n<input class='twelve columns value-prop' type='text' id='frequency_scan_end' name='frequency_scan_end' value='%@' title='In Frequency Range mode, this frequency ends the scanning range.'>\n", frequencyScanEndString];
         [formString appendString:formFrequencyScanEndString];
         
-        NSString * formFrequencyScanIntervalString = [NSString stringWithFormat:@"<label for='frequency_scan_interval'>Scan Frequency Interval:</label>\n<input class='twelve columns value-prop' type='text' id='frequency_scan_interval' name='frequency_scan_interval' value='%@'>\n", frequencyScanIntervalString];
+        NSString * formFrequencyScanIntervalString = [NSString stringWithFormat:@"<label for='frequency_scan_interval'>Scan Frequency Interval:</label>\n<input class='twelve columns value-prop' type='text' id='frequency_scan_interval' name='frequency_scan_interval' value='%@' title='In Frequency Range mode, this is the amount of separation between channels for scanning the frequency range.'>\n", frequencyScanIntervalString];
         [formString appendString:formFrequencyScanIntervalString];
         
 
@@ -2742,7 +2788,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             }
         }
         [formString appendString:@"<label for='tuner_gain'>Tuner Gain:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='tuner_gain'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='tuner_gain' title='Set the Tuner Gain to a larger value to increase the signal amplification, or a smaller value to decrease it.  Adjust the Tuner Gain and Bandwidth to get the best signal.'>\n"];
         for (NSString * aTunerGain in tunerGainsArray)
         {
             NSString * selectedString = @"";
@@ -2759,7 +2805,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 
         [formString appendString:@"<label for='tuner_agc'>Tuner AGC:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='tuner_agc'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='tuner_agc' title='The Tuner AGC setting controls the automatic gain control circuit in the radio.'>\n"];
         NSString * agcOffSelectedString = @"";
         NSInteger agcMode = [tunerAGCNumber integerValue];
         if (agcMode == 0)
@@ -2779,7 +2825,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 
 
-        NSString * formSampleRateString = [NSString stringWithFormat:@"<label for='frequency'>Sample Rate:</label>\n<input class='twelve columns value-prop' type='number' id='sample_rate' name='sample_rate' value='%@'>\n", sampleRateString];
+        NSString * formSampleRateString = [NSString stringWithFormat:@"<label for='frequency'>Sample Rate:</label>\n<input class='twelve columns value-prop' type='number' id='sample_rate' name='sample_rate' value='%@' title='The Sample Rate is usually set to 170000 or 85000 for FM radio stations, and to 5000, 7000 or 10000 for other radio signals.'>\n", sampleRateString];
         [formString appendString:formSampleRateString];
 
         [formString appendString:@"<span style='display: inline;'>"];
@@ -2793,23 +2839,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [formString appendString:@"</span>"];
 
         [formString appendString:@"<br><br>"];
-
-
-        NSArray * oversamplingArray = [self oversamplingArray];
-        NSString * closestOversampling = @"0";
-        NSInteger selectedOversampling = oversamplingString.integerValue;
-        for (NSString * aOversamplingString in oversamplingArray)
-        {
-            NSInteger aOversampling = aOversamplingString.integerValue;
-            if (selectedOversampling <= aOversampling)
-            {
-                closestOversampling = aOversamplingString;
-                break;
-            }
-        }
+  
     
+        
         [formString appendString:@"<label for='scan_sampling_mode'>Sampling Mode:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='sampling_mode'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='sampling_mode' title='The Sampling Mode is usually set to Standard mode, but for frequencies below 28 MHz, use Direct Q-Branch mode.'>\n"];
         NSString * samplingModeStandardSelectedString = @"";
         NSInteger samplingMode = [samplingModeNumber integerValue];
         if (samplingMode == 0)
@@ -2826,8 +2860,22 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [formString appendString:@"</select>\n"];
 
 
+
+        NSArray * oversamplingArray = [self oversamplingArray];
+        NSString * closestOversampling = @"0";
+        NSInteger selectedOversampling = oversamplingString.integerValue;
+        for (NSString * aOversamplingString in oversamplingArray)
+        {
+            NSInteger aOversampling = aOversamplingString.integerValue;
+            if (selectedOversampling <= aOversampling)
+            {
+                closestOversampling = aOversamplingString;
+                break;
+            }
+        }
+
         [formString appendString:@"<label for='oversampling'>Oversampling:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='oversampling'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='oversampling' title='The Oversampling setting can improve the quality of the audio'>\n"];
         for (NSString * aOversamplingString in oversamplingArray)
         {
             NSString * selectedString = @"";
@@ -2841,7 +2889,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSArray * modulationsArray = [self modulationsArray];
         [formString appendString:@"<label for='modulation'>Modulation:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='modulation'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='modulation' title='The Modulation is usually set to FM, but should be set to AM for AM broadcast stations, shortwave stations, and aviation frequencies.>\n"];
         for (NSDictionary * modulationDictionary in modulationsArray)
         {
             NSString * aLabelString = [modulationDictionary objectForKey:@"label"];
@@ -2856,10 +2904,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         }
         [formString appendString:@"</select>\n"];
 
-        NSString * formSquelchLevelString = [NSString stringWithFormat:@"<label for='squelch_level'>Squelch Level:</label>\n<input class='twelve columns value-prop' type='number' id='squelch_level' name='squelch_level' value='%@'>\n", squelchLevelString];
+        NSString * formSquelchLevelString = [NSString stringWithFormat:@"<label for='squelch_level'>Squelch Level:</label>\n<input class='twelve columns value-prop' type='number' id='squelch_level' name='squelch_level' value='%@' title='The Squelch setting is used to silence radio static when a signal is too weak or not present to receive.  The static will be automatically silenced when the radio's Signal Level value is less that the Squelch value.  If the radio is not in scanning mode, the Squelch Level can be set to 0 to disable squelch.  In scanning modes, the Squelch Level must be greater than zero.'>\n", squelchLevelString];
         [formString appendString:formSquelchLevelString];
 
-        NSString * formRtlfmOptionsString = [NSString stringWithFormat:@"<label for='options'>RTL-FM Options:</label>\n<input class='twelve columns value-prop' type='text' id='options' name='options' value='%@'>\n", rtlfmOptionsString];
+        NSString * formRtlfmOptionsString = [NSString stringWithFormat:@"<label for='options'>RTL-FM Options:</label>\n<input class='twelve columns value-prop' type='text' id='options' name='options' value='%@' title='The RTL-FM Options can be used to set custom options for the  rtl_fm tool.  The RTL-FM Options field should usually be empty.' >\n", rtlfmOptionsString];
         [formString appendString:formRtlfmOptionsString];
 
         NSString * firSize0Selected = @"";
@@ -2878,7 +2926,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             firSize9Selected = @" selected";
         }
         [formString appendString:@"<label for='fir_size'>FIR Size:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='fir_size'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='fir_size' The FIR Size field enables a low-leakage downsample filter, and the value can be 0 or 9.  0 has bad roll off.' >\n"];
         [formString appendFormat:@"<option value='0' %@>0</option>\n", firSize0Selected];
         [formString appendFormat:@"<option value='1' %@>1</option>\n", firSize1Selected];
         [formString appendFormat:@"<option value='9' %@>9</option>\n", firSize9Selected];
@@ -2905,14 +2953,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             atanMathAleSelected = @" selected";
         }
         [formString appendString:@"<label for='atan_math'>atan Math:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='atan_math'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='atan_math' title='The atan Math menu is set in the menu, and the default setting is \"std\".'>\n"];
         [formString appendFormat:@"<option value='std' %@>std</option>\n", atanMathStdSelected];
         [formString appendFormat:@"<option value='fast' %@>fast</option>\n", atanMathFastSelected];
         [formString appendFormat:@"<option value='lut' %@>lut</option>\n", atanMathLUTSelected];
         [formString appendFormat:@"<option value='ale' %@>ale</option>", atanMathAleSelected];
         [formString appendString:@"</select>\n"];
 
-        NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='frequency'>Sox Audio Output Filter:</label>\n<input class='twelve columns value-prop' type='text' id='audio_output_filter' name='audio_output_filter' value='%@'>\n", audioOutputFilterString];
+        NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='frequency'>Sox Audio Output Filter:</label>\n<input class='twelve columns value-prop' type='text' id='audio_output_filter' name='audio_output_filter' value='%@' title='The Audio Output Filter is used by the Sox audio tool for several purposes.  This filter is for the final Sox output.  The default value is \"vol 1\".  Do not set a \"rate\" command here, LocalRadio automatically sets the sample rate to 48000.'>\n", audioOutputFilterString];
         [formString appendString:formAudioOutputFilterString];
 
 
@@ -2920,7 +2968,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSArray * audioDeviceArray = [self generateAudioDeviceList];
         
         [formString appendString:@"<label for='audio_output'>Audio Output</label>\n"];
-        [formString appendString:@"<select name='audio_output' class='twelve columns value-prop'>\n"];
+        [formString appendString:@"<select name='audio_output' class='twelve columns value-prop' title='The Audio Output setting controls the destination of audio from the radio and final Sox filters.  The default setting is \"Built-in Icecast Server\" for normal usage.'>\n"];
         
         NSString * icecastOutputSelectedString = @"";
         if ([audioOutputString isEqualToString:@"icecast"] == YES)
@@ -2955,7 +3003,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 
         [formString appendString:@"<label for='stream_source'>Stream Source</label>\n"];
-        [formString appendString:@"<select name='stream_source' class='twelve columns value-prop'>\n"];
+        [formString appendString:@"<select name='stream_source' class='twelve columns value-prop' title='The Stream Source controls the input to the Icecast server for streaming audio.  The default setting is \"Built-in Icecast Server\" for normal usage.'>\n"];
 
         NSString * icecastStreamSelectedString = @"";
         if ([streamSourceString isEqualToString:@"icecast"] == YES)
@@ -3003,7 +3051,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         }
 
 
-        [formString appendString:@"<input class='twelve columns button button-primary' type='button' value='Listen' onclick='var frequencyForm=getElementById(\"editfavorite\"); listenButtonClicked(frequencyForm);'>"];
+        [formString appendString:@"<input class='twelve columns button button-primary' type='button' value='Listen' onclick='var frequencyForm=getElementById(\"editfavorite\"); listenButtonClicked(frequencyForm);'  title='Click the Listen button to tune the RTL-SDR radio to the frequency shown above.  You may also need to click on the Play button in the audio controls below.'>"];
         
         NSString * idInputString = [NSString stringWithFormat:@"<input type='hidden' name='id' value='%@'>", idNumber];
         [formString appendString:idInputString];
@@ -3012,10 +3060,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * saveButtonValue = @"Save Changes";
         if (idInteger == 0)
         {
-            saveButtonValue = @"Add New Favorite";
+            saveButtonValue = @"Add New Favorite Frequency";
         }
 
-        NSString * saveButtonString = [NSString stringWithFormat:@"<br>&nbsp;<br>&nbsp;<br>\n<input id='save-button' class='twelve columns button button-primary' type='submit' value='%@'>", saveButtonValue];
+        NSString * saveButtonString = [NSString stringWithFormat:@"<br>&nbsp;<br>&nbsp;<br>\n<input id='save-button' class='twelve columns button button-primary' type='submit' value='%@' title='Click the %@ button to store this record in the Favorites frequency database.'>", saveButtonValue, saveButtonValue];
         [formString appendString:saveButtonString];
         
         [formString appendString:@"<br>&nbsp;<br>&nbsp;<br>\n"];
@@ -3041,7 +3089,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 truncateStationNameString = [truncateStationNameString stringByAppendingString:@"..."];
             }
 
-            NSString * deleteButtonString = [NSString stringWithFormat:@"&nbsp;<br>\n<input id='delete-button' class='twelve columns button button-primary' type='submit' value='Delete %@'>\n", truncateStationNameString];
+            NSString * deleteButtonString = [NSString stringWithFormat:@"&nbsp;<br>\n<input id='delete-button' class='twelve columns button button-primary' type='submit' value='Delete %@' title='Click the Delete button to delete this record from the Favorites frequency database.'>\n", truncateStationNameString];
             [formDeleteString appendString:deleteButtonString];
 
             NSString * frequencyIDString = [NSString stringWithFormat:@"<input type='hidden' id='frequency_id' name='frequency_id' value='%@'>\n", idNumber];
@@ -3112,16 +3160,18 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     NSDictionary * fmDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             @"FM", @"label",
             @"fm", @"modulation",
-            @"10000", @"bandwidth",
+            @"85000", @"bandwidth",
             nil];
     [modulationsArray addObject:fmDictionary];
     
+    /*
     NSDictionary * wbfmDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             @"Wide-band FM", @"label",
             @"wbfm", @"modulation",
             @"170000", @"bandwidth",
             nil];
     [modulationsArray addObject:wbfmDictionary];
+    */
     
     NSDictionary * amDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             @"AM", @"label",
@@ -3458,8 +3508,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     NSArray * categoriesArray = [self.sqliteController allCategoryRecords];
 
     [selectOptionsString appendString:@"<label for='categories_select'>Category:</label>"];
-    [selectOptionsString appendString:@"<select class='twelve columns value-prop' name='categories_select'>"];
-    [selectOptionsString appendString:@"<option value=''></option>"];
+    [selectOptionsString appendString:@"<select class='twelve columns value-prop' name='categories_select' title='The Category pop-up button can be used when adding a new Favorites frequency record'>"];
+    [selectOptionsString appendString:@"<option value='' selected></option>"];
 
     for (NSDictionary * categoryDictionary in categoriesArray)
     {

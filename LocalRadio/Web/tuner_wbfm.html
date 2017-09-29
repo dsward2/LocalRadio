@@ -68,12 +68,12 @@
 
                     <div class="tuner-digits">
                         <span id="XXXX-MHz" class="tuner-digit tuner-digit-hidden">0</span>
-                        <span id="XXX-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);">0</span>
-                        <span id="XX-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);">8</span>
-                        <span id="X-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);">7</span>
+                        <span id="XXX-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);" title="Tuner Digit Hundreds MegaHertz">0</span>
+                        <span id="XX-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);" title="Tuner Digit Tens MegaHertz">8</span>
+                        <span id="X-MHz" class="tuner-digit" onclick="tunerDigitClicked(this);" title="Tuner Digit MegaHertz">7</span>
                         <span id="decimal-MHz" class="tuner-text">.</span>
                         <span id="X-KHz" class="tuner-digit" onclick="tunerDigitClicked(this);">9</span>
-                        <span id="XX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
+                        <span id="XX-KHz" class="tuner-digit tuner-digit-hidden" title="Tuner Digit Hundreds KiloHertz">0</span>
                         <span id="XXX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
                         <span id="XXXX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
                         <span id="XXXXX-KHz" class="tuner-digit tuner-digit-hidden">0</span>
@@ -86,8 +86,8 @@
 
                 <span style="display: inline;">
                 
-                    <button id="down_button" name="down_button" type="button" class="frequency-button" onclick="frequencyDownButtonClicked(self);">-</button>
-                    <button id="up_button" name="up_button" type="button" class="frequency-button" onclick="frequencyUpButtonClicked(self);">+</button>
+                    <button id="down_button" name="down_button" type="button" class="frequency-button" onclick="frequencyDownButtonClicked(self);" title="Decrease selected tuner digit">-</button>
+                    <button id="up_button" name="up_button" type="button" class="frequency-button" onclick="frequencyUpButtonClicked(self);" title="Increase selected tuner digit">+</button>
                     
                 </span>
                 
@@ -95,14 +95,14 @@
                 &nbsp;<br>
             
                 <label for="tuner_gain">Tuner Gain:</label>
-                <select class="twelve columns value-prop" id="tuner_gain" name="tuner_gain">
+                <select class="twelve columns value-prop" id="tuner_gain" name="tuner_gain" title='Set the Tuner Gain to a larger value to increase the signal amplification, or a smaller value to decrease it.  Adjust the Tuner Gain and Bandwidth to get the best signal.'>
                     <option value="12.5">12.5</option>
                     <option value="25.4">25.4</option>
                     <option value="49.6" selected="">49.6</option>
                 </select>
 
                 <label for="sample_rate">Sample Rate:</label>
-                <select class="twelve columns value-prop" id="sample_rate" name="sample_rate">
+                <select class="twelve columns value-prop" id="sample_rate" name="sample_rate" title='The Sample Rate is usually set to 170000 or 85000 for FM radio stations.'>
                     <option value="85000">85000</option>
                     <option value="170000" selected="">170000</option>
                 </select>
@@ -113,13 +113,13 @@
                 <br>&nbsp;
                 <br>
 
-                <input class="twelve columns button button-primary" type="button" value="Listen" onclick="var tunerDigits=getElementById('tuner-digits'); frequencyListenButtonClicked();">
+                <input class="twelve columns button button-primary" type="button" value="Listen" onclick="var tunerDigits=getElementById('tuner-digits'); frequencyListenButtonClicked();" title="Click the Listen button to tune the RTL-SDR radio to the frequency shown above.  You may also need to click on the Play button in the audio controls below.">
                 
                 <br>&nbsp;
                 <br>&nbsp;
                 <br>
             
-                <input class="twelve columns button button-primary" type="submit" value="Add New Favorite">
+                <input class="twelve columns button button-primary" type="submit" value="Add New Favorite Frequency">
                 
             </form>
 

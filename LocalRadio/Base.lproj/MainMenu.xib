@@ -81,6 +81,7 @@
                 <outlet property="statusTunerAGCTextField" destination="uEF-sp-svp" id="DhU-qg-lvN"/>
                 <outlet property="statusTunerGainTextField" destination="ny3-Ix-eRt" id="T37-U1-xDG"/>
                 <outlet property="udpStatusListenerController" destination="KKE-68-zsV" id="C5X-7t-ytN"/>
+                <outlet property="useAutoPlayCheckbox" destination="dfu-YO-d0f" id="Op9-YW-w9d"/>
                 <outlet property="useWebViewAudioPlayerCheckbox" destination="X6N-TX-t5V" id="LaB-JM-gOh"/>
                 <outlet property="webServerController" destination="Jeu-29-C5C" id="Ijt-EQ-OxE"/>
                 <outlet property="webViewDelegate" destination="9xa-Oe-WWI" id="1Z9-oU-nBO"/>
@@ -879,6 +880,14 @@
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
+                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dfu-YO-d0f">
+                                    <rect key="frame" x="12" y="38" width="175" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="check" title="Use Auto-Play in this app" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HtL-er-1ZY">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                </button>
                             </subviews>
                         </view>
                     </box>
@@ -1357,7 +1366,7 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="LocalRadio" identifier="" id="8Qy-d0-fpa">
-                                <view key="view" id="bIe-XZ-nnh">
+                                <view key="view" ambiguous="YES" id="bIe-XZ-nnh">
                                     <rect key="frame" x="10" y="33" width="197" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1752,7 +1761,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configuration" identifier="" id="Amd-pe-F7E">
-                                <view key="view" ambiguous="YES" id="QdK-3V-Sdm">
+                                <view key="view" id="QdK-3V-Sdm">
                                     <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

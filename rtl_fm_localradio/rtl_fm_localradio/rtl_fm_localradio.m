@@ -999,7 +999,8 @@ int16_t* mark_shared_buffer(void)
 		}
 	}
 	/* worst case, nuke a buffer */
-	ss_busy[0];
+	//ss_busy[0]; // dsward test
+	ss_busy[0] = 1;     // dsward test
 	return shared_samples[0];
 }
 

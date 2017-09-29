@@ -521,7 +521,12 @@ a.button.button-primary.two.columns {
   .popover-link:hover,
   .popover-item:first-child .popover-link:hover:after {
     border-bottom-color: #33C3F0; }
+  svg.localradio_icon {
+      viewbox: 0 0 80 80;
+      width: 80px;
+      height: 80px; }
 }
+
 
 div.tuner-digits {
     text-align: center;
@@ -622,6 +627,5 @@ input.sample-rate-button {
     padding-right: 30px;
   }
 }
-
 
 

@@ -507,6 +507,7 @@
 
         while (self.soxTask != NULL)
         {
+            //NSLog(@"EZStreamController stopSoxTask waiting for self.soxTask != NULL");
             [NSThread sleepForTimeInterval:0.1f];
         }
     }

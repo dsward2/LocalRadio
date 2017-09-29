@@ -37,7 +37,15 @@
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="dist/images/favicon.png">
-  
+
+  <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="apple-icon-167x167.png">
+
   <style>
     html {
         height:100%;
@@ -121,6 +129,8 @@
 
     function audioPlayerStarted(audioPlayer)
     {
+      return;   // TEST disable this function for now
+      
       //console.log("audioPlayerStarted");
       var bufferedTimeRangesCount = audioPlayer.buffered.length;
       if (bufferedTimeRangesCount > 0)
@@ -133,6 +143,8 @@
 
     function audioPlayerPaused(audioPlayer)
     {
+      return;   // TEST disable this function for now
+
       //console.log("audioPlayerStarted");
       var holdAudioSrc = audioPlayer.src;
       audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"}));   // stop download buffering, replace with empty buffer
@@ -181,7 +193,7 @@
     </div>
     
     <div id="root">
-        <iframe id="top_iframe" src="index2.html" frameborder="0" scrolling="no">
+        <iframe id="top_iframe" src="index2.html" title="LocalRadio Top Frame Container" frameborder="0" scrolling="no">
             <p>Your browser does not support iframes.</p>
         </iframe>
     </div>

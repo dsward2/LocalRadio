@@ -48,6 +48,7 @@
 
         while (self.soxTask != NULL)
         {
+            //NSLog(@"SoxController stopSoxTask waiting for self.soxTask != NULL");
             [NSThread sleepForTimeInterval:0.1f];
         }
     }
@@ -78,6 +79,7 @@
 
         while (self.udpSenderTask != NULL)
         {
+            //NSLog(@"SoxController stopUDPSenderTask waiting for self.udpSenderTask != NULL");
             [NSThread sleepForTimeInterval:0.1f];
         }
     }

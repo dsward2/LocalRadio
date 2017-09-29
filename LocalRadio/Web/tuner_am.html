@@ -96,14 +96,14 @@
                 &nbsp;<br>
             
                 <label for="tuner_gain">Tuner Gain:</label>
-                <select class="twelve columns value-prop" id="tuner_gain" name="tuner_gain">
+                <select class="twelve columns value-prop" id="tuner_gain" name="tuner_gain" title='Set the Tuner Gain to a larger value to increase the signal amplification, or a smaller value to decrease it.  Adjust the Tuner Gain and Bandwidth to get the best signal.'>
                     <option value="12.5">12.5</option>
                     <option value="25.4">25.4</option>
                     <option value="49.6" selected="">49.6</option>
                 </select>
 
                 <label for="sample_rate">Sample Rate:</label>
-                <select class="twelve columns value-prop" id="sample_rate" name="sample_rate">
+                <select class="twelve columns value-prop" id="sample_rate" name="sample_rate" title='The Sample Rate is usually set to 170000 or 85000 for FM radio stations, and to 5000, 7000 or 10000 for other radio signals.'>
                     <option value="5000">5000</option>
                     <option value="7000">7000</option>
                     <option value="10000" selected="">10000</option>
@@ -115,13 +115,13 @@
                 <br>&nbsp;
                 <br>
 
-                <input class="twelve columns button button-primary" type="button" value="Listen" onclick="var tunerDigits=getElementById('tuner-digits'); frequencyListenButtonClicked();">
+                <input class="twelve columns button button-primary" type="button" value="Listen" onclick="var tunerDigits=getElementById('tuner-digits'); frequencyListenButtonClicked();" title="Click the Listen button to tune the RTL-SDR radio to the frequency shown above.  You may also need to click on the Play button in the audio controls below.">
                 
                 <br>&nbsp;
                 <br>&nbsp;
                 <br>
             
-                <input class="twelve columns button button-primary" type="submit" value="Add New Favorite">
+                <input class="twelve columns button button-primary" type="submit" value="Add New Favorite Frequency">
                 
             </form>
 

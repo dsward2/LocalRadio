@@ -501,7 +501,7 @@
             
                 NSAlert *alert = [[NSAlert alloc] init];
                 [alert setMessageText:@"Existing record found for this frequency"];
-                [alert setInformativeText:@"You can replace the existing record, or add a new record with the same frequency, or cancel this operation."];
+                [alert setInformativeText:@"You can replace the existing frequency record, or add a new record with the same frequency, or cancel this operation."];
                 [alert addButtonWithTitle:@"Replace Existing Record"];
                 [alert addButtonWithTitle:@"Add New Record"];
                 [alert addButtonWithTitle:@"Cancel"];
