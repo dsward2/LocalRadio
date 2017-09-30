@@ -122,56 +122,82 @@
   
     function startAudioPlayer()
     {
-      //console.log("startAudioPlayer");
-      setTimeout(startAudioPlayerAfterDelay(), 1000);
+      console.log("startAudioPlayer");
+      
+      var needsAudioPlayerStart = true;
+      
+      var audioPlayer = document.getElementById("audio_element");
+      if (audioPlayer !== null)
+      {
+        if (audioPlayer.paused == false)
+        {
+          needsAudioPlayerStart = false;
+        }
+      }
+      
+      if (needsAudioPlayerStart == true)
+      {
+        setTimeout(startAudioPlayerAfterDelay(), 1000);
+      }
     }
 
 
     function audioPlayerStarted(audioPlayer)
     {
+      console.log("audioPlayerStarted");
       return;   // TEST disable this function for now
-      
-      //console.log("audioPlayerStarted");
-      var bufferedTimeRangesCount = audioPlayer.buffered.length;
-      if (bufferedTimeRangesCount > 0)
-      {
-        var endTime = audioPlayer.buffered.end(bufferedTimeRangesCount - 1);
-        audioPlayer.currentTime = endTime;
-        audioPlayer.load();
-      }
     }
+
 
     function audioPlayerPaused(audioPlayer)
     {
-      return;   // TEST disable this function for now
-
-      //console.log("audioPlayerStarted");
+      console.log("audioPlayerPaused");
       var holdAudioSrc = audioPlayer.src;
-      audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"}));   // stop download buffering, replace with empty buffer
-      audioPlayer.load();
-      audioPlayer.src = holdAudioSrc;
+      var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
+	  var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	  for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
+      newAudioSrc += "?" + rndQry;
+      audioPlayer.src = newAudioSrc;    // replace with new random query
+      
+      //audioPlayer.autoplay=false;
     }
 
 
 
     function startAudioPlayerAfterDelay()
     {
-      //console.log("startAudioPlayerAfterDelay");
+      console.log("startAudioPlayerAfterDelay");
       var audioPlayer = document.getElementById("audio_element");
       if (audioPlayer !== null)
       {
-        //console.log("original audioPlayer.currentTime="+audioPlayer.currentTime);
-        
         var holdAudioSrc = audioPlayer.src;
-        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"}));   // stop download buffering, replace with empty buffer
+        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"})); // empty buffer data
         audioPlayer.load();
-        audioPlayer.src = holdAudioSrc;
-       
+
+        var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
+        var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
+        newAudioSrc += "?" + rndQry;
+        audioPlayer.src = newAudioSrc;    // replace with new random query
+
+        audioPlayer.autoplay=true;
+        audioPlayer.load();
         audioPlayer.play();
+
+        /*
+        var bufferedTimeRangesCount = audioPlayer.buffered.length;
+        if (bufferedTimeRangesCount > 1)
+        {
+          var currentTime = audioPlayer.currentTime;
+          var endTime = audioPlayer.buffered.end(bufferedTimeRangesCount - 1);
+          if (endTime - currentTime > 10)
+          {
+            audioPlayer.currentTime = endTime - 10;
+          }
+        }
+        */
       }
     }
-  
-  
   
   
 

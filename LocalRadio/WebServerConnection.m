@@ -1879,8 +1879,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [tableString appendString:@"<tr>"];
         
         [tableString appendString:@"<td>"];
+        
+        NSString * titleString = [NSString stringWithFormat:@"Show %@ at %@", stationNameString, frequencyString];
 
-        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary two columns' type='submit' href='viewfavorite.html?id=%@'>%@</a>", idString, frequencyString];
+        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary two columns' type='submit' href='viewfavorite.html?id=%@' title='%@'>%@</a>", idString, titleString, frequencyString];
         
         [tableString appendString:buttonString];
         
@@ -2087,8 +2089,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSXMLElement * portElement = portResultArray.firstObject;
                 NSString * portString = portElement.stringValue;
                 
+                NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
                 
-                NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@", hostname, portString, icecastServerMountName];
+                NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
                 
                 NSString * autoplayFlag = @"";
                 NSString * audioPlayerJS = @"";
@@ -2103,11 +2106,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 if (addAutoplayAttributes == YES)
                 {
                     autoplayFlag = @"autoplay";
-                    audioPlayerJS = @" onloadeddata='var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 1000)' onplay='audioPlayerStarted(this);' ";
-                    
                 }
+
+                audioPlayerJS = @" onloadeddata='var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 1000)' onplay='audioPlayerStarted(this);' onpause='audioPlayerPaused(this);' ";
                 
-                [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
+                [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
             }
         }
     }
@@ -2117,6 +2120,27 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     }
 
     return resultString;
+}
+
+//==================================================================================
+//	randomQuery
+//==================================================================================
+
+ - (NSString *)randomQuery
+{
+    NSMutableString * randomQuery = [NSMutableString string];
+
+    NSString * randomCharacters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    for (NSInteger i = 0; i < 8; i++)
+    {
+        uint32_t randomCharactersLength = (uint32_t)randomCharacters.length;
+        NSInteger randomIndex = arc4random_uniform(randomCharactersLength);
+        unichar randomCharacter = [randomCharacters characterAtIndex:randomIndex];
+        [randomQuery appendFormat: @"%C", randomCharacter];
+    }
+    
+    return randomQuery;
 }
 
 //==================================================================================
@@ -3421,8 +3445,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [tableString appendString:@"<tr>"];
         
         [tableString appendString:@"<td>"];
+        
+        NSString * titleString = [NSString stringWithFormat:@"Show category %@", categoryNameString];
 
-        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary' type='submit' href='category.html?id=%@'>%@</a>", idString, idString];
+        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary' type='submit' href='category.html?id=%@' title='%@'>%@</a>", idString, titleString, idString];
         [tableString appendString:buttonString];
         
         [tableString appendString:@"</td>"];
