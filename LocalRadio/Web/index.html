@@ -159,7 +159,17 @@
       newAudioSrc += "?" + rndQry;
       audioPlayer.src = newAudioSrc;    // replace with new random query
       
-      //audioPlayer.autoplay=false;
+      audioPlayer.pause();
+      
+      audioPlayer.autoplay=false;
+
+      var seekableTimeRangesCount = audioPlayer.seekable.length;
+      if (seekableTimeRangesCount > 0)
+      {
+        var currentTime = audioPlayer.currentTime;
+        var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
+        audioPlayer.currentTime = endTime;
+      }
     }
 
 
@@ -185,20 +195,16 @@
 
             audioPlayer.autoplay=true;
             audioPlayer.load();
-            audioPlayer.play();
 
-            /*
-            var bufferedTimeRangesCount = audioPlayer.buffered.length;
-            if (bufferedTimeRangesCount > 1)
+            var seekableTimeRangesCount = audioPlayer.seekable.length;
+            if (seekableTimeRangesCount > 0)
             {
                 var currentTime = audioPlayer.currentTime;
-                var endTime = audioPlayer.buffered.end(bufferedTimeRangesCount - 1);
-                if (endTime - currentTime > 10)
-                {
-                    audioPlayer.currentTime = endTime - 10;
-                }
+                var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
+                audioPlayer.currentTime = endTime;
             }
-            */
+
+            audioPlayer.play();
         }
     }
   
@@ -208,6 +214,8 @@
     {
         //console.log("addAudioListener");
         window.addEventListener("message", function(){startAudioPlayer();}, false);
+
+        setTimeout(startAudioPlayerAfterDelay(), 1000);
     }
   
   </script>
