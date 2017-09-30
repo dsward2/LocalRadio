@@ -2867,7 +2867,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
         
         [formString appendString:@"<label for='scan_sampling_mode'>Sampling Mode:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='sampling_mode' title='The Sampling Mode is usually set to Standard mode, but for frequencies below 28 MHz, use Direct Q-Branch mode.'>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='sampling_mode' title='The Sampling Mode is usually set to Standard mode, but for frequencies below 24 MHz, use Direct Q-Branch mode.'>\n"];
         NSString * samplingModeStandardSelectedString = @"";
         NSInteger samplingMode = [samplingModeNumber integerValue];
         if (samplingMode == 0)
