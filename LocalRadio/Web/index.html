@@ -166,37 +166,39 @@
 
     function startAudioPlayerAfterDelay()
     {
-      console.log("startAudioPlayerAfterDelay");
-      var audioPlayer = document.getElementById("audio_element");
-      if (audioPlayer !== null)
-      {
-        var holdAudioSrc = audioPlayer.src;
-        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"})); // empty buffer data
-        audioPlayer.load();
-
-        var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
-        var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
-        newAudioSrc += "?" + rndQry;
-        audioPlayer.src = newAudioSrc;    // replace with new random query
-
-        audioPlayer.autoplay=true;
-        audioPlayer.load();
-        audioPlayer.play();
-
-        /*
-        var bufferedTimeRangesCount = audioPlayer.buffered.length;
-        if (bufferedTimeRangesCount > 1)
+        console.log("startAudioPlayerAfterDelay");
+        var audioPlayer = document.getElementById("audio_element");
+        if (audioPlayer !== null)
         {
-          var currentTime = audioPlayer.currentTime;
-          var endTime = audioPlayer.buffered.end(bufferedTimeRangesCount - 1);
-          if (endTime - currentTime > 10)
-          {
-            audioPlayer.currentTime = endTime - 10;
-          }
+            /*
+            var holdAudioSrc = audioPlayer.src;
+            audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"})); // empty buffer data
+            audioPlayer.load();
+            */
+
+            var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
+            var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
+            newAudioSrc += "?" + rndQry;
+            audioPlayer.src = newAudioSrc;    // replace with new random query
+
+            audioPlayer.autoplay=true;
+            audioPlayer.load();
+            audioPlayer.play();
+
+            /*
+            var bufferedTimeRangesCount = audioPlayer.buffered.length;
+            if (bufferedTimeRangesCount > 1)
+            {
+                var currentTime = audioPlayer.currentTime;
+                var endTime = audioPlayer.buffered.end(bufferedTimeRangesCount - 1);
+                if (endTime - currentTime > 10)
+                {
+                    audioPlayer.currentTime = endTime - 10;
+                }
+            }
+            */
         }
-        */
-      }
     }
   
   
