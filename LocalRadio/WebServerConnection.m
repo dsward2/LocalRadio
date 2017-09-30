@@ -2913,7 +2913,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSArray * modulationsArray = [self modulationsArray];
         [formString appendString:@"<label for='modulation'>Modulation:</label>\n"];
-        [formString appendString:@"<select class='twelve columns value-prop' name='modulation' title='The Modulation is usually set to FM, but should be set to AM for AM broadcast stations, shortwave stations, and aviation frequencies.>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='modulation' title='The Modulation is usually set to FM, but should be set to AM for AM broadcast stations, shortwave stations, and aviation frequencies.'>\n"];
         for (NSDictionary * modulationDictionary in modulationsArray)
         {
             NSString * aLabelString = [modulationDictionary objectForKey:@"label"];
