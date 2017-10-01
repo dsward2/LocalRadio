@@ -145,24 +145,38 @@
     function audioPlayerStarted(audioPlayer)
     {
       //console.log("audioPlayerStarted");
-      return;   // TEST disable this function for now
+      //return;   // TEST disable this function for now
+
+      var seekableTimeRangesCount = audioPlayer.seekable.length;
+      if (seekableTimeRangesCount > 0)
+      {
+        var currentTime = audioPlayer.currentTime;
+        var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
+        audioPlayer.currentTime = endTime - 1;
+      }
+      
+      audioPlayer.autoplay = true;
     }
 
 
     function audioPlayerPaused(audioPlayer)
     {
       //console.log("audioPlayerPaused");
+      
+/*
       var holdAudioSrc = audioPlayer.src;
       var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
 	  var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	  for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
       newAudioSrc += "?" + rndQry;
       audioPlayer.src = newAudioSrc;    // replace with new random query
-      
-      audioPlayer.pause();
-      
+*/
+
+      //audioPlayer.pause();
+
       audioPlayer.autoplay=false;
 
+/*
       var seekableTimeRangesCount = audioPlayer.seekable.length;
       if (seekableTimeRangesCount > 0)
       {
@@ -170,6 +184,7 @@
         var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
         audioPlayer.currentTime = endTime;
       }
+*/
     }
 
 
@@ -187,24 +202,45 @@
             audioPlayer.load();
             */
 
-            var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
-            var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
-            newAudioSrc += "?" + rndQry;
-            audioPlayer.src = newAudioSrc;    // replace with new random query
+            if (audioPlayer.paused == true)
+            {
+                var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
+                var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
+                newAudioSrc += "?" + rndQry;
+                audioPlayer.src = newAudioSrc;    // replace with new random query
+            }
+            else
+            {
+                var seekableTimeRangesCount = audioPlayer.seekable.length;
+                if (seekableTimeRangesCount > 0)
+                {
+                    var currentTime = audioPlayer.currentTime;
+                    var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
+                    audioPlayer.currentTime = endTime;
+                }
+            }
 
             audioPlayer.autoplay=true;
             audioPlayer.load();
 
-            var seekableTimeRangesCount = audioPlayer.seekable.length;
-            if (seekableTimeRangesCount > 0)
-            {
-                var currentTime = audioPlayer.currentTime;
-                var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
-                audioPlayer.currentTime = endTime;
-            }
+            //audioPlayer.play();       // use promise try/catch below instead
 
-            audioPlayer.play();
+            var promise = document.querySelector('audio').play();
+
+            if (promise !== undefined) {
+              promise.catch(error => {
+                // Auto-play was prevented
+                // Show a UI element to let the user manually start playback
+                alert("Press the Play button to listen.");
+              }).then(() => {
+                // Auto-play started
+              });
+            }
+            else
+            {
+              alert("Press the Play button to listen.");
+            }
         }
     }
   
@@ -214,8 +250,6 @@
     {
         //console.log("addAudioListener");
         window.addEventListener("message", function(){startAudioPlayer();}, false);
-
-        setTimeout(startAudioPlayerAfterDelay(), 1000);
     }
   
   </script>

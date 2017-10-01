@@ -2096,7 +2096,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSString * autoplayFlag = @"";
                 NSString * audioPlayerJS = @"";
                 
-                BOOL addAutoplayAttributes = YES;
+                BOOL addAutoplayAttributes = NO;
                 
                 if (userAgentIsLocalRadioApp == YES)
                 {

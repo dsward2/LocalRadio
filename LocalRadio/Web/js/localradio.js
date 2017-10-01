@@ -662,11 +662,28 @@ function setFrequencyDigits(frequency)
 
 function backButtonClicked(element)
 {
-    window.stop();
+    var audioPlayer = document.getElementById("audio_element");
+    var restartAudio = false;
+    if (audioPlayer !== null)
+    {
+        if (audioPlayer.paused == false)
+        {
+            audioPlayer.autoplay=true;
+            restartAudio = true;
+        }
+    }
+
+    //window.stop();
     var iframe = document.getElementById("top_iframe");
     iframe.contentWindow.history.back();
     //window.history.back();
     //console.log("New location: "+iframe.contentWindow.location);
+
+    if (restartAudio == true)
+    {
+        audioPlayer.autoplay=true;
+        setTimeout(startAudioPlayerAfterDelay(), 1000);
+    }
 }
 
 
