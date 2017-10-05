@@ -42,7 +42,7 @@ $(document).ready(function() {
     $(document).on("scroll", onScroll);
   }
 
-
+/*
   function smoothScroll(e) {
     e.preventDefault();
     $(document).off("scroll");
@@ -56,6 +56,8 @@ $(document).ready(function() {
         $(document).on("scroll", onScroll);
     });
   }
+*/
+
 
   function openPopover(e) {
     e.preventDefault()

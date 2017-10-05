@@ -1514,7 +1514,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 @"      <div class=\"container\">\n"
 @"        <ul class=\"navbar-list\">\n"
 @"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"backButtonClicked(self);\" title=\"Click the Back button to return to the previous page in the web interface\">Back</a></li>\n"
-@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"index.html\" target=\"_top\" title=\"Click the Top button to fully reload the LocalRadio web interface.\">Top</a></li>\n"
+@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"topButtonClicked(self);\"  title=\"Click the Top button to reload the LocalRadio web interface.\">Top</a></li>\n"
 @"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"nowplaying.html\" target=\"top_iframe\" title=\"Click the Now Playing button to see the current activity on the radio, including the live Signal Level, which can be helpful for setting the correct Squelch Level.  Note that the Now Playing page will generate more network traffic, and consume more energy on mobile devices.\">Now Playing</a></li>\n"
 @"        </ul>\n"
 @"      </div>\n"
@@ -2090,7 +2090,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSString * portString = portElement.stringValue;
                 
                 NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
-                
                 NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
                 
                 NSString * autoplayFlag = @"";
@@ -2108,7 +2107,28 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     autoplayFlag = @"autoplay";
                 }
 
-                audioPlayerJS = @" onloadeddata='var audioPlayer = this; setTimeout(function() { audioPlayer.play(); }, 1000)' onplay='audioPlayerStarted(this);' onpause='audioPlayerPaused(this);' ";
+                audioPlayerJS =
+                                @" onabort='audioPlayerAbort(this);' "
+                                @" oncanplay='audioPlayerCanPlay(this);' "
+                                @" oncanplaythrough='audioPlayerCanPlaythrough(this);' "
+                                @" ondurationchange='audioPlayerCanPlaythrough(this);' "
+                                @" onemptied='audioPlayerEmptied(this);' "
+                                @" onended='audioPlayerEnded(this);' "
+                                @" onerror='audioPlayerError(this, error);' "
+                                @" onloadeddata='audioPlayerLoadedData(this);' "
+                                @" onloadedmetadata='audioPlayerLoadedMetadata(this);' "
+                                @" onloadstart='audioPlayerLoadStart(this);' "
+                                @" onpause='audioPlayerPaused(this);' "
+                                @" onplaying='audioPlayerPlaying(this);' "
+                                @" onprogress='audioPlayerProgress(this);' "
+                                @" onratechange='audioPlayerRateChange(this);' "
+                                @" onseeked='audioPlayerSeeked(this);' "
+                                @" onseeking='audioPlayerSeeking(this);' "
+                                @" onstalled='audioPlayerStalled(this);' "
+                                @" onplay='audioPlayerStarted(this);' "
+                                @" onsuspend='audioPlayerSuspend(this);' "
+                                @" ontimeupdate='audioPlayerTimeUpdate(this);' "
+                                @" ontimeupdate='audioPlayerWaiting(this);' ";
                 
                 [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
             }

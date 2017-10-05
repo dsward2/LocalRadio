@@ -1,16 +1,7 @@
-window.onpageshow = function(event) {
-    //console.log("onpageshow");
-    if (event.persisted || (window.performance && (window.performance.navigation.type == 2))) {
-        // reload page after back button navigation
-        //console.log("onpageshow window.location.reload");
-        
-        location.reload(true);
-    }
-};
-
 
 
 function resizeIframe(aWindow) {
+    console.log("resizeIframe");
     var iframe = parent.document.getElementById("top_iframe");
     iframe.style.visibility = 'hidden';
     iframe.style.height = "100px";
@@ -22,7 +13,6 @@ function resizeIframe(aWindow) {
     iframe.style.top = 0;
     iframe.style.visibility = 'visible';
 }
-
 
 
 function handleEditCategoryClick(checkbox) {
@@ -660,31 +650,6 @@ function setFrequencyDigits(frequency)
 }
 
 
-function backButtonClicked(element)
-{
-    var audioPlayer = document.getElementById("audio_element");
-    var restartAudio = false;
-    if (audioPlayer !== null)
-    {
-        if (audioPlayer.paused == false)
-        {
-            audioPlayer.autoplay=true;
-            restartAudio = true;
-        }
-    }
-
-    //window.stop();
-    var iframe = document.getElementById("top_iframe");
-    iframe.contentWindow.history.back();
-    //window.history.back();
-    //console.log("New location: "+iframe.contentWindow.location);
-
-    if (restartAudio == true)
-    {
-        audioPlayer.autoplay=true;
-        setTimeout(startAudioPlayerAfterDelay(), 1000);
-    }
-}
 
 
 

@@ -29,10 +29,32 @@
 
     [self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
     [self setDefaultValue:@"localradio" forKey:@"IcecastServerMountName"];
-    [self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
-
+    
     [self setDefaultValue:@"vol 10 dither -s" forKey:@"SecondStageSoxFilter"];
     [self setDefaultValue:@"-4.2" forKey:@"MP3Settings"];
+
+    //[self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
+    NSString * randomPassword = [self generateRandomPassword];
+    [self setDefaultValue:randomPassword forKey:@"IcecastServerSourcePassword"];
+    [self setValue:randomPassword forKey:@"IcecastServerSourcePassword"];
+}
+
+
+- (NSString *)generateRandomPassword
+{
+    NSMutableString * randomPassword = [NSMutableString string];
+    
+    NSString * randomCharacters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    for (NSInteger i = 0; i < 20; i++)
+    {
+        uint32_t randomCharactersLength = (uint32_t)randomCharacters.length;
+        NSInteger randomIndex = arc4random_uniform(randomCharactersLength);
+        unichar randomCharacter = [randomCharacters characterAtIndex:randomIndex];
+        [randomPassword appendFormat: @"%C", randomCharacter];
+    }
+    
+    return randomPassword;
 }
 
 

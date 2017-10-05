@@ -2,12 +2,6 @@
 <html lang="en">
 <head>
 
-  <meta http-equiv="cache-control" content="max-age=0" />
-  <meta http-equiv="cache-control" content="no-cache" />
-  <meta http-equiv="expires" content="0" />
-  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-  <meta http-equiv="pragma" content="no-cache" />
-
   <meta name="format-detection" content="telephone=no">
 
   <meta charset="utf-8">
@@ -32,16 +26,14 @@
   <link rel="stylesheet" href="css/github-prettify-theme.css">
   <script src="js/site.js"></script>
 
-  <script src="js/localradio.js"></script>
-
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="dist/images/favicon.png">
 
-  <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png" />
-  <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png" />
-  <link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png" />
-  <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png" />
+  <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
   <link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
   <link rel="apple-touch-icon" sizes="167x167" href="apple-icon-167x167.png">
@@ -120,144 +112,388 @@
 
   <script>
   
-    function startAudioPlayer()
+    function audioElementLog(audioElement, message)
     {
-      //console.log("startAudioPlayer");
-      
-      var needsAudioPlayerStart = true;
-      
-      var audioPlayer = document.getElementById("audio_element");
-      if (audioPlayer !== null)
-      {
-        if (audioPlayer.paused == false)
-        {
-          needsAudioPlayerStart = false;
-        }
-      }
-      
-      if (needsAudioPlayerStart == true)
-      {
-        setTimeout(startAudioPlayerAfterDelay(), 1000);
-      }
+        var audioSrc = audioElement.src;
+        console.log('[' + new Date().toISOString() + '] '+message+" "+audioSrc);
+        console.timeStamp(message);
     }
-
+  
 
     function audioPlayerStarted(audioPlayer)
     {
-      //console.log("audioPlayerStarted");
-      //return;   // TEST disable this function for now
+        audioElementLog(audioPlayer, "audioPlayerStarted");
 
-      var seekableTimeRangesCount = audioPlayer.seekable.length;
-      if (seekableTimeRangesCount > 0)
-      {
-        var currentTime = audioPlayer.currentTime;
-        var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
-        audioPlayer.currentTime = endTime - 1;
-      }
-      
-      audioPlayer.autoplay = true;
+        audioPlayer.autoplay = true;
     }
+
 
 
     function audioPlayerPaused(audioPlayer)
     {
-      //console.log("audioPlayerPaused");
+      audioElementLog(audioPlayer, "audioPlayerPaused");
       
-/*
-      var holdAudioSrc = audioPlayer.src;
-      var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
-	  var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	  for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
-      newAudioSrc += "?" + rndQry;
-      audioPlayer.src = newAudioSrc;    // replace with new random query
-*/
-
-      //audioPlayer.pause();
-
       audioPlayer.autoplay=false;
+      
+      //seekToEndForAudioElement(audioPlayer);
+     
+      emptyBufferDataForAudioPlayer(audioPlayer);
 
-/*
-      var seekableTimeRangesCount = audioPlayer.seekable.length;
-      if (seekableTimeRangesCount > 0)
-      {
-        var currentTime = audioPlayer.currentTime;
-        var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
-        audioPlayer.currentTime = endTime;
-      }
-*/
+      //audioPlayer.autoplay=true;
+
+      //updateSrcForAudioElement(audioPlayer);    // replace with new random query
     }
 
 
 
+
+    function audioPlayerLoadedData(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerLoadedData");
+
+        setTimeout(function() { audioPlayer.play(); }, 1000);
+    }
+
+
+
+    function audioPlayerAbort(audioPlayer)
+    {
+      audioElementLog(audioPlayer, "audioPlayerAbort");
+    }
+
+
+    function audioPlayerCanPlay(audioPlayer)
+    {
+      audioElementLog(audioPlayer, "audioPlayerCanPlay");
+    }
+  
+  
+  
+    function audioPlayerCanPlaythrough(audioPlayer)
+    {
+      audioElementLog(audioPlayer, "audioPlayerCanPlaythrough");
+    }
+  
+  
+  
+    function audioPlayerEmptied(audioPlayer)
+    {
+      audioElementLog(audioPlayer, "audioPlayerEmptied");
+    }
+  
+  
+  
+    function audioPlayerEnded(audioPlayer)
+    {
+      audioElementLog(audioPlayer, "audioPlayerEnded");
+    }
+  
+  
+    function audioPlayerError(audioPlayer, error)
+    {
+      audioElementLog(audioPlayer, "audioPlayerError "+error);
+    }
+  
+  
+  
+    function audioPlayerDurationChange(audioPlayer)
+    {
+      audioElementLog(audioPlayer, "audioPlayerDurationChange");
+    }
+
+
+
+    function audioPlayerLoadedMetadata(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerLoadedMetadata");
+    }
+  
+  
+  
+    function audioPlayerLoadStart(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerLoadStart");
+    }
+  
+  
+  
+    function audioPlayerPlaying(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerPlaying");
+    }
+  
+  
+  
+    function audioPlayerProgress(audioPlayer)
+    {
+        //audioElementLog(audioPlayer, "audioPlayerProgress");
+    }
+  
+  
+  
+    function audioPlayerRateChange(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerRateChange");
+    }
+  
+  
+  
+    function audioPlayerSeeked(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerSeeked");
+    }
+  
+  
+  
+    function audioPlayerSeeking(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerSeeking");
+    }
+  
+  
+  
+    function audioPlayerRateChange(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerRateChange");
+    }
+  
+  
+  
+    function audioPlayerStalled(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerStalled");
+
+        var audioPlayer = document.getElementById("audio_element");
+        if (audioPlayer !== null)
+        {
+            audioPlayer.autoplay=true;
+            audioPlayer.load();
+        }
+    }
+  
+  
+  
+    function audioPlayerSuspend(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerSuspend");
+    }
+  
+  
+  
+  
+  
+    function audioPlayerTimeUpdate(audioPlayer)
+    {
+        //audioElementLog(audioPlayer, "audioPlayerTimeUpdate");
+    }
+  
+  
+    function audioPlayerWaiting(audioPlayer)
+    {
+      audioElementLog(audioPlayer, "audioPlayerWaiting");
+    }
+  
+  
+    function startAudioPlayer()
+    {
+        console.log("startAudioPlayer");
+
+        var needsAudioPlayerStart = true;
+
+        var audioPlayer = document.getElementById("audio_element");
+        if (audioPlayer !== null)
+        {
+            if (audioPlayer.paused == false)
+            {
+                needsAudioPlayerStart = false;
+            }
+        }
+
+        if (needsAudioPlayerStart == true)
+        {
+            setTimeout(startAudioPlayerAfterDelay(), 1000);
+        }
+    }
+
+
+
+  
+    function seekToEndForAudioElement(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "seekToEndForAudioElement");
+        
+        var seekableTimeRangesCount = audioPlayer.seekable.length;
+        if (seekableTimeRangesCount > 0)
+        {
+            var currentTime = audioPlayer.currentTime;
+            var startTime = audioPlayer.seekable.start(seekableTimeRangesCount - 1);
+            var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
+            
+            console.log("currentTime:"+currentTime+" startTime:"+startTime+" endTime:"+endTime);
+        
+            audioPlayer.currentTime = endTime;
+        }
+    }
+
+
+
+    function updateAudioElementSrc()
+    {
+        console.log("updateAudioElementSrc");
+        
+        var audioPlayer = document.getElementById("audio_element");
+        if (audioPlayer !== null)
+        {
+            updateSrcForAudioElement(audioPlayer);
+        }
+    }
+
+
+    function updateSrcForAudioElement(audioPlayer)
+    {
+        console.log("updateSrcForAudioElement");
+        
+        if (audioPlayer !== null)
+        {
+            var newAudioSrc = audioPlayer.src.split("?")[0]; // strip old query from URL
+            var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
+            newAudioSrc += "?" + rndQry;
+            audioPlayer.src = newAudioSrc;    // replace with new random query
+        }
+    }
+
+
+
+    function emptyBufferDataForAudioPlayer(audioPlayer)
+    {
+        console.log("emptyBufferDataForAudioPlayer");
+        
+        var holdAudioSrc = audioPlayer.src;
+        
+        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"})); // empty buffer data
+        audioPlayer.load();
+        
+        audioPlayer.src = holdAudioSrc;
+    }
+  
+  
+
     function startAudioPlayerAfterDelay()
     {
-        //console.log("startAudioPlayerAfterDelay");
+        console.log("startAudioPlayerAfterDelay");
+        
         var audioPlayer = document.getElementById("audio_element");
         if (audioPlayer !== null)
         {
             var holdAudioSrc = audioPlayer.src;
 
-            /*
-            audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"})); // empty buffer data
-            audioPlayer.load();
-            */
-
             if (audioPlayer.paused == true)
             {
-                var newAudioSrc = holdAudioSrc.split("?")[0]; // strip old query from URL
-                var m = 8; rndQry = '', r = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                for (var i=0; i < m; i++) { rndQry += r.charAt(Math.floor(Math.random()*r.length)); }
-                newAudioSrc += "?" + rndQry;
-                audioPlayer.src = newAudioSrc;    // replace with new random query
+                updateSrcForAudioElement(audioPlayer);
             }
             else
             {
-                var seekableTimeRangesCount = audioPlayer.seekable.length;
-                if (seekableTimeRangesCount > 0)
-                {
-                    var currentTime = audioPlayer.currentTime;
-                    var endTime = audioPlayer.seekable.end(seekableTimeRangesCount - 1);
-                    audioPlayer.currentTime = endTime;
-                }
+                seekToEndForAudioElement(audioPlayer);
             }
 
             audioPlayer.autoplay=true;
             audioPlayer.load();
 
-            //audioPlayer.play();       // use promise try/catch below instead
-
-            var promise = document.querySelector('audio').play();
-
-            if (promise !== undefined) {
-              promise.catch(error => {
-                // Auto-play was prevented
-                // Show a UI element to let the user manually start playback
-                alert("Press the Play button to listen.");
-              }).then(() => {
-                // Auto-play started
-              });
-            }
-            else
-            {
-              alert("Press the Play button to listen.");
-            }
+            audioPlayer.play();       // use promise try/catch below instead
         }
     }
   
   
 
-    function addAudioListener()
+
+
+
+    function backButtonClicked(element)
     {
-        //console.log("addAudioListener");
+        console.log("backButtonClicked");
+
+/*
+        var audioPlayer = document.getElementById("audio_element");
+        var audioSrc = audioPlayer.src;
+        if (audioPlayer !== null)
+        {
+            if (audioPlayer.paused == false)
+            {
+                audioPlayer.autoplay=true;
+            }
+        }
+*/
+
+
+        var iframe = document.getElementById("top_iframe");
+        iframe.contentWindow.history.back();
+
+
+/*
+        var audioPlayer2 = document.getElementById("audio_element");
+        if (audioPlayer2 !== null)
+        {
+            //audioPlayer2.src = audioSrc;
+            if (audioPlayer2.paused == false)
+            {
+                audioPlayer2.autoplay=true;
+                audioPlayer2.play();
+            }
+        }
+*/
+
+        var audioPlayer = document.getElementById("audio_element");
+        if (audioPlayer !== null)
+        {
+            seekToEndForAudioElement(audioPlayer);
+            audioPlayer.play();
+        }
+    }
+
+
+
+    function topButtonClicked(element)
+    {
+        console.log("topButtonClicked");
+        
+        location.href = "index.html";
+
+        setTimeout(startAudioPlayerAfterDelay(), 1000);
+    }
+
+
+    function bodyElementLoaded(event)
+    {
+        console.log("bodyElementLoaded");
+        
         window.addEventListener("message", function(){startAudioPlayer();}, false);
     }
-  
+
+
+
+
+
+    window.onpageshow = function(event) {
+        console.log("onpageshow");
+        if (event.persisted || (window.performance && (window.performance.navigation.type == 2))) {
+            // reload page after back button navigation
+            //console.log("onpageshow window.location.reload");
+            
+            var fileName = location.href.split('/').pop().split('#')[0].split('?')[0];
+            if (fileName != "index.html")
+            {
+                location.reload(true);
+            }
+        }
+    };
+
   </script>
 
 
 
 </head>
-<body onload="addAudioListener();" onunload="">
+<body onload="bodyElementLoaded(event);">
 
     <div id="navigationbar">
     %%NAV_BAR%%
