@@ -31,10 +31,7 @@
                 <outlet property="editIcecastServerSourcePasswordTextField" destination="fuC-VO-4HF" id="Tak-k7-TMG"/>
                 <outlet property="editIcecastServerWebURLTextField" destination="Yny-sG-TDf" id="5qV-rf-qex"/>
                 <outlet property="editMP3ConstantPopUpButton" destination="9xJ-Ya-ucR" id="TfL-tB-lT9"/>
-                <outlet property="editMP3ConstantRadioButton" destination="fTU-xp-kPi" id="xxe-vw-ZP6"/>
                 <outlet property="editMP3EncodingQualityPopUpButton" destination="mzI-of-7vc" id="BNI-4g-ucX"/>
-                <outlet property="editMP3VariablePopUpButton" destination="IZt-Fo-HMC" id="ngw-6j-X4m"/>
-                <outlet property="editMP3VariableRadioButton" destination="xNl-kL-X9y" id="Dly-l9-I6N"/>
                 <outlet property="editSaveButton" destination="zcQ-cW-z91" id="KCl-EY-Nj4"/>
                 <outlet property="editSecondStageSoxFilterTextField" destination="NNv-rX-D0b" id="9LQ-22-K6l"/>
                 <outlet property="editSetDefaultsButton" destination="eyQ-pH-iTf" id="1Ng-Ji-eI0"/>
@@ -759,25 +756,14 @@
                         </view>
                     </box>
                     <box fixedFrame="YES" title="MP3 and Audio Settings" translatesAutoresizingMaskIntoConstraints="NO" id="Kow-hj-SZk">
-                        <rect key="frame" x="17" y="85" width="404" height="129"/>
+                        <rect key="frame" x="17" y="93" width="404" height="121"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="9Qx-gz-Xnr">
-                            <rect key="frame" x="2" y="2" width="400" height="112"/>
+                            <rect key="frame" x="2" y="2" width="400" height="104"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xNl-kL-X9y">
-                                    <rect key="frame" x="16" y="80" width="81" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="radio" title="VBR Size:" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="cXT-X2-8ee">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="mp3BitrateRadioButtonClicked:" target="Voe-Tx-rLC" id="hpS-JJ-Nc8"/>
-                                    </connections>
-                                </button>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LTD-2z-TEv">
-                                    <rect key="frame" x="237" y="80" width="142" height="17"/>
+                                    <rect key="frame" x="6" y="41" width="142" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MP3 Encoding Quality:" id="1sO-Jk-5bh">
                                         <font key="font" metaFont="system"/>
@@ -786,7 +772,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jF1-Ig-Zc1">
-                                    <rect key="frame" x="18" y="14" width="153" height="17"/>
+                                    <rect key="frame" x="6" y="12" width="153" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Second Stage Sox Filter:" id="4S3-eq-Jtu">
                                         <font key="font" metaFont="system"/>
@@ -795,7 +781,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9xJ-Ya-ucR">
-                                    <rect key="frame" x="101" y="48" width="103" height="26"/>
+                                    <rect key="frame" x="89" y="67" width="103" height="26"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <popUpButtonCell key="cell" type="push" title="16000 bps" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="J1z-cE-iGO" id="niB-BN-6R8">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -817,41 +803,8 @@
                                         </menu>
                                     </popUpButtonCell>
                                 </popUpButton>
-                                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IZt-Fo-HMC">
-                                    <rect key="frame" x="101" y="75" width="104" height="26"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <popUpButtonCell key="cell" type="push" title="4 - Default" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="pPB-nK-fJk" id="S1s-20-TWW">
-                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="menu"/>
-                                        <menu key="menu" id="FIh-f9-kEW">
-                                            <items>
-                                                <menuItem title="0 - Larger" id="NOt-X7-1Or"/>
-                                                <menuItem title="1" id="kuc-BQ-bDb"/>
-                                                <menuItem title="2" id="XfF-Gc-0oc"/>
-                                                <menuItem title="3" id="x3b-K3-enI"/>
-                                                <menuItem title="4 - Default" state="on" id="pPB-nK-fJk"/>
-                                                <menuItem title="5" id="elc-tG-tW0"/>
-                                                <menuItem title="6" id="2yE-tX-lxg"/>
-                                                <menuItem title="7" id="Qiw-Rg-Z1x"/>
-                                                <menuItem title="8" id="k7f-MS-8J3"/>
-                                                <menuItem title="9 - Smaller" id="YE8-Zr-yS4"/>
-                                            </items>
-                                        </menu>
-                                    </popUpButtonCell>
-                                </popUpButton>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fTU-xp-kPi">
-                                    <rect key="frame" x="16" y="53" width="81" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="radio" title="Constant:" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="kV5-cG-9GW">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="mp3BitrateRadioButtonClicked:" target="Voe-Tx-rLC" id="Wjl-jQ-7ED"/>
-                                    </connections>
-                                </button>
                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mzI-of-7vc">
-                                    <rect key="frame" x="237" y="51" width="115" height="26"/>
+                                    <rect key="frame" x="152" y="36" width="115" height="26"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <popUpButtonCell key="cell" type="push" title="2 - Default" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Jty-Vt-slz" id="nhZ-Ht-i9Q">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -872,8 +825,17 @@
                                         </menu>
                                     </popUpButtonCell>
                                 </popUpButton>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eNf-Kp-D5D">
+                                    <rect key="frame" x="6" y="72" width="80" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MP3 Bitrate:" id="ieE-f0-uAm">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NNv-rX-D0b">
-                                    <rect key="frame" x="177" y="12" width="203" height="22"/>
+                                    <rect key="frame" x="165" y="9" width="215" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="vol 10 dither -s" drawsBackground="YES" id="gAB-bS-tfO">
                                         <font key="font" metaFont="system"/>

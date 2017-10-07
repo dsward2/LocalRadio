@@ -1730,23 +1730,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     NSArray * currentMP3SettingArray = [currentMP3Setting componentsSeparatedByString:@"."];
     
-    NSString * currentBitrate = @"-4";
+    NSString * currentBitrate = @"16000";
     if (currentMP3SettingArray.count > 0)
     {
         currentBitrate = currentMP3SettingArray.firstObject;
     }
     
     NSMutableDictionary * bitrateDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            @"", @"-0",
-            @"", @"-1",
-            @"", @"-2",
-            @"", @"-3",
-            @"", @"-4",
-            @"", @"-5",
-            @"", @"-6",
-            @"", @"-7",
-            @"", @"-8",
-            @"", @"-9",
             @"", @"3000",
             @"", @"5000",
             @"", @"7000",
@@ -1763,16 +1753,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     [bitrateDictionary setObject:@" selected=\"\"" forKey:currentBitrate];
     
 
-    [resultString appendFormat:@"<option value=\"-0\" %@>Variable Bitrate 0 - Larger</option>", [bitrateDictionary objectForKey:@"-0"]];
-    [resultString appendFormat:@"<option value=\"-1\" %@>Variable Bitrate 1</option>", [bitrateDictionary objectForKey:@"-1"]];
-    [resultString appendFormat:@"<option value=\"-2\" %@>Variable Bitrate 2</option>", [bitrateDictionary objectForKey:@"-2"]];
-    [resultString appendFormat:@"<option value=\"-3\" %@>Variable Bitrate 3</option>", [bitrateDictionary objectForKey:@"-3"]];
-    [resultString appendFormat:@"<option value=\"-4\" %@>Variable Bitrate 4 - Default</option>", [bitrateDictionary objectForKey:@"-4"]];
-    [resultString appendFormat:@"<option value=\"-5\" %@>Variable Bitrate 5</option>", [bitrateDictionary objectForKey:@"-5"]];
-    [resultString appendFormat:@"<option value=\"-6\" %@>Variable Bitrate 6</option>", [bitrateDictionary objectForKey:@"-6"]];
-    [resultString appendFormat:@"<option value=\"-7\" %@>Variable Bitrate 7</option>", [bitrateDictionary objectForKey:@"-7"]];
-    [resultString appendFormat:@"<option value=\"-8\" %@>Variable Bitrate 8</option>", [bitrateDictionary objectForKey:@"-8"]];
-    [resultString appendFormat:@"<option value=\"-9\" %@>Variable Bitrate 9 - Smaller</option>", [bitrateDictionary objectForKey:@"-9"]];
     [resultString appendFormat:@"<option value=\"3000\" %@>Constant Bitrate 3000 bps</option>", [bitrateDictionary objectForKey:@"3000"]];
     [resultString appendFormat:@"<option value=\"5000\" %@>Constant Bitrate 5000 bps</option>", [bitrateDictionary objectForKey:@"5000"]];
     [resultString appendFormat:@"<option value=\"7000\" %@>Constant Bitrate 7000 bps</option>", [bitrateDictionary objectForKey:@"7000"]];
@@ -1783,7 +1763,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     [resultString appendFormat:@"<option value=\"32000\" %@>Constant Bitrate 32000 bps</option>", [bitrateDictionary objectForKey:@"32000"]];
     [resultString appendFormat:@"<option value=\"48000\" %@>Constant Bitrate 48000 bps</option>", [bitrateDictionary objectForKey:@"48000"]];
     [resultString appendFormat:@"<option value=\"64000\" %@>Constant Bitrate 64000 bps</option>", [bitrateDictionary objectForKey:@"64000"]];
-    [resultString appendFormat:@"<option value=\"128000\" %@>Constant Bitrate 128000 bps</option>", [bitrateDictionary objectForKey:@"12800"]];
+    [resultString appendFormat:@"<option value=\"128000\" %@>Constant Bitrate 128000 bps</option>", [bitrateDictionary objectForKey:@"128000"]];
     
     return resultString;
 }

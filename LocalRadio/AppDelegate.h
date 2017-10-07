@@ -99,8 +99,6 @@
 @property (weak) IBOutlet NSTextField * editControlPortTextField;
 @property (weak) IBOutlet NSTextField * editAudioPortTextField;
 
-@property (weak) IBOutlet NSButton * editMP3VariableRadioButton;
-@property (weak) IBOutlet NSPopUpButton * editMP3VariablePopUpButton;
 @property (weak) IBOutlet NSButton * editMP3ConstantRadioButton;
 @property (weak) IBOutlet NSPopUpButton * editMP3ConstantPopUpButton;
 @property (weak) IBOutlet NSPopUpButton * editMP3EncodingQualityPopUpButton;
@@ -141,8 +139,6 @@
 - (IBAction)editSaveButtonAction:(id)sender;
 - (IBAction)editCancelButtonAction:(id)sender;
 - (IBAction)editSetDefaultsButtonAction:(id)sender;
-
-- (IBAction)mp3BitrateRadioButtonClicked:(id)sender;
 
 - (void)resetRtlsdrStatusText;
 - (void)updateCurrentTasksText;

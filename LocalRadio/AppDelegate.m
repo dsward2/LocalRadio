@@ -936,14 +936,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         NSInteger mp3SettingsBitrate = labs(bitrateString.integerValue);
         NSInteger mp3SettingsEncodingQuality = labs(encodingQualityString.integerValue);
         
-        
-        
-        BOOL isVBR = NO;
-        if (mp3Settings < 0)
-        {
-            isVBR = YES;
-        }
-        
         NSString * encodingQuality = @"Unknown Quality";
         switch (mp3SettingsEncodingQuality)
         {
@@ -973,65 +965,15 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         
         NSString * bitrate = @"Unknown Bitrate";
         NSString * bitrateMode = @"";
-        if (isVBR == YES)
-        {
-            bitrateMode = @"-";         // indicate variable bit rate
-            switch (mp3SettingsBitrate)
-            {
-                case 0:
-                    bitrate = @"Maximum Bitrate";
-                    break;
-                case 1:
-                case 2:
-                    bitrate = @"High Bitrate";
-                    break;
-                case 3:
-                    bitrate = @"Medium Bitrate";
-                    break;
-                case 4:
-                    bitrate = @"Default Medium Bitrate";
-                    break;
-                case 5:
-                case 6:
-                    bitrate = @"Medium Bitrate";
-                    break;
-                case 7:
-                case 8:
-                    bitrate = @"Low Bitrate";
-                    break;
-                case 9:
-                    bitrate = @"Minimum Bitrate";
-                    break;
-            }
-        }
-        else
-        {
-            bitrate = [NSString stringWithFormat:@"Constant Bitrate %ld bps", mp3SettingsBitrate];
-        }
+        bitrate = [NSString stringWithFormat:@"Constant Bitrate %ld bps", mp3SettingsBitrate];
         
         NSString * mp3SettingsDescription = [NSString stringWithFormat:@"%@, %@", bitrate, encodingQuality];
         self.mp3SettingsDescriptionTextField.stringValue = mp3SettingsDescription;
     }
     else
     {
-        self.mp3SettingsTextField.stringValue = @"-4.2";
-        self.mp3SettingsDescriptionTextField.stringValue = @"Default VBR Bitrate, Default Encoding Quality";
-    }
-}
-
-//==================================================================================
-//	mp3BitrateRadioButtonClicked:
-//==================================================================================
-
-- (IBAction)mp3BitrateRadioButtonClicked:(id)sender
-{
-    if (sender == self.editMP3ConstantRadioButton)
-    {
-        self.editMP3VariableRadioButton.state = NO;
-    }
-    else
-    {
-        self.editMP3ConstantRadioButton.state = NO;
+        self.mp3SettingsTextField.stringValue = @"16000.2";
+        self.mp3SettingsDescriptionTextField.stringValue = @"Default Constant Bitrate and Encoding Quality";
     }
 }
 
@@ -1071,26 +1013,14 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     BOOL useWebViewAudioPlayer = self.editUseWebViewAudioPlayerCheckbox.state;
     self.useWebViewAudioPlayerCheckbox.state = useWebViewAudioPlayer;
 
-
     NSString * secondStageSoxFilterString = self.editSecondStageSoxFilterTextField.stringValue;
     [self.localRadioAppSettings setValue:secondStageSoxFilterString forKey:@"SecondStageSoxFilter"];
 
-    
-    NSString * vbrBitrateString = self.editMP3VariablePopUpButton.titleOfSelectedItem;
-    NSInteger vbrBitrateInteger = vbrBitrateString.integerValue;
     NSString * constantBitrateString = self.editMP3ConstantPopUpButton.titleOfSelectedItem;
     NSInteger constantBitrateInteger = constantBitrateString.integerValue;
     NSString * encodingQualityString = self.editMP3EncodingQualityPopUpButton.titleOfSelectedItem;
     NSInteger encodingQualityInteger = encodingQualityString.integerValue;
-    NSString * mp3SettingString = @"-4.2";
-    if (self.editMP3VariableRadioButton.state == YES)
-    {
-        mp3SettingString = [NSString stringWithFormat:@"-%ld.%ld", vbrBitrateInteger, encodingQualityInteger];
-    }
-    else
-    {
-        mp3SettingString = [NSString stringWithFormat:@"%ld.%ld", constantBitrateInteger, encodingQualityInteger];
-    }
+    NSString * mp3SettingString = [NSString stringWithFormat:@"%ld.%ld", constantBitrateInteger, encodingQualityInteger];
     self.mp3SettingsTextField.stringValue = mp3SettingString;
     [self.localRadioAppSettings setValue:mp3SettingString forKey:@"MP3Settings"];
 }
