@@ -165,10 +165,17 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 	// 
 	// It also does cool things for us like support for converting "/" to "/index.html",
 	// and security restrictions (ensuring we don't serve documents outside configured document root folder).
-
+    
 	NSString *filePath = [self filePathForURI:path];
     
     NSURL * pathURL = [NSURL URLWithString:path];
+
+    NSString * pathURLPath = [pathURL path];
+    NSString * pathExtension = pathURLPath.pathExtension;
+    if ([pathExtension isEqualToString:@"html"] == YES)
+    {
+        NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+    }
     
     NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:pathURL
             resolvingAgainstBaseURL:NO];
@@ -2069,8 +2076,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSXMLElement * portElement = portResultArray.firstObject;
                 NSString * portString = portElement.stringValue;
                 
-                NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
-                NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
+                //NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
+                //NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
+
+                NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@", hostname, portString, icecastServerMountName];
                 
                 NSString * autoplayFlag = @"";
                 NSString * audioPlayerJS = @"";
@@ -2110,6 +2119,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                                 @" ontimeupdate='audioPlayerTimeUpdate(this);' "
                                 @" ontimeupdate='audioPlayerWaiting(this);' ";
                 
+                //[resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
+
+                //[resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' class='media-document audio mac' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
+
                 [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
             }
         }
