@@ -8,29 +8,43 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Novocaine.h"
-#import "RingBuffer.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import <Accelerate/Accelerate.h>
+//#import "TPCircularBuffer+AudioBufferList.h"
+#import "TPCircularBuffer.h"
 
+
+// AudioQueue values
+#define kAudioQueueBuffersCount 3
 
 @interface AudioMonitor : NSObject
 {
-    AudioConverterRef inAudioConverter;
+    AudioConverterRef inAudioConverter;     // AudioConverter for resampling PCM data to 48000 Hz
 
-    AudioStreamBasicDescription inputDescription;
-    AudioStreamBasicDescription outputDescription;
+    AudioStreamBasicDescription audioConverterInputDescription;
+    AudioStreamBasicDescription audioConverterOutputDescription;
 
-    AudioBuffer inputAudioBuffer;
-    UInt64 inputBufferOffset;
-    UInt32 inputPacketsRemain;
+    AudioBuffer audioConverterInputAudioBuffer;
+    UInt64 audioConverterInputBufferOffset;
+    UInt32 audioConverterInputPacketsRemain;
+
+    TPCircularBuffer inputCircularBuffer;        // TPCircularBuffer for storage and retrieval of input PCM data from stdin
+    TPCircularBuffer audioConverterCircularBuffer;        // TPCircularBuffer for storage and retrieval of resampled PCM data
     
-    AudioBufferList outputBufferList;
-    void * outputBufferPtr;
-    UInt32 outputBytes;
+    AudioBufferList audioConverterOutputBufferList;
+    void * audioConverterOutputBufferPtr;
+    UInt32 audioConverterOutputBytes;
+
+    AudioQueueRef audioQueue;               // AudioQueue for playing resampled PCM data to current audio output device, usually speakers
+    
+    AudioStreamBasicDescription audioQueueDescription;
+    AudioQueueBufferRef buffers[kAudioQueueBuffersCount];
+    NSUInteger audioQueueIndex;
 }
 
-@property (nonatomic, strong) Novocaine * audioManager;
 @property (assign) NSInteger sampleRate;
 @property (assign) float volume;
+
 
 
 - (void)runAudioMonitorWithSampleRate:(NSInteger)sampleRate volume:(float)volume;

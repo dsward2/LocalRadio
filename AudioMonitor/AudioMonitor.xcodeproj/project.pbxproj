@@ -8,28 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0E02EC391F494F7C008BAC27 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E02EC381F494F7C008BAC27 /* main.mm */; };
-		0E213D8A1F55485400BCE3CB /* Novocaine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E213D611F55483B00BCE3CB /* Novocaine.m */; };
-		0E213D8B1F55485A00BCE3CB /* RingBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E213D631F55483B00BCE3CB /* RingBuffer.mm */; };
 		0E213DB31F566BFB00BCE3CB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */; };
+		0EA8B2D61FA9B593005C3A02 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8B2CF1FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.c */; };
+		0EA8B2D71FA9B59E005C3A02 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8B2D11FA9B568005C3A02 /* TPCircularBuffer.c */; };
 		0ED9ED6E1F540F9800898460 /* AudioMonitor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		0E213D861F55483C00BCE3CB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FA55267C152A63B6003D9601;
-			remoteInfo = "Novocaine Mac Example";
-		};
-		0E213D881F55483C00BCE3CB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FA5526CE152A6451003D9601;
-			remoteInfo = "Novocaine iOS Example";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		0E02EC331F494F7C008BAC27 /* CopyFiles */ = {
@@ -46,40 +29,14 @@
 /* Begin PBXFileReference section */
 		0E02EC351F494F7C008BAC27 /* AudioMonitor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AudioMonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E02EC381F494F7C008BAC27 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
-		0E213D591F55483B00BCE3CB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		0E213D5A1F55483B00BCE3CB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		0E213D5C1F55483B00BCE3CB /* AudioFileReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioFileReader.h; sourceTree = "<group>"; };
-		0E213D5D1F55483B00BCE3CB /* AudioFileReader.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioFileReader.mm; sourceTree = "<group>"; };
-		0E213D5E1F55483B00BCE3CB /* AudioFileWriter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioFileWriter.h; sourceTree = "<group>"; };
-		0E213D5F1F55483B00BCE3CB /* AudioFileWriter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioFileWriter.m; sourceTree = "<group>"; };
-		0E213D601F55483B00BCE3CB /* Novocaine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Novocaine.h; sourceTree = "<group>"; };
-		0E213D611F55483B00BCE3CB /* Novocaine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Novocaine.m; sourceTree = "<group>"; };
-		0E213D621F55483B00BCE3CB /* RingBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
-		0E213D631F55483B00BCE3CB /* RingBuffer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RingBuffer.mm; sourceTree = "<group>"; };
-		0E213D651F55483B00BCE3CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		0E213D661F55483B00BCE3CB /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		0E213D681F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		0E213D6A1F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
-		0E213D6C1F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
-		0E213D6D1F55483B00BCE3CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0E213D6E1F55483B00BCE3CB /* Novocaine iOS Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Novocaine iOS Example-Info.plist"; sourceTree = "<group>"; };
-		0E213D6F1F55483B00BCE3CB /* Novocaine iOS Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Novocaine iOS Example-Prefix.pch"; sourceTree = "<group>"; };
-		0E213D701F55483B00BCE3CB /* TLC.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TLC.mp3; sourceTree = "<group>"; };
-		0E213D711F55483B00BCE3CB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0E213D721F55483B00BCE3CB /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
-		0E213D741F55483B00BCE3CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		0E213D751F55483B00BCE3CB /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
-		0E213D771F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		0E213D791F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		0E213D7B1F55483B00BCE3CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		0E213D7C1F55483B00BCE3CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0E213D7D1F55483B00BCE3CB /* Novocaine Mac Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Novocaine Mac Example-Info.plist"; sourceTree = "<group>"; };
-		0E213D7E1F55483B00BCE3CB /* Novocaine Mac Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Novocaine Mac Example-Prefix.pch"; sourceTree = "<group>"; };
-		0E213D7F1F55483B00BCE3CB /* Novocaine.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = Novocaine.podspec; sourceTree = "<group>"; };
-		0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Novocaine.xcodeproj; sourceTree = "<group>"; };
-		0E213D831F55483B00BCE3CB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0E4970071F6F1EC200E41A06 /* AudioMonitor.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AudioMonitor.entitlements; sourceTree = "<group>"; };
+		0EA8B2CE1FA9B568005C3A02 /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.markdown; sourceTree = "<group>"; };
+		0EA8B2CF1FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
+		0EA8B2D01FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
+		0EA8B2D11FA9B568005C3A02 /* TPCircularBuffer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
+		0EA8B2D21FA9B568005C3A02 /* TPCircularBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
+		0EA8B2D31FA9B568005C3A02 /* TPCircularBuffer.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPCircularBuffer.podspec; sourceTree = "<group>"; };
 		0ED9ED6C1F540F9800898460 /* AudioMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMonitor.h; sourceTree = "<group>"; };
 		0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioMonitor.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,82 +76,10 @@
 				0E02EC381F494F7C008BAC27 /* main.mm */,
 				0ED9ED6C1F540F9800898460 /* AudioMonitor.h */,
 				0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */,
-				0E213D581F55483B00BCE3CB /* novocaine-master */,
+				0EA8B2CD1FA9B568005C3A02 /* TPCircularBuffer-master */,
 				0E4970071F6F1EC200E41A06 /* AudioMonitor.entitlements */,
 			);
 			path = AudioMonitor;
-			sourceTree = "<group>";
-		};
-		0E213D581F55483B00BCE3CB /* novocaine-master */ = {
-			isa = PBXGroup;
-			children = (
-				0E213D591F55483B00BCE3CB /* .gitignore */,
-				0E213D5A1F55483B00BCE3CB /* Default-568h@2x.png */,
-				0E213D5B1F55483B00BCE3CB /* Novocaine */,
-				0E213D641F55483B00BCE3CB /* Novocaine iOS Example */,
-				0E213D731F55483B00BCE3CB /* Novocaine Mac Example */,
-				0E213D7F1F55483B00BCE3CB /* Novocaine.podspec */,
-				0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */,
-				0E213D831F55483B00BCE3CB /* README.md */,
-			);
-			path = "novocaine-master";
-			sourceTree = "<group>";
-		};
-		0E213D5B1F55483B00BCE3CB /* Novocaine */ = {
-			isa = PBXGroup;
-			children = (
-				0E213D5C1F55483B00BCE3CB /* AudioFileReader.h */,
-				0E213D5D1F55483B00BCE3CB /* AudioFileReader.mm */,
-				0E213D5E1F55483B00BCE3CB /* AudioFileWriter.h */,
-				0E213D5F1F55483B00BCE3CB /* AudioFileWriter.m */,
-				0E213D601F55483B00BCE3CB /* Novocaine.h */,
-				0E213D611F55483B00BCE3CB /* Novocaine.m */,
-				0E213D621F55483B00BCE3CB /* RingBuffer.h */,
-				0E213D631F55483B00BCE3CB /* RingBuffer.mm */,
-			);
-			path = Novocaine;
-			sourceTree = "<group>";
-		};
-		0E213D641F55483B00BCE3CB /* Novocaine iOS Example */ = {
-			isa = PBXGroup;
-			children = (
-				0E213D651F55483B00BCE3CB /* AppDelegate.h */,
-				0E213D661F55483B00BCE3CB /* AppDelegate.mm */,
-				0E213D671F55483B00BCE3CB /* InfoPlist.strings */,
-				0E213D691F55483B00BCE3CB /* ViewController_iPad.xib */,
-				0E213D6B1F55483B00BCE3CB /* ViewController_iPhone.xib */,
-				0E213D6D1F55483B00BCE3CB /* main.m */,
-				0E213D6E1F55483B00BCE3CB /* Novocaine iOS Example-Info.plist */,
-				0E213D6F1F55483B00BCE3CB /* Novocaine iOS Example-Prefix.pch */,
-				0E213D701F55483B00BCE3CB /* TLC.mp3 */,
-				0E213D711F55483B00BCE3CB /* ViewController.h */,
-				0E213D721F55483B00BCE3CB /* ViewController.mm */,
-			);
-			path = "Novocaine iOS Example";
-			sourceTree = "<group>";
-		};
-		0E213D731F55483B00BCE3CB /* Novocaine Mac Example */ = {
-			isa = PBXGroup;
-			children = (
-				0E213D741F55483B00BCE3CB /* AppDelegate.h */,
-				0E213D751F55483B00BCE3CB /* AppDelegate.mm */,
-				0E213D761F55483B00BCE3CB /* Credits.rtf */,
-				0E213D781F55483B00BCE3CB /* InfoPlist.strings */,
-				0E213D7A1F55483B00BCE3CB /* MainMenu.xib */,
-				0E213D7C1F55483B00BCE3CB /* main.m */,
-				0E213D7D1F55483B00BCE3CB /* Novocaine Mac Example-Info.plist */,
-				0E213D7E1F55483B00BCE3CB /* Novocaine Mac Example-Prefix.pch */,
-			);
-			path = "Novocaine Mac Example";
-			sourceTree = "<group>";
-		};
-		0E213D811F55483B00BCE3CB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0E213D871F55483C00BCE3CB /* Novocaine Mac Example.app */,
-				0E213D891F55483C00BCE3CB /* Novocaine iOS Example.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		0E213DB11F566BFA00BCE3CB /* Frameworks */ = {
@@ -203,6 +88,19 @@
 				0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0EA8B2CD1FA9B568005C3A02 /* TPCircularBuffer-master */ = {
+			isa = PBXGroup;
+			children = (
+				0EA8B2CE1FA9B568005C3A02 /* README.markdown */,
+				0EA8B2CF1FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.c */,
+				0EA8B2D01FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.h */,
+				0EA8B2D11FA9B568005C3A02 /* TPCircularBuffer.c */,
+				0EA8B2D21FA9B568005C3A02 /* TPCircularBuffer.h */,
+				0EA8B2D31FA9B568005C3A02 /* TPCircularBuffer.podspec */,
+			);
+			path = "TPCircularBuffer-master";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,12 +149,6 @@
 			mainGroup = 0E02EC2C1F494F7C008BAC27;
 			productRefGroup = 0E02EC361F494F7C008BAC27 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 0E213D811F55483B00BCE3CB /* Products */;
-					ProjectRef = 0E213D801F55483B00BCE3CB /* Novocaine.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				0E02EC341F494F7C008BAC27 /* AudioMonitor */,
@@ -264,87 +156,19 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		0E213D871F55483C00BCE3CB /* Novocaine Mac Example.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Novocaine Mac Example.app";
-			remoteRef = 0E213D861F55483C00BCE3CB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		0E213D891F55483C00BCE3CB /* Novocaine iOS Example.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Novocaine iOS Example.app";
-			remoteRef = 0E213D881F55483C00BCE3CB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXSourcesBuildPhase section */
 		0E02EC311F494F7C008BAC27 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EA8B2D71FA9B59E005C3A02 /* TPCircularBuffer.c in Sources */,
 				0E02EC391F494F7C008BAC27 /* main.mm in Sources */,
-				0E213D8B1F55485A00BCE3CB /* RingBuffer.mm in Sources */,
 				0ED9ED6E1F540F9800898460 /* AudioMonitor.mm in Sources */,
-				0E213D8A1F55485400BCE3CB /* Novocaine.m in Sources */,
+				0EA8B2D61FA9B593005C3A02 /* TPCircularBuffer+AudioBufferList.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		0E213D671F55483B00BCE3CB /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E213D681F55483B00BCE3CB /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		0E213D691F55483B00BCE3CB /* ViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E213D6A1F55483B00BCE3CB /* en */,
-			);
-			name = ViewController_iPad.xib;
-			sourceTree = "<group>";
-		};
-		0E213D6B1F55483B00BCE3CB /* ViewController_iPhone.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E213D6C1F55483B00BCE3CB /* en */,
-			);
-			name = ViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		0E213D761F55483B00BCE3CB /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E213D771F55483B00BCE3CB /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		0E213D781F55483B00BCE3CB /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E213D791F55483B00BCE3CB /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		0E213D7A1F55483B00BCE3CB /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E213D7B1F55483B00BCE3CB /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0E02EC3A1F494F7C008BAC27 /* Debug */ = {

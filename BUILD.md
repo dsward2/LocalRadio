@@ -18,7 +18,7 @@ LocalRadio combines several open-source tools into a self-contained application 
 * WebKit for the Mac application's user interface.
 * The Sox and LAME tools for audio resampling, filtering, MP3 encoding and output.
 * Icecast and EZStream for MP3 streaming.
-* Novocaine is used for audio output with the optional direct audio mode on the Mac, which bypasses the standard MP3 encoding and streaming buffers.
+* TPCircularBuffer is used for audio output with the direct audio option on the Mac, which bypasses the standard MP3 encoding and streaming buffers.
 * An interface to the FCC database of U.S. FM radio stations, searchable by location and radius for easily finding local stations.
 
 The LocalRadio application bundle is sandboxed and code-signed according to Apple's recommendations, and the extra tools inherit the entitlements of the main application when executed with NSTask and NSPipe I/O.  

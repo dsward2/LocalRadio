@@ -151,7 +151,7 @@
     {
         audioElementLog(audioPlayer, "audioPlayerLoadedData");
 
-        setTimeout(function() { audioPlayer.play(); }, 1000);
+        //setTimeout(function() { audioPlayer.play(); }, 1000);
     }
 
 
@@ -351,6 +351,8 @@
 
     function updateSrcForAudioElement(audioPlayer)
     {
+        return;     // TEST disable this routine
+    
         console.log("updateSrcForAudioElement");
         
         if (audioPlayer !== null)
