@@ -518,7 +518,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     return urlString;
 }
 
-
 //==================================================================================
 //	checkForProcessConflicts
 //==================================================================================
@@ -924,15 +923,18 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
         NSDecimalNumber * mp3SettingsDecimalNumber = [[NSDecimalNumber alloc] initWithString:mp3SettingsString];
 
-        NSDecimalNumberHandler * behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundUp scale:0 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];
-        NSDecimalNumber * bitrateDecimalNumber = [mp3SettingsDecimalNumber decimalNumberByRoundingAccordingToBehavior: behavior];
+        //NSDecimalNumberHandler * behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundUp scale:0 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];
+        //NSDecimalNumber * bitrateDecimalNumber = [mp3SettingsDecimalNumber decimalNumberByRoundingAccordingToBehavior: behavior];
+        
+        NSInteger bitrateInteger = [mp3SettingsDecimalNumber integerValue];
+        NSDecimalNumber * bitrateDecimalNumber = [[NSDecimalNumber alloc] initWithInteger:bitrateInteger];
+        
         NSDecimalNumber * encodingQualityDecimalNumber = [mp3SettingsDecimalNumber decimalNumberBySubtracting: bitrateDecimalNumber];
         encodingQualityDecimalNumber = [encodingQualityDecimalNumber decimalNumberByMultiplyingByPowerOf10: 1];
         
         NSString * bitrateString = [NSString stringWithFormat:@"%@", bitrateDecimalNumber];
         NSString * encodingQualityString = [NSString stringWithFormat:@"%@", encodingQualityDecimalNumber];
 
-        float mp3Settings = mp3SettingsDecimalNumber.floatValue;
         NSInteger mp3SettingsBitrate = labs(bitrateString.integerValue);
         NSInteger mp3SettingsEncodingQuality = labs(encodingQualityString.integerValue);
         
@@ -962,18 +964,18 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
                 encodingQuality = @"Minimum Quality Encoding";
                 break;
         }
-        
-        NSString * bitrate = @"Unknown Bitrate";
-        NSString * bitrateMode = @"";
-        bitrate = [NSString stringWithFormat:@"Constant Bitrate %ld bps", mp3SettingsBitrate];
+
+        NSInteger bitrateK = bitrateInteger * 1000;
+        NSString * bitrate = [NSString stringWithFormat:@"%ld bps", bitrateK];
         
         NSString * mp3SettingsDescription = [NSString stringWithFormat:@"%@, %@", bitrate, encodingQuality];
+        
         self.mp3SettingsDescriptionTextField.stringValue = mp3SettingsDescription;
     }
     else
     {
-        self.mp3SettingsTextField.stringValue = @"16000.2";
-        self.mp3SettingsDescriptionTextField.stringValue = @"Default Constant Bitrate and Encoding Quality";
+        self.mp3SettingsTextField.stringValue = @"16.2";
+        self.mp3SettingsDescriptionTextField.stringValue = @"1600 bps, Default High Encoding Quality";
     }
 }
 
@@ -1017,7 +1019,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     [self.localRadioAppSettings setValue:secondStageSoxFilterString forKey:@"SecondStageSoxFilter"];
 
     NSString * constantBitrateString = self.editMP3ConstantPopUpButton.titleOfSelectedItem;
-    NSInteger constantBitrateInteger = constantBitrateString.integerValue;
+    NSInteger constantBitrateInteger = constantBitrateString.integerValue / 1000;
     NSString * encodingQualityString = self.editMP3EncodingQualityPopUpButton.titleOfSelectedItem;
     NSInteger encodingQualityInteger = encodingQualityString.integerValue;
     NSString * mp3SettingString = [NSString stringWithFormat:@"%ld.%ld", constantBitrateInteger, encodingQualityInteger];

@@ -480,6 +480,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             NSString * nowPlayingDetailsString = [NSString stringWithFormat:@"<br><br>frequency: %@<br>modulation: %@<br>sample rate: %@<br><br>", frequencyString, modulationString, sampleRateString];
 
             [replacementDict setObject:nowPlayingDetailsString forKey:@"NOW_PLAYING_DETAILS"];
+            
+            NSString * openAudioPlayerPageButtonString = [self generateOpenAudioPlayerPageButtonString];
+            
+            [replacementDict setObject:openAudioPlayerPageButtonString forKey:@"OPEN_AUDIO_PLAYER_PAGE_BUTTON"];
         }
         #pragma mark relativePath=nowplayingstatus.html
         else if ([relativePath isEqualToString:@"/nowplayingstatus.html"])
@@ -1744,33 +1748,44 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     }
     
     NSMutableDictionary * bitrateDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            @"", @"3000",
-            @"", @"5000",
-            @"", @"7000",
-            @"", @"10000",
-            @"", @"12000",
+            @"", @"8000",
             @"", @"16000",
             @"", @"24000",
             @"", @"32000",
             @"", @"48000",
             @"", @"64000",
+            @"", @"80000",
+            @"", @"96000",
+            @"", @"112000",
             @"", @"128000",
+            @"", @"160000",
+            @"", @"192000",
+            @"", @"224000",
+            @"", @"256000",
+            @"", @"320000",
             NULL];
     
     [bitrateDictionary setObject:@" selected=\"\"" forKey:currentBitrate];
     
+    // note from LAME:
+    // <bitrate> (bitrate in kbit/s) must be chosen from the following values: 8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, or 320.
 
-    [resultString appendFormat:@"<option value=\"3000\" %@>Constant Bitrate 3000 bps</option>", [bitrateDictionary objectForKey:@"3000"]];
-    [resultString appendFormat:@"<option value=\"5000\" %@>Constant Bitrate 5000 bps</option>", [bitrateDictionary objectForKey:@"5000"]];
-    [resultString appendFormat:@"<option value=\"7000\" %@>Constant Bitrate 7000 bps</option>", [bitrateDictionary objectForKey:@"7000"]];
-    [resultString appendFormat:@"<option value=\"10000\" %@>Constant Bitrate 10000 bps</option>", [bitrateDictionary objectForKey:@"10000"]];
-    [resultString appendFormat:@"<option value=\"12000\" %@>Constant Bitrate 12000 bps</option>", [bitrateDictionary objectForKey:@"12000"]];
-    [resultString appendFormat:@"<option value=\"16000\" %@>Constant Bitrate 16000 bps</option>", [bitrateDictionary objectForKey:@"16000"]];
-    [resultString appendFormat:@"<option value=\"24000\" %@>Constant Bitrate 24000 bps</option>", [bitrateDictionary objectForKey:@"24000"]];
-    [resultString appendFormat:@"<option value=\"32000\" %@>Constant Bitrate 32000 bps</option>", [bitrateDictionary objectForKey:@"32000"]];
-    [resultString appendFormat:@"<option value=\"48000\" %@>Constant Bitrate 48000 bps</option>", [bitrateDictionary objectForKey:@"48000"]];
-    [resultString appendFormat:@"<option value=\"64000\" %@>Constant Bitrate 64000 bps</option>", [bitrateDictionary objectForKey:@"64000"]];
-    [resultString appendFormat:@"<option value=\"128000\" %@>Constant Bitrate 128000 bps</option>", [bitrateDictionary objectForKey:@"128000"]];
+    [resultString appendFormat:@"<option value=\"8000\" %@>8000 bps</option>", [bitrateDictionary objectForKey:@"8000"]];
+    [resultString appendFormat:@"<option value=\"16000\" %@>16000 bps</option>", [bitrateDictionary objectForKey:@"16000"]];
+    [resultString appendFormat:@"<option value=\"24000\" %@>24000 bps</option>", [bitrateDictionary objectForKey:@"24000"]];
+    [resultString appendFormat:@"<option value=\"32000\" %@>32000 bps</option>", [bitrateDictionary objectForKey:@"32000"]];
+    [resultString appendFormat:@"<option value=\"40000\" %@>40000 bps</option>", [bitrateDictionary objectForKey:@"40000"]];
+    [resultString appendFormat:@"<option value=\"48000\" %@>48000 bps</option>", [bitrateDictionary objectForKey:@"48000"]];
+    [resultString appendFormat:@"<option value=\"64000\" %@>64000 bps</option>", [bitrateDictionary objectForKey:@"64000"]];
+    [resultString appendFormat:@"<option value=\"80000\" %@>80000 bps</option>", [bitrateDictionary objectForKey:@"80000"]];
+    [resultString appendFormat:@"<option value=\"96000\" %@>96000 bps</option>", [bitrateDictionary objectForKey:@"96000"]];
+    [resultString appendFormat:@"<option value=\"112000\" %@>112000 bps</option>", [bitrateDictionary objectForKey:@"112000"]];
+    [resultString appendFormat:@"<option value=\"128000\" %@>128000 bps</option>", [bitrateDictionary objectForKey:@"128000"]];
+    [resultString appendFormat:@"<option value=\"160000\" %@>160000 bps</option>", [bitrateDictionary objectForKey:@"160000"]];
+    [resultString appendFormat:@"<option value=\"192000\" %@>192000 bps</option>", [bitrateDictionary objectForKey:@"192000"]];
+    [resultString appendFormat:@"<option value=\"224000\" %@>224000 bps</option>", [bitrateDictionary objectForKey:@"224000"]];
+    [resultString appendFormat:@"<option value=\"256000\" %@>256000 bps</option>", [bitrateDictionary objectForKey:@"256000"]];
+    [resultString appendFormat:@"<option value=\"320000\" %@>320000 bps</option>", [bitrateDictionary objectForKey:@"320000"]];
     
     return resultString;
 }
@@ -2100,7 +2115,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                                 @" onabort='audioPlayerAbort(this);' "
                                 @" oncanplay='audioPlayerCanPlay(this);' "
                                 @" oncanplaythrough='audioPlayerCanPlaythrough(this);' "
-                                @" ondurationchange='audioPlayerCanPlaythrough(this);' "
+                                @" ondurationchange='audioPlayerDurationChange(this);' "
                                 @" onemptied='audioPlayerEmptied(this);' "
                                 @" onended='audioPlayerEnded(this);' "
                                 @" onerror='audioPlayerError(this, error);' "
@@ -2117,7 +2132,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                                 @" onplay='audioPlayerStarted(this);' "
                                 @" onsuspend='audioPlayerSuspend(this);' "
                                 @" ontimeupdate='audioPlayerTimeUpdate(this);' "
-                                @" ontimeupdate='audioPlayerWaiting(this);' ";
+                                @" onwaiting='audioPlayerWaiting(this);' ";
                 
                 [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
             }
@@ -2161,7 +2176,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     NSString * bitrate = [settingsDictionary objectForKey:@"bitrate"];
     NSString * encoding_quality = [settingsDictionary objectForKey:@"encoding_quality"];
     
-    NSString * mp3Setting = [NSString stringWithFormat:@"%@.%@", bitrate, encoding_quality];
+    NSInteger bitrateInt = bitrate.integerValue;
+    
+    NSInteger bitrateK = bitrateInt / 1000;
+    
+    //NSString * mp3Setting = [NSString stringWithFormat:@"%@.%@", bitrate, encoding_quality];
+    NSString * mp3Setting = [NSString stringWithFormat:@"%ld.%@", bitrateK, encoding_quality];
     
     [self performSelectorOnMainThread:@selector(setMP3SettingsTextField:) withObject:mp3Setting waitUntilDone:YES];
 
@@ -3556,6 +3576,29 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     [selectOptionsString appendString:@"</select>"];
     
     return selectOptionsString;
+}
+
+
+//==================================================================================
+//	generateOpenAudioPlayerPageButtonString
+//==================================================================================
+
+- (NSString *)generateOpenAudioPlayerPageButtonString
+{
+    NSString * hostString = self.appDelegate.localHostString;
+
+    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+    NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
+
+    //NSString * audioURLString = [NSString stringWithFormat:@"window.location='http://%@:%@/%@'", hostString, icecastServerPortNumber, icecastServerMountName];
+    //NSString * audioURLString = [NSString stringWithFormat:@"location.href='http://%@:%@/%@'", hostString, icecastServerPortNumber, icecastServerMountName];
+    NSString * audioURLString = [NSString stringWithFormat:@"http://%@:%@/%@", hostString, icecastServerPortNumber, icecastServerMountName];
+
+    //NSString * listenButtonString = [NSString stringWithFormat:@"<button class='button button-primary twelve columns' type='button' onclick=\"%@\" target='_parent'>Open Audio Player Page</button>", audioURLString];
+
+    NSString * listenButtonString = [NSString stringWithFormat:@"<a href='%@' target='_top'><button class='button button-primary twelve columns' type='button'>Open Audio Player Page</button></a>", audioURLString];
+
+    return listenButtonString;
 }
 
 @end

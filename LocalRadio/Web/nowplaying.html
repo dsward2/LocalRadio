@@ -138,9 +138,13 @@
         
         if (rtlsdr_task_mode == "scan")
         {
+          statusHtml += "<span id='now-playing-details' style='overflow-x: scroll; white-space: nowrap;'>";
+
           statusHtml += "name: ";
           statusHtml += station_name;
           statusHtml += "<br>";
+          
+          statusHtml += "</span>"
         }
         
         statusHtml += "frequency: ";
@@ -225,6 +229,8 @@
             <span id="now-playing-details">
             %%NOW_PLAYING_DETAILS%%
             </span>
+            <br>
+            %%OPEN_AUDIO_PLAYER_PAGE_BUTTON%%
         </section>
     </div>
 

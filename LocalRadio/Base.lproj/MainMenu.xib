@@ -783,22 +783,28 @@
                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9xJ-Ya-ucR">
                                     <rect key="frame" x="89" y="67" width="103" height="26"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <popUpButtonCell key="cell" type="push" title="16000 bps" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="J1z-cE-iGO" id="niB-BN-6R8">
+                                    <popUpButtonCell key="cell" type="push" title="32000 bps" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="d76-AR-yTO" id="niB-BN-6R8">
                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="menu"/>
                                         <menu key="menu" id="p4m-Sx-6B4">
                                             <items>
-                                                <menuItem title="3000 bps" id="lUD-Lz-igo"/>
-                                                <menuItem title="5000 bps" id="N4H-u7-K9H"/>
-                                                <menuItem title="7000 bps" id="bSZ-Dh-8Zu"/>
-                                                <menuItem title="10000 bps" id="d76-AR-yTO"/>
-                                                <menuItem title="12000 bps" id="Sg9-9R-bPc"/>
-                                                <menuItem title="16000 bps" state="on" id="J1z-cE-iGO"/>
-                                                <menuItem title="24000 bps" id="iIU-Tu-NoR"/>
-                                                <menuItem title="32000 bps" id="N0a-GP-NOr"/>
-                                                <menuItem title="48000 bps" id="owQ-8p-zMm"/>
-                                                <menuItem title="64000 bps" id="chw-qQ-kon"/>
-                                                <menuItem title="128000 bps" id="dAm-Zj-dPJ"/>
+                                                <menuItem title="8000 bps" id="lUD-Lz-igo"/>
+                                                <menuItem title="16000 bps" id="N4H-u7-K9H"/>
+                                                <menuItem title="24000 bps" id="bSZ-Dh-8Zu"/>
+                                                <menuItem title="32000 bps" state="on" id="d76-AR-yTO"/>
+                                                <menuItem title="48000 bps" id="Sg9-9R-bPc"/>
+                                                <menuItem title="64000 bps" state="on" id="J1z-cE-iGO"/>
+                                                <menuItem title="96000 bps" id="iIU-Tu-NoR"/>
+                                                <menuItem title="112000 bps" id="N0a-GP-NOr"/>
+                                                <menuItem title="128000 bps" id="owQ-8p-zMm"/>
+                                                <menuItem title="192000 bps" id="chw-qQ-kon"/>
+                                                <menuItem title="224000 bps" id="dAm-Zj-dPJ"/>
+                                                <menuItem title="256000 bps" id="zGn-tX-pO6">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                                <menuItem title="320000 bps" id="Gnu-DY-sPj">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
                                             </items>
                                         </menu>
                                     </popUpButtonCell>
