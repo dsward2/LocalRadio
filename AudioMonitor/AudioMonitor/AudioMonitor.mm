@@ -32,10 +32,6 @@
 #define kAudioQueueSampleRate 48000
 
 #define kInputPacketLength sizeof(SInt16)
-//#define kInputBufferLength (kInputMaxPackets * kInputPacketLength)
-
-//#define kOutputPacketLength sizeof(SInt16)
-//#define kOutputBufferLength (kInputMaxPackets * kOutputPacketLength)
 
 #define kAudioQueueBufferSize (kInputMaxPackets * sizeof(SInt16) * 2)
 
@@ -85,7 +81,6 @@
     NSTimeInterval lastReadTime = [NSDate timeIntervalSinceReferenceDate] + 20;
     NSTimeInterval nextTimeoutReportInterval = 5;
 
-    //int32_t circularBufferLength = 512 * 1024;
     int32_t circularBufferLength = 256 * 1024;
     TPCircularBufferInit(&inputCircularBuffer, circularBufferLength);
     
@@ -141,9 +136,8 @@
                         
                         // copy RTL-SDR LPCM data to a circular buffer to be used as input for AudioConverter process
 
-                        int32_t space;
-                        void *ptr = TPCircularBufferHead(&inputCircularBuffer, &space);
-                        //NSLog(@"AudioMonitor runInputBufferOnThread Produce, bytesAvailableCount=%u, space = %d, head = %p", bytesAvailableCount, space, ptr);
+                        //int32_t space;
+                        //void *ptr = TPCircularBufferHead(&inputCircularBuffer, &space);   // for NSLog below
                         
                         bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
                         
@@ -151,11 +145,9 @@
                         {
                             TPCircularBufferClear(&inputCircularBuffer);
 
-                            NSLog(@"AudioMonitor runInputBufferOnThread Produce, bytesAvailableCount=%u, space = %d, head = %p", bytesAvailableCount, space, ptr);
+                            //NSLog(@"AudioMonitor runInputBufferOnThread Produce, bytesAvailableCount=%u, space = %d, head = %p", bytesAvailableCount, space, ptr);
                             NSLog(@"AudioMonitor runInputBufferOnThread - produce bytes failed, bytesAvailableCount = %d", bytesAvailableCount);
                         }
-                        
-                        //fwrite(rtlsdrBuffer, 1, bytesAvailableCount, stdout); // also write to stdout at original sampling rate, for sox, etc.
                     }
                     
                     free(rtlsdrBuffer);
@@ -184,9 +176,6 @@
         
         packetIndex++;
     }
-
-    //NSLog(@"AudioMonitor exit");
-    //fprintf(stderr, "AudioMonitor exit\n");
 }
 
 
@@ -203,7 +192,6 @@
     NSTimeInterval lastReadTime = [NSDate timeIntervalSinceReferenceDate] + 20;
     NSTimeInterval nextTimeoutReportInterval = 5;
 
-    //int32_t circularBufferLength = 256 * 1024;
     int32_t circularBufferLength = 128 * 1024;
     TPCircularBufferInit(&audioConverterCircularBuffer, circularBufferLength);
 
@@ -227,10 +215,6 @@
         
         if( bytesAvailableCount <= 0)
         {
-            //[NSThread sleepForTimeInterval:0.01f];
-
-            //TPCircularBufferClear(&inputCircularBuffer);
-
             usleep(1000);
         }
         else
@@ -242,18 +226,11 @@
                 
                 //NSLog(@"AudioMonitor sending data, length=%ld", bytesAvailableCount);
                 
-                //if (self.volume > 0.0f)
-                //{
-                //    [self convertBuffer:circularBufferDataPtr length:bytesAvailableCount];
-                //}
-
                 [self convertBuffer:circularBufferDataPtr length:bytesAvailableCount];
 
                 //NSLog(@"AudioMonitor runAudioConverterOnThread - Consume bytesAvailableCount = %d, circularBufferDataPtr = %p", bytesAvailableCount, circularBufferDataPtr);
 
                 TPCircularBufferConsume(&inputCircularBuffer, bytesAvailableCount);
-                
-                ////fwrite(&inputCircularBuffer, 1, bytesAvailableCount, stdout);    // also write to stdout at original sampling rate, for sox, etc.
             }
         }
 
@@ -372,25 +349,6 @@
         }
     }
     
-    /*
-    bool mIsRunning = true;
-    
-    do {
-            CFRunLoopRunInMode (
-                kCFRunLoopDefaultMode,
-                0.1,
-                false   // returnAfterSourceHandled
-            );
-    } while (mIsRunning == true);
-    
-    // After the audio queue has stopped, runs the run loop a bit longer to ensure that the audio queue buffer currently playing has time to finish
-    CFRunLoopRunInMode (
-        kCFRunLoopDefaultMode,
-        1,
-        false
-    );
-    */
-    
     CFRunLoopRun();
 }
 
@@ -438,8 +396,6 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
             }
         }
         
-        //fwrite(circularBufferDataPtr, sizeof(SInt16), samplesCount, stdout);    // also write resampled audio to stdout, perhaps for sox, etc.
-
         buffer->mAudioDataByteSize = channelOutputBytes;
         
         if (self.volume > 0.0f)
@@ -467,8 +423,6 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
 
         memset(buffer->mAudioData, 0, buffer->mAudioDataByteSize);
 
-        //fwrite(buffer->mAudioData, 1, buffer->mAudioDataByteSize, stdout);    // also write silent audio to stdout, perhaps for sox, etc.
-        
         if (self.volume > 0.0f)
         {
             // output silent audio to the current system device
@@ -515,8 +469,8 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
 
         //NSLog(@"AudioMonitor convertBuffer numFrames=%d, remain=%d", numFrames, audioConverterInputPacketsRemain);
         
-        // for up-sampling (e.g., 10000 Hz to 41000 Hz), AudioConverterFillComplexBuffer was not making multiple calls to inputProc,
-        // so try multiple calls in a loop here and check result for exit condition 'zero' indicating end of input buffer.
+        // for up-sampling (e.g., 10000 Hz to 41000 Hz), use multiple calls to AudioConverterFillComplexBuffer
+        // in a loop here and check result for exit condition 'zero' indicating end of input buffer.
         // Down-sampling (e.g. 85000 Hz to 10000 Hz) seems to get the buffer processed without the loop.
 
         OSStatus convertResult = noErr;
@@ -542,22 +496,29 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
 
                 void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
 
-                int32_t space;
-                void *ptr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);
-                //NSLog(@"AudioMonitor convertBuffer Produce convertedDataLength = %d, space = %d, head = %p", convertedDataLength, space, ptr);
+                //int32_t space;
+                //void *ptr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for NSLog below
+
+                fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // also write resampled audio to stdout, perhaps for sox, etc.
                 
                 bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
 
-                fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // also write resampled audio to stdout, perhaps for sox, etc.
-
                 if (produceBytesResult == false)
                 {
-                    // TODO: We are dropping packets here to avoid buffer overrun, is audioConverterCircularBuffer missing consume operations?
+                    // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
                 
+                    // clear buffer and try again (not recommended practice)
                     TPCircularBufferClear(&(self->audioConverterCircularBuffer));
+                    
+                    produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
 
-                    NSLog(@"AudioMonitor convertBuffer Produce convertedDataLength = %d, space = %d, head = %p", convertedDataLength, space, ptr);
-                    NSLog(@"AudioMonitor convertBuffer - produce bytes failed, convertedDataLength = %d", convertedDataLength);
+                    if (produceBytesResult == false)
+                    {
+                        // If we get here, packets will be dropped
+                    
+                        //NSLog(@"AudioMonitor convertBuffer Produce convertedDataLength = %d, space = %d, head = %p", convertedDataLength, space, ptr);
+                        NSLog(@"AudioMonitor convertBuffer - produce bytes failed, convertedDataLength = %d", convertedDataLength);
+                    }
                 }
             }
 
