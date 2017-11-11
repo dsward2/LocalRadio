@@ -6,8 +6,9 @@
 //  Copyright © 2017 ArkPhone LLC. All rights reserved.
 //
 
-//  Use AudioConverter to resample audio to 48000 Hz, store in ring buffer,
-//  then provide data to AudioQueue to play with default audio device.
+//  Receive input LPCM audio data at stdin, store in first TPCircularBuffer
+//  Use AudioConverter to resample audio to 48000 Hz, store in second TPCircularBuffer, and output to stdout
+//  then enqueue data to AudioQueue to play with default audio device.
 
 //  Apparently, this code violates every rule listed here:
 //  http://atastypixel.com/blog/four-common-mistakes-in-audio-development/
@@ -27,13 +28,13 @@
 #include <stdlib.h>
 
 
-#define kInputMaxPackets (4 * 1024)
 #define kAudioQueueChannelsCount 1
 #define kAudioQueueSampleRate 48000
 
 #define kInputPacketLength sizeof(SInt16)
 
-#define kAudioQueueBufferSize (kInputMaxPackets * sizeof(SInt16) * 2)
+#define kInputMaxPackets 65536
+#define kAudioQueueBufferSize (kInputMaxPackets * sizeof(SInt16))
 
 @interface AudioMonitor ()
 @end
