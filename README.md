@@ -7,7 +7,7 @@
 
 <hr>
 
-### The latest pre-release alpha versions of the LocalRadio app are [avaiable for download at this link](https://github.com/dsward2/LocalRadio/releases).
+### The latest pre-release alpha versions of the LocalRadio app are [available for download at this link](https://github.com/dsward2/LocalRadio/releases).
 
 <hr>
 

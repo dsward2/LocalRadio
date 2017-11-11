@@ -545,7 +545,8 @@
         // configure rtl_fm_localradio for output to UDPSender (then to EZStream/Icecast)
         
         [soxArgsArray addObject:@"-r"];
-        [soxArgsArray addObject:tunerSampleRateNumber];
+        //[soxArgsArray addObject:tunerSampleRateNumber];
+        [soxArgsArray addObject:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
         
         [soxArgsArray addObject:@"-e"];
         [soxArgsArray addObject:@"signed-integer"];
@@ -606,7 +607,8 @@
         // input args
 
         [soxArgsArray addObject:@"-r"];
-        [soxArgsArray addObject:tunerSampleRateNumber];
+        //[soxArgsArray addObject:tunerSampleRateNumber];
+        [soxArgsArray addObject:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
         
         [soxArgsArray addObject:@"-e"];
         [soxArgsArray addObject:@"signed-integer"];
