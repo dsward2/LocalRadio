@@ -81,13 +81,13 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (void)terminateTasks
 {
+    [self.sdrController terminateTasks];
+
     [self.ezStreamController terminateTasks];
     
     [self.icecastController terminateTasks];
     
-    [self.soxController terminateTasks];
-
-    [self.sdrController terminateTasks];
+    //[self.soxController terminateTasks];  // already handled by sdrController terminateTasks
     
     [self updateCurrentTasksText];
 }

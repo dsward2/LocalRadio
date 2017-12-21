@@ -25,6 +25,8 @@
 
 @property(strong) NSMutableData * bodyData;
 
+@property (strong) NSString * previousPath;
+
 @property(strong) NSMutableDictionary * constructFrequencyDictionary;
 
 - (void)listenButtonClickedForFrequencyID:(NSString *)frequencyIDString;

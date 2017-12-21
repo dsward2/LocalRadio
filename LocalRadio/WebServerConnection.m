@@ -170,12 +170,22 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     NSURL * pathURL = [NSURL URLWithString:path];
 
+    // TODO: remove this instrumentation, which logs the page request
     NSString * pathURLPath = [pathURL path];
     NSString * pathExtension = pathURLPath.pathExtension;
     if ([pathExtension isEqualToString:@"html"] == YES)
     {
-        NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+        if ([path isEqualToString:@"/nowplayingstatus.html"] == NO)
+        {
+            NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+        }
+        else if ([self.previousPath isEqualToString:@"/nowplayingstatus.html"] == NO)
+        {
+            // only log the first consecutive request for /nowplayingstatus.html, which is requested several times per second
+            NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+        }
     }
+    self.previousPath = path;
     
     NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:pathURL
             resolvingAgainstBaseURL:NO];
