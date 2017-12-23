@@ -115,10 +115,10 @@
 
 - (void) terminateTasks
 {
-    NSArray * reversedTaskItemsArray = [[self.taskItemsArray reverseObjectEnumerator] allObjects];
+    //NSArray * reversedTaskItemsArray = [[self.taskItemsArray reverseObjectEnumerator] allObjects];
 
-    for (TaskItem * taskItem in reversedTaskItemsArray)
-    //for (TaskItem * taskItem in self.taskItemsArray)
+    //for (TaskItem * taskItem in reversedTaskItemsArray)
+    for (TaskItem * taskItem in self.taskItemsArray)
     {
         NSError * terminateTaskError = [taskItem terminateTask];
     }

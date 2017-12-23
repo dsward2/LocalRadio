@@ -128,12 +128,14 @@
 {
     [self.task terminate];
 
-    /*
+    [NSThread sleepForTimeInterval:0.1f];
+
     while ([self.task isRunning] == YES)
     {
+        [self.task terminate];
+
         [NSThread sleepForTimeInterval:0.1f];
     }
-    */
 
     return NULL;
 }
