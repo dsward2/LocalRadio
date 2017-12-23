@@ -23,6 +23,8 @@
 #import "NSFileManager+DirectoryLocations.h"
 #import "WebViewDelegate.h"
 #import "UDPStatusListenerController.h"
+#import "TaskPipelineManager.h"
+#import "TaskItem.h"
 #import "FCCSearchController.h"
 #import <IOKit/usb/IOUSBLib.h>
 //#import <IOKit/hid/IOHIDManager.h>
@@ -234,7 +236,6 @@ typedef struct kinfo_proc kinfo_proc;
     */
 }
 
-
 //==================================================================================
 //	updateCurrentTasksText:
 //==================================================================================
@@ -243,87 +244,36 @@ typedef struct kinfo_proc kinfo_proc;
 {
     NSMutableString * tasksString = [NSMutableString string];
 
-    if (self.ezStreamController.udpListenerTaskProcessID != 0)
-    {
-        [tasksString appendFormat:@"EZStreamController UDPListener - process ID = %d\n\n", self.ezStreamController.udpListenerTaskProcessID];
-        
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.ezStreamController.quotedUDPListenerPath, self.ezStreamController.udpListenerArgsString];
-    }
-
-    if (self.ezStreamController.soxTaskProcessID != 0)
-    {
-        [tasksString appendFormat:@"EZStreamController Sox - process ID = %d\n\n", self.ezStreamController.soxTaskProcessID];
-        
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.ezStreamController.quotedSoxPath, self.ezStreamController.soxArgsString];
-    }
-    
-    if (self.ezStreamController.ezStreamTaskProcessID != 0)
-    {
-        [tasksString appendFormat:@"EZStreamController EZStream - process ID = %d\n\n", self.ezStreamController.ezStreamTaskProcessID];
-        
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.ezStreamController.quotedEZStreamPath, self.ezStreamController.ezStreamArgsString];
-    }
+    [tasksString appendString:@"--- Icecast tasks ---\n\n"];
     
     if (self.icecastController.icecastTaskProcessID != 0)
     {
-        [tasksString appendFormat:@"IcecastController Icecast - process ID = %d\n\n", self.icecastController.icecastTaskProcessID];
+
+        [tasksString appendFormat:@"Icecast - process ID = %d\n\n", self.icecastController.icecastTaskProcessID];
      
         [tasksString appendFormat:@"%@ %@\n\n",
             self.icecastController.quotedIcecastPath, self.icecastController.icecastTaskArgsString];
     }
-    
-    if (self.sdrController.rtlfmTaskProcessID != 0)
+    else
     {
-        [tasksString appendFormat:@"SDRController rtl_fm_localradio - process ID = %d\n\n", self.sdrController.rtlfmTaskProcessID];
-       
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.sdrController.quotedRtlfmPath, self.sdrController.rtlfmTaskArgsString];
+        [tasksString appendString:@"No tasks currently running\n\n"];
     }
     
-        if (self.sdrController.audioMonitorTaskProcessID != 0)
-    {
-        [tasksString appendFormat:@"SDRController AudioMonitor - process ID = %d\n\n", self.sdrController.audioMonitorTaskProcessID];
-       
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.sdrController.quotedAudioMonitorPath, self.sdrController.audioMonitorTaskArgsString];
-    }
+    [tasksString appendString:@"--- EZStream tasks ---\n\n"];
+
+    NSString * ezStreamTasksString = self.ezStreamController.ezStreamTaskPipelineManager.tasksInfoString;
+    [tasksString appendString:ezStreamTasksString];
+
+    [tasksString appendString:@"--- RTL-SDR radio tasks ---"];
     
-    if (self.sdrController.soxTaskProcessID != 0)
-    {
-        [tasksString appendFormat:@"SDRController Sox - process ID = %d\n\n", self.sdrController.soxTaskProcessID];
+    NSString * radioTasksString = self.sdrController.radioTaskPipelineManager.tasksInfoString;
+    [tasksString appendString:radioTasksString];
 
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.sdrController.quotedSoxPath, self.sdrController.soxTaskArgsString];
-    }
+    [tasksString appendString:@"--- Sox second-stage audio tasks ---"];
     
-    if (self.sdrController.udpSenderTask != NULL)
-    {
-        [tasksString appendFormat:@"SDRController UDPSender - process ID = %d\n\n", self.sdrController.udpSenderTaskProcessID];
-
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.sdrController.quotedUDPSenderPath, self.sdrController.udpSenderTaskArgsString];
-    }
-
-    if (self.soxController.soxTask != NULL)
-    {
-        [tasksString appendFormat:@"SoxController Sox - process ID = %d\n\n", self.soxController.soxTask.processIdentifier];
+    NSString * soxTasksString = self.soxController.soxControllerTaskPipelineManager.tasksInfoString;
+    [tasksString appendString:soxTasksString];
     
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.soxController.quotedSoxPath, self.soxController.soxTaskArgsString];
-    }
-
-
-    if (self.soxController.udpSenderTask != NULL)
-    {
-        [tasksString appendFormat:@"SoxController UDPSender - process ID = %d\n\n", self.soxController.udpSenderTask.processIdentifier];
-    
-        [tasksString appendFormat:@"%@ %@\n\n",
-                self.soxController.quotedUDPSenderPath, self.soxController.udpSenderTaskArgsString];
-    }
-
     dispatch_async(dispatch_get_main_queue(), ^{
     
         [self.statusCurrentTasksTextView setString:tasksString];

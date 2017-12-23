@@ -101,6 +101,8 @@
 		0E23B3161F1F36EE00565394 /* SoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E23B3151F1F36ED00565394 /* SoxController.m */; };
 		0E28BE6B1F2B6A48005999FB /* UDPStatusListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */; };
 		0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */; };
+		0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */; };
+		0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8E31FEBA01600492813 /* TaskItem.m */; };
 		0E3CB0E71F65FAD50088B498 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E61F65FAD50088B498 /* README.md */; };
 		0E3CB0E91F679AB40088B498 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E81F679AB40088B498 /* LICENSE */; };
 		0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E4461911F4420A9003C7851 /* scannerlistenbuttonclicked.html */; };
@@ -765,6 +767,10 @@
 		0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPStatusListenerController.m; sourceTree = "<group>"; };
 		0E28BE901F2C0DFA005999FB /* UDPStatusListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPStatusListener.h; sourceTree = "<group>"; };
 		0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPStatusListener.m; sourceTree = "<group>"; };
+		0E32F8BB1FEB9FC500492813 /* TaskPipelineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskPipelineManager.h; sourceTree = "<group>"; };
+		0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskPipelineManager.m; sourceTree = "<group>"; };
+		0E32F8E21FEBA01500492813 /* TaskItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskItem.h; sourceTree = "<group>"; };
+		0E32F8E31FEBA01600492813 /* TaskItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskItem.m; sourceTree = "<group>"; };
 		0E37AE881EFCE0CF005BB6E9 /* storefrequency.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = storefrequency.html; sourceTree = "<group>"; };
 		0E3CB0E61F65FAD50088B498 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0E3CB0E81F679AB40088B498 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -1751,6 +1757,10 @@
 				0ED9ED461F529A2A00898460 /* LocalRadioAppSettings.m */,
 				0EC207651EDCE11A006899EB /* SDRController.h */,
 				0EC207661EDCE11A006899EB /* SDRController.m */,
+				0E32F8BB1FEB9FC500492813 /* TaskPipelineManager.h */,
+				0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */,
+				0E32F8E21FEBA01500492813 /* TaskItem.h */,
+				0E32F8E31FEBA01600492813 /* TaskItem.m */,
 				0E84C9711ED8DA650065864B /* WebServerConnection.h */,
 				0E84C9721ED8DA650065864B /* WebServerConnection.m */,
 				0E4ED1AB1EAB823B00D2157B /* WebServerController.h */,
@@ -4174,6 +4184,7 @@
 			files = (
 				0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */,
 				0E4ED1871EAB7E0500D2157B /* DDLog.m in Sources */,
+				0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */,
 				0E4ED1851EAB7DC700D2157B /* WebSocket.m in Sources */,
 				0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */,
 				0EB8CB3F1F793880004B6D05 /* SCREENSHOTS.md in Sources */,
@@ -4181,6 +4192,7 @@
 				0E4ED18F1EAB7E5400D2157B /* HTTPErrorResponse.m in Sources */,
 				0E4ECFC31EAB633B00D2157B /* main.m in Sources */,
 				0E4ED1901EAB7E5700D2157B /* HTTPFileResponse.m in Sources */,
+				0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */,
 				0EC207671EDCE11A006899EB /* SDRController.m in Sources */,
 				0E5C52421F064237005CA515 /* GCDAsyncSocket.m in Sources */,
 				0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */,

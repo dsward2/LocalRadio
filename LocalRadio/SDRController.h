@@ -11,6 +11,7 @@
 //#import "GCDAsyncSocket.h"
 
 @class AppDelegate;
+@class TaskPipelineManager;
 
 //@interface SDRController : NSObject <GCDAsyncSocketDelegate, GCDAsyncUdpSocketDelegate>
 @interface SDRController : NSObject
@@ -25,6 +26,9 @@
 @property (strong) NSString * rtlsdrTaskMode;   // "frequency", "scan", or "stopped"
 @property (strong) NSMutableDictionary * rtlsdrCategoryDictionary;
 
+@property (strong) TaskPipelineManager * radioTaskPipelineManager;
+
+/*
 @property (strong) NSTask * rtlfmTask; // output to soxTask
 @property (strong) NSPipe * rtlfmTaskStandardErrorPipe;
 
@@ -42,9 +46,6 @@
 @property (strong) NSTask * udpSenderTask;  // for sending to UDPListener (then EZStream and Icecast), also echos to stdout
 @property (strong) NSPipe * udpSenderTaskStandardErrorPipe;
 
-@property (strong) NSArray * rtlsdrTaskFrequenciesArray;
-@property (assign) NSInteger udpTag;
-
 @property (strong) NSString * quotedRtlfmPath;
 @property (strong) NSString * quotedAudioMonitorPath;
 @property (strong) NSString * quotedSoxPath;
@@ -59,7 +60,10 @@
 @property (assign) int audioMonitorTaskProcessID;
 @property (assign) int soxTaskProcessID;
 @property (assign) int udpSenderTaskProcessID;
+*/
 
+@property (strong) NSArray * rtlsdrTaskFrequenciesArray;
+@property (assign) NSInteger udpTag;
 
 - (void)terminateTasks;
 

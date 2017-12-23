@@ -9,27 +9,30 @@
 #import <Foundation/Foundation.h>
 
 @class AppDelegate;
+@class TaskPipelineManager;
 
 @interface SoxController : NSObject
 
 @property (weak) IBOutlet AppDelegate * appDelegate;
 
-@property (strong) NSTask * soxTask;
-@property (strong) NSPipe * soxTaskStandardErrorPipe;
+@property (strong) TaskPipelineManager * soxControllerTaskPipelineManager;
 
-@property (strong) NSTask * udpSenderTask;
-@property (strong) NSPipe * udpSenderTaskStandardErrorPipe;
+//@property (strong) NSTask * soxTask;
+//@property (strong) NSPipe * soxTaskStandardErrorPipe;
 
-@property (strong) NSPipe * soxUDPSenderPipe;
+//@property (strong) NSTask * udpSenderTask;
+//@property (strong) NSPipe * udpSenderTaskStandardErrorPipe;
 
-@property (strong) NSString * soxTaskArgsString;
-@property (strong) NSString * udpSenderTaskArgsString;
+//@property (strong) NSPipe * soxUDPSenderPipe;
 
-@property (strong) NSString * quotedSoxPath;
-@property (strong) NSString * quotedUDPSenderPath;
+//@property (strong) NSString * soxTaskArgsString;
+//@property (strong) NSString * udpSenderTaskArgsString;
 
-@property (assign) int soxTaskProcessID;
-@property (assign) int udpSenderTaskProcessID;
+//@property (strong) NSString * quotedSoxPath;
+//@property (strong) NSString * quotedUDPSenderPath;
+
+//@property (assign) int soxTaskProcessID;
+//@property (assign) int udpSenderTaskProcessID;
 
 - (void)startSecondaryStreamForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary;
 

@@ -13,6 +13,8 @@
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAppSettings.h"
 #import "EZStreamController.h"
+#import "TaskPipelineManager.h"
+#import "TaskItem.h"
 
 @implementation SDRController
 
@@ -57,6 +59,8 @@
         [self.udpSocket beginReceiving:&socketReceiveError];
         */
 
+        self.radioTaskPipelineManager = [[TaskPipelineManager alloc] init];
+
         self.rtlsdrTaskMode = @"stopped";
     }
     return self;
@@ -68,98 +72,7 @@
 
 - (void)terminateTasks
 {
-    [self stopRtlsdrTasks];
-    
-    [self.appDelegate.soxController terminateTasks];
-}
-
-//==================================================================================
-//	stopRtlsdrTasks
-//==================================================================================
-
-- (void)stopRtlsdrTasks
-{
-    if ((self.rtlfmTask == NULL) &&
-            (self.audioMonitorTask == NULL) &&
-            (self.soxTask == NULL) &&
-            (self.udpSenderTask == NULL))
-    {
-        return;
-    }
-    
-    //@synchronized (self) {
-
-        NSLog(@"stopRtlsdrTask enter");
-
-        if ([(NSThread*)[NSThread currentThread] isMainThread] == YES)
-        {
-            NSLog(@"stopRtlsdrTask called on main thread");
-        }
-        
-        [self.appDelegate resetRtlsdrStatusText];
-
-        /*
-        if (self.currentInfoSocket != NULL)
-        {
-            [self.currentInfoSocket disconnect];
-            self.currentInfoSocket = NULL;
-        }
-        */
-
-        if (self.rtlfmTask != NULL)
-        {
-            if (self.rtlfmTask.isRunning == YES)
-            {
-                NSLog(@"stopRtlfmTask sending rtlfmTask terminate signal");
-                [self.rtlfmTask terminate];
-            }
-        }
-
-        if (self.audioMonitorTask != NULL)
-        {
-            if (self.audioMonitorTask.isRunning == YES)
-            {
-                NSLog(@"stopRtlsdrTask sending audioMonitorTask terminate signal");
-                [self.audioMonitorTask terminate];
-            }
-        }
-        
-        if (self.soxTask != NULL)
-        {
-            if (self.soxTask.isRunning == YES)
-            {
-                NSLog(@"stopRtlsdrTask sending soxTask terminate signal");
-                [self.soxTask terminate];
-            }
-        }
-        
-        if (self.udpSenderTask != NULL)
-        {
-            if (self.udpSenderTask.isRunning == YES)
-            {
-                NSLog(@"stopRtlsdrTask sending soxTask terminate signal");
-                [self.udpSenderTask terminate];
-            }
-        }
-        
-        [self.appDelegate.soxController terminateTasks];
-        
-        if (self.appDelegate.applicationIsTerminating == NO)
-        {
-            if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
-            {
-                while (self.rtlfmTask != NULL)
-                {
-                    //NSLog(@"SDRController stopRtlsdrTask waiting for self.rtlsdrTask != NULL");
-                    [NSThread sleepForTimeInterval:0.1f];
-                }
-            }
-        }
-        
-        self.rtlsdrTaskMode = @"stopped";
-
-        NSLog(@"stopRtlsdrTask exit");
-    //}
+    [self.radioTaskPipelineManager terminateTasks];
 }
 
 //==================================================================================
@@ -174,9 +87,9 @@
     
     //[self stopRtlsdrTask];
 
-    if (self.rtlfmTask != NULL)
+    if (self.radioTaskPipelineManager.taskPipelineStatus == kTaskPipelineStatusRunning)
     {
-        [self stopRtlsdrTasks];
+        [self.radioTaskPipelineManager terminateTasks];
         
         //delay = 1.0;    // one second
         delay = 0.2;
@@ -194,7 +107,6 @@
         
         [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:NULL];
     });
-    
 }
 
 //==================================================================================
@@ -207,9 +119,9 @@
 
     CGFloat delay = 0.0;
     
-    if (self.rtlfmTask != NULL)
+    if (self.radioTaskPipelineManager.taskPipelineStatus == kTaskPipelineStatusRunning)
     {
-        [self stopRtlsdrTasks];
+        [self.radioTaskPipelineManager terminateTasks];
         
         //delay = 1.0;    // one second
         delay = 0.2;    // one second
@@ -233,51 +145,7 @@
 
 - (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary
 {
-    // frequenciesArray contains one or more frequency record dictionaries
-    // category contains a category record dictionary
-
-    //NSLog(@"dispatchedStartRtlsdrTaskForFrequencies:category");
-
-    //NSRunLoop * currentRunLoop = [NSRunLoop currentRunLoop];
-    
-    if (self.rtlfmTask != NULL)
-    {
-        NSLog(@"Error self.rtlfmTask != NULL");
-    }
-    if (self.rtlfmTaskStandardErrorPipe != NULL)
-    {
-        NSLog(@"Error self.rtlfmTaskStandardErrorPipe != NULL");
-    }
-
-    /*
-    if (self.currentInfoSocket != NULL)
-    {
-        [self.currentInfoSocket disconnect];
-        self.currentInfoSocket = NULL;
-    }
-    */
-    
-    NSString * rtl_fmPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"rtl_fm_localradio"];
-    rtl_fmPath = [rtl_fmPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
-    self.quotedRtlfmPath = [NSMutableString stringWithFormat:@"\"%@\"", rtl_fmPath];
-    NSMutableArray * rtlfmArgsArray = [NSMutableArray array];
-
-    NSString * audioMonitorPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"AudioMonitor"];
-    audioMonitorPath = [audioMonitorPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
-    self.quotedAudioMonitorPath = [NSString stringWithFormat:@"\"%@\"", audioMonitorPath];
-    NSMutableArray * audioMonitorArgsArray = [NSMutableArray array];
-
-    NSString * soxPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"sox"];
-    soxPath = [soxPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
-    self.quotedSoxPath = [NSMutableString stringWithFormat:@"\"%@\"", soxPath];
-    NSMutableArray * soxArgsArray = [NSMutableArray array];
-    
-    NSString * udpSenderPath = [NSBundle.mainBundle pathForAuxiliaryExecutable:@"UDPSender"];
-    udpSenderPath = [udpSenderPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
-    self.quotedUDPSenderPath = [NSString stringWithFormat:@"\"%@\"", udpSenderPath];
-    NSMutableArray * udpSenderArgsArray = [NSMutableArray array];
-    
-    // variables common to both Favorites and Categories
+    // values common to both Favorites and Categories
     NSString * nameString = @"";
     NSNumber * categoryScanningEnabledNumber = [NSNumber numberWithInteger:0];
     NSMutableString * frequencyString = [NSMutableString stringWithFormat:@"-f 89100000"];  // can be single frequency, multiple frequencies or range
@@ -296,14 +164,13 @@
     NSString * audioOutputString = @"";
     NSString * streamSourceString = @"";
 
-    //NSString * statusPortString = self.appDelegate.statusPortTextField.stringValue;
     NSNumber * statusPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"StatusPort"];
     
     NSString * statusFunctionString = @"No active tuning";
     
     BOOL enableDirectSamplingQBranchMode = NO;
     BOOL enableTunerAGC = NO;
-    
+
     if (categoryDictionary == NULL)
     {
         if (frequenciesArray.count == 1)
@@ -433,51 +300,60 @@
 
         statusFunctionString = [NSString stringWithFormat:@"Scanning category: %@", nameString];
     }
+
+    self.rtlsdrTaskFrequenciesArray = frequenciesArray;
     
     NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     audioOutputString = [audioOutputString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
     streamSourceString = [streamSourceString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
+
+    TaskItem * rtlfmTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"rtl_fm_localradio" functionName:@"rtl_fm_localradio"];
+
+    TaskItem * audioMonitorTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"AudioMonitor" functionName:@"AudioMonitor"];
+
+    TaskItem * soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
+
+    TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];
     
-    [rtlfmArgsArray addObject:@"-M"];
-    [rtlfmArgsArray addObject:modulationString];
-    [rtlfmArgsArray addObject:@"-l"];
-    [rtlfmArgsArray addObject:squelchLevelNumber];
-    [rtlfmArgsArray addObject:@"-t"];
-    [rtlfmArgsArray addObject:squelchDelayNumber];
-    [rtlfmArgsArray addObject:@"-F"];
-    [rtlfmArgsArray addObject:firSizeNumber];
-    [rtlfmArgsArray addObject:@"-g"];
-    [rtlfmArgsArray addObject:tunerGainNumber];
-    [rtlfmArgsArray addObject:@"-s"];
-    [rtlfmArgsArray addObject:tunerSampleRateNumber];
+    [rtlfmTaskItem addArgument:@"-M"];
+    [rtlfmTaskItem addArgument:modulationString];
+    [rtlfmTaskItem addArgument:@"-l"];
+    [rtlfmTaskItem addArgument:squelchLevelNumber.stringValue];
+    [rtlfmTaskItem addArgument:@"-t"];
+    [rtlfmTaskItem addArgument:squelchDelayNumber.stringValue];
+    [rtlfmTaskItem addArgument:@"-F"];
+    [rtlfmTaskItem addArgument:firSizeNumber.stringValue];
+    [rtlfmTaskItem addArgument:@"-g"];
+    [rtlfmTaskItem addArgument:tunerGainNumber.stringValue];
+    [rtlfmTaskItem addArgument:@"-s"];
+    [rtlfmTaskItem addArgument:tunerSampleRateNumber.stringValue];
     
     if ([oversamplingNumber integerValue] > 0)
     {
-        [rtlfmArgsArray addObject:@"-o"];
-        [rtlfmArgsArray addObject:oversamplingNumber];
+        [rtlfmTaskItem addArgument:@"-o"];
+        [rtlfmTaskItem addArgument:oversamplingNumber];
     }
     
-    [rtlfmArgsArray addObject:@"-A"];
-    [rtlfmArgsArray addObject:atanMathString];
-    [rtlfmArgsArray addObject:@"-p"];
-    [rtlfmArgsArray addObject:@"0"];
-    [rtlfmArgsArray addObject:@"-c"];
-    //[rtlfmArgsArray addObject:currentInfoServerPortString];
-    [rtlfmArgsArray addObject:statusPortNumber.stringValue];
+    [rtlfmTaskItem addArgument:@"-A"];
+    [rtlfmTaskItem addArgument:atanMathString];
+    [rtlfmTaskItem addArgument:@"-p"];
+    [rtlfmTaskItem addArgument:@"0"];
+    [rtlfmTaskItem addArgument:@"-c"];
+    [rtlfmTaskItem addArgument:statusPortNumber.stringValue];
 
-    [rtlfmArgsArray addObject:@"-E"];
-    [rtlfmArgsArray addObject:@"pad"];
+    [rtlfmTaskItem addArgument:@"-E"];
+    [rtlfmTaskItem addArgument:@"pad"];
     
     if (enableDirectSamplingQBranchMode == YES)
     {
-        [rtlfmArgsArray addObject:@"-E"];
-        [rtlfmArgsArray addObject:@"direct"];
+        [rtlfmTaskItem addArgument:@"-E"];
+        [rtlfmTaskItem addArgument:@"direct"];
     }
     
     if (enableTunerAGC == YES)
     {
-        [rtlfmArgsArray addObject:@"-E"];
-        [rtlfmArgsArray addObject:@"agc"];
+        [rtlfmTaskItem addArgument:@"-E"];
+        [rtlfmTaskItem addArgument:@"agc"];
     }
     
     NSArray * optionsArray = [optionsString componentsSeparatedByString:@" "];
@@ -486,57 +362,27 @@
         NSString * trimmedOptionString = [aOptionString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
         if (trimmedOptionString.length > 0)
         {
-            [rtlfmArgsArray addObject:@"-E"];
-            [rtlfmArgsArray addObject:trimmedOptionString];
+            [rtlfmTaskItem addArgument:@"-E"];
+            [rtlfmTaskItem addArgument:trimmedOptionString];
         }
     }
     
     NSArray * parsedFrequenciesArray = [frequencyString componentsSeparatedByString:@" "];
     for (NSString * parsedItem in parsedFrequenciesArray)
     {
-        [rtlfmArgsArray addObject:parsedItem];
+        [rtlfmTaskItem addArgument:parsedItem];
     }
     
-    NSMutableArray * fixRtlfmArgsArray = [NSMutableArray array];
-    for (id rtlfmArgsObject in rtlfmArgsArray)
-    {
-        id rtlfmArgsString = rtlfmArgsObject;
-        if ([rtlfmArgsString isKindOfClass:[NSNumber class]] == YES)
-        {
-            rtlfmArgsString = [rtlfmArgsString stringValue];
-        }
-        [fixRtlfmArgsArray addObject:rtlfmArgsString];
-    }
-    rtlfmArgsArray = fixRtlfmArgsArray;
-    
-
-
-
-    
-    [audioMonitorArgsArray addObject:@"-r"];
-    [audioMonitorArgsArray addObject:tunerSampleRateNumber];
+    [audioMonitorTaskItem addArgument:@"-r"];
+    [audioMonitorTaskItem addArgument:tunerSampleRateNumber.stringValue];
 
     NSString * livePlaythroughVolume = @"0.0";
     if (self.appDelegate.useWebViewAudioPlayerCheckbox.state == NO)
     {
         livePlaythroughVolume = @"1.0";
     }
-    [audioMonitorArgsArray addObject:@"-v"];
-    [audioMonitorArgsArray addObject:livePlaythroughVolume];
-
-    NSMutableArray * fixAudioMonitorArgsArray = [NSMutableArray array];
-    for (id audioMonitorArgsObject in audioMonitorArgsArray)
-    {
-        id audioMonitorArgsString = audioMonitorArgsObject;
-        if ([audioMonitorArgsString isKindOfClass:[NSNumber class]] == YES)
-        {
-            audioMonitorArgsString = [audioMonitorArgsString stringValue];
-        }
-        [fixAudioMonitorArgsArray addObject:audioMonitorArgsString];
-    }
-    audioMonitorArgsArray = fixAudioMonitorArgsArray;
-    
-    
+    [audioMonitorTaskItem addArgument:@"-v"];
+    [audioMonitorTaskItem addArgument:livePlaythroughVolume];
     
     BOOL useSecondaryStreamSource = NO;
     
@@ -544,55 +390,42 @@
     {
         // configure rtl_fm_localradio for output to UDPSender (then to EZStream/Icecast)
         
-        [soxArgsArray addObject:@"-r"];
-        //[soxArgsArray addObject:tunerSampleRateNumber];
-        [soxArgsArray addObject:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
+        [soxTaskItem addArgument:@"-r"];
+        [soxTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
         
-        [soxArgsArray addObject:@"-e"];
-        [soxArgsArray addObject:@"signed-integer"];
+        [soxTaskItem addArgument:@"-e"];
+        [soxTaskItem addArgument:@"signed-integer"];
         
-        [soxArgsArray addObject:@"-b"];
-        [soxArgsArray addObject:@"16"];
+        [soxTaskItem addArgument:@"-b"];
+        [soxTaskItem addArgument:@"16"];
         
-        [soxArgsArray addObject:@"-c"];
-        [soxArgsArray addObject:@"1"];
+        [soxTaskItem addArgument:@"-c"];
+        [soxTaskItem addArgument:@"1"];
         
-        [soxArgsArray addObject:@"-t"];
-        [soxArgsArray addObject:@"raw"];
+        [soxTaskItem addArgument:@"-t"];
+        [soxTaskItem addArgument:@"raw"];
         
-        [soxArgsArray addObject:@"-"];         // stdin
+        [soxTaskItem addArgument:@"-"];         // stdin
         
-        [soxArgsArray addObject:@"-t"];
-        [soxArgsArray addObject:@"raw"];
+        [soxTaskItem addArgument:@"-t"];
+        [soxTaskItem addArgument:@"raw"];
         
-        [soxArgsArray addObject:@"-"];         // stdout
+        [soxTaskItem addArgument:@"-"];         // stdout
         
-        [soxArgsArray addObject:@"rate"];
-        [soxArgsArray addObject:@"48000"];
+        [soxTaskItem addArgument:@"rate"];
+        [soxTaskItem addArgument:@"48000"];
         
         NSArray * audioOutputFilterStringArray = [audioOutputFilterString componentsSeparatedByString:@" "];
         for (NSString * audioOutputFilterStringItem in audioOutputFilterStringArray)
         {
-            [soxArgsArray addObject:audioOutputFilterStringItem];
+            [soxTaskItem addArgument:audioOutputFilterStringItem];
         }
-
-        NSMutableArray * fixSoxArgsArray = [NSMutableArray array];
-        for (id soxArgsObject in soxArgsArray)
-        {
-            id soxArgsString = soxArgsObject;
-            if ([soxArgsString isKindOfClass:[NSNumber class]] == YES)
-            {
-                soxArgsString = [soxArgsString stringValue];
-            }
-            [fixSoxArgsArray addObject:soxArgsString];
-        }
-        soxArgsArray = fixSoxArgsArray;
 
         // configure UDPSender task
 
-        [udpSenderArgsArray addObject:@"-p"];
+        [udpSenderTaskItem addArgument:@"-p"];
         NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"AudioPort"];
-        [udpSenderArgsArray addObject:audioPortNumber.stringValue];
+        [udpSenderTaskItem addArgument:audioPortNumber.stringValue];
     }
     else
     {
@@ -601,307 +434,87 @@
         // and start a secondary sox task to relay from a different Core Audio device to UDPSender
         // This can be useful with some third-party audio routing utilities, like SoundFlower
         
-        [soxArgsArray addObject:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
-        [soxArgsArray addObject:@"-q"];    // quiet mode - don't show terminal-style audio meter
+        [soxTaskItem addArgument:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
+        [soxTaskItem addArgument:@"-q"];    // quiet mode - don't show terminal-style audio meter
         
         // input args
 
-        [soxArgsArray addObject:@"-r"];
-        //[soxArgsArray addObject:tunerSampleRateNumber];
-        [soxArgsArray addObject:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
+        [soxTaskItem addArgument:@"-r"];
+        [soxTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
         
-        [soxArgsArray addObject:@"-e"];
-        [soxArgsArray addObject:@"signed-integer"];
+        [soxTaskItem addArgument:@"-e"];
+        [soxTaskItem addArgument:@"signed-integer"];
         
-        [soxArgsArray addObject:@"-b"];
-        [soxArgsArray addObject:@"16"];
+        [soxTaskItem addArgument:@"-b"];
+        [soxTaskItem addArgument:@"16"];
         
-        [soxArgsArray addObject:@"-c"];
-        [soxArgsArray addObject:@"1"];
+        [soxTaskItem addArgument:@"-c"];
+        [soxTaskItem addArgument:@"1"];
         
-        [soxArgsArray addObject:@"-t"];
-        [soxArgsArray addObject:@"raw"];
+        [soxTaskItem addArgument:@"-t"];
+        [soxTaskItem addArgument:@"raw"];
         
-        [soxArgsArray addObject:@"-"];         // stdin
+        [soxTaskItem addArgument:@"-"];         // stdin
 
         // output args
         
-        [soxArgsArray addObject:@"-e"];
-        //[soxArgsArray addObject:@"signed-integer"];
-        [soxArgsArray addObject:@"float"];
+        [soxTaskItem addArgument:@"-e"];
+        [soxTaskItem addArgument:@"float"];
         
-        [soxArgsArray addObject:@"-b"];
-        //[soxArgsArray addObject:@"16"];
-        [soxArgsArray addObject:@"32"];
+        [soxTaskItem addArgument:@"-b"];
+        [soxTaskItem addArgument:@"32"];
         
-        [soxArgsArray addObject:@"-c"];
-        //[soxArgsArray addObject:@"1"];
-        [soxArgsArray addObject:@"2"];
+        [soxTaskItem addArgument:@"-c"];
+        [soxTaskItem addArgument:@"2"];
         
         // send output to a Core Audio device
-        [soxArgsArray addObject:@"-t"];
+        [soxTaskItem addArgument:@"-t"];
 
-        [soxArgsArray addObject:@"coreaudio"];       // first stage audio output
-        [soxArgsArray addObject:audioOutputString];  // quotes are omitted intentionally
+        [soxTaskItem addArgument:@"coreaudio"];       // first stage audio output
+        [soxTaskItem addArgument:audioOutputString];  // quotes are omitted intentionally
         
-        [soxArgsArray addObject:@"rate"];
-        [soxArgsArray addObject:@"48000"];
+        [soxTaskItem addArgument:@"rate"];
+        [soxTaskItem addArgument:@"48000"];
 
         // output sox options like vol, etc.
         NSArray * audioOutputFilterStringArray = [audioOutputFilterString componentsSeparatedByString:@" "];
         for (NSString * audioOutputFilterStringItem in audioOutputFilterStringArray)
         {
-            [soxArgsArray addObject:audioOutputFilterStringItem];
+            [soxTaskItem addArgument:audioOutputFilterStringItem];
         }
 
-        NSMutableArray * fixSoxArgsArray = [NSMutableArray array];
-        for (id soxArgsObject in soxArgsArray)
-        {
-            id soxArgsString = soxArgsObject;
-            if ([soxArgsString isKindOfClass:[NSNumber class]] == YES)
-            {
-                soxArgsString = [soxArgsString stringValue];
-            }
-            [fixSoxArgsArray addObject:soxArgsString];
-        }
-        soxArgsArray = fixSoxArgsArray;
-        
         useSecondaryStreamSource = YES;     // create a separate task to get audio to EZStream
     }
 
-    self.rtlfmTaskArgsString = [rtlfmArgsArray componentsJoinedByString:@" "];
-    self.audioMonitorTaskArgsString = [audioMonitorArgsArray componentsJoinedByString:@" "];
-    self.soxTaskArgsString = [soxArgsArray componentsJoinedByString:@" "];
-    self.udpSenderTaskArgsString = [udpSenderArgsArray componentsJoinedByString:@" "];
-    
-    self.rtlfmTask = [[NSTask alloc] init];
-    self.rtlfmTask.launchPath = rtl_fmPath;
-    self.rtlfmTask.arguments = rtlfmArgsArray;
-
-    // sox will output to UDPSender or a Core Audio device
-    self.soxTask = [[NSTask alloc] init];
-    self.soxTask.launchPath = soxPath;
-    self.soxTask.arguments = soxArgsArray;
-    
-    [self.rtlfmTask setStandardInput:[NSPipe pipe]];       // empty pipe for first stage stdin
 
     // TODO: BUG: For an undetermined reason, AudioMonitor fails to launch as an NSTask in a sandboxed app extracted from an Xcode Archive
     // if the application path contains a space (e.g., "~/Untitled Folder/LocalRadio.app".
     // Prefixing backslashes before spaces in the path did not help.  The error message in Console.log says "launch path not accessible".
     // As a workaround, alert the user if the condition exists and suggest removing the spaces from the folder name.
-    self.audioMonitorTask = [[NSTask alloc] init];
-    self.audioMonitorTask.launchPath = audioMonitorPath;
-    self.audioMonitorTask.arguments = audioMonitorArgsArray;
 
-    // configure NSPipe to connect rtl_fm_localradio stdout to audiomonitor stdin
-    self.rtlsdrAudioMonitorPipe = [NSPipe pipe];
-    [self.rtlfmTask setStandardOutput:self.rtlsdrAudioMonitorPipe];
-    [self.audioMonitorTask setStandardInput:self.rtlsdrAudioMonitorPipe];
     
-
-
-
-    // configure NSPipe to connect audiomonitor stdout to sox stdin
-    self.audioMonitorSoxPipe = [NSPipe pipe];
-    [self.audioMonitorTask setStandardOutput:self.audioMonitorSoxPipe];
-    [self.soxTask setStandardInput:self.audioMonitorSoxPipe];
+    [self.radioTaskPipelineManager addTaskItem:rtlfmTaskItem];
+    [self.radioTaskPipelineManager addTaskItem:audioMonitorTaskItem];
     
     if (useSecondaryStreamSource == NO)
     {
-        self.udpSenderTask = [[NSTask alloc] init];
-        self.udpSenderTask.launchPath = udpSenderPath;
-        self.udpSenderTask.arguments = udpSenderArgsArray;
-        
-        // configure NSPipe to connect sox stdout to udpSender stdin
-        self.soxUDPSenderPipe = [NSPipe pipe];
-        [self.soxTask setStandardOutput:self.soxUDPSenderPipe];
-        [self.udpSenderTask setStandardInput:self.soxUDPSenderPipe];
-        
-        [self.udpSenderTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]]; // set last stage stdout to /dev/null
+        [self.radioTaskPipelineManager addTaskItem:soxTaskItem];
+        [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
     }
     else
     {
-        //[self.soxTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]]; // set last stage stdout to /dev/null
-        //[self.soxTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-    }
-    
-    SDRController * weakSelf = self;
-    
-    [self.rtlfmTask setTerminationHandler:^(NSTask* task)
-    {
-        int processIdentifier = task.processIdentifier;
-        int terminationStatus = task.terminationStatus;
-        long terminationReason = task.terminationReason;
-        
-        NSLog(@"SDRController enter rtl_fm terminationHandler, PID=%d", processIdentifier);
-
-        if ([task terminationStatus] == 0)
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - rtl_fm terminationStatus 0");
-            NSLog(@"SDRController - startRadioTaskForFrequency - rtl_fm terminationReason %ld", terminationReason);
-        }
-        else
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - rtl_fm terminationStatus %d", terminationStatus);
-            NSLog(@"SDRController - startRadioTaskForFrequency - rtl_fm terminationReason %ld", terminationReason);
-        }
-        
-        weakSelf.rtlfmTask = NULL;
-        weakSelf.rtlfmTaskStandardErrorPipe = NULL;
-        weakSelf.rtlfmTaskArgsString = NULL;
-        weakSelf.rtlfmTaskProcessID = 0;
-
-        [weakSelf.appDelegate updateCurrentTasksText];
-
-        NSLog(@"SDRController exit rtl_fm terminationHandler, PID=%d", processIdentifier);
-    }];
-
-    [self.audioMonitorTask setTerminationHandler:^(NSTask* task)
-    {
-        int processIdentifier = task.processIdentifier;
-        int terminationStatus = task.terminationStatus;
-        long terminationReason = task.terminationReason;
-        
-        NSLog(@"SDRController enter AudioMonitor terminationHandler, PID=%d", processIdentifier);
-
-        if ([task terminationStatus] == 0)
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - AudioMonitor terminationStatus 0");
-            NSLog(@"SDRController - startRadioTaskForFrequency - AudioMonitor terminationReason %ld", terminationReason);
-        }
-        else
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - AudioMonitor terminationStatus %d", terminationStatus);
-            NSLog(@"SDRController - startRadioTaskForFrequency - AudioMonitor terminationReason %ld", terminationReason);
-        }
-        
-        weakSelf.audioMonitorTask = NULL;
-        weakSelf.audioMonitorTaskStandardErrorPipe = NULL;
-        weakSelf.audioMonitorTaskArgsString = NULL;
-        weakSelf.audioMonitorTaskProcessID = 0;
-
-        [weakSelf.appDelegate updateCurrentTasksText];
-
-        NSLog(@"SDRController exit AudioMonitor terminationHandler, PID=%d", processIdentifier);
-    }];
-
-    [self.soxTask setTerminationHandler:^(NSTask* task)
-    {
-        int processIdentifier = task.processIdentifier;
-        int terminationStatus = task.terminationStatus;
-        long terminationReason = task.terminationReason;
-        
-        NSLog(@"SDRController enter sox terminationHandler, PID=%d", processIdentifier);
-
-        if ([task terminationStatus] == 0)
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - sox terminationStatus 0");
-            NSLog(@"SDRController - startRadioTaskForFrequency - sox terminationReason %ld", terminationReason);
-        }
-        else
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - sox terminationStatus %d", terminationStatus);
-            NSLog(@"SDRController - startRadioTaskForFrequency - sox terminationReason %ld", terminationReason);
-        }
-        
-        weakSelf.soxTask = NULL;
-        weakSelf.soxTaskStandardErrorPipe = NULL;
-        weakSelf.soxTaskArgsString = NULL;
-        weakSelf.soxTaskProcessID = 0;
-
-        [weakSelf.appDelegate updateCurrentTasksText];
-
-        NSLog(@"SDRController exit sox terminationHandler, PID=%d", processIdentifier);
-    }];
-
-    [self.udpSenderTask setTerminationHandler:^(NSTask* task)
-    {
-        int processIdentifier = task.processIdentifier;
-        int terminationStatus = task.terminationStatus;
-        long terminationReason = task.terminationReason;
-        
-        NSLog(@"SDRController enter udpSenderTask terminationHandler, PID=%d", processIdentifier);
-
-        if ([task terminationStatus] == 0)
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - udpSenderTask terminationStatus 0");
-            NSLog(@"SDRController - startRadioTaskForFrequency - udpSenderTask terminationReason %ld", terminationReason);
-        }
-        else
-        {
-            NSLog(@"SDRController - startRadioTaskForFrequency - udpSenderTask terminationStatus %d", terminationStatus);
-            NSLog(@"SDRController - startRadioTaskForFrequency - udpSenderTask terminationReason %ld", terminationReason);
-        }
-        
-        weakSelf.udpSenderTask = NULL;
-        weakSelf.udpSenderTaskStandardErrorPipe = NULL;
-        weakSelf.udpSenderTaskArgsString = NULL;
-        weakSelf.udpSenderTaskProcessID = 0;
-
-        [weakSelf.appDelegate updateCurrentTasksText];
-
-        NSLog(@"SDRController exit udpSenderTask terminationHandler, PID=%d", processIdentifier);
-    }];
-    
-    //NSLog(@"SDRController - launch delayedStartRtlsdrTaskForFrequency");
-
-
-    [self.audioMonitorTask launch];
-    NSLog(@"SDRController - Launched NSTask audioMonitorTask, PID=%d, args= %@ %@", self.audioMonitorTask.processIdentifier, self.quotedAudioMonitorPath, self.audioMonitorTaskArgsString);
-    
-    self.audioMonitorTaskProcessID = self.audioMonitorTask.processIdentifier;
-
-    if (useSecondaryStreamSource == YES)
-    {
+        [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
         [self.appDelegate.soxController startSecondaryStreamForFrequencies:frequenciesArray category:categoryDictionary];
     }
-    else
-    {
-        [self.udpSenderTask launch];
-        NSLog(@"SDRController - Launched NSTask udpSenderTask, PID=%d, args= %@ %@", self.udpSenderTask.processIdentifier, self.quotedUDPSenderPath, self.udpSenderTaskArgsString);
-        
-        self.udpSenderTaskProcessID = self.udpSenderTask.processIdentifier;
-    }
 
-    [self.rtlfmTask launch];
-    NSLog(@"SDRController - Launched NSTask rtlsdrTask, PID=%d, args= %@ %@", self.rtlfmTask.processIdentifier, self.quotedRtlfmPath, self.rtlfmTaskArgsString);
-
-    self.rtlfmTaskProcessID = self.rtlfmTask.processIdentifier;
-
-    self.rtlsdrTaskFrequenciesArray = frequenciesArray;
+    [self.radioTaskPipelineManager startTasks];
     
-    [self.soxTask launch];
-    NSLog(@"SDRController - Launched NSTask soxTask, PID=%d, args= %@ %@", self.soxTask.processIdentifier, self.quotedSoxPath, self.soxTaskArgsString);
-
-    self.soxTaskProcessID = self.soxTask.processIdentifier;
+    SDRController * weakSelf = self;
 
     dispatch_async(dispatch_get_main_queue(), ^{
     
         [weakSelf.appDelegate updateCurrentTasksText];
         
-        /*
-
-        NSString * tasksString = [NSString stringWithFormat:@"%@ %@\n\n%@ %@\n\n%@ %@\n\n",
-                self.appDelegate.ezStreamController.quotedUDPListenerPath, self.appDelegate.ezStreamController.udpListenerArgsString,
-                self.appDelegate.ezStreamController.quotedSoxPath, self.appDelegate.ezStreamController.soxArgsString,
-                self.appDelegate.ezStreamController.quotedEZStreamPath, self.appDelegate.ezStreamController.ezStreamArgsString];
-        
-        tasksString = [tasksString stringByAppendingFormat:@"%@ %@\n\n%@ %@",
-                self.quotedRtlfmPath, self.rtlfmTaskArgsString, self.quotedSoxPath, self.soxTaskArgsString];
-        
-        if (useSecondaryStreamSource == NO)
-        {
-            tasksString = [tasksString stringByAppendingFormat:@"\n\n%@ %@", self.quotedUDPSenderPath, self.udpSenderTaskArgsString];
-        }
-        else
-        {
-            NSString * secondaryUDPSenderArgs = [self.appDelegate.soxController udpSenderArgsString];
-            tasksString = [tasksString stringByAppendingFormat:@"\n\n%@ %@", self.quotedUDPSenderPath, secondaryUDPSenderArgs];
-        }
-
-        [self.appDelegate.statusCurrentTasksTextView setString:tasksString];
-        */
-
         self.appDelegate.statusRTLSDRTextField.stringValue = @"Running";
 
         self.appDelegate.statusFunctionTextField.stringValue = statusFunctionString;
@@ -939,6 +552,7 @@
             self.appDelegate.statusSamplingModeTextField.stringValue = @"Direct Q-branch";
         }
     });
+
 }
 
 //==================================================================================
