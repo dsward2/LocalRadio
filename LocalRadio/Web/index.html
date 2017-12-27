@@ -415,40 +415,13 @@
     {
         console.log("backButtonClicked");
 
-/*
-        var audioPlayer = document.getElementById("audio_element");
-        var audioSrc = audioPlayer.src;
-        if (audioPlayer !== null)
-        {
-            if (audioPlayer.paused == false)
-            {
-                audioPlayer.autoplay=true;
-            }
-        }
-*/
-
-
         var iframe = document.getElementById("top_iframe");
         iframe.contentWindow.history.back();
 
-
-/*
-        var audioPlayer2 = document.getElementById("audio_element");
-        if (audioPlayer2 !== null)
-        {
-            //audioPlayer2.src = audioSrc;
-            if (audioPlayer2.paused == false)
-            {
-                audioPlayer2.autoplay=true;
-                audioPlayer2.play();
-            }
-        }
-*/
-
         var audioPlayer = document.getElementById("audio_element");
         if (audioPlayer !== null)
         {
-            seekToEndForAudioElement(audioPlayer);
+            //seekToEndForAudioElement(audioPlayer);
             audioPlayer.play();
         }
     }
