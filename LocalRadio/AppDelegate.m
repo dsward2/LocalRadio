@@ -126,6 +126,8 @@ typedef struct kinfo_proc kinfo_proc;
             [self updateViews:self];
             
             self.periodicUpdateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(periodicUpdateTimerFired:) userInfo:self repeats:YES];
+
+            [[NSRunLoop mainRunLoop] addTimer:self.periodicUpdateTimer forMode:NSDefaultRunLoopMode];
             
             NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
             [self.udpStatusListenerController runServerOnPort:statusPortNumber.integerValue];
@@ -147,7 +149,7 @@ typedef struct kinfo_proc kinfo_proc;
 //	periodicUpdateTimerFired:
 //==================================================================================
 
-- (void)periodicUpdateTimerFired:(NSNotification *)aNotification
+- (void)periodicUpdateTimerFired:(NSTimer *)timer
 {
 
 }

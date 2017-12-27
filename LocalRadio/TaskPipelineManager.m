@@ -8,8 +8,18 @@
 
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
+#import "AppDelegate.h"
 
 @implementation TaskPipelineManager
+
+
+- (void) dealloc
+{
+    [self.periodicTaskPipelineCheckTimer invalidate];
+    self.periodicTaskPipelineCheckTimer = NULL;
+}
+
+
 
 
 - (instancetype)init
@@ -19,6 +29,10 @@
         self.taskItemsArray = [NSMutableArray array];
     
         self.taskPipelineStatus = kTaskPipelineStatusIdle;
+
+        self.periodicTaskPipelineCheckTimer = [NSTimer timerWithTimeInterval:5.0f target:self selector:@selector(periodicTaskPipelineCheckTimerFired:) userInfo:self repeats:YES];
+
+        [[NSRunLoop mainRunLoop] addTimer:self.periodicTaskPipelineCheckTimer forMode:NSDefaultRunLoopMode];
     }
     return self;
 }
@@ -40,10 +54,13 @@
 }
 
 
+
+
 - (void) addTaskItem:(TaskItem *)taskItem
 {
     [self.taskItemsArray addObject:taskItem];
 }
+
 
 
 
@@ -90,6 +107,8 @@
 }
 
 
+
+
 - (void) startTasks
 {
     for (TaskItem * taskItem in self.taskItemsArray)
@@ -113,6 +132,8 @@
 }
 
 
+
+
 - (void) terminateTasks
 {
     //NSArray * reversedTaskItemsArray = [[self.taskItemsArray reverseObjectEnumerator] allObjects];
@@ -129,6 +150,39 @@
 
     [NSThread sleepForTimeInterval:0.1f];
 }
+
+
+
+- (void) periodicTaskPipelineCheckTimerFired:(NSTimer *)timer
+{
+    BOOL failedTaskFound = NO;
+    TaskItem * failedTaskItem = NULL;
+    
+    for (TaskItem * taskItem in self.taskItemsArray)
+    {
+        if (taskItem.task.isRunning == NO)
+        {
+            failedTaskFound = YES;
+            failedTaskItem = taskItem;
+            break;
+        }
+    }
+
+    if (failedTaskFound == YES)
+    {
+        NSLog(@"TaskPipelineManager - TaskPipelineFailed - %@ - %@", failedTaskItem, self.taskItemsArray);
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskPipelineFailedNotification" object:self];
+
+        [self terminateTasks];
+        
+        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+
+        [appDelegate updateCurrentTasksText];
+    }
+}
+
+
 
 
 - (NSString *)tasksInfoString

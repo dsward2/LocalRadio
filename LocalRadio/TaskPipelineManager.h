@@ -19,6 +19,8 @@
 @property (strong) NSMutableArray * taskItemsArray;
 @property (assign) NSInteger taskPipelineStatus;
 
+@property (strong) NSTimer * periodicTaskPipelineCheckTimer;
+
 - (TaskItem *) makeTaskItemWithExecutable:(NSString *)executableName functionName:(NSString *)functionName;
 
 - (void) addTaskItem:(TaskItem *)taskItem;

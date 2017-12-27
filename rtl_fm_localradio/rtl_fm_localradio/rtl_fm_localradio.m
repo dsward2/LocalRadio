@@ -2043,7 +2043,8 @@ int main(int argc, char **argv)
 		status_cleanup(&status);
 
 		if (output.file != stdout) {
-			fclose(output.file);}
+			fclose(output.file);
+        }
 
 		//fprintf(stderr, "\nrtlsdr_close\n");
 		//NSLog(@"rtlsdr_close");
