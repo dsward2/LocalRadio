@@ -118,9 +118,6 @@
 
     [self configureTaskPipes];
     
-    //NSArray * reversedTaskItemsArray = [[self.taskItemsArray reverseObjectEnumerator] allObjects];
-
-    //for (TaskItem * taskItem in reversedTaskItemsArray)
     for (TaskItem * taskItem in self.taskItemsArray)
     {
         NSError * startTaskError = [taskItem startTask];
@@ -136,19 +133,29 @@
 
 - (void) terminateTasks
 {
-    //NSArray * reversedTaskItemsArray = [[self.taskItemsArray reverseObjectEnumerator] allObjects];
-
-    //for (TaskItem * taskItem in reversedTaskItemsArray)
-    for (TaskItem * taskItem in self.taskItemsArray)
+    @synchronized (self)
     {
-        NSError * terminateTaskError = [taskItem terminateTask];
-    }
-    
-    [self.taskItemsArray removeAllObjects];
+        self.taskPipelineStatus = kTaskPipelineStatusTerminating;
 
-    self.taskPipelineStatus = kTaskPipelineStatusTerminated;
+        for (TaskItem * taskItem in self.taskItemsArray)
+        {
+            if (taskItem.task.isRunning == YES)
+            {
+                @try {
+                    NSError * terminateTaskError = [taskItem terminateTask];
+                }
+                @catch (NSException *exception) {
+                    
+                }
+            }
+        }
+        
+        [self.taskItemsArray removeAllObjects];
+    }
 
     [NSThread sleepForTimeInterval:0.1f];
+
+    self.taskPipelineStatus = kTaskPipelineStatusTerminated;
 }
 
 

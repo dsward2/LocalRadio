@@ -10,7 +10,8 @@
 
 #define kTaskPipelineStatusIdle 0
 #define kTaskPipelineStatusRunning 1
-#define kTaskPipelineStatusTerminated 2
+#define kTaskPipelineStatusTerminating 2
+#define kTaskPipelineStatusTerminated 3
 
 @class TaskItem;
 
