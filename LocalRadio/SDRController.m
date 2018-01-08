@@ -307,53 +307,57 @@
     audioOutputString = [audioOutputString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
     streamSourceString = [streamSourceString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
 
-    TaskItem * rtlfmTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"rtl_fm_localradio" functionName:@"rtl_fm_localradio"];
+    // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
+    TaskItem * audioSourceTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"rtl_fm_localradio" functionName:@"rtl_fm_localradio"];
 
+    // Get lpcm from stdin, re-sample to 48000 Hz, optionally play audio directly to current system CoreAudio device, output to stdout
     TaskItem * audioMonitorTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"AudioMonitor" functionName:@"AudioMonitor"];
 
+    // Get lpcm from stdin, apply Sox audio processing filters, output MP3 data to stdout
     TaskItem * soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
 
+    // Get mp3 data from stdin, output to UDP port
     TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];
     
-    [rtlfmTaskItem addArgument:@"-M"];
-    [rtlfmTaskItem addArgument:modulationString];
-    [rtlfmTaskItem addArgument:@"-l"];
-    [rtlfmTaskItem addArgument:squelchLevelNumber.stringValue];
-    [rtlfmTaskItem addArgument:@"-t"];
-    [rtlfmTaskItem addArgument:squelchDelayNumber.stringValue];
-    [rtlfmTaskItem addArgument:@"-F"];
-    [rtlfmTaskItem addArgument:firSizeNumber.stringValue];
-    [rtlfmTaskItem addArgument:@"-g"];
-    [rtlfmTaskItem addArgument:tunerGainNumber.stringValue];
-    [rtlfmTaskItem addArgument:@"-s"];
-    [rtlfmTaskItem addArgument:tunerSampleRateNumber.stringValue];
+    [audioSourceTaskItem addArgument:@"-M"];
+    [audioSourceTaskItem addArgument:modulationString];
+    [audioSourceTaskItem addArgument:@"-l"];
+    [audioSourceTaskItem addArgument:squelchLevelNumber.stringValue];
+    [audioSourceTaskItem addArgument:@"-t"];
+    [audioSourceTaskItem addArgument:squelchDelayNumber.stringValue];
+    [audioSourceTaskItem addArgument:@"-F"];
+    [audioSourceTaskItem addArgument:firSizeNumber.stringValue];
+    [audioSourceTaskItem addArgument:@"-g"];
+    [audioSourceTaskItem addArgument:tunerGainNumber.stringValue];
+    [audioSourceTaskItem addArgument:@"-s"];
+    [audioSourceTaskItem addArgument:tunerSampleRateNumber.stringValue];
     
     if ([oversamplingNumber integerValue] > 0)
     {
-        [rtlfmTaskItem addArgument:@"-o"];
-        [rtlfmTaskItem addArgument:oversamplingNumber];
+        [audioSourceTaskItem addArgument:@"-o"];
+        [audioSourceTaskItem addArgument:oversamplingNumber];
     }
     
-    [rtlfmTaskItem addArgument:@"-A"];
-    [rtlfmTaskItem addArgument:atanMathString];
-    [rtlfmTaskItem addArgument:@"-p"];
-    [rtlfmTaskItem addArgument:@"0"];
-    [rtlfmTaskItem addArgument:@"-c"];
-    [rtlfmTaskItem addArgument:statusPortNumber.stringValue];
+    [audioSourceTaskItem addArgument:@"-A"];
+    [audioSourceTaskItem addArgument:atanMathString];
+    [audioSourceTaskItem addArgument:@"-p"];
+    [audioSourceTaskItem addArgument:@"0"];
+    [audioSourceTaskItem addArgument:@"-c"];
+    [audioSourceTaskItem addArgument:statusPortNumber.stringValue];
 
-    [rtlfmTaskItem addArgument:@"-E"];
-    [rtlfmTaskItem addArgument:@"pad"];
+    [audioSourceTaskItem addArgument:@"-E"];
+    [audioSourceTaskItem addArgument:@"pad"];
     
     if (enableDirectSamplingQBranchMode == YES)
     {
-        [rtlfmTaskItem addArgument:@"-E"];
-        [rtlfmTaskItem addArgument:@"direct"];
+        [audioSourceTaskItem addArgument:@"-E"];
+        [audioSourceTaskItem addArgument:@"direct"];
     }
     
     if (enableTunerAGC == YES)
     {
-        [rtlfmTaskItem addArgument:@"-E"];
-        [rtlfmTaskItem addArgument:@"agc"];
+        [audioSourceTaskItem addArgument:@"-E"];
+        [audioSourceTaskItem addArgument:@"agc"];
     }
     
     NSArray * optionsArray = [optionsString componentsSeparatedByString:@" "];
@@ -362,15 +366,15 @@
         NSString * trimmedOptionString = [aOptionString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
         if (trimmedOptionString.length > 0)
         {
-            [rtlfmTaskItem addArgument:@"-E"];
-            [rtlfmTaskItem addArgument:trimmedOptionString];
+            [audioSourceTaskItem addArgument:@"-E"];
+            [audioSourceTaskItem addArgument:trimmedOptionString];
         }
     }
     
     NSArray * parsedFrequenciesArray = [frequencyString componentsSeparatedByString:@" "];
     for (NSString * parsedItem in parsedFrequenciesArray)
     {
-        [rtlfmTaskItem addArgument:parsedItem];
+        [audioSourceTaskItem addArgument:parsedItem];
     }
     
     [audioMonitorTaskItem addArgument:@"-r"];
@@ -495,7 +499,7 @@
     
     @synchronized (self.radioTaskPipelineManager)
     {
-        [self.radioTaskPipelineManager addTaskItem:rtlfmTaskItem];
+        [self.radioTaskPipelineManager addTaskItem:audioSourceTaskItem];
         [self.radioTaskPipelineManager addTaskItem:audioMonitorTaskItem];
         [self.radioTaskPipelineManager addTaskItem:soxTaskItem];
         
