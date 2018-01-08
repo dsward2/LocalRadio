@@ -130,8 +130,11 @@
 
     // sox will output to UDPSender
     
-    [self.soxControllerTaskPipelineManager addTaskItem:soxTaskItem];
-    [self.soxControllerTaskPipelineManager addTaskItem:udpSenderTaskItem];
+    @synchronized (self.soxControllerTaskPipelineManager)
+    {
+        [self.soxControllerTaskPipelineManager addTaskItem:soxTaskItem];
+        [self.soxControllerTaskPipelineManager addTaskItem:udpSenderTaskItem];
+    }
     
     [self.soxControllerTaskPipelineManager startTasks];
 }

@@ -111,21 +111,24 @@
 
 - (void) startTasks
 {
-    for (TaskItem * taskItem in self.taskItemsArray)
+    @synchronized (self)
     {
-        NSError * createTaskError = [taskItem createTask];
-    }
+        for (TaskItem * taskItem in self.taskItemsArray)
+        {
+            NSError * createTaskError = [taskItem createTask];
+        }
 
-    [self configureTaskPipes];
-    
-    for (TaskItem * taskItem in self.taskItemsArray)
-    {
-        NSError * startTaskError = [taskItem startTask];
+        [self configureTaskPipes];
         
-        [NSThread sleepForTimeInterval:0.2f];
-    }
+        for (TaskItem * taskItem in self.taskItemsArray)
+        {
+            NSError * startTaskError = [taskItem startTask];
+            
+            [NSThread sleepForTimeInterval:0.2f];
+        }
 
-    self.taskPipelineStatus = kTaskPipelineStatusRunning;
+        self.taskPipelineStatus = kTaskPipelineStatusRunning;
+    }
 }
 
 
@@ -165,13 +168,16 @@
     BOOL failedTaskFound = NO;
     TaskItem * failedTaskItem = NULL;
     
-    for (TaskItem * taskItem in self.taskItemsArray)
+    @synchronized (self)
     {
-        if (taskItem.task.isRunning == NO)
+        for (TaskItem * taskItem in self.taskItemsArray)
         {
-            failedTaskFound = YES;
-            failedTaskItem = taskItem;
-            break;
+            if (taskItem.task.isRunning == NO)
+            {
+                failedTaskFound = YES;
+                failedTaskItem = taskItem;
+                break;
+            }
         }
     }
 
@@ -198,11 +204,14 @@
     
     if (self.taskItemsArray.count > 0)
     {
-        for (TaskItem * taskItem in self.taskItemsArray)
+        @synchronized (self)
         {
-            NSString * taskInfoString = [taskItem taskInfoString];
-            
-            [tasksInfoString appendString:taskInfoString];
+            for (TaskItem * taskItem in self.taskItemsArray)
+            {
+                NSString * taskInfoString = [taskItem taskInfoString];
+                
+                [tasksInfoString appendString:taskInfoString];
+            }
         }
     }
     else

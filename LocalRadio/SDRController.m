@@ -493,18 +493,22 @@
     // As a workaround, alert the user if the condition exists and suggest removing the spaces from the folder name.
 
     
-    [self.radioTaskPipelineManager addTaskItem:rtlfmTaskItem];
-    [self.radioTaskPipelineManager addTaskItem:audioMonitorTaskItem];
-    
-    if (useSecondaryStreamSource == NO)
+    @synchronized (self.radioTaskPipelineManager)
     {
+        [self.radioTaskPipelineManager addTaskItem:rtlfmTaskItem];
+        [self.radioTaskPipelineManager addTaskItem:audioMonitorTaskItem];
         [self.radioTaskPipelineManager addTaskItem:soxTaskItem];
-        [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
-    }
-    else
-    {
-        [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
-        [self.appDelegate.soxController startSecondaryStreamForFrequencies:frequenciesArray category:categoryDictionary];
+        
+        if (useSecondaryStreamSource == NO)
+        {
+            // send audio to EZStream/icecast
+            [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
+        }
+        else
+        {
+            // send audio to user-specified output device for external processing in a separate app
+            [self.appDelegate.soxController startSecondaryStreamForFrequencies:frequenciesArray category:categoryDictionary];
+        }
     }
 
     [self.radioTaskPipelineManager startTasks];

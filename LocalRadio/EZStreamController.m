@@ -140,9 +140,12 @@
     [ezStreamTaskItem addArgument:ezstreamConfigPath];
 
     // Create NSTasks
-    [self.ezStreamTaskPipelineManager addTaskItem:udpListenerTaskItem];
-    [self.ezStreamTaskPipelineManager addTaskItem:soxTaskItem];
-    [self.ezStreamTaskPipelineManager addTaskItem:ezStreamTaskItem];
+    @synchronized (self.ezStreamTaskPipelineManager)
+    {
+        [self.ezStreamTaskPipelineManager addTaskItem:udpListenerTaskItem];
+        [self.ezStreamTaskPipelineManager addTaskItem:soxTaskItem];
+        [self.ezStreamTaskPipelineManager addTaskItem:ezStreamTaskItem];
+    }
     
     [self.ezStreamTaskPipelineManager startTasks];
 

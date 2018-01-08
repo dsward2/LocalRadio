@@ -261,7 +261,7 @@ typedef struct kinfo_proc kinfo_proc;
         [tasksString appendString:@"No tasks currently running\n\n"];
     }
     
-    [tasksString appendString:@"--- EZStream tasks ---\n\n"];
+    [tasksString appendString:@"--- EZStream tasks ---"];
 
     NSString * ezStreamTasksString = self.ezStreamController.ezStreamTaskPipelineManager.tasksInfoString;
     [tasksString appendString:ezStreamTasksString];
