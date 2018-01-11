@@ -7,19 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "GCDAsyncUdpSocket.h"
-//#import "GCDAsyncSocket.h"
 
 @class AppDelegate;
 @class TaskPipelineManager;
 
-//@interface SDRController : NSObject <GCDAsyncSocketDelegate, GCDAsyncUdpSocketDelegate>
 @interface SDRController : NSObject
 {
 }
 
-//@property(strong) GCDAsyncUdpSocket *udpSocket;
-//@property(strong) GCDAsyncSocket * currentInfoSocket;   // TCP socket to rtl_fm_localradio
 
 @property(strong) IBOutlet AppDelegate * appDelegate;
 
@@ -28,39 +23,19 @@
 
 @property (strong) TaskPipelineManager * radioTaskPipelineManager;
 
-/*
-@property (strong) NSTask * rtlfmTask; // output to soxTask
-@property (strong) NSPipe * rtlfmTaskStandardErrorPipe;
+@property (strong) NSMutableString * frequencyString;
+@property (strong) NSString * modulationString;
+@property (strong) NSNumber * tunerGainNumber;
+@property (strong) NSNumber * squelchLevelNumber;
+@property (strong) NSString * optionsString;
+@property (strong) NSString * audioOutputString;
+@property (strong) NSString * audioOutputFilterString;
+@property (strong) NSNumber * tunerSampleRateNumber;
+@property (strong) NSString * statusFunctionString;
+@property (strong) NSString * streamSourceString;
 
-@property (strong) NSTask * audioMonitorTask;   // output to Sox via stdin and optionally to current Mac audio device
-@property (strong) NSPipe * rtlsdrAudioMonitorPipe;
-@property (strong) NSPipe * audioMonitorTaskStandardErrorPipe;
-
-@property (strong) NSPipe * audioMonitorSoxPipe;
-
-@property (strong) NSTask * soxTask;    // for resampling to 48K to UDPSender, or directing radio data to CoreAudio for decoding via external app
-@property (strong) NSPipe * soxTaskStandardErrorPipe;
-
-@property (strong) NSPipe * soxUDPSenderPipe;
-
-@property (strong) NSTask * udpSenderTask;  // for sending to UDPListener (then EZStream and Icecast), also echos to stdout
-@property (strong) NSPipe * udpSenderTaskStandardErrorPipe;
-
-@property (strong) NSString * quotedRtlfmPath;
-@property (strong) NSString * quotedAudioMonitorPath;
-@property (strong) NSString * quotedSoxPath;
-@property (strong) NSString * quotedUDPSenderPath;
-
-@property (strong) NSString * rtlfmTaskArgsString;
-@property (strong) NSString * audioMonitorTaskArgsString;
-@property (strong) NSString * soxTaskArgsString;
-@property (strong) NSString * udpSenderTaskArgsString;
-
-@property (assign) int rtlfmTaskProcessID;
-@property (assign) int audioMonitorTaskProcessID;
-@property (assign) int soxTaskProcessID;
-@property (assign) int udpSenderTaskProcessID;
-*/
+@property (assign) BOOL enableDirectSamplingQBranchMode;
+@property (assign) BOOL enableTunerAGC;
 
 @property (strong) NSArray * rtlsdrTaskFrequenciesArray;
 @property (assign) NSInteger udpTag;
@@ -69,8 +44,5 @@
 
 - (void)startRtlsdrTasksForFrequency:(NSDictionary *)frequencyDictionary;
 - (void)startRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
-
-//- (NSString *)frequencyNumberString:(NSString *)mhzString;
-//- (NSString *)megahertzString:(NSString *)mhzNumericString;
 
 @end

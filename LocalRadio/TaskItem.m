@@ -25,15 +25,23 @@
 
 - (void) addArgument:(NSString *)argItem
 {
-    NSString * fixedArgItem = argItem;
-    if ([argItem isKindOfClass:[NSNumber class]] == YES)
+    if (argItem != NULL)
     {
-        NSNumber * numberItem = (NSNumber *)argItem;
-        fixedArgItem = [numberItem stringValue];
-    }
+        NSString * fixedArgItem = argItem;
+        if ([argItem isKindOfClass:[NSNumber class]] == YES)
+        {
+            NSNumber * numberItem = (NSNumber *)argItem;
+            fixedArgItem = [numberItem stringValue];
+        }
 
-    [self.argsArray addObject:fixedArgItem];
+        [self.argsArray addObject:fixedArgItem];
+    }
+    else
+    {
+        NSLog(@"TaskItem addArgument - Error - argItem is NULL");
+    }
 }
+
 
 
 

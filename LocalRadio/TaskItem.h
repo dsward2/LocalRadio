@@ -16,6 +16,7 @@
 @property (strong) NSMutableArray * argsArray;
 
 - (void) addArgument:(NSString *)argItem;
+
 - (NSString *) quotedPath;
 - (NSString *) argsString;
 
