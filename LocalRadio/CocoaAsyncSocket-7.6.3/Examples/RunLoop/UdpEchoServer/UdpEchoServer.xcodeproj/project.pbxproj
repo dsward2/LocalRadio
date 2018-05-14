@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E35F54420AA3AAC00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DC2F160315291500001380A6 /* Credits.rtf */; };
+		0E35F54520AA3AB000154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2F160015291500001380A6 /* main.m */; };
+		0E35F54620AA3AB500154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15FD15291500001380A6 /* InfoPlist.strings */; };
+		0E35F54720AA3ABD00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC2F160915291501001380A6 /* MainMenu.xib */; };
+		0E35F54820AA3AC100154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2F160715291501001380A6 /* AppDelegate.m */; };
+		0E35F54920AA3AC600154E4E /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2F16131529152B001380A6 /* AsyncUdpSocket.m */; };
 		DC2F15F515291500001380A6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2F15F415291500001380A6 /* Cocoa.framework */; };
-		DC2F15FF15291500001380A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC2F15FD15291500001380A6 /* InfoPlist.strings */; };
-		DC2F160115291500001380A6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2F160015291500001380A6 /* main.m */; };
-		DC2F160515291500001380A6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DC2F160315291500001380A6 /* Credits.rtf */; };
-		DC2F160815291501001380A6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2F160715291501001380A6 /* AppDelegate.m */; };
-		DC2F160B15291501001380A6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC2F160915291501001380A6 /* MainMenu.xib */; };
-		DC2F16141529152B001380A6 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2F16131529152B001380A6 /* AsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,9 +165,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC2F15FF15291500001380A6 /* InfoPlist.strings in Resources */,
-				DC2F160515291500001380A6 /* Credits.rtf in Resources */,
-				DC2F160B15291501001380A6 /* MainMenu.xib in Resources */,
+				0E35F54420AA3AAC00154E4E /* Credits.rtf in Resources */,
+				0E35F54620AA3AB500154E4E /* InfoPlist.strings in Resources */,
+				0E35F54720AA3ABD00154E4E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,9 +178,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC2F160115291500001380A6 /* main.m in Sources */,
-				DC2F160815291501001380A6 /* AppDelegate.m in Sources */,
-				DC2F16141529152B001380A6 /* AsyncUdpSocket.m in Sources */,
+				0E35F54920AA3AC600154E4E /* AsyncUdpSocket.m in Sources */,
+				0E35F54820AA3AC100154E4E /* AppDelegate.m in Sources */,
+				0E35F54520AA3AB000154E4E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

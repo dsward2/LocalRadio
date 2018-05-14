@@ -103,165 +103,10 @@
 		0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */; };
 		0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */; };
 		0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8E31FEBA01600492813 /* TaskItem.m */; };
-		0E35F4A520AA392B00154E4E /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2DC20AA392A00154E4E /* .gitignore */; };
-		0E35F4A620AA392B00154E4E /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2DD20AA392A00154E4E /* .travis.yml */; };
-		0E35F4A720AA392B00154E4E /* CocoaAsyncSocket.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2DE20AA392A00154E4E /* CocoaAsyncSocket.podspec */; };
-		0E35F4A820AA392B00154E4E /* BonjourClient-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2E520AA392A00154E4E /* BonjourClient-Info.plist */; };
-		0E35F4A920AA392B00154E4E /* BonjourClientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F2EB20AA392A00154E4E /* BonjourClientAppDelegate.m */; };
-		0E35F4AA20AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2EC20AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4AB20AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2EE20AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4AC20AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F2F020AA392A00154E4E /* main.m */; };
-		0E35F4AD20AA392B00154E4E /* BonjourServer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2F220AA392A00154E4E /* BonjourServer-Info.plist */; };
-		0E35F4AE20AA392B00154E4E /* BonjourServerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F2F820AA392A00154E4E /* BonjourServerAppDelegate.m */; };
-		0E35F4AF20AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2F920AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4B020AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F2FB20AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4B120AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F2FD20AA392A00154E4E /* main.m */; };
-		0E35F4B220AA392B00154E4E /* ConnectTest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F30120AA392A00154E4E /* ConnectTest-Info.plist */; };
-		0E35F4B320AA392B00154E4E /* ConnectTestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F30420AA392A00154E4E /* ConnectTestAppDelegate.m */; };
-		0E35F4B420AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F30520AA392A00154E4E /* Credits.rtf */; };
-		0E35F4B520AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F30720AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4B620AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F30920AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4B720AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F30B20AA392A00154E4E /* main.m */; };
-		0E35F4B820AA392B00154E4E /* ConnectTest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F31120AA392A00154E4E /* ConnectTest-Info.plist */; };
-		0E35F4B920AA392B00154E4E /* ConnectTestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F31420AA392A00154E4E /* ConnectTestAppDelegate.m */; };
-		0E35F4BA20AA392B00154E4E /* ConnectTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F31620AA392A00154E4E /* ConnectTestViewController.m */; };
-		0E35F4BB20AA392B00154E4E /* ConnectTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F31720AA392A00154E4E /* ConnectTestViewController.xib */; };
-		0E35F4BC20AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F31920AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4BD20AA392B00154E4E /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F31B20AA392A00154E4E /* MainWindow.xib */; };
-		0E35F4BE20AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F31D20AA392A00154E4E /* main.m */; };
-		0E35F4BF20AA392B00154E4E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F32120AA392A00154E4E /* Default-568h@2x.png */; };
-		0E35F4C020AA392B00154E4E /* ReadMe.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F32220AA392A00154E4E /* ReadMe.txt */; };
-		0E35F4C120AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F32620AA392A00154E4E /* AppDelegate.m */; };
-		0E35F4C220AA392B00154E4E /* DomainClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F32820AA392A00154E4E /* DomainClient.m */; };
-		0E35F4C320AA392B00154E4E /* DomainClient.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F32920AA392A00154E4E /* DomainClient.xib */; };
-		0E35F4C420AA392B00154E4E /* DomainServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F32B20AA392A00154E4E /* DomainServer.m */; };
-		0E35F4C520AA392B00154E4E /* DomainTest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F32C20AA392A00154E4E /* DomainTest-Info.plist */; };
-		0E35F4C620AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F32E20AA392A00154E4E /* Credits.rtf */; };
-		0E35F4C720AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F33020AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4C820AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F33220AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4C920AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F33420AA392A00154E4E /* main.m */; };
-		0E35F4CA20AA392B00154E4E /* EchoServer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F33920AA392A00154E4E /* EchoServer-Info.plist */; };
-		0E35F4CB20AA392B00154E4E /* EchoServerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F33F20AA392A00154E4E /* EchoServerAppDelegate.m */; };
-		0E35F4CC20AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F34020AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4CD20AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F34220AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4CE20AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F34420AA392A00154E4E /* main.m */; };
-		0E35F4CF20AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F34820AA392A00154E4E /* Credits.rtf */; };
-		0E35F4D020AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F34A20AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4D120AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F34C20AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4D220AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F34E20AA392A00154E4E /* main.m */; };
-		0E35F4D320AA392B00154E4E /* SimpleHTTPClient-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F34F20AA392A00154E4E /* SimpleHTTPClient-Info.plist */; };
-		0E35F4D420AA392B00154E4E /* SimpleHTTPClientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F35220AA392A00154E4E /* SimpleHTTPClientAppDelegate.m */; };
-		0E35F4D520AA392B00154E4E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F35720AA392A00154E4E /* Default-568h@2x.png */; };
-		0E35F4D620AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F35920AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4D720AA392B00154E4E /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F35B20AA392A00154E4E /* MainWindow.xib */; };
-		0E35F4D820AA392B00154E4E /* SimpleHTTPClientViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F35D20AA392A00154E4E /* SimpleHTTPClientViewController.xib */; };
-		0E35F4D920AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F35F20AA392A00154E4E /* main.m */; };
-		0E35F4DA20AA392B00154E4E /* SimpleHTTPClient-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F36020AA392A00154E4E /* SimpleHTTPClient-Info.plist */; };
-		0E35F4DB20AA392B00154E4E /* SimpleHTTPClientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F36320AA392A00154E4E /* SimpleHTTPClientAppDelegate.m */; };
-		0E35F4DC20AA392B00154E4E /* SimpleHTTPClientViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F36520AA392A00154E4E /* SimpleHTTPClientViewController.m */; };
-		0E35F4DD20AA392B00154E4E /* ReadMe.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F36920AA392A00154E4E /* ReadMe.txt */; };
-		0E35F4DE20AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F36E20AA392A00154E4E /* AppDelegate.m */; };
-		0E35F4DF20AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F36F20AA392A00154E4E /* Credits.rtf */; };
-		0E35F4E020AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F37120AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4E120AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F37320AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4E220AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F37520AA392A00154E4E /* main.m */; };
-		0E35F4E320AA392B00154E4E /* TestPreBuffer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F37620AA392A00154E4E /* TestPreBuffer-Info.plist */; };
-		0E35F4E420AA392B00154E4E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F37C20AA392A00154E4E /* Default-568h@2x.png */; };
-		0E35F4E520AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F37F20AA392A00154E4E /* AppDelegate.m */; };
-		0E35F4E620AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F38020AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4E720AA392B00154E4E /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F38220AA392A00154E4E /* ViewController_iPad.xib */; };
-		0E35F4E820AA392B00154E4E /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F38420AA392A00154E4E /* ViewController_iPhone.xib */; };
-		0E35F4E920AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F38620AA392A00154E4E /* main.m */; };
-		0E35F4EA20AA392B00154E4E /* TestPreBuffer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F38720AA392A00154E4E /* TestPreBuffer-Info.plist */; };
-		0E35F4EB20AA392B00154E4E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F38A20AA392A00154E4E /* ViewController.m */; };
-		0E35F4EC20AA392B00154E4E /* TestPreBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F39020AA392A00154E4E /* TestPreBuffer.m */; };
-		0E35F4ED20AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F39520AA392A00154E4E /* AppDelegate.m */; };
-		0E35F4EE20AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F39620AA392A00154E4E /* Credits.rtf */; };
-		0E35F4EF20AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F39820AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4F020AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F39A20AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4F120AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F39C20AA392A00154E4E /* main.m */; };
-		0E35F4F220AA392B00154E4E /* UdpEchoClient-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F39D20AA392A00154E4E /* UdpEchoClient-Info.plist */; };
-		0E35F4F320AA392B00154E4E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3A320AA392A00154E4E /* Default-568h@2x.png */; };
-		0E35F4F420AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3A620AA392A00154E4E /* AppDelegate.m */; };
-		0E35F4F520AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3A720AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4F620AA392B00154E4E /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3A920AA392A00154E4E /* ViewController.xib */; };
-		0E35F4F720AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3AB20AA392A00154E4E /* main.m */; };
-		0E35F4F820AA392B00154E4E /* UdpEchoClient-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3AC20AA392A00154E4E /* UdpEchoClient-Info.plist */; };
-		0E35F4F920AA392B00154E4E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3AF20AA392A00154E4E /* ViewController.m */; };
-		0E35F4FA20AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3B720AA392A00154E4E /* AppDelegate.m */; };
-		0E35F4FB20AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3B820AA392A00154E4E /* Credits.rtf */; };
-		0E35F4FC20AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3BA20AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F4FD20AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3BC20AA392A00154E4E /* MainMenu.xib */; };
-		0E35F4FE20AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3BE20AA392A00154E4E /* main.m */; };
-		0E35F4FF20AA392B00154E4E /* UdpEchoServer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3BF20AA392A00154E4E /* UdpEchoServer-Info.plist */; };
-		0E35F50020AA392B00154E4E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3C520AA392A00154E4E /* Default-568h@2x.png */; };
-		0E35F50120AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3C820AA392A00154E4E /* AppDelegate.m */; };
-		0E35F50220AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3C920AA392A00154E4E /* InfoPlist.strings */; };
-		0E35F50320AA392B00154E4E /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3CB20AA392A00154E4E /* ViewController.xib */; };
-		0E35F50420AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3CD20AA392A00154E4E /* main.m */; };
-		0E35F50520AA392B00154E4E /* UdpEchoServer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3CE20AA392A00154E4E /* UdpEchoServer-Info.plist */; };
-		0E35F50620AA392B00154E4E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3D120AA392A00154E4E /* ViewController.m */; };
-		0E35F50720AA392B00154E4E /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3D820AA392B00154E4E /* AppController.m */; };
-		0E35F50820AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3DD20AA392B00154E4E /* InfoPlist.strings */; };
-		0E35F50920AA392B00154E4E /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3DF20AA392B00154E4E /* MainMenu.nib */; };
 		0E35F50A20AA392B00154E4E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3E120AA392B00154E4E /* Info.plist */; };
-		0E35F50B20AA392B00154E4E /* Instructions.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3E220AA392B00154E4E /* Instructions.txt */; };
-		0E35F50C20AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3E320AA392B00154E4E /* main.m */; };
-		0E35F50D20AA392B00154E4E /* InterfaceTestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3E720AA392B00154E4E /* InterfaceTestAppDelegate.m */; };
-		0E35F50E20AA392B00154E4E /* InterfaceTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3E920AA392B00154E4E /* InterfaceTestViewController.m */; };
-		0E35F50F20AA392B00154E4E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3EA20AA392B00154E4E /* Default-568h@2x.png */; };
 		0E35F51020AA392B00154E4E /* InterfaceTest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3EB20AA392B00154E4E /* InterfaceTest-Info.plist */; };
-		0E35F51120AA392B00154E4E /* InterfaceTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3F020AA392B00154E4E /* InterfaceTestViewController.xib */; };
-		0E35F51220AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3F120AA392B00154E4E /* main.m */; };
-		0E35F51320AA392B00154E4E /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3F220AA392B00154E4E /* MainWindow.xib */; };
-		0E35F51420AA392B00154E4E /* Readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3F320AA392B00154E4E /* Readme.txt */; };
-		0E35F51520AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3F720AA392B00154E4E /* AppDelegate.m */; };
-		0E35F51620AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3F820AA392B00154E4E /* Credits.rtf */; };
-		0E35F51720AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3FA20AA392B00154E4E /* InfoPlist.strings */; };
-		0E35F51820AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3FC20AA392B00154E4E /* MainMenu.xib */; };
-		0E35F51920AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F3FE20AA392B00154E4E /* main.m */; };
-		0E35F51A20AA392B00154E4E /* UdpEchoClient-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F3FF20AA392B00154E4E /* UdpEchoClient-Info.plist */; };
-		0E35F51B20AA392B00154E4E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F40720AA392B00154E4E /* AppDelegate.m */; };
-		0E35F51C20AA392B00154E4E /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F40820AA392B00154E4E /* Credits.rtf */; };
-		0E35F51D20AA392B00154E4E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F40A20AA392B00154E4E /* InfoPlist.strings */; };
-		0E35F51E20AA392B00154E4E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F40C20AA392B00154E4E /* MainMenu.xib */; };
-		0E35F51F20AA392B00154E4E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F40E20AA392B00154E4E /* main.m */; };
-		0E35F52020AA392B00154E4E /* UdpEchoServer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F40F20AA392B00154E4E /* UdpEchoServer-Info.plist */; };
-		0E35F52120AA392B00154E4E /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F41420AA392B00154E4E /* LICENSE.txt */; };
-		0E35F52220AA392B00154E4E /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F41520AA392B00154E4E /* README.markdown */; };
-		0E35F52320AA392B00154E4E /* Documentation.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F41920AA392B00154E4E /* Documentation.html */; };
 		0E35F52420AA392B00154E4E /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F41B20AA392B00154E4E /* GCDAsyncSocket.m */; };
 		0E35F52520AA392B00154E4E /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F41D20AA392B00154E4E /* GCDAsyncUdpSocket.m */; };
-		0E35F52620AA392B00154E4E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F41E20AA392B00154E4E /* Info.plist */; };
-		0E35F52720AA392B00154E4E /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F42220AA392B00154E4E /* DDAbstractDatabaseLogger.m */; };
-		0E35F52820AA392B00154E4E /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F42420AA392B00154E4E /* DDASLLogger.m */; };
-		0E35F52920AA392B00154E4E /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F42620AA392B00154E4E /* DDFileLogger.m */; };
-		0E35F52A20AA392B00154E4E /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F42920AA392B00154E4E /* DDLog.m */; };
-		0E35F52B20AA392B00154E4E /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F42B20AA392B00154E4E /* DDTTYLogger.m */; };
-		0E35F52C20AA392B00154E4E /* DDContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F42E20AA392B00154E4E /* DDContextFilterLogFormatter.m */; };
-		0E35F52D20AA392B00154E4E /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F43020AA392B00154E4E /* DDDispatchQueueLogFormatter.m */; };
-		0E35F52E20AA392B00154E4E /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F43220AA392B00154E4E /* DDMultiFormatter.m */; };
-		0E35F52F20AA392B00154E4E /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F43320AA392B00154E4E /* README.txt */; };
-		0E35F53020AA392B00154E4E /* Gemfile in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F43A20AA392B00154E4E /* Gemfile */; };
-		0E35F53120AA392B00154E4E /* Gemfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F43B20AA392B00154E4E /* Gemfile.lock */; };
-		0E35F53220AA392B00154E4E /* CocoaAsyncSocket.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44020AA392B00154E4E /* CocoaAsyncSocket.xcworkspace */; };
-		0E35F53320AA392B00154E4E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44120AA392B00154E4E /* Info.plist */; };
-		0E35F53420AA392B00154E4E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44220AA392B00154E4E /* Podfile */; };
-		0E35F53520AA392B00154E4E /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44320AA392B00154E4E /* Podfile.lock */; };
-		0E35F53620AA392B00154E4E /* CocoaAsyncSocket.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44820AA392B00154E4E /* CocoaAsyncSocket.xcworkspace */; };
-		0E35F53720AA392B00154E4E /* GCDAsyncSocketUNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F44920AA392B00154E4E /* GCDAsyncSocketUNTests.m */; };
-		0E35F53820AA392B00154E4E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44A20AA392B00154E4E /* Info.plist */; };
-		0E35F53920AA392B00154E4E /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44B20AA392B00154E4E /* Podfile */; };
-		0E35F53A20AA392B00154E4E /* Podfile.lock in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F44C20AA392B00154E4E /* Podfile.lock */; };
-		0E35F53B20AA392B00154E4E /* GCDAsyncSocketConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F44E20AA392B00154E4E /* GCDAsyncSocketConnectionTests.m */; };
-		0E35F53C20AA392B00154E4E /* GCDAsyncSocketReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F44F20AA392B00154E4E /* GCDAsyncSocketReadTests.swift */; };
-		0E35F53D20AA392B00154E4E /* GCDAsyncUdpSocketConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F45020AA392B00154E4E /* GCDAsyncUdpSocketConnectionTests.m */; };
-		0E35F53E20AA392B00154E4E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F45120AA392B00154E4E /* Info.plist */; };
-		0E35F53F20AA392B00154E4E /* SecureSocketServer.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F45220AA392B00154E4E /* SecureSocketServer.p12 */; };
-		0E35F54020AA392B00154E4E /* SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F45320AA392B00154E4E /* SwiftTests.swift */; };
-		0E35F54120AA392B00154E4E /* TestServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F45420AA392B00154E4E /* TestServer.swift */; };
-		0E35F54220AA392B00154E4E /* TestSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E35F45520AA392B00154E4E /* TestSocket.swift */; };
-		0E35F54320AA392B00154E4E /* test-all.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0E35F45620AA392B00154E4E /* test-all.sh */; };
 		0E37EADB20511BEF00CC96EF /* devices.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E37EADA20511BEF00CC96EF /* devices.html */; };
 		0E3CB0E71F65FAD50088B498 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E61F65FAD50088B498 /* README.md */; };
 		0E3CB0E91F679AB40088B498 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E81F679AB40088B498 /* LICENSE */; };
@@ -4250,129 +4095,34 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E35F53620AA392B00154E4E /* CocoaAsyncSocket.xcworkspace in Resources */,
 				0ED12CE91F359B0700D9DCDC /* tuner.html in Resources */,
-				0E35F4BF20AA392B00154E4E /* Default-568h@2x.png in Resources */,
-				0E35F4BC20AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F52020AA392B00154E4E /* UdpEchoServer-Info.plist in Resources */,
-				0E35F4AA20AA392B00154E4E /* InfoPlist.strings in Resources */,
 				0EF2A9431F39BB8F009DB5C8 /* tuner_wbfm.html in Resources */,
-				0E35F4EF20AA392B00154E4E /* InfoPlist.strings in Resources */,
 				0E207E991F1DCA99001AA972 /* storecategory.html in Resources */,
-				0E35F50320AA392B00154E4E /* ViewController.xib in Resources */,
 				0E4461941F451B67003C7851 /* tuner_general.html in Resources */,
-				0E35F50020AA392B00154E4E /* Default-568h@2x.png in Resources */,
-				0E35F4BB20AA392B00154E4E /* ConnectTestViewController.xib in Resources */,
-				0E35F4AF20AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4D020AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4D620AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4F320AA392B00154E4E /* Default-568h@2x.png in Resources */,
 				0E688FFE1F3C460D00F34AE4 /* insertnewfrequency.html in Resources */,
-				0E35F4B220AA392B00154E4E /* ConnectTest-Info.plist in Resources */,
-				0E35F50F20AA392B00154E4E /* Default-568h@2x.png in Resources */,
 				0EF173891F653C130067E8C0 /* applymp3settings.html in Resources */,
-				0E35F4CA20AA392B00154E4E /* EchoServer-Info.plist in Resources */,
-				0E35F4DA20AA392B00154E4E /* SimpleHTTPClient-Info.plist in Resources */,
-				0E35F52120AA392B00154E4E /* LICENSE.txt in Resources */,
 				0E207E731F1DA81C001AA972 /* editcategorysettings.html in Resources */,
-				0E35F52F20AA392B00154E4E /* README.txt in Resources */,
-				0E35F51A20AA392B00154E4E /* UdpEchoClient-Info.plist in Resources */,
-				0E35F50920AA392B00154E4E /* MainMenu.nib in Resources */,
-				0E35F4A520AA392B00154E4E /* .gitignore in Resources */,
-				0E35F4B620AA392B00154E4E /* MainMenu.xib in Resources */,
-				0E35F4DF20AA392B00154E4E /* Credits.rtf in Resources */,
-				0E35F4A720AA392B00154E4E /* CocoaAsyncSocket.podspec in Resources */,
 				0E3CB0E91F679AB40088B498 /* LICENSE in Resources */,
-				0E35F52320AA392B00154E4E /* Documentation.html in Resources */,
 				0EFFD1231EAE33190041D2F5 /* ezstream_mp3.xml in Resources */,
-				0E35F4CF20AA392B00154E4E /* Credits.rtf in Resources */,
 				0EA5A9131EFF4EB100AAD26D /* silence.mp3 in Resources */,
-				0E35F51820AA392B00154E4E /* MainMenu.xib in Resources */,
-				0E35F4E420AA392B00154E4E /* Default-568h@2x.png in Resources */,
-				0E35F4C620AA392B00154E4E /* Credits.rtf in Resources */,
-				0E35F4FC20AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4F620AA392B00154E4E /* ViewController.xib in Resources */,
-				0E35F4CD20AA392B00154E4E /* MainMenu.xib in Resources */,
 				0E35F51020AA392B00154E4E /* InterfaceTest-Info.plist in Resources */,
-				0E35F51D20AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F53120AA392B00154E4E /* Gemfile.lock in Resources */,
-				0E35F51420AA392B00154E4E /* Readme.txt in Resources */,
 				0E4ECFC81EAB633B00D2157B /* MainMenu.xib in Resources */,
-				0E35F4E320AA392B00154E4E /* TestPreBuffer-Info.plist in Resources */,
 				0EF2A9461F3B19DA009DB5C8 /* settings.html in Resources */,
-				0E35F4E020AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4BD20AA392B00154E4E /* MainWindow.xib in Resources */,
-				0E35F53F20AA392B00154E4E /* SecureSocketServer.p12 in Resources */,
-				0E35F50820AA392B00154E4E /* InfoPlist.strings in Resources */,
 				0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */,
-				0E35F4B820AA392B00154E4E /* ConnectTest-Info.plist in Resources */,
 				0E84C9C91ED945E90065864B /* data_skeleton.sqlite3 in Resources */,
 				0ED12CF01F35CD6600D9DCDC /* ofl_license.txt in Resources */,
 				0E0FDA001EF658F600FEEA06 /* editfavorite.html in Resources */,
-				0E35F4E720AA392B00154E4E /* ViewController_iPad.xib in Resources */,
-				0E35F4CC20AA392B00154E4E /* InfoPlist.strings in Resources */,
 				0EF746551F4ECE920008546F /* tuner_advanced.html in Resources */,
-				0E35F4B420AA392B00154E4E /* Credits.rtf in Resources */,
-				0E35F4D520AA392B00154E4E /* Default-568h@2x.png in Resources */,
 				0EFFD1211EAE08A60041D2F5 /* icecast.xml in Resources */,
-				0E35F4C820AA392B00154E4E /* MainMenu.xib in Resources */,
 				0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */,
-				0E35F4EE20AA392B00154E4E /* Credits.rtf in Resources */,
-				0E35F4F820AA392B00154E4E /* UdpEchoClient-Info.plist in Resources */,
-				0E35F53920AA392B00154E4E /* Podfile in Resources */,
-				0E35F54320AA392B00154E4E /* test-all.sh in Resources */,
-				0E35F4A820AA392B00154E4E /* BonjourClient-Info.plist in Resources */,
-				0E35F51E20AA392B00154E4E /* MainMenu.xib in Resources */,
-				0E35F4D320AA392B00154E4E /* SimpleHTTPClient-Info.plist in Resources */,
-				0E35F4AD20AA392B00154E4E /* BonjourServer-Info.plist in Resources */,
-				0E35F53820AA392B00154E4E /* Info.plist in Resources */,
-				0E35F4AB20AA392B00154E4E /* MainMenu.xib in Resources */,
-				0E35F50520AA392B00154E4E /* UdpEchoServer-Info.plist in Resources */,
-				0E35F4E120AA392B00154E4E /* MainMenu.xib in Resources */,
-				0E35F4C520AA392B00154E4E /* DomainTest-Info.plist in Resources */,
-				0E35F4F520AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4B020AA392B00154E4E /* MainMenu.xib in Resources */,
-				0E35F4B520AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4F020AA392B00154E4E /* MainMenu.xib in Resources */,
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
 				0E02EC771F4D8446008BAC27 /* tuner_aviation.html in Resources */,
-				0E35F4E620AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F53220AA392B00154E4E /* CocoaAsyncSocket.xcworkspace in Resources */,
-				0E35F4C320AA392B00154E4E /* DomainClient.xib in Resources */,
-				0E35F50220AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F51620AA392B00154E4E /* Credits.rtf in Resources */,
-				0E35F4FF20AA392B00154E4E /* UdpEchoServer-Info.plist in Resources */,
-				0E35F4D120AA392B00154E4E /* MainMenu.xib in Resources */,
 				0E0936C91F42E3E400BF2B46 /* nowplayingstatus.html in Resources */,
-				0E35F51120AA392B00154E4E /* InterfaceTestViewController.xib in Resources */,
-				0E35F53520AA392B00154E4E /* Podfile.lock in Resources */,
-				0E35F4EA20AA392B00154E4E /* TestPreBuffer-Info.plist in Resources */,
-				0E35F4FD20AA392B00154E4E /* MainMenu.xib in Resources */,
-				0E35F53E20AA392B00154E4E /* Info.plist in Resources */,
 				0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */,
-				0E35F4C720AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F4F220AA392B00154E4E /* UdpEchoClient-Info.plist in Resources */,
-				0E35F53420AA392B00154E4E /* Podfile in Resources */,
 				0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */,
 				0E37EADB20511BEF00CC96EF /* devices.html in Resources */,
-				0E35F53A20AA392B00154E4E /* Podfile.lock in Resources */,
-				0E35F4FB20AA392B00154E4E /* Credits.rtf in Resources */,
-				0E35F52620AA392B00154E4E /* Info.plist in Resources */,
-				0E35F4D820AA392B00154E4E /* SimpleHTTPClientViewController.xib in Resources */,
-				0E35F4D720AA392B00154E4E /* MainWindow.xib in Resources */,
-				0E35F4A620AA392B00154E4E /* .travis.yml in Resources */,
-				0E35F4C020AA392B00154E4E /* ReadMe.txt in Resources */,
-				0E35F50B20AA392B00154E4E /* Instructions.txt in Resources */,
-				0E35F53320AA392B00154E4E /* Info.plist in Resources */,
-				0E35F4DD20AA392B00154E4E /* ReadMe.txt in Resources */,
-				0E35F51320AA392B00154E4E /* MainWindow.xib in Resources */,
-				0E35F51C20AA392B00154E4E /* Credits.rtf in Resources */,
-				0E35F4E820AA392B00154E4E /* ViewController_iPhone.xib in Resources */,
 				0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */,
-				0E35F51720AA392B00154E4E /* InfoPlist.strings in Resources */,
-				0E35F53020AA392B00154E4E /* Gemfile in Resources */,
 				0E35F50A20AA392B00154E4E /* Info.plist in Resources */,
-				0E35F52220AA392B00154E4E /* README.markdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4456,112 +4206,52 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E35F54220AA392B00154E4E /* TestSocket.swift in Sources */,
 				0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */,
 				0E4ED1871EAB7E0500D2157B /* DDLog.m in Sources */,
-				0E35F52D20AA392B00154E4E /* DDDispatchQueueLogFormatter.m in Sources */,
 				0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */,
 				0E4ED1851EAB7DC700D2157B /* WebSocket.m in Sources */,
-				0E35F52920AA392B00154E4E /* DDFileLogger.m in Sources */,
-				0E35F52820AA392B00154E4E /* DDASLLogger.m in Sources */,
 				0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */,
-				0E35F4B120AA392B00154E4E /* main.m in Sources */,
-				0E35F4AC20AA392B00154E4E /* main.m in Sources */,
-				0E35F52C20AA392B00154E4E /* DDContextFilterLogFormatter.m in Sources */,
 				0EB8CB3F1F793880004B6D05 /* SCREENSHOTS.md in Sources */,
-				0E35F4AE20AA392B00154E4E /* BonjourServerAppDelegate.m in Sources */,
-				0E35F4B920AA392B00154E4E /* ConnectTestAppDelegate.m in Sources */,
-				0E35F52A20AA392B00154E4E /* DDLog.m in Sources */,
-				0E35F50C20AA392B00154E4E /* main.m in Sources */,
-				0E35F4E920AA392B00154E4E /* main.m in Sources */,
-				0E35F4CE20AA392B00154E4E /* main.m in Sources */,
 				0E0FDA031EF76AF800FEEA06 /* IcecastController.m in Sources */,
 				0E4ED18F1EAB7E5400D2157B /* HTTPErrorResponse.m in Sources */,
-				0E35F4EB20AA392B00154E4E /* ViewController.m in Sources */,
 				0E4ECFC31EAB633B00D2157B /* main.m in Sources */,
-				0E35F51520AA392B00154E4E /* AppDelegate.m in Sources */,
 				0E4ED1901EAB7E5700D2157B /* HTTPFileResponse.m in Sources */,
-				0E35F4D220AA392B00154E4E /* main.m in Sources */,
-				0E35F53C20AA392B00154E4E /* GCDAsyncSocketReadTests.swift in Sources */,
-				0E35F4BA20AA392B00154E4E /* ConnectTestViewController.m in Sources */,
 				0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */,
-				0E35F4ED20AA392B00154E4E /* AppDelegate.m in Sources */,
-				0E35F4C220AA392B00154E4E /* DomainClient.m in Sources */,
-				0E35F53D20AA392B00154E4E /* GCDAsyncUdpSocketConnectionTests.m in Sources */,
-				0E35F4BE20AA392B00154E4E /* main.m in Sources */,
-				0E35F4A920AA392B00154E4E /* BonjourClientAppDelegate.m in Sources */,
 				0EC207671EDCE11A006899EB /* SDRController.m in Sources */,
-				0E35F53720AA392B00154E4E /* GCDAsyncSocketUNTests.m in Sources */,
-				0E35F51220AA392B00154E4E /* main.m in Sources */,
-				0E35F4E220AA392B00154E4E /* main.m in Sources */,
 				0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */,
 				0E4ECFC01EAB633B00D2157B /* AppDelegate.m in Sources */,
 				0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */,
-				0E35F4B320AA392B00154E4E /* ConnectTestAppDelegate.m in Sources */,
 				0E84C9C11ED935E00065864B /* README.md in Sources */,
-				0E35F4D420AA392B00154E4E /* SimpleHTTPClientAppDelegate.m in Sources */,
 				0E4ED18D1EAB7E4B00D2157B /* HTTPDataResponse.m in Sources */,
 				0E4ED1941EAB7ED000D2157B /* DDData.m in Sources */,
-				0E35F50E20AA392B00154E4E /* InterfaceTestViewController.m in Sources */,
 				0E4ED1921EAB7E7300D2157B /* HTTPAuthenticationRequest.m in Sources */,
 				0EA2125B1ED68139004DE453 /* NSFileManager+DirectoryLocations.m in Sources */,
 				0E35F52420AA392B00154E4E /* GCDAsyncSocket.m in Sources */,
-				0E35F50620AA392B00154E4E /* ViewController.m in Sources */,
 				0E4ED1931EAB7E7D00D2157B /* HTTPMessage.m in Sources */,
 				0E4ED1881EAB7E1B00D2157B /* DDAbstractDatabaseLogger.m in Sources */,
 				0EB8CB651F793C29004B6D05 /* HARDWARE.md in Sources */,
-				0E35F4CB20AA392B00154E4E /* EchoServerAppDelegate.m in Sources */,
-				0E35F4F720AA392B00154E4E /* main.m in Sources */,
 				0E4ED18A1EAB7E2300D2157B /* DDFileLogger.m in Sources */,
-				0E35F52B20AA392B00154E4E /* DDTTYLogger.m in Sources */,
 				0E35F52520AA392B00154E4E /* GCDAsyncUdpSocket.m in Sources */,
 				0E7309401F4027EC00004907 /* URLTextField.m in Sources */,
-				0E35F4C920AA392B00154E4E /* main.m in Sources */,
 				0ED9ED471F529A2A00898460 /* LocalRadioAppSettings.m in Sources */,
 				0E4ED1961EAB7ED700D2157B /* DDRange.m in Sources */,
-				0E35F4F920AA392B00154E4E /* ViewController.m in Sources */,
-				0E35F52E20AA392B00154E4E /* DDMultiFormatter.m in Sources */,
-				0E35F50120AA392B00154E4E /* AppDelegate.m in Sources */,
 				0E3CB0E71F65FAD50088B498 /* README.md in Sources */,
 				0E28BE6B1F2B6A48005999FB /* UDPStatusListenerController.m in Sources */,
 				0E4ED1911EAB7E5B00D2157B /* HTTPRedirectResponse.m in Sources */,
-				0E35F4DE20AA392B00154E4E /* AppDelegate.m in Sources */,
-				0E35F4DC20AA392B00154E4E /* SimpleHTTPClientViewController.m in Sources */,
-				0E35F4FE20AA392B00154E4E /* main.m in Sources */,
-				0E35F4C420AA392B00154E4E /* DomainServer.m in Sources */,
-				0E35F4E520AA392B00154E4E /* AppDelegate.m in Sources */,
 				0E0FDA061EF786BE00FEEA06 /* SQLiteController.m in Sources */,
-				0E35F4FA20AA392B00154E4E /* AppDelegate.m in Sources */,
-				0E35F52720AA392B00154E4E /* DDAbstractDatabaseLogger.m in Sources */,
-				0E35F50720AA392B00154E4E /* AppController.m in Sources */,
 				0E4ED1841EAB7DB000D2157B /* HTTPServer.m in Sources */,
 				0E4ED1951EAB7ED400D2157B /* DDNumber.m in Sources */,
 				0E0A95001F109104002E2E5B /* EZStreamController.m in Sources */,
 				0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */,
 				0E4ED1831EAB7DA700D2157B /* HTTPConnection.m in Sources */,
-				0E35F53B20AA392B00154E4E /* GCDAsyncSocketConnectionTests.m in Sources */,
-				0E35F50D20AA392B00154E4E /* InterfaceTestAppDelegate.m in Sources */,
-				0E35F51F20AA392B00154E4E /* main.m in Sources */,
-				0E35F4C120AA392B00154E4E /* AppDelegate.m in Sources */,
-				0E35F4EC20AA392B00154E4E /* TestPreBuffer.m in Sources */,
 				0E4ED1891EAB7E1F00D2157B /* DDASLLogger.m in Sources */,
 				0E23B3161F1F36EE00565394 /* SoxController.m in Sources */,
-				0E35F51B20AA392B00154E4E /* AppDelegate.m in Sources */,
-				0E35F54020AA392B00154E4E /* SwiftTests.swift in Sources */,
-				0E35F4F420AA392B00154E4E /* AppDelegate.m in Sources */,
 				0E4ED1AD1EAB823B00D2157B /* WebServerController.m in Sources */,
-				0E35F4F120AA392B00154E4E /* main.m in Sources */,
-				0E35F50420AA392B00154E4E /* main.m in Sources */,
 				0E12A4EA1F5F92D000EB28DF /* FCCSearchController.m in Sources */,
 				0E4ED18E1EAB7E5000D2157B /* HTTPDynamicFileResponse.m in Sources */,
-				0E35F4B720AA392B00154E4E /* main.m in Sources */,
 				0E84C9731ED8DA650065864B /* WebServerConnection.m in Sources */,
 				0E4ED18C1EAB7E4700D2157B /* HTTPAsyncFileResponse.m in Sources */,
 				0E4ED18B1EAB7E2900D2157B /* DDTTYLogger.m in Sources */,
-				0E35F4DB20AA392B00154E4E /* SimpleHTTPClientAppDelegate.m in Sources */,
-				0E35F54120AA392B00154E4E /* TestServer.swift in Sources */,
-				0E35F4D920AA392B00154E4E /* main.m in Sources */,
-				0E35F51920AA392B00154E4E /* main.m in Sources */,
 				0E84C9C21ED935E00065864B /* SQLiteLibrary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5231,6 +4921,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
 					"\"/opt/local/include/libusb-1.0\"",
+					"\"$(SRCROOT)/LocalRadio/CocoaAsyncSocket-7.6.3\"/**",
 				);
 				INFOPLIST_FILE = LocalRadio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@rpath/Frameworks/";
@@ -5246,6 +4937,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
 				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
+				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
 			};
 			name = Debug;
@@ -5261,6 +4953,7 @@
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
 					"\"/opt/local/include/libusb-1.0\"",
+					"\"$(SRCROOT)/LocalRadio/CocoaAsyncSocket-7.6.3\"/**",
 				);
 				INFOPLIST_FILE = LocalRadio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "@rpath/Frameworks/";
@@ -5276,6 +4969,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
 				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
+				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
 			};
 			name = Release;
