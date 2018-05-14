@@ -281,6 +281,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             NSString * tunerIconSVGString = [self getSVGWithFileName:@"tuner.svg"];
             [replacementDict setObject:tunerIconSVGString forKey:@"TUNER_ICON"];
 
+            NSString * deviceIconSVGString = [self getSVGWithFileName:@"devices.svg"];
+            [replacementDict setObject:deviceIconSVGString forKey:@"DEVICE_ICON"];
+
             NSString * settingsIconSVGString = [self getSVGWithFileName:@"gear.svg"];
             [replacementDict setObject:settingsIconSVGString forKey:@"GEAR_ICON"];
         }
@@ -1112,6 +1115,20 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
             NSString * tunerFormString = [self generateEditFrequencyFormStringForFrequency:self.constructFrequencyDictionary];
             [replacementDict setObject:tunerFormString forKey:@"TUNER_FORM"];
+
+            //NSString * categorySelectString = [self generateCategorySelectOptions];
+            //[replacementDict setObject:categorySelectString forKey:@"CATEGORY_SELECT"];
+        }
+        #pragma mark relativePath=devices.html
+        else if ([relativePath isEqualToString:@"/devices.html"])
+        {
+            self.constructFrequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
+
+            // set custom values for wbfm properties not shown on the UI
+            [self.constructFrequencyDictionary setObject:@"Audio Device" forKey:@"station_name"];
+
+            NSString * tunerFormString = [self generateDevicesFormString];
+            [replacementDict setObject:tunerFormString forKey:@"DEVICES_FORM"];
 
             //NSString * categorySelectString = [self generateCategorySelectOptions];
             //[replacementDict setObject:categorySelectString forKey:@"CATEGORY_SELECT"];
@@ -2122,27 +2139,28 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 }
 
                 audioPlayerJS =
-                                @" onabort='audioPlayerAbort(this);' "
-                                @" oncanplay='audioPlayerCanPlay(this);' "
-                                @" oncanplaythrough='audioPlayerCanPlaythrough(this);' "
-                                @" ondurationchange='audioPlayerDurationChange(this);' "
-                                @" onemptied='audioPlayerEmptied(this);' "
-                                @" onended='audioPlayerEnded(this);' "
-                                @" onerror='audioPlayerError(this, error);' "
-                                @" onloadeddata='audioPlayerLoadedData(this);' "
-                                @" onloadedmetadata='audioPlayerLoadedMetadata(this);' "
-                                @" onloadstart='audioPlayerLoadStart(this);' "
-                                @" onpause='audioPlayerPaused(this);' "
-                                @" onplaying='audioPlayerPlaying(this);' "
-                                @" onprogress='audioPlayerProgress(this);' "
-                                @" onratechange='audioPlayerRateChange(this);' "
-                                @" onseeked='audioPlayerSeeked(this);' "
-                                @" onseeking='audioPlayerSeeking(this);' "
-                                @" onstalled='audioPlayerStalled(this);' "
-                                @" onplay='audioPlayerStarted(this);' "
-                                @" onsuspend='audioPlayerSuspend(this);' "
-                                @" ontimeupdate='audioPlayerTimeUpdate(this);' "
-                                @" onwaiting='audioPlayerWaiting(this);' ";
+                        @" onabort='audioPlayerAbort(this);' "
+                        @" oncanplay='audioPlayerCanPlay(this);' "
+                        @" oncanplaythrough='audioPlayerCanPlaythrough(this);' "
+                        @" ondurationchange='audioPlayerDurationChange(this);' "
+                        @" onemptied='audioPlayerEmptied(this);' "
+                        @" onended='audioPlayerEnded(this);' "
+                        @" onerror='audioPlayerError(this, error);' "
+                        @" onloadeddata='audioPlayerLoadedData(this);' "
+                        @" onloadedmetadata='audioPlayerLoadedMetadata(this);' "
+                        @" onloadstart='audioPlayerLoadStart(this);' "
+                        @" onpause='audioPlayerPaused(this);' "
+                        @" onplay='audioPlayerPlay(this);' "
+                        @" onplaying='audioPlayerPlaying(this);' "
+                        @" onprogress='audioPlayerProgress(this);' "
+                        @" onratechange='audioPlayerRateChange(this);' "
+                        @" onseeked='audioPlayerSeeked(this);' "
+                        @" onseeking='audioPlayerSeeking(this);' "
+                        @" onstalled='audioPlayerStalled(this);' "
+                        @" onplay='audioPlayerStarted(this);' "
+                        @" onsuspend='audioPlayerSuspend(this);' "
+                        @" ontimeupdate='audioPlayerTimeUpdate(this);' "
+                        @" onwaiting='audioPlayerWaiting(this);' ";
                 
                 [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
             }
@@ -2711,6 +2729,56 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
     NSString * resultString = [self generateEditFrequencyFormStringForFrequency:favoriteDictionary];
     
+    return resultString;
+}
+
+//==================================================================================
+//	generateDevicesFormString
+//==================================================================================
+
+- (NSString *)generateDevicesFormString
+{
+    NSMutableString * resultString = [NSMutableString string];
+
+    NSMutableString * formString = [NSMutableString string];
+
+    NSString * formAction = @"device_select";
+
+    [formString appendFormat:@"<form class='device_form' id='editfavorite' onsubmit='event.preventDefault(); return %@(this);' method='POST'>\n", formAction];
+
+    NSArray * audioDeviceArray = [self generateAudioDeviceList];
+    
+    [formString appendString:@"<label for='audio_output'>Select Audio Input</label>\n"];
+    [formString appendString:@"<select name='audio_output' class='twelve columns value-prop' title='The Audio Output setting controls the destination of audio from the radio and final Sox filters.  The default setting is \"Built-in Icecast Server\" for normal usage.'>\n"];
+    
+    for (NSDictionary * deviceDictionary in audioDeviceArray)
+    {
+        NSNumber * inputChannelCountNumber = [deviceDictionary objectForKey:@"inputChannelCount"];
+        NSInteger inputChannelCount = inputChannelCountNumber.integerValue;
+        if (inputChannelCount > 0)
+        {
+            NSString * deviceName = [deviceDictionary objectForKey:@"deviceName"];
+
+            NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+            deviceName = [deviceName stringByTrimmingCharactersInSet:whitespaceCharacterSet];
+            
+            NSString * optionSelectedString = @"";
+            /*
+            if ([audioOutputString isEqualToString:deviceName] == YES)
+            {
+                optionSelectedString = @"selected";
+            }
+            */
+            
+            [formString appendFormat:@"<option value='%@' %@>%@</option><br>\n", deviceName, optionSelectedString, deviceName];
+        }
+    }
+    [formString appendString:@"</select>\n"];
+
+    [formString appendString:@"</form>\n<br>&nbsp;<br>\n"];
+
+    [resultString appendString:formString];
+
     return resultString;
 }
 

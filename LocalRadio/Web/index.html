@@ -8,7 +8,7 @@
   <title>LocalRadio</title>
   <meta name="description" content="">
   <meta name="author" content="">
-
+  
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -111,7 +111,9 @@
 
 
   <script>
-  
+
+    var iframeResizeDone = false;
+
     function audioElementLog(audioElement, message)
     {
         var audioSrc = audioElement.src;
@@ -213,6 +215,13 @@
     function audioPlayerLoadStart(audioPlayer)
     {
         audioElementLog(audioPlayer, "audioPlayerLoadStart");
+    }
+  
+  
+  
+    function audioPlayerPlay(audioPlayer)
+    {
+        audioElementLog(audioPlayer, "audioPlayerPlay");
     }
   
   
@@ -373,7 +382,7 @@
         
         var holdAudioSrc = audioPlayer.src;
         
-        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mp3"})); // empty buffer data
+        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mpeg"})); // empty buffer data
         audioPlayer.load();
         
         audioPlayer.src = holdAudioSrc;
@@ -458,7 +467,7 @@
             var fileName = location.href.split('/').pop().split('#')[0].split('?')[0];
             if (fileName != "index.html")
             {
-                location.reload(true);
+                window.location.reload(true);
             }
         }
     };

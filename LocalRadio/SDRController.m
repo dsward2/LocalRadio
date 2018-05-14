@@ -75,6 +75,38 @@
     [self.radioTaskPipelineManager terminateTasks];
 }
 
+
+//==================================================================================
+//	startRtlsdrTasksForAudioInputDevice:
+//==================================================================================
+
+- (void)startRtlsdrTasksForAudioInputDevice:(NSString *)audioInputDeviceName
+{
+    //NSLog(@"startRtlsdrTaskForFrequency:category");
+    
+    CGFloat delay = 0.0;
+    
+    //[self stopRtlsdrTask];
+
+    if (self.radioTaskPipelineManager.taskPipelineStatus == kTaskPipelineStatusRunning)
+    {
+        [self.radioTaskPipelineManager terminateTasks];
+        
+        //delay = 1.0;    // one second
+        delay = 0.2;
+    }
+
+    self.rtlsdrTaskMode = @"frequency";
+    
+    int64_t dispatchDelay = (int64_t)(delay * NSEC_PER_SEC);
+    dispatch_time_t dispatchTime = dispatch_time(DISPATCH_TIME_NOW, dispatchDelay);
+
+    //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+    dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
+        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:audioInputDeviceName];
+    });
+}
+
 //==================================================================================
 //	startRtlsdrTasksForFrequency:
 //==================================================================================
@@ -105,7 +137,7 @@
 
         NSArray * frequenciesArray = [NSArray arrayWithObject:frequencyDictionary];
         
-        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:NULL];
+        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:NULL device:NULL];
     });
 }
 
@@ -135,15 +167,15 @@
     
     //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
     dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
-        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary];
+        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary device:NULL];
     });
 }
 
 //==================================================================================
-//	dispatchedStartRtlsdrTasksForFrequencies:category:
+//	dispatchedStartRtlsdrTasksForFrequencies:category:device:
 //==================================================================================
 
-- (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary
+- (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary device:(NSString *)audioInputDeviceName
 {
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
     TaskItem * audioSourceTaskItem = [self makeAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];

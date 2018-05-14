@@ -42,6 +42,7 @@
 
 - (void)terminateTasks;
 
+- (void)startRtlsdrTasksForAudioInputDevice:(NSString *)audioInputDeviceName;
 - (void)startRtlsdrTasksForFrequency:(NSDictionary *)frequencyDictionary;
 - (void)startRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
 

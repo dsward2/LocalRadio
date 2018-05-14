@@ -1,5 +1,4 @@
 
-
 function resizeIframe(aWindow) {
     console.log("resizeIframe");
     var iframe = parent.document.getElementById("top_iframe");
@@ -642,11 +641,13 @@ function setFrequencyDigits(frequency)
     tunerDigitsArray[i].innerText = newFrequency[i];
   }
 
+  /*
   var utterance  = new SpeechSynthesisUtterance();
   var newFrequencyFloat = newFrequency / 1000000;
   //utterance.rate = 1.5;
   utterance.text = newFrequencyFloat;
   speechSynthesis.speak(utterance);
+  */
 }
 
 

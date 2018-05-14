@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E13D6B720A983A5006A6A59 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E13D6B620A983A5006A6A59 /* GCDAsyncUdpSocket.m */; };
 		0E7293FF1F17D21500350F03 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7293FE1F17D21500350F03 /* main.m */; };
-		0E72940D1F17E2C400350F03 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E72940C1F17E2C400350F03 /* GCDAsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,10 +24,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E13D6B620A983A5006A6A59 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = "../../LocalRadio/CocoaAsyncSocket-7.6.3/Source/GCD/GCDAsyncUdpSocket.m"; sourceTree = "<group>"; };
 		0E7293FB1F17D21500350F03 /* UDPSender */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = UDPSender; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E7293FE1F17D21500350F03 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E72940B1F17D3B300350F03 /* UDPSender.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UDPSender.entitlements; sourceTree = SOURCE_ROOT; };
-		0E72940C1F17E2C400350F03 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = "../../LocalRadio/CocoaAsyncSocket-master/Source/GCD/GCDAsyncUdpSocket.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				0E7293FE1F17D21500350F03 /* main.m */,
-				0E72940C1F17E2C400350F03 /* GCDAsyncUdpSocket.m */,
+				0E13D6B620A983A5006A6A59 /* GCDAsyncUdpSocket.m */,
 				0E72940B1F17D3B300350F03 /* UDPSender.entitlements */,
 			);
 			path = UDPSender;
@@ -93,7 +93,7 @@
 		0E7293F31F17D21500350F03 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "ArkPhone LLC";
 				TargetAttributes = {
 					0E7293FA1F17D21500350F03 = {
@@ -125,7 +125,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E72940D1F17E2C400350F03 /* GCDAsyncUdpSocket.m in Sources */,
+				0E13D6B720A983A5006A6A59 /* GCDAsyncUdpSocket.m in Sources */,
 				0E7293FF1F17D21500350F03 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,15 +142,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -189,15 +197,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -226,7 +242,7 @@
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -238,7 +254,7 @@
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-master/Source\"/**";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
