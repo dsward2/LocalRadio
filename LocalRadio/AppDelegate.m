@@ -119,6 +119,8 @@ typedef struct kinfo_proc kinfo_proc;
             self.useWebViewAudioPlayerCheckbox.state = YES;
             self.listenMode = kListenModeIdle;
             
+            [self updateCopiedSettingsValues];
+
             [NSThread detachNewThreadSelector:@selector(startServices) toTarget:self withObject:NULL];
             
             [self resetRtlsdrStatusText];
@@ -131,6 +133,7 @@ typedef struct kinfo_proc kinfo_proc;
             
             NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
             [self.udpStatusListenerController runServerOnPort:statusPortNumber.integerValue];
+            
         }
         else
         {
@@ -175,6 +178,19 @@ typedef struct kinfo_proc kinfo_proc;
     [self updateCurrentTasksText];
 }
 
+//==================================================================================
+//    updateCopiedSettingsValues
+//==================================================================================
+
+- (void)updateCopiedSettingsValues
+{
+    self.mp3Settings = self.mp3SettingsTextField.stringValue;
+    self.mp3Settings = [self.mp3Settings stringByReplacingOccurrencesOfString:@".0" withString:@".01"];
+    
+    self.useWebViewAudioPlayer = self.useWebViewAudioPlayerCheckbox.state;
+
+    self.icecastServerPort = self.icecastServerPortTextField.integerValue;
+}
 
 //==================================================================================
 //	restartServices
@@ -868,7 +884,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     {
         self.mp3SettingsTextField.stringValue = mp3SettingsString;
         
-        
         //float mp3SettingsFloat = mp3SettingsString.floatValue;
         //NSInteger mp3SettingsBitrate = fabs(mp3SettingsFloat);
         //NSInteger mp3SettingsQuality = (NSInteger)((fabs(mp3SettingsFloat) - (float)mp3SettingsBitrate) * 10.0f);
@@ -977,6 +992,8 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSString * mp3SettingString = [NSString stringWithFormat:@"%ld.%ld", constantBitrateInteger, encodingQualityInteger];
     self.mp3SettingsTextField.stringValue = mp3SettingString;
     [self.localRadioAppSettings setValue:mp3SettingString forKey:@"MP3Settings"];
+
+    [self updateCopiedSettingsValues];
 }
 
 //==================================================================================
@@ -1088,7 +1105,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
     [[NSWorkspace sharedWorkspace] openFile:applicationSupportDirectoryPath];
 }
-
 
 //==================================================================================
 //	showInformationSheetWithMessage:informativeText:

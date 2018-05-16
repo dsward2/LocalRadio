@@ -119,6 +119,12 @@
 
 @property (strong) NSTimer * periodicUpdateTimer;
 
+@property (strong) NSString * mp3Settings;
+@property (assign) BOOL useWebViewAudioPlayer;
+@property (assign) BOOL useAutoPlay;
+@property (assign) NSUInteger icecastServerPort;
+
+
 @property (assign) NSInteger listenMode;
 
 @property (assign) BOOL rtlsdrDeviceFound;

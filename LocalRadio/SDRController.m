@@ -178,7 +178,7 @@
 - (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary device:(NSString *)audioInputDeviceName
 {
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
-    TaskItem * audioSourceTaskItem = [self makeAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];
+    TaskItem * audioSourceTaskItem = [self makeRTLSDRAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];
 
     // Get lpcm from stdin, re-sample to 48000 Hz, optionally play audio directly to current system CoreAudio device, output to stdout
     TaskItem * audioMonitorTaskItem = [self makeAudioMonitorTaskItem];
@@ -362,10 +362,10 @@
 }
 
 //==================================================================================
-//	makeAudioSourceTaskItemForFrequencies:category:
+//	makeRTLSDRAudioSourceTaskItemForFrequencies:category:
 //==================================================================================
 
-- (TaskItem *)makeAudioSourceTaskItemForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary
+- (TaskItem *)makeRTLSDRAudioSourceTaskItemForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary
 {
     // values common to both Favorites and Categories
 

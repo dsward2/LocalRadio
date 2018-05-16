@@ -123,7 +123,8 @@
 {
     NSString * hostString = [self.appDelegate localHostString];
     
-    NSInteger portInteger = self.appDelegate.icecastServerPortTextField.integerValue;
+    //NSUInteger portInteger = self.appDelegate.icecastServerPortTextField.integerValue;
+    NSUInteger portInteger = self.appDelegate.icecastServerPort;
 
     NSString * urlString = [NSString stringWithFormat:@"http://%@:%ld", hostString, portInteger];
     

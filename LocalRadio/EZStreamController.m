@@ -100,10 +100,14 @@
     NSString * audioPortString = [audioPortNumber stringValue];
 
     // sox MP3 encoder quality: "Instead of 0 you have to use .01 (or .99) to specify the highest quality (128.01 or 128.99)."
-    NSString * mp3Settings = self.appDelegate.mp3SettingsTextField.stringValue;
-    mp3Settings = [mp3Settings stringByReplacingOccurrencesOfString:@".0" withString:@".01"];
+    //NSString * mp3Settings = self.appDelegate.mp3SettingsTextField.stringValue;
+    //mp3Settings = [mp3Settings stringByReplacingOccurrencesOfString:@".0" withString:@".01"];
 
-
+    NSString * mp3Settings = self.appDelegate.mp3Settings;
+    if (mp3Settings.length == 0)
+    {
+        mp3Settings = @"-4.2";
+    }
 
     TaskItem * udpListenerTaskItem = [self.ezStreamTaskPipelineManager makeTaskItemWithExecutable:@"UDPListener" functionName:@"UDPListener"];
 

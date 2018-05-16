@@ -170,6 +170,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     NSURL * pathURL = [NSURL URLWithString:path];
 
+    /*
     // TODO: remove this instrumentation, which logs the page request
     NSString * pathURLPath = [pathURL path];
     NSString * pathExtension = pathURLPath.pathExtension;
@@ -186,7 +187,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         }
     }
     self.previousPath = path;
-    
+    */
+
     NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:pathURL
             resolvingAgainstBaseURL:NO];
     NSArray * queryItems = urlComponents.queryItems;
@@ -2082,7 +2084,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     if (userAgentIsLocalRadioApp == YES)
     {
-        if (self.appDelegate.useWebViewAudioPlayerCheckbox.state == NO)
+        //if (self.appDelegate.useWebViewAudioPlayerCheckbox.state == NO)
+        if (self.appDelegate.useWebViewAudioPlayer == NO)
         {
             useMacSystemAudio = YES;
         }
@@ -2130,7 +2133,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 
                 if (userAgentIsLocalRadioApp == YES)
                 {
-                    addAutoplayAttributes = self.appDelegate.useAutoPlayCheckbox.state;
+                    //addAutoplayAttributes = self.appDelegate.useAutoPlayCheckbox.state;
+                    addAutoplayAttributes = self.appDelegate.useAutoPlay;
                 }
                 
                 if (addAutoplayAttributes == YES)
