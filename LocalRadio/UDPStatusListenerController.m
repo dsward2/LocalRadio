@@ -3,7 +3,7 @@
 //  LocalRadio
 //
 //  Created by Douglas Ward on 7/28/17.
-//  Copyright © 2017 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
 //  Based on Apple's UDPEcho sample codeproject
@@ -346,7 +346,8 @@ static NSString * DisplayErrorFromError(NSError *error)
             }
             else if ([itemName isEqualToString:@"RMS Power"] == YES)
             {
-                self.appDelegate.statusSignalLevelTextField.stringValue = itemValue;
+                //self.appDelegate.statusSignalLevelTextField.stringValue = itemValue;
+                [self performSelectorOnMainThread:@selector(setStatusSignalLevelTextFieldStringValue:) withObject:itemValue waitUntilDone:NO];
                 
                 NSInteger signalLevel = [itemValue integerValue];
                 NSNumber * signalLevelNumber = [NSNumber numberWithInteger:signalLevel];
@@ -358,13 +359,18 @@ static NSString * DisplayErrorFromError(NSError *error)
     }
 }
 
-
+- (void)setStatusSignalLevelTextFieldStringValue:(NSString *)value
+{
+    self.appDelegate.statusSignalLevelTextField.stringValue = value;
+}
 
 - (void) updateStatusViewsForFrequencyID:(NSString *)frequencyString
 {
     NSString * megahertzString = [self.appDelegate shortHertzString:frequencyString];
-    self.appDelegate.statusFrequencyTextField.stringValue = megahertzString;
     
+    //self.appDelegate.statusFrequencyTextField.stringValue = megahertzString;
+    [self performSelectorOnMainThread:@selector(setStatusFrequencyTextFieldStringValue:) withObject:megahertzString waitUntilDone:NO];
+
     NSMutableDictionary * cachedFrequencyDictionary = self.nowPlayingDictionary;
     
     NSInteger nowPlayingFrequencyID = 0;
@@ -395,20 +401,40 @@ static NSString * DisplayErrorFromError(NSError *error)
         self.nowPlayingDictionary = cachedFrequencyDictionary;
     
         NSString * stationName = [cachedFrequencyDictionary objectForKey:@"station_name"];
-        self.appDelegate.statusNameTextField.stringValue = stationName;
+        
+        //self.appDelegate.statusNameTextField.stringValue = stationName;
+        [self performSelectorOnMainThread:@selector(setStatusNameTextFieldStringValue:) withObject:stationName waitUntilDone:NO];
 
         NSString * frequencyIDString = [cachedFrequencyDictionary objectForKey:@"id"];
         if (frequencyIDString != NULL)
         {
-            self.appDelegate.statusFrequencyIDTextField.stringValue = frequencyIDString;
+            //self.appDelegate.statusFrequencyIDTextField.stringValue = frequencyIDString;
+            [self performSelectorOnMainThread:@selector(setStatusFrequencyIDTextFieldStringValue:) withObject:frequencyIDString waitUntilDone:NO];
         }
         else
         {
-            self.appDelegate.statusFrequencyIDTextField.stringValue = @"N/A";
+            //self.appDelegate.statusFrequencyIDTextField.stringValue = @"N/A";
+            [self performSelectorOnMainThread:@selector(setStatusFrequencyIDTextFieldStringValue:) withObject:@"N/A" waitUntilDone:NO];
         }
     }
 }
 
+
+- (void)setStatusFrequencyTextFieldStringValue:(NSString *)value
+{
+    self.appDelegate.statusFrequencyTextField.stringValue = value;
+}
+
+- (void)setStatusNameTextFieldStringValue:(NSString *)value
+{
+    self.appDelegate.statusNameTextField.stringValue = value;
+}
+
+
+- (void)setStatusFrequencyIDTextFieldStringValue:(NSString *)value
+{
+    self.appDelegate.statusFrequencyIDTextField.stringValue = value;
+}
 
 
 

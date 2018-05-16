@@ -3,7 +3,7 @@
 //  AudioMonitor
 //
 //  Created by Douglas Ward on 8/20/17.
-//  Copyright © 2017 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

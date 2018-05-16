@@ -4,7 +4,7 @@
 #  LocalRadio
 #
 #  Created by Douglas Ward on 7/17/17.
-#  Copyright © 2017 ArkPhone LLC. All rights reserved.
+#  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 
 #  Fix libusb to load properly for rtl_str_localradio
 

@@ -17,6 +17,6 @@ To minimize electrical interference and improve radio reception, it may be helpf
 
 <hr>
 
-Copyright (c) 2017 by ArkPhone, LLC.
+Copyright (c) 2017-2018 by ArkPhone, LLC.
 
 All trademarks are the property of their respective holders.

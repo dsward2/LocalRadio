@@ -3,7 +3,7 @@
 //  LocalRadio
 //
 //  Created by Douglas Ward on 7/15/17.
-//  Copyright © 2017 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

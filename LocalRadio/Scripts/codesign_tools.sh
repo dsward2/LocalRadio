@@ -4,7 +4,7 @@
 #  LocalRadio
 #
 #  Created by Douglas Ward on 7/17/17.
-#  Copyright © 2017 ArkPhone LLC. All rights reserved.
+#  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 
 #  Remove exit statement and substitute the "Mac Developer: John Doe (xxxxxxxxxx)" identity with a registered Apple developer ID
 

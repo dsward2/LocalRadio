@@ -3,7 +3,7 @@
 //  LocalRadio
 //
 //  Created by Douglas Ward on 7/19/17.
-//  Copyright © 2017 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
 //  Used in LocalRadio to pipe audio from an external application via Core Audio virtual device, to Icecast

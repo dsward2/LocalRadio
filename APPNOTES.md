@@ -36,6 +36,6 @@ Specifically, for an undetermined reason, LocalRadio cannot launch the built-in 
 
 <hr>
 
-Copyright (c) 2017 by ArkPhone, LLC.
+Copyright (c) 2017-2018 by ArkPhone, LLC.
 
 All trademarks are the property of their respective holders.
