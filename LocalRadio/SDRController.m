@@ -329,10 +329,15 @@
         NSString * displayFrequencyString = [NSString stringWithFormat:@"%@", self.frequencyString];
         displayFrequencyString = [displayFrequencyString stringByReplacingOccurrencesOfString:@"-f " withString:@""];
         NSString * megahertzString = [self.appDelegate shortHertzString:displayFrequencyString];
-        self.appDelegate.statusFrequencyTextField.stringValue = megahertzString;
+        //self.appDelegate.statusFrequencyTextField.stringValue = megahertzString;
+        [self.appDelegate setStatusFrequency:megahertzString];
         
         self.appDelegate.statusModulationTextField.stringValue = self.modulationString;
+        self.appDelegate.statusModulation = self.modulationString;
+        
         self.appDelegate.statusSamplingRateTextField.stringValue = self.tunerSampleRateNumber.stringValue;
+        self.appDelegate.statusSamplingRate = self.tunerSampleRateNumber.stringValue;
+
         self.appDelegate.statusSquelchLevelTextField.stringValue = self.squelchLevelNumber.stringValue;
         self.appDelegate.statusTunerGainTextField.stringValue = [NSString stringWithFormat:@"%@", self.tunerGainNumber];
         self.appDelegate.statusRtlsdrOptionsTextField.stringValue = self.optionsString;

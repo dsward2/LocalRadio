@@ -123,8 +123,6 @@ typedef struct kinfo_proc kinfo_proc;
 
             [NSThread detachNewThreadSelector:@selector(startServices) toTarget:self withObject:NULL];
             
-            [self resetRtlsdrStatusText];
-
             [self updateViews:self];
             
             self.periodicUpdateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(periodicUpdateTimerFired:) userInfo:self repeats:YES];
@@ -231,27 +229,6 @@ typedef struct kinfo_proc kinfo_proc;
     }
 
     [self updateCurrentTasksText];
-}
-
-//==================================================================================
-//	resetRtlsdrStatusText
-//==================================================================================
-
-- (void)resetRtlsdrStatusText
-{
-    /*
-    self.statusRTLSDRTextField.stringValue = @"Not running";
-    
-    [self.statusCurrentTasksTextView setString:@""];
-
-    self.statusFunctionTextField.stringValue = @"";
-    self.statusFrequencyTextField.stringValue = @"";
-    self.statusModulationTextField.stringValue = @"";
-    self.statusSamplingRateTextField.stringValue = @"";
-    self.statusSquelchLevelTextField.stringValue = @"";
-    self.statusTunerGainTextField.stringValue = @"";
-    self.statusSignalLevelTextField.stringValue = @"";
-    */
 }
 
 //==================================================================================
@@ -1322,6 +1299,43 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     return result;
 }
+
+- (void)setStatusFrequencyString:(NSString *)value
+{
+    [self performSelectorOnMainThread:@selector(setStatusFrequencyStringOnThread:) withObject:value waitUntilDone:NO];
+}
+
+- (void)setStatusFrequencyStringOnThread:(NSString *)value
+{
+    self.statusFrequency = value;
+    self.statusFrequencyTextField.stringValue = value;
+}
+
+- (void)setStatusNameString:(NSString *)value
+{
+    [self performSelectorOnMainThread:@selector(setStatusNameStringOnThread:) withObject:value waitUntilDone:NO];
+}
+
+- (void)setStatusNameStringOnThread:(NSString *)value
+{
+    self.statusName = value;
+    self.statusNameTextField.stringValue = value;
+}
+
+
+- (void)setStatusFrequencyIDString:(NSString *)value
+{
+    [self performSelectorOnMainThread:@selector(setStatusFrequencyIDStringOnThread:) withObject:value waitUntilDone:NO];
+}
+
+
+- (void)setStatusFrequencyIDStringOnThread:(NSString *)value
+{
+    self.statusFrequencyID = value;
+    self.statusFrequencyIDTextField.stringValue = value;
+}
+
+
 
 
 

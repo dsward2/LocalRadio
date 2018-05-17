@@ -972,7 +972,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="pWY-8B-R8i">
                             <rect key="frame" x="1" y="0.0" width="673" height="315"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="20" rowSizeStyle="automatic" headerView="xpx-kQ-Qcl" viewBased="YES" floatsGroupRows="NO" id="3dz-1S-5uR">
                                     <rect key="frame" x="0.0" y="0.0" width="673" height="292"/>
@@ -1378,7 +1378,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Status" identifier="" id="GvX-g5-9UV">
-                                <view key="view" id="qnk-kF-EPU">
+                                <view key="view" ambiguous="YES" id="qnk-kF-EPU">
                                     <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1394,7 +1394,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" id="XFC-hX-hWd">
                                                             <rect key="frame" x="1" y="1" width="432" height="184"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="ydX-HH-DPt">
                                                                     <rect key="frame" x="0.0" y="0.0" width="432" height="184"/>
@@ -1412,7 +1412,7 @@ Gw
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="St6-kL-Qjl">
-                                                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
+                                                            <rect key="frame" x="417" y="1" width="16" height="184"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
@@ -1748,7 +1748,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configuration" identifier="" id="Amd-pe-F7E">
-                                <view key="view" ambiguous="YES" id="QdK-3V-Sdm">
+                                <view key="view" id="QdK-3V-Sdm">
                                     <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

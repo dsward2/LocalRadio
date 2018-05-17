@@ -123,6 +123,11 @@
 @property (assign) BOOL useWebViewAudioPlayer;
 @property (assign) BOOL useAutoPlay;
 @property (assign) NSUInteger icecastServerPort;
+@property (strong) NSString * statusFrequencyID;
+@property (strong) NSString * statusFrequency;
+@property (strong) NSString * statusName;
+@property (strong) NSString * statusModulation;
+@property (strong) NSString * statusSamplingRate;
 
 
 @property (assign) NSInteger listenMode;
@@ -146,7 +151,6 @@
 - (IBAction)editCancelButtonAction:(id)sender;
 - (IBAction)editSetDefaultsButtonAction:(id)sender;
 
-- (void)resetRtlsdrStatusText;
 - (void)updateCurrentTasksText;
 
 - (NSString *)localHostString;
@@ -158,6 +162,9 @@
 
 - (NSString *)shortHertzString:(NSString *)hertzNumericString;
 - (NSInteger)hertzWithString:(NSString *)hertzString;
+- (void)setStatusFrequencyString:(NSString *)value;
+- (void)setStatusNameString:(NSString *)value;
+- (void)setStatusFrequencyIDString:(NSString *)value;
 
 @end
 

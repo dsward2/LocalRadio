@@ -341,12 +341,9 @@ static NSString * DisplayErrorFromError(NSError *error)
             if ([itemName isEqualToString:@"Frequency"] == YES)
             {
                 [self updateStatusViewsForFrequencyID:itemValue];
-                //NSString * megahertzString = [self.appDelegate shortHertzString:itemValue];
-                //self.appDelegate.statusFrequencyTextField.stringValue = megahertzString;
             }
             else if ([itemName isEqualToString:@"RMS Power"] == YES)
             {
-                //self.appDelegate.statusSignalLevelTextField.stringValue = itemValue;
                 [self performSelectorOnMainThread:@selector(setStatusSignalLevelTextFieldStringValue:) withObject:itemValue waitUntilDone:NO];
                 
                 NSInteger signalLevel = [itemValue integerValue];
@@ -368,8 +365,7 @@ static NSString * DisplayErrorFromError(NSError *error)
 {
     NSString * megahertzString = [self.appDelegate shortHertzString:frequencyString];
     
-    //self.appDelegate.statusFrequencyTextField.stringValue = megahertzString;
-    [self performSelectorOnMainThread:@selector(setStatusFrequencyTextFieldStringValue:) withObject:megahertzString waitUntilDone:NO];
+    [self.appDelegate setStatusFrequencyString:megahertzString];
 
     NSMutableDictionary * cachedFrequencyDictionary = self.nowPlayingDictionary;
     
@@ -402,39 +398,20 @@ static NSString * DisplayErrorFromError(NSError *error)
     
         NSString * stationName = [cachedFrequencyDictionary objectForKey:@"station_name"];
         
-        //self.appDelegate.statusNameTextField.stringValue = stationName;
-        [self performSelectorOnMainThread:@selector(setStatusNameTextFieldStringValue:) withObject:stationName waitUntilDone:NO];
+        [self.appDelegate setStatusNameString:stationName];
 
         NSString * frequencyIDString = [cachedFrequencyDictionary objectForKey:@"id"];
         if (frequencyIDString != NULL)
         {
-            //self.appDelegate.statusFrequencyIDTextField.stringValue = frequencyIDString;
-            [self performSelectorOnMainThread:@selector(setStatusFrequencyIDTextFieldStringValue:) withObject:frequencyIDString waitUntilDone:NO];
+            [self.appDelegate setStatusFrequencyIDString:frequencyIDString];
         }
         else
         {
-            //self.appDelegate.statusFrequencyIDTextField.stringValue = @"N/A";
-            [self performSelectorOnMainThread:@selector(setStatusFrequencyIDTextFieldStringValue:) withObject:@"N/A" waitUntilDone:NO];
+            [self.appDelegate setStatusFrequencyIDString:@"N/A"];
         }
     }
 }
 
-
-- (void)setStatusFrequencyTextFieldStringValue:(NSString *)value
-{
-    self.appDelegate.statusFrequencyTextField.stringValue = value;
-}
-
-- (void)setStatusNameTextFieldStringValue:(NSString *)value
-{
-    self.appDelegate.statusNameTextField.stringValue = value;
-}
-
-
-- (void)setStatusFrequencyIDTextFieldStringValue:(NSString *)value
-{
-    self.appDelegate.statusFrequencyIDTextField.stringValue = value;
-}
 
 
 

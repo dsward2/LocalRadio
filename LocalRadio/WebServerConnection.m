@@ -106,12 +106,18 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 			
 			return requestContentLength < 4096;
 		}
-		else if ([path isEqualToString:@"/frequencylistenbuttonclicked.html"])
-		{
-			// Let's be extra cautious, and make sure the upload isn't 5 gigs
-			
-			return requestContentLength < 4096;
-		}
+        else if ([path isEqualToString:@"/frequencylistenbuttonclicked.html"])
+        {
+            // Let's be extra cautious, and make sure the upload isn't 5 gigs
+            
+            return requestContentLength < 4096;
+        }
+        else if ([path isEqualToString:@"/devicelistenbuttonclicked.html"])
+        {
+            // Let's be extra cautious, and make sure the upload isn't 5 gigs
+            
+            return requestContentLength < 4096;
+        }
 		else if ([path isEqualToString:@"/nowplayingstatus.html"])
 		{
 			// Let's be extra cautious, and make sure the upload isn't 5 gigs
@@ -482,15 +488,80 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
             self.appDelegate.listenMode = kListenModeFrequency;
         }
+        #pragma mark relativePath=devicelistenbuttonclicked.html
+        else if ([relativePath isEqualToString:@"/devicelistenbuttonclicked.html"])
+        {
+            NSString * postString = nil;
+            NSString * messageString = nil;
+            
+            NSData * postData = [request body];
+            if (postData)
+            {
+                postString = [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding];
+            }
+
+            NSData * messageData = [request messageData];
+            if (messageData)
+            {
+                messageString = [[NSString alloc] initWithData:messageData encoding:NSUTF8StringEncoding];
+            }
+            
+            NSError *error = nil;
+            id object = [NSJSONSerialization
+                      JSONObjectWithData:postData
+                      options:0
+                      error:&error];
+            
+            if ([object isKindOfClass:[NSDictionary class]] == YES)
+            {
+                NSDictionary * listenDictionary = object;
+                
+                NSString * freqString = [listenDictionary objectForKey:@"frequency"];
+                NSInteger freqValue = [freqString integerValue];
+                NSNumber * freqNumber = [NSNumber numberWithInteger:freqValue];
+                
+                NSString * sampleRateString = [listenDictionary objectForKey:@"sample_rate"];
+                NSInteger sampleRateValue = [sampleRateString integerValue];
+                NSNumber * sampleRateNumber = [NSNumber numberWithInteger:sampleRateValue];
+                
+                NSString * tunerGainString = [listenDictionary objectForKey:@"tuner_gain"];
+                CGFloat tunerGainValue = [tunerGainString floatValue];
+                NSNumber * tunerGainNumber = [NSNumber numberWithFloat:tunerGainValue];
+                
+                //NSMutableDictionary * frequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
+                
+                NSMutableDictionary * frequencyDictionary = self.constructFrequencyDictionary;
+                
+                if (frequencyDictionary == NULL)
+                {
+                    frequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
+                }
+                
+                [frequencyDictionary setObject:freqNumber forKey:@"frequency"];
+                [frequencyDictionary setObject:sampleRateNumber forKey:@"sample_rate"];
+                [frequencyDictionary setObject:tunerGainNumber forKey:@"tuner_gain"];
+
+                [self listenButtonClickedForFrequency:frequencyDictionary];
+            }
+            
+            [replacementDict setObject:@"OK" forKey:@"DEVICE_LISTEN_BUTTON_CLICKED_RESULT"];
+
+            self.appDelegate.listenMode = kListenModeFrequency;
+        }
         #pragma mark relativePath=nowplaying.html
         else if ([relativePath isEqualToString:@"/nowplaying.html"])
         {
-            NSString * nowPlayingNameString = self.appDelegate.statusFunctionTextField.stringValue;
+            //NSString * nowPlayingNameString = self.appDelegate.statusFunctionTextField.stringValue;
+            NSString * nowPlayingNameString = self.sdrController.statusFunctionString;
             [replacementDict setObject:nowPlayingNameString forKey:@"NOW_PLAYING_NAME"];
             
-            NSString * frequencyString = self.appDelegate.statusFrequencyTextField.stringValue;
-            NSString * modulationString = self.appDelegate.statusModulationTextField.stringValue;
-            NSString * sampleRateString = self.appDelegate.statusSamplingRateTextField.stringValue;
+            //NSString * frequencyString = self.appDelegate.statusFrequencyTextField.stringValue;
+            //NSString * modulationString = self.appDelegate.statusModulationTextField.stringValue;
+            //NSString * sampleRateString = self.appDelegate.statusSamplingRateTextField.stringValue;
+
+            NSString * frequencyString = self.appDelegate.statusFrequency;
+            NSString * modulationString = self.appDelegate.statusModulation;
+            NSString * sampleRateString = self.appDelegate.statusSamplingRate;
 
             NSString * nowPlayingDetailsString = [NSString stringWithFormat:@"<br><br>frequency: %@<br>modulation: %@<br>sample rate: %@<br><br>", frequencyString, modulationString, sampleRateString];
 
@@ -1129,11 +1200,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             // set custom values for wbfm properties not shown on the UI
             [self.constructFrequencyDictionary setObject:@"Audio Device" forKey:@"station_name"];
 
-            NSString * tunerFormString = [self generateDevicesFormString];
-            [replacementDict setObject:tunerFormString forKey:@"DEVICES_FORM"];
-
-            //NSString * categorySelectString = [self generateCategorySelectOptions];
-            //[replacementDict setObject:categorySelectString forKey:@"CATEGORY_SELECT"];
+            NSString * devicesFormString = [self generateDevicesFormString];
+            [replacementDict setObject:devicesFormString forKey:@"DEVICES_FORM"];
         }
         #pragma mark relativePath=insertnewfrequency.html
         else if ([relativePath isEqualToString:@"/insertnewfrequency.html"])
@@ -2746,9 +2814,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
     NSMutableString * formString = [NSMutableString string];
 
-    NSString * formAction = @"device_select";
+    NSString * formAction = @"deviceSelect";
 
-    [formString appendFormat:@"<form class='device_form' id='editfavorite' onsubmit='event.preventDefault(); return %@(this);' method='POST'>\n", formAction];
+    [formString appendFormat:@"<form class='device_form' id='deviceselect' onsubmit='event.preventDefault(); return %@(this);' method='POST'>\n", formAction];
 
     NSArray * audioDeviceArray = [self generateAudioDeviceList];
     
@@ -2778,6 +2846,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         }
     }
     [formString appendString:@"</select>\n"];
+
+    NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var deviceForm=getElementById('device_form'); deviceListenButtonClicked(deviceForm);\"  title=\"Click the Listen button for the selected device.  You may also need to click on the Play button in the audio controls below.\">";
+    [formString appendString:listenButtonString];
 
     [formString appendString:@"</form>\n<br>&nbsp;<br>\n"];
 
