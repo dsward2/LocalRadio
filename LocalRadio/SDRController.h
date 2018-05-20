@@ -34,6 +34,8 @@
 @property (strong) NSString * statusFunctionString;
 @property (strong) NSString * streamSourceString;
 
+@property (strong) NSString * deviceName;
+
 @property (assign) BOOL enableDirectSamplingQBranchMode;
 @property (assign) BOOL enableTunerAGC;
 
@@ -42,8 +44,8 @@
 
 - (void)terminateTasks;
 
-- (void)startRtlsdrTasksForAudioInputDevice:(NSString *)audioInputDeviceName;
 - (void)startRtlsdrTasksForFrequency:(NSDictionary *)frequencyDictionary;
 - (void)startRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
+- (void)startTasksForDevice:(NSString *)deviceName;
 
 @end

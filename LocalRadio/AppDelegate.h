@@ -22,7 +22,8 @@
 
 #define kListenModeIdle 0
 #define kListenModeFrequency 1
-#define kListenModeScan 1
+#define kListenModeScan 2
+#define kListenModeDevice 3
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSStreamDelegate, NSTabViewDelegate>
 

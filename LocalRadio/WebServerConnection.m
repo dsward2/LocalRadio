@@ -512,41 +512,31 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                       options:0
                       error:&error];
             
-            if ([object isKindOfClass:[NSDictionary class]] == YES)
+            if ([object isKindOfClass:[NSArray class]] == YES)
             {
-                NSDictionary * listenDictionary = object;
+                NSArray * deviceArray = object;
                 
-                NSString * freqString = [listenDictionary objectForKey:@"frequency"];
-                NSInteger freqValue = [freqString integerValue];
-                NSNumber * freqNumber = [NSNumber numberWithInteger:freqValue];
-                
-                NSString * sampleRateString = [listenDictionary objectForKey:@"sample_rate"];
-                NSInteger sampleRateValue = [sampleRateString integerValue];
-                NSNumber * sampleRateNumber = [NSNumber numberWithInteger:sampleRateValue];
-                
-                NSString * tunerGainString = [listenDictionary objectForKey:@"tuner_gain"];
-                CGFloat tunerGainValue = [tunerGainString floatValue];
-                NSNumber * tunerGainNumber = [NSNumber numberWithFloat:tunerGainValue];
-                
-                //NSMutableDictionary * frequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
-                
-                NSMutableDictionary * frequencyDictionary = self.constructFrequencyDictionary;
-                
-                if (frequencyDictionary == NULL)
+                if (deviceArray.count == 1)
                 {
-                    frequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
+                    id deviceArrayObject = deviceArray.firstObject;
+                    if ([deviceArrayObject isKindOfClass:[NSDictionary class]] == YES)
+                    {
+                        NSMutableDictionary * deviceDictionary = [deviceArrayObject mutableCopy];
+                        
+                        NSString * settingName = [deviceDictionary objectForKey:@"name"];
+                        if ([settingName isEqualToString:@"audio_output"] == YES)
+                        {
+                            NSString * deviceName = [deviceDictionary objectForKey:@"value"];
+                        
+                            [self listenButtonClickedForDevice:deviceName];
+                        }
+                    }
                 }
-                
-                [frequencyDictionary setObject:freqNumber forKey:@"frequency"];
-                [frequencyDictionary setObject:sampleRateNumber forKey:@"sample_rate"];
-                [frequencyDictionary setObject:tunerGainNumber forKey:@"tuner_gain"];
-
-                [self listenButtonClickedForFrequency:frequencyDictionary];
             }
             
             [replacementDict setObject:@"OK" forKey:@"DEVICE_LISTEN_BUTTON_CLICKED_RESULT"];
 
-            self.appDelegate.listenMode = kListenModeFrequency;
+            self.appDelegate.listenMode = kListenModeDevice;
         }
         #pragma mark relativePath=nowplaying.html
         else if ([relativePath isEqualToString:@"/nowplaying.html"])
@@ -2311,7 +2301,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 }
 
 //==================================================================================
-//	listenButtonClickedForFrequency:
+//    listenButtonClickedForFrequency:
 //==================================================================================
 
 - (void)listenButtonClickedForFrequency:(NSMutableDictionary *)favoriteDictionary
@@ -2319,6 +2309,18 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     if (favoriteDictionary != NULL)
     {
         [self.sdrController startRtlsdrTasksForFrequency:favoriteDictionary];
+    }
+}
+
+//==================================================================================
+//    listenButtonClickedForDevice:
+//==================================================================================
+
+- (void)listenButtonClickedForDevice:(NSString *)deviceName
+{
+    if (deviceName != NULL)
+    {
+        [self.sdrController startTasksForDevice:deviceName];
     }
 }
 
@@ -2816,12 +2818,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
     NSString * formAction = @"deviceSelect";
 
-    [formString appendFormat:@"<form class='device_form' id='deviceselect' onsubmit='event.preventDefault(); return %@(this);' method='POST'>\n", formAction];
+    [formString appendFormat:@"<form class='device_form' id='deviceForm' onsubmit='event.preventDefault(); return %@(this);' method='POST'>\n", formAction];
 
     NSArray * audioDeviceArray = [self generateAudioDeviceList];
     
     [formString appendString:@"<label for='audio_output'>Select Audio Input</label>\n"];
-    [formString appendString:@"<select name='audio_output' class='twelve columns value-prop' title='The Audio Output setting controls the destination of audio from the radio and final Sox filters.  The default setting is \"Built-in Icecast Server\" for normal usage.'>\n"];
+    [formString appendString:@"<select name='audio_output' class='twelve columns value-prop' title='The Audio Input setting selects a Core Audio device, like \"Built-in Input\".'>\n"];
     
     for (NSDictionary * deviceDictionary in audioDeviceArray)
     {
@@ -2847,7 +2849,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     }
     [formString appendString:@"</select>\n"];
 
-    NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var deviceForm=getElementById('device_form'); deviceListenButtonClicked(deviceForm);\"  title=\"Click the Listen button for the selected device.  You may also need to click on the Play button in the audio controls below.\">";
+    NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var deviceForm=getElementById('deviceForm'); deviceListenButtonClicked(deviceForm);\"  title=\"Click the Listen button for the selected device.  You may also need to click on the Play button in the audio controls below.\">";
     [formString appendString:listenButtonString];
 
     [formString appendString:@"</form>\n<br>&nbsp;<br>\n"];

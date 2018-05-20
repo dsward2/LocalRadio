@@ -191,6 +191,7 @@
 		0ED12CE91F359B0700D9DCDC /* tuner.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CE81F359B0700D9DCDC /* tuner.html */; };
 		0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEA1F35A86800D9DCDC /* index2.html */; };
 		0ED12CF01F35CD6600D9DCDC /* ofl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEF1F35CD6600D9DCDC /* ofl_license.txt */; };
+		0ED6C77220AE69B500D82331 /* devicelistenbuttonclicked.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED6C77120AE69B500D82331 /* devicelistenbuttonclicked.html */; };
 		0ED9ED471F529A2A00898460 /* LocalRadioAppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9ED461F529A2A00898460 /* LocalRadioAppSettings.m */; };
 		0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF173251F60C25E0067E8C0 /* zip_lat_long.txt */; };
 		0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */ = {isa = PBXBuildFile; fileRef = 0E7309191F3EBB6300004907 /* LocalRadio Clean-Up.workflow */; };
@@ -1440,6 +1441,7 @@
 		0ED148011F7A286700705A24 /* apple-icon-152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-152x152.png"; sourceTree = "<group>"; };
 		0ED148021F7A286700705A24 /* apple-icon-167x167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-167x167.png"; sourceTree = "<group>"; };
 		0ED148031F7A286700705A24 /* apple-icon-180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-180x180.png"; sourceTree = "<group>"; };
+		0ED6C77120AE69B500D82331 /* devicelistenbuttonclicked.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = devicelistenbuttonclicked.html; sourceTree = "<group>"; };
 		0ED9ED451F529A2A00898460 /* LocalRadioAppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalRadioAppSettings.h; sourceTree = "<group>"; };
 		0ED9ED461F529A2A00898460 /* LocalRadioAppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalRadioAppSettings.m; sourceTree = "<group>"; };
 		0EEE99291EEF957F00A16CA8 /* categories.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = categories.html; sourceTree = "<group>"; };
@@ -3369,6 +3371,7 @@
 				0E880CF51EDA606E007BEB99 /* viewfavorite.html */,
 				0EC2075A1EDB83DD006899EB /* listen.html */,
 				0E0FD99E1EF3307E00FEEA06 /* scancategorylisten.html */,
+				0ED6C77120AE69B500D82331 /* devicelistenbuttonclicked.html */,
 			);
 			path = Web;
 			sourceTree = "<group>";
@@ -4115,6 +4118,7 @@
 				0EF746551F4ECE920008546F /* tuner_advanced.html in Resources */,
 				0EFFD1211EAE08A60041D2F5 /* icecast.xml in Resources */,
 				0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */,
+				0ED6C77220AE69B500D82331 /* devicelistenbuttonclicked.html in Resources */,
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
 				0E02EC771F4D8446008BAC27 /* tuner_aviation.html in Resources */,
 				0E0936C91F42E3E400BF2B46 /* nowplayingstatus.html in Resources */,

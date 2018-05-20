@@ -92,17 +92,17 @@
         int terminationStatus = task.terminationStatus;
         long terminationReason = task.terminationReason;
         
-        NSLog(@"TaskItem %@ enter terminationHandler, PID=%d", weakSelf.path, processIdentifier);
+        NSLog(@"TaskItem PID=%d - %@ enter terminationHandler", processIdentifier, weakSelf.path);
 
         if ([task terminationStatus] == 0)
         {
-            NSLog(@"TaskItem - terminationStatus 0");
-            NSLog(@"TaskItem - terminationReason %ld", terminationReason);
+            NSLog(@"TaskItem PID=%d - terminationStatus 0", processIdentifier);
+            NSLog(@"TaskItem PID=%d - terminationReason %ld", processIdentifier, terminationReason);
         }
         else
         {
-            NSLog(@"TaskItem - terminationStatus %d", terminationStatus);
-            NSLog(@"TaskItem - terminationReason %ld", terminationReason);
+            NSLog(@"TaskItem PID=%d - terminationStatus %d", processIdentifier, terminationStatus);
+            NSLog(@"TaskItem PID=%d - terminationReason %ld", processIdentifier, terminationReason);
         }
         
         weakSelf.task = NULL;
@@ -111,7 +111,7 @@
 
         [appDelegate updateCurrentTasksText];
 
-        NSLog(@"TaskItem exit %@ terminationHandler, PID=%d", weakSelf.functionName, processIdentifier);
+        NSLog(@"TaskItem PID=%d - exit %@ terminationHandler", processIdentifier, weakSelf.functionName);
     }];
 
 

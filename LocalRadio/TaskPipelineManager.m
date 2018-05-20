@@ -116,6 +116,11 @@
         for (TaskItem * taskItem in self.taskItemsArray)
         {
             NSError * createTaskError = [taskItem createTask];
+            
+            if (createTaskError != NULL)
+            {
+                NSLog(@"startTasks - createTaskError - %@", createTaskError);
+            }
         }
 
         [self configureTaskPipes];
@@ -123,6 +128,11 @@
         for (TaskItem * taskItem in self.taskItemsArray)
         {
             NSError * startTaskError = [taskItem startTask];
+            
+            if (startTaskError != NULL)
+            {
+                NSLog(@"startTasks - startTaskError - %@", startTaskError);
+            }
             
             [NSThread sleepForTimeInterval:0.2f];
         }
