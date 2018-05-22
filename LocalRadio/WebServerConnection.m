@@ -543,6 +543,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         {
             //NSString * nowPlayingNameString = self.appDelegate.statusFunctionTextField.stringValue;
             NSString * nowPlayingNameString = self.sdrController.statusFunctionString;
+            if (nowPlayingNameString == NULL)
+            {
+                nowPlayingNameString = @"";
+            }
             [replacementDict setObject:nowPlayingNameString forKey:@"NOW_PLAYING_NAME"];
             
             //NSString * frequencyString = self.appDelegate.statusFrequencyTextField.stringValue;

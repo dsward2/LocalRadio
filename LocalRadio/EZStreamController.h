@@ -44,6 +44,6 @@
 - (void)terminateTasks;
 
 - (void)startEZStreamServer;
-- (void)stopEZStreamServer;
+//- (void)stopEZStreamServer;
 
 @end
