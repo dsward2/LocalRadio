@@ -248,12 +248,21 @@ typedef struct kinfo_proc kinfo_proc;
      
         [tasksString appendFormat:@"%@ %@\n\n",
             self.icecastController.quotedIcecastPath, self.icecastController.icecastTaskArgsString];
+
+        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+        IcecastController * icecastController = appDelegate.icecastController;
+        NSDictionary * icecastStatusDictionary = [icecastController icecastStatusDictionary];
+
+        NSString * icecastStatusString = [icecastStatusDictionary description];
+        [tasksString appendString:icecastStatusString];
+
+        [tasksString appendString:@"\n\n"];
     }
     else
     {
         [tasksString appendString:@"No tasks currently running\n\n"];
     }
-    
+
     [tasksString appendString:@"--- EZStream tasks ---"];
 
     NSString * ezStreamTasksString = self.ezStreamController.ezStreamTaskPipelineManager.tasksInfoString;

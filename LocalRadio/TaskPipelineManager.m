@@ -9,6 +9,7 @@
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
 #import "AppDelegate.h"
+#import "IcecastController.h"
 
 @implementation TaskPipelineManager
 

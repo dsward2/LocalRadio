@@ -30,7 +30,29 @@
     NSLog(@"Starting Icecast server");
     
     //[self stopIcecastServer];   // TEST
+
+    /*
+    //NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
+    NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
+    NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
+    NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
+    //NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
+    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
     
+    // set user authentication for admin/stats URL requests. or this error will display in log:
+    // CredStore - performQuery - Error copying matching creds.  Error=-25300, query={
+    //      class = inet;
+    //      "m_Limit" = "m_LimitAll";
+    //      ptcl = http;
+    //      "r_Attributes" = 1;
+    //      srvr = "127.0.0.1";
+    //      sync = syna;
+    //      }
+    NSURLProtectionSpace * protectionSpace = [[NSURLProtectionSpace alloc] initWithHost:icecastServerHost port:icecastServerPortNumber.integerValue protocol:@"http" realm:@"Icecast2 Server" authenticationMethod:NULL];
+    NSURLCredential * userCredential = [NSURLCredential credentialWithUser:@"admin" password:icecastServerSourcePassword persistence:NSURLCredentialPersistencePermanent];
+    [[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential:userCredential forProtectionSpace:protectionSpace];
+    */
+
     int icecastProcessID = [self.appDelegate processIDForProcessName:@"icecast"];
 
     if (icecastProcessID == 0)
@@ -137,6 +159,13 @@
 
 - (void)configureIcecast
 {
+    NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
+    NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
+    NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
+    NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
+    NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
+    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
     
     NSString * icecastPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast"];
@@ -227,7 +256,7 @@
         [adminrootElement setStringValue:adminrootPath];
     }
     
-    // <pidfile>/opt/local/share/icecast/icecast.pid</pidfile>
+    // change <pidfile>/opt/local/share/icecast/icecast.pid</pidfile>
     NSString * pidfileQuery = @"paths/pidfile";
     NSArray * pidfileResultArray = [rootElement nodesForXPath:pidfileQuery error:&error];
     if (pidfileResultArray.count > 0)
@@ -236,6 +265,35 @@
         NSString * pidfilePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.pid"];
         [pidfileElement setStringValue:pidfilePath];
     }
+    
+
+
+    // change source-password, admin-password and relay-password
+    NSString * sourcePasswordQuery = @"authentication/source-password";
+    NSArray * sourcePasswordResultArray = [rootElement nodesForXPath:sourcePasswordQuery error:&error];
+    if (sourcePasswordResultArray.count > 0)
+    {
+        NSXMLElement * sourcePasswordElement = sourcePasswordResultArray.firstObject;
+        [sourcePasswordElement setStringValue:icecastServerSourcePassword];
+    }
+    
+    NSString * relayPasswordQuery = @"authentication/relay-password";
+    NSArray * relayPasswordResultArray = [rootElement nodesForXPath:relayPasswordQuery error:&error];
+    if (relayPasswordResultArray.count > 0)
+    {
+        NSXMLElement * relayPasswordElement = relayPasswordResultArray.firstObject;
+        [relayPasswordElement setStringValue:icecastServerSourcePassword];
+    }
+    
+    NSString * adminPasswordQuery = @"authentication/admin-password";
+    NSArray * adminPasswordResultArray = [rootElement nodesForXPath:adminPasswordQuery error:&error];
+    if (adminPasswordResultArray.count > 0)
+    {
+        NSXMLElement * adminPasswordElement = adminPasswordResultArray.firstObject;
+        [adminPasswordElement setStringValue:icecastServerSourcePassword];
+    }
+    
+
     
     NSString * xmlString = [xmlDocument XMLString];
     NSString * newIcecastConfigPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.xml"];
@@ -377,68 +435,83 @@ Printing description of icecastStatusDictionary:
 - (NSDictionary *)icecastStatusDictionary
 {
     NSDictionary * resultDictionary = [NSDictionary dictionary];
-
-    //NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
-    //NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
-    //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
-    NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
-    //NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
-    //NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
-
-    NSString * icecastURL = [self icecastWebServerURLString];
-    //NSString * icecastStatusURL = [icecastURL stringByAppendingPathComponent:@"status-json.xsl"];
-    NSString * icecastStatusURLString = [icecastURL stringByAppendingPathComponent:@"admin/stats"];
     
-    NSURL * icecastStatusURL = [NSURL URLWithString:icecastStatusURLString];
-
-    NSError __block * icecastError = NULL;
-    NSData __block * icecastResponseData;
-    BOOL __block reqProcessed = false;
-    NSURLResponse __block * icecastResponse;
-    
-    NSMutableURLRequest * icecastStatusURLRequest = [NSMutableURLRequest requestWithURL:icecastStatusURL];
-
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    NSString *authStr = [NSString stringWithFormat:@"admin:%@", icecastServerSourcePassword];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat: @"Basic %@",[authData base64EncodedStringWithOptions:0]];
-    [icecastStatusURLRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
-
-
-    
-    //[[session dataTaskWithURL:[NSURL URLWithString:icecastStatusURL]
-    [[session dataTaskWithRequest:icecastStatusURLRequest
-            completionHandler:^(NSData *data,
-            NSURLResponse *response,
-            NSError *error)
+    if (self.icecastTask != NULL)
     {
-        // handle response
-        icecastResponse = response;
-        icecastResponseData = data;
-        icecastError = error;
-        reqProcessed = true;
-    }] resume];
-
-    while (!reqProcessed) {
-        [NSThread sleepForTimeInterval:0.1];
-    }
-    
-    if (icecastResponseData != NULL)
-    {
-        NSString * xmlString = [[NSString alloc] initWithData:icecastResponseData encoding:NSUTF8StringEncoding];
-        
-        if (xmlString != NULL)
+        if (self.icecastStatusBusy == YES)
         {
-            if (xmlString.length > 0)
+            resultDictionary = self.lastIcecastStatusDictionary;
+        }
+        else
+        {
+            self.icecastStatusBusy = YES;
+            
+            //NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
+            //NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
+            //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
+            NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
+            //NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
+            //NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+
+            NSString * icecastURL = [self icecastWebServerURLString];
+            //NSString * icecastStatusURL = [icecastURL stringByAppendingPathComponent:@"status-json.xsl"];
+            NSString * icecastStatusURLString = [icecastURL stringByAppendingPathComponent:@"admin/stats"];
+            
+            NSURL * icecastStatusURL = [NSURL URLWithString:icecastStatusURLString];
+            
+            NSError __block * icecastError = NULL;
+            NSData __block * icecastResponseData;
+            BOOL __block reqProcessed = false;
+            NSURLResponse __block * icecastResponse;
+            
+            NSMutableURLRequest * icecastStatusURLRequest = [NSMutableURLRequest requestWithURL:icecastStatusURL];
+
+            NSURLSession *session = [NSURLSession sharedSession];
+            
+            NSString *authStr = [NSString stringWithFormat:@"admin:%@", icecastServerSourcePassword];
+            NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
+            NSString *authValue = [NSString stringWithFormat: @"Basic %@",[authData base64EncodedStringWithOptions:0]];
+            [icecastStatusURLRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
+
+
+            
+            //[[session dataTaskWithURL:[NSURL URLWithString:icecastStatusURL]
+            [[session dataTaskWithRequest:icecastStatusURLRequest
+                    completionHandler:^(NSData *data,
+                    NSURLResponse *response,
+                    NSError *error)
             {
-                NSDictionary * icecastStatusDictionary = [self parseIcecastStatusXML:xmlString];
+                // handle response
+                icecastResponse = response;
+                icecastResponseData = data;
+                icecastError = error;
+                reqProcessed = true;
+            }] resume];
+
+            while (!reqProcessed) {
+                [NSThread sleepForTimeInterval:0.1];
+            }
+            
+            if (icecastResponseData != NULL)
+            {
+                NSString * xmlString = [[NSString alloc] initWithData:icecastResponseData encoding:NSUTF8StringEncoding];
                 
-                if (icecastStatusDictionary != NULL)
+                if (xmlString != NULL)
                 {
-                    resultDictionary = icecastStatusDictionary;
+                    if (xmlString.length > 0)
+                    {
+                        NSDictionary * icecastStatusDictionary = [self parseIcecastStatusXML:xmlString];
+                        
+                        if (icecastStatusDictionary != NULL)
+                        {
+                            resultDictionary = icecastStatusDictionary;
+                        }
+                    }
                 }
             }
+            
+            self.lastIcecastStatusDictionary = resultDictionary;
+            self.icecastStatusBusy = NO;
         }
     }
     

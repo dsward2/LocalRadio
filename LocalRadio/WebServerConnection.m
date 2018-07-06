@@ -176,7 +176,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     NSURL * pathURL = [NSURL URLWithString:path];
 
-    /*
     // TODO: remove this instrumentation, which logs the page request
     NSString * pathURLPath = [pathURL path];
     NSString * pathExtension = pathURLPath.pathExtension;
@@ -192,8 +191,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
         }
     }
+    else
+    {
+        NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+    }
     self.previousPath = path;
-    */
 
     NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:pathURL
             resolvingAgainstBaseURL:NO];
@@ -1419,7 +1421,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         }
         
 		HTTPLogVerbose(@"%@[%p]: replacementDict = \n%@", THIS_FILE, self, replacementDict);
-		
+
+        if ([path isEqualToString:@"/nowplayingstatus.html"] == NO)
+        {
+            NSLog(@"WebServerConnection - downloading dynamic file: %@", path);
+        }
+
 		return [[HTTPDynamicFileResponse alloc] initWithFilePath:[self filePathForURI:path]
                 forConnection:self
                 separator:@"%%"
@@ -1434,6 +1441,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 		return [[HTTPResponseTest alloc] initWithConnection:self];
 	}
     */
+    
+    NSLog(@"WebServerConnection - downloading static file: %@", path);
 	
 	return [super httpResponseForMethod:method URI:path];
 }

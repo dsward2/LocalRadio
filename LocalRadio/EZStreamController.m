@@ -182,8 +182,10 @@
 {
     // write a fresh copy of ezstream_mp3.xml to the (sandboxed) Application Support directory for this app, and return the path
 
+    NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
     NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
     NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
+    NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
     NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
     NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
 
@@ -293,7 +295,16 @@
         NSXMLElement * svrinfopublicElement = svrinfopublicResultArray.firstObject;
         [svrinfopublicElement setStringValue:@"0"];
     }
-    
+
+    // <sourcepassword>sourcepassword</sourcepassword>
+    NSString * sourcePasswordQuery = @"sourcepassword";
+    NSArray * sourcePasswordResultArray = [rootElement nodesForXPath:sourcePasswordQuery error:&error];
+    if (sourcePasswordResultArray.count > 0)
+    {
+        NSXMLElement * sourcePasswordElement = sourcePasswordResultArray.firstObject;
+        [sourcePasswordElement setStringValue:icecastServerSourcePassword];
+    }
+
     NSString * xmlString = [xmlDocument XMLString];
     NSString * newEZStreamConfigPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"ezstream_mp3.xml"];
     NSError * writeError = NULL;

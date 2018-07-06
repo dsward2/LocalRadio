@@ -15,6 +15,7 @@
 #import "EZStreamController.h"
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
+#import "IcecastController.h"
 
 @implementation SDRController
 
@@ -87,7 +88,7 @@
     CGFloat delay = 0.0;
     
     //[self stopRtlsdrTask];
-
+    
     if (self.radioTaskPipelineManager.taskPipelineStatus == kTaskPipelineStatusRunning)
     {
         [self.radioTaskPipelineManager terminateTasks];

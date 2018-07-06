@@ -28,6 +28,9 @@
 @property (strong) NSString * icecastTaskArgsString;
 @property (strong) NSString * quotedIcecastPath;
 
+@property (strong) NSDictionary * lastIcecastStatusDictionary;
+@property (assign) BOOL icecastStatusBusy;
+
 @property (assign) int icecastTaskProcessID;
 
 - (void)terminateTasks;
