@@ -202,7 +202,7 @@
         
         AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
 
-        [appDelegate updateCurrentTasksText];
+        [appDelegate updateCurrentTasksText:self];
     }
 }
 

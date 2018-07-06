@@ -152,7 +152,7 @@
 - (IBAction)editCancelButtonAction:(id)sender;
 - (IBAction)editSetDefaultsButtonAction:(id)sender;
 
-- (void)updateCurrentTasksText;
+- (IBAction)updateCurrentTasksText:(id)sender;
 
 - (NSString *)localHostString;
 - (NSString *)portString;

@@ -415,7 +415,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
     
-        [weakSelf.appDelegate updateCurrentTasksText];
+        [weakSelf.appDelegate updateCurrentTasksText:self];
         
         self.appDelegate.statusRTLSDRTextField.stringValue = @"Running";
 

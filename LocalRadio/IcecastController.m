@@ -354,7 +354,7 @@
         weakSelf.icecastTask = NULL;
         weakSelf.icecastTaskProcessID = 0;
 
-        [weakSelf.appDelegate updateCurrentTasksText];
+        [weakSelf.appDelegate updateCurrentTasksText:self];
     }];
     
     [self.icecastTask launch];

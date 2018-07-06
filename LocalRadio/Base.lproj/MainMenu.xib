@@ -1378,7 +1378,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Status" identifier="" id="GvX-g5-9UV">
-                                <view key="view" id="qnk-kF-EPU">
+                                <view key="view" ambiguous="YES" id="qnk-kF-EPU">
                                     <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1394,7 +1394,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" id="XFC-hX-hWd">
                                                             <rect key="frame" x="1" y="1" width="432" height="184"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="ydX-HH-DPt">
                                                                     <rect key="frame" x="0.0" y="0.0" width="432" height="184"/>
@@ -1412,7 +1412,7 @@ Gw
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="St6-kL-Qjl">
-                                                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
+                                                            <rect key="frame" x="417" y="1" width="16" height="184"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
@@ -1744,11 +1744,22 @@ Gw
                                                 </subviews>
                                             </view>
                                         </box>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mJC-MF-f1B">
+                                            <rect key="frame" x="361" y="202" width="75" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1do-GF-fAa">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="miniSystem"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="updateCurrentTasksText:" target="Voe-Tx-rLC" id="9So-Bh-vgM"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configuration" identifier="" id="Amd-pe-F7E">
-                                <view key="view" ambiguous="YES" id="QdK-3V-Sdm">
+                                <view key="view" id="QdK-3V-Sdm">
                                     <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

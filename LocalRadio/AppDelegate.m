@@ -91,7 +91,7 @@ typedef struct kinfo_proc kinfo_proc;
     
     //[self.soxController terminateTasks];  // already handled by sdrController terminateTasks
     
-    [self updateCurrentTasksText];
+    [self updateCurrentTasksText:self];
 }
 
 //==================================================================================
@@ -143,7 +143,7 @@ typedef struct kinfo_proc kinfo_proc;
         // app termination in progress due RTL-SDR device not found
     }
 
-    [self updateCurrentTasksText];
+    [self updateCurrentTasksText:self];
 }
 
 //==================================================================================
@@ -173,7 +173,7 @@ typedef struct kinfo_proc kinfo_proc;
     
     [self.webViewDelegate loadMainPage];
 
-    [self updateCurrentTasksText];
+    [self updateCurrentTasksText:self];
 }
 
 //==================================================================================
@@ -228,14 +228,14 @@ typedef struct kinfo_proc kinfo_proc;
         }
     }
 
-    [self updateCurrentTasksText];
+    [self updateCurrentTasksText:self];
 }
 
 //==================================================================================
 //	updateCurrentTasksText:
 //==================================================================================
 
-- (void)updateCurrentTasksText
+- (IBAction)updateCurrentTasksText:(id)sender
 {
     NSMutableString * tasksString = [NSMutableString string];
 
