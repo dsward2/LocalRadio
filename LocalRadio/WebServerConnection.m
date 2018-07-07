@@ -1766,6 +1766,17 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 [nowPlayingDictionary setObject:value forKey:newKey];
             }
         }
+        
+        id tunerGainValue = [nowPlayingDictionary objectForKey:@"tuner_gain"];
+        if (tunerGainValue != NULL)
+        {
+            if ([tunerGainValue isKindOfClass:[NSNumber class]] == YES)
+            {
+                NSString * tunerGainString = [NSString stringWithFormat:@"%.1f", [tunerGainValue floatValue]];
+                
+                [nowPlayingDictionary setObject:tunerGainString forKey:@"tuner_gain"];
+            }
+        }
 
         NSError *error = nil;
         NSData * nowPlayingData = [NSJSONSerialization
