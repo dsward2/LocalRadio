@@ -177,6 +177,10 @@
 
 - (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary device:(NSString *)audioInputDeviceName
 {
+    // All of the "Listen" button actions eventually call this method
+    
+    [self checkIcecastAndEZStream];
+
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
 
     NSArray * audioOutputFilterStringArray = [self.audioOutputFilterString componentsSeparatedByString:@" "];
@@ -735,6 +739,30 @@
         NSLog(@"rtlsdr: %@" , str);
     }
     [fh waitForDataInBackgroundAndNotify];
+}
+
+//==================================================================================
+//    checkIcecastAndEZStream
+//==================================================================================
+
+- (void)checkIcecastAndEZStream
+{
+    BOOL restartServices = NO;
+
+    if (self.appDelegate.icecastController.icecastTask == NULL)
+    {
+        restartServices = YES;
+    }
+
+    if (self.appDelegate.ezStreamController.ezStreamTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
+    {
+        restartServices = YES;
+    }
+    
+    if (restartServices == YES)
+    {
+        [self.appDelegate restartServices];
+    }
 }
 
 //==================================================================================
