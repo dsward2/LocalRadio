@@ -652,8 +652,6 @@ function setFrequencyDigits(frequency)
 
 
 
-
-
 function listenButtonClicked(form)
 {
   //console.log("listenButtonClicked");
@@ -670,13 +668,17 @@ function listenButtonClicked(form)
   xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         // response received ok
+        window.top.nowPlayingTitle = window.document.getElementById("listen_title");
+
+        // handle the audio tag with the new source
+        window.top.postMessage("startaudio", "*");
       }
     };
   xhttp.open("POST", listenButtonClickedUrl, true);
   xhttp.send(jsonData);
 
   // handle the audio tag with the new source
-  window.top.postMessage("startaudio", "*");
+  //window.top.postMessage("startaudio", "*");
 
   //console.log("postMessage startaudio");
 }
@@ -730,13 +732,17 @@ function frequencyListenButtonClicked()
       //console.log("readyState="+this.readyState+", status="+this.status);
       if (this.readyState == 4 && this.status == 200) {
         // response received ok
+        window.top.nowPlayingTitle = window.document.getElementById("listen_title");
+
+        // handle the audio tag with the new source
+        window.top.postMessage("startaudio", "*");
       }
     };
     xhttp.open("POST", frequencyListenButtonClickedUrl, true);
     xhttp.send(jsonData);
 
     // handle the audio tag with the new source
-    window.top.postMessage("startaudio", "*");
+    //window.top.postMessage("startaudio", "*");
 
     //console.log("postMessage startaudio");
 }
@@ -762,16 +768,21 @@ function scannerListenButtonClicked(form)
   xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         // response received ok
+        window.top.nowPlayingTitle = window.document.getElementById("listen_title");
+
+        // handle the audio tag with the new source
+        window.top.postMessage("startaudio", "*");
       }
     };
   xhttp.open("POST", scannerListenButtonClickedUrl, true);
   xhttp.send(jsonData);
 
   // handle the audio tag with the new source
-  window.top.postMessage("startaudio", "*");
+  //window.top.postMessage("startaudio", "*");
 
   //console.log("postMessage startaudio");
 }
+
 
 
 function deviceListenButtonClicked(form)
@@ -790,13 +801,17 @@ function deviceListenButtonClicked(form)
   xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         // response received ok
+        window.top.nowPlayingTitle = window.document.getElementById("listen_title");
+
+        // handle the audio tag with the new source
+        window.top.postMessage("startaudio", "*");
       }
     };
   xhttp.open("POST", listenButtonClickedUrl, true);
   xhttp.send(jsonData);
 
   // handle the audio tag with the new source
-  window.top.postMessage("startaudio", "*");
+  //window.top.postMessage("startaudio", "*");
 
   //console.log("postMessage startaudio");
 }

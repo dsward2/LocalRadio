@@ -202,6 +202,11 @@
         var nowPlayingDetails = document.getElementById("now-playing-details");
         nowPlayingDetails.innerHTML = statusHtml;
         
+        window.top.nowPlayingTitle = station_name;
+
+        var nowPlayingNavBarLink = window.top.document.getElementById("nowPlayingNavBarLink");
+        nowPlayingNavBarLink.innerText = "NOW PLAYING: " + station_name;
+
         if (firstPass == true)
         {
             resizeIframe(window);

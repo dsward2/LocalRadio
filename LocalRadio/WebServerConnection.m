@@ -1626,7 +1626,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 @"        <ul class=\"navbar-list\">\n"
 @"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"backButtonClicked(self);\" title=\"Click the Back button to return to the previous page in the web interface\">Back</a></li>\n"
 @"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"topButtonClicked(self);\"  title=\"Click the Top button to reload the LocalRadio web interface.\">Top</a></li>\n"
-@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"nowplaying.html\" target=\"top_iframe\" title=\"Click the Now Playing button to see the current activity on the radio, including the live Signal Level, which can be helpful for setting the correct Squelch Level.  Note that the Now Playing page will generate more network traffic, and consume more energy on mobile devices.\">Now Playing</a></li>\n"
+@"          <li class=\"navbar-item\"><a class=\"navbar-link\" id=\"nowPlayingNavBarLink\" href=\"nowplaying.html\" target=\"top_iframe\" title=\"Click the Now Playing button to see the current activity on the radio, including the live Signal Level, which can be helpful for setting the correct Squelch Level.  Note that the Now Playing page will generate more network traffic, and consume more energy on mobile devices.\">Now Playing</a></li>\n"
 @"        </ul>\n"
 @"      </div>\n"
 @"    </nav>\n";

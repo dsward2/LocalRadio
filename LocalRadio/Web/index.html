@@ -113,6 +113,7 @@
   <script>
 
     var iframeResizeDone = false;
+    var nowPlayingTitle = "";
 
     function audioElementLog(audioElement, message)
     {
@@ -306,6 +307,9 @@
     function startAudioPlayer()
     {
         console.log("startAudioPlayer");
+        
+        var nowPlayingNavBarLink = window.document.getElementById("nowPlayingNavBarLink");
+        nowPlayingNavBarLink.innerText = "NOW PLAYING: " + nowPlayingTitle.innerText;
 
         var needsAudioPlayerStart = true;
 
@@ -323,7 +327,6 @@
             setTimeout(startAudioPlayerAfterDelay(), 1000);
         }
     }
-
 
 
   
