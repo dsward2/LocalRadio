@@ -402,7 +402,6 @@
         {
             var holdAudioSrc = audioPlayer.src;
 
-            /*
             if (audioPlayer.paused == true)
             {
                 updateSrcForAudioElement(audioPlayer);
@@ -411,13 +410,7 @@
             {
                 seekToEndForAudioElement(audioPlayer);
             }
-            */
             
-            audioPlayer.pause();
-            //seekToEndForAudioElement(audioPlayer);
-            emptyBufferDataForAudioPlayer(audioPlayer);
-            updateSrcForAudioElement(audioPlayer);
-
             audioPlayer.autoplay=true;
             audioPlayer.load();
 

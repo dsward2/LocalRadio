@@ -416,11 +416,15 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     return err;
 }
 
-// ================================================================
 
 - (NSString *)localHostString
 {
+    //NSArray * ipAddresses = [[NSHost currentHost] addresses];
+    //NSArray * sortedIPAddresses = [ipAddresses sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+
     NSString * hostString = @"error";
+    NSString * en0HostString = NULL;
+    NSString * en1HostString = NULL;
     struct ifaddrs * interfaces = NULL;
     struct ifaddrs * temp_addr = NULL;
     int success = 0;
@@ -437,6 +441,13 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
             {
                 // Get NSString from C String
                 hostString = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+
+                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                    en0HostString = hostString;
+                }
+                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en1"]) {
+                    en1HostString = hostString;
+                }
             }
             temp_addr = temp_addr->ifa_next;
         }
@@ -444,9 +455,19 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
     // Free memory
     freeifaddrs(interfaces);
+    
+    if (en0HostString != NULL)
+    {
+        hostString = en0HostString;
+    }
+    else if (en1HostString != NULL)
+    {
+        hostString = en1HostString;
+    }
 
     return hostString;
 }
+
 
 // ================================================================
 
