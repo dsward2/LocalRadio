@@ -324,7 +324,7 @@
 
         if (needsAudioPlayerStart == true)
         {
-            setTimeout(startAudioPlayerAfterDelay(), 1000);
+            setTimeout(function() { startAudioPlayerAfterDelay(); }, 5000);
         }
     }
 
@@ -446,7 +446,7 @@
         
         location.href = "index.html";
 
-        setTimeout(startAudioPlayerAfterDelay(), 1000);
+            setTimeout(function() { startAudioPlayerAfterDelay(); }, 1000);
     }
 
 
