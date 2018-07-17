@@ -34,6 +34,14 @@
 		<dict>
 			<key>127.0.0.1</key>
 			<dict>
+				<key>NSAllowsArbitraryLoadsForMedia</key>
+				<true/>
+				<key>NSAllowsArbitraryLoadsInWebContent</key>
+				<true/>
+				<key>NSAllowsLocalNetworking</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>

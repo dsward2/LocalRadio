@@ -1353,7 +1353,7 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="LocalRadio" identifier="" id="8Qy-d0-fpa">
-                                <view key="view" id="bIe-XZ-nnh">
+                                <view key="view" ambiguous="YES" id="bIe-XZ-nnh">
                                     <rect key="frame" x="10" y="33" width="197" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1378,7 +1378,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Status" identifier="" id="GvX-g5-9UV">
-                                <view key="view" ambiguous="YES" id="qnk-kF-EPU">
+                                <view key="view" id="qnk-kF-EPU">
                                     <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1394,7 +1394,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" id="XFC-hX-hWd">
                                                             <rect key="frame" x="1" y="1" width="432" height="184"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="ydX-HH-DPt">
                                                                     <rect key="frame" x="0.0" y="0.0" width="432" height="184"/>
@@ -1412,7 +1412,7 @@ Gw
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="St6-kL-Qjl">
-                                                            <rect key="frame" x="417" y="1" width="16" height="184"/>
+                                                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>

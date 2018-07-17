@@ -250,6 +250,7 @@
   color: #222; }
 .has-docked-nav .navbar {
   position: fixed;
+  backface-visibility: hidden;
   top: 0;
   left: 0; }
 .has-docked-nav .navbar-spacer {
@@ -331,6 +332,7 @@ a.button.button-primary.two.columns {
     color: #33C3F0; }
   .has-docked-nav .navbar {
     position: fixed;
+    backface-visibility: hidden;
     top: 0;
     left: 0; }
   .has-docked-nav .navbar-spacer {
@@ -453,6 +455,7 @@ a.button.button-primary.two.columns {
     color: #33C3F0; }
   .has-docked-nav .navbar {
     position: fixed;
+    backface-visibility: hidden;
     top: 0;
     left: 0; }
   .has-docked-nav .navbar-spacer {

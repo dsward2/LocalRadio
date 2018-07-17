@@ -237,51 +237,54 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (IBAction)updateCurrentTasksText:(id)sender
 {
-    NSMutableString * tasksString = [NSMutableString string];
-
-    [tasksString appendString:@"--- Icecast tasks ---\n\n"];
-    
-    if (self.icecastController.icecastTaskProcessID != 0)
+    if (self.applicationIsTerminating == NO)
     {
+        NSMutableString * tasksString = [NSMutableString string];
 
-        [tasksString appendFormat:@"Icecast - process ID = %d\n\n", self.icecastController.icecastTaskProcessID];
-     
-        [tasksString appendFormat:@"%@ %@\n\n",
-            self.icecastController.quotedIcecastPath, self.icecastController.icecastTaskArgsString];
+        [tasksString appendString:@"--- Icecast tasks ---\n\n"];
+        
+        if (self.icecastController.icecastTaskProcessID != 0)
+        {
 
-        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
-        IcecastController * icecastController = appDelegate.icecastController;
-        NSDictionary * icecastStatusDictionary = [icecastController icecastStatusDictionary];
+            [tasksString appendFormat:@"Icecast - process ID = %d\n\n", self.icecastController.icecastTaskProcessID];
+         
+            [tasksString appendFormat:@"%@ %@\n\n",
+                self.icecastController.quotedIcecastPath, self.icecastController.icecastTaskArgsString];
 
-        NSString * icecastStatusString = [icecastStatusDictionary description];
-        [tasksString appendString:icecastStatusString];
+            AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+            IcecastController * icecastController = appDelegate.icecastController;
+            NSDictionary * icecastStatusDictionary = [icecastController icecastStatusDictionary];
 
-        [tasksString appendString:@"\n\n"];
+            NSString * icecastStatusString = [icecastStatusDictionary description];
+            [tasksString appendString:icecastStatusString];
+
+            [tasksString appendString:@"\n\n"];
+        }
+        else
+        {
+            [tasksString appendString:@"No tasks currently running\n\n"];
+        }
+
+        [tasksString appendString:@"--- EZStream tasks ---"];
+
+        NSString * ezStreamTasksString = self.ezStreamController.ezStreamTaskPipelineManager.tasksInfoString;
+        [tasksString appendString:ezStreamTasksString];
+
+        [tasksString appendString:@"--- RTL-SDR radio tasks ---"];
+        
+        NSString * radioTasksString = self.sdrController.radioTaskPipelineManager.tasksInfoString;
+        [tasksString appendString:radioTasksString];
+
+        [tasksString appendString:@"--- Sox second-stage audio tasks ---"];
+        
+        NSString * soxTasksString = self.soxController.soxControllerTaskPipelineManager.tasksInfoString;
+        [tasksString appendString:soxTasksString];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+        
+            [self.statusCurrentTasksTextView setString:tasksString];
+        });
     }
-    else
-    {
-        [tasksString appendString:@"No tasks currently running\n\n"];
-    }
-
-    [tasksString appendString:@"--- EZStream tasks ---"];
-
-    NSString * ezStreamTasksString = self.ezStreamController.ezStreamTaskPipelineManager.tasksInfoString;
-    [tasksString appendString:ezStreamTasksString];
-
-    [tasksString appendString:@"--- RTL-SDR radio tasks ---"];
-    
-    NSString * radioTasksString = self.sdrController.radioTaskPipelineManager.tasksInfoString;
-    [tasksString appendString:radioTasksString];
-
-    [tasksString appendString:@"--- Sox second-stage audio tasks ---"];
-    
-    NSString * soxTasksString = self.soxController.soxControllerTaskPipelineManager.tasksInfoString;
-    [tasksString appendString:soxTasksString];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-    
-        [self.statusCurrentTasksTextView setString:tasksString];
-    });
 }
 
 

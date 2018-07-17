@@ -608,19 +608,26 @@ Printing description of icecastStatusDictionary:
 
 - (void)addCurrentParserData
 {
-    if (self.currentElementName != NULL)
-    {
-        if (self.currentElementData != NULL)
+    // Use try/catch to avoid a crash that can occur during app termination
+    // if a property gets released after NULL checks, but before dictionary item added.
+    @try {
+        if (self.currentElementName != NULL)
         {
-            if (self.inSourceElement == YES)
+            if (self.currentElementData != NULL)
             {
-                [self.currentSourceDictionary setObject:self.currentElementData forKey:self.currentElementName];
-            }
-            else
-            {
-                [self.parserOutputDictionary setObject:self.currentElementData forKey:self.currentElementName];
+                if (self.inSourceElement == YES)
+                {
+                    [self.currentSourceDictionary setObject:self.currentElementData forKey:self.currentElementName];
+                }
+                else
+                {
+                    [self.parserOutputDictionary setObject:self.currentElementData forKey:self.currentElementName];
+                }
             }
         }
+
+    }
+    @catch (NSException *exception) {
     }
 
     self.currentElementData = [NSMutableString string];

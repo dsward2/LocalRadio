@@ -56,6 +56,7 @@
 
     div#navigationbar {
         position: fixed;
+        backface-visibility: hidden;
         top: 0;
         left: 0;
         width: 100%;
@@ -68,6 +69,7 @@
     /* parent node of iframe */
     div#root {
         position: fixed;
+        backface-visibility: hidden;
         top: 50px;
         left: 0;
         width: 100%;
@@ -89,6 +91,7 @@
 
     div#audioplayer {
         position: fixed;
+        backface-visibility: hidden;
         top: calc(100% - 50px);
         left: 0;
         width: 100%;
@@ -324,7 +327,8 @@
 
         if (needsAudioPlayerStart == true)
         {
-            setTimeout(function() { startAudioPlayerAfterDelay(); }, 5000);
+            //setTimeout(function() { startAudioPlayerAfterDelay(); }, 1000);  // iOS rejects delayed audio play
+            startAudioPlayerAfterDelay();
         }
     }
 
@@ -411,10 +415,11 @@
                 seekToEndForAudioElement(audioPlayer);
             }
             
-            audioPlayer.autoplay=true;
-            audioPlayer.load();
+            //audioPlayer.load();
 
-            audioPlayer.play();       // use promise try/catch below instead
+            audioPlayer.play();
+            
+            audioPlayer.autoplay=true;
         }
     }
   
@@ -446,7 +451,8 @@
         
         location.href = "index.html";
 
-            setTimeout(function() { startAudioPlayerAfterDelay(); }, 1000);
+        //setTimeout(function() { startAudioPlayerAfterDelay(); }, 1000);  // iOS rejects delayed audio play
+        startAudioPlayerAfterDelay();
     }
 
 
