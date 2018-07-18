@@ -312,7 +312,9 @@
         console.log("startAudioPlayer");
         
         var nowPlayingNavBarLink = window.document.getElementById("nowPlayingNavBarLink");
-        nowPlayingNavBarLink.innerText = "NOW PLAYING: " + nowPlayingTitle.innerText;
+        //nowPlayingNavBarLink.innerText = "NOW PLAYING: " + nowPlayingTitle.innerText;
+        setTimeout(function() { nowPlayingNavBarLink.innerText = "NOW PLAYING: " + nowPlayingTitle.innerText; }, 1000);
+
 
         var needsAudioPlayerStart = true;
 
