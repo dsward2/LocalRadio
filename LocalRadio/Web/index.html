@@ -335,9 +335,8 @@
     {
         console.log("startAudioPlayer");
         
-        var nowPlayingNavBarLink = window.document.getElementById("nowPlayingNavBarLink");
-        //nowPlayingNavBarLink.innerText = "NOW PLAYING: " + nowPlayingTitle.innerText;
-        setTimeout(function() { nowPlayingNavBarLink.innerText = "NOW PLAYING: " + nowPlayingTitle.innerText; }, 1000);
+        //var nowPlayingNavBarLink = window.document.getElementById("nowPlayingNavBarLink");
+        //setTimeout(function() { nowPlayingNavBarLink.innerText = "NOW PLAYING: " + nowPlayingTitle.innerText; }, 1000);
 
         var needsAudioPlayerStart = true;
 
@@ -450,7 +449,7 @@
             
             audioPlayer.autoplay=true;
             
-            //intervalID = setTimeout(function(){periodicUpdate();}, 1.0);      // one-shot update
+            setTimeout(function(){periodicUpdate();}, 1.0);      // a one-shot call to periodicUpdate() for "Now Playing"
         }
     }
   
