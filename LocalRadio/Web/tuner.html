@@ -1,48 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
 
-  <meta http-equiv="cache-control" content="max-age=0" />
-  <meta http-equiv="cache-control" content="no-cache" />
-  <meta http-equiv="expires" content="0" />
-  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-  <meta http-equiv="pragma" content="no-cache" />
-
-  <meta name="format-detection" content="telephone=no">
-
-  <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta charset="utf-8">
-  <title>LocalRadio</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <!-- Mobile Specific Metas
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1">
-
-  <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="dist/css/normalize.css">
-  <link rel="stylesheet" href="dist/css/skeleton.css">
-  <link rel="stylesheet" href="css/custom.css">
-
-  <!-- Scripts
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="js/jquery.min.js"></script>
-  <!-- <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script> -->
-  <link rel="stylesheet" href="css/github-prettify-theme.css">
-  <script src="js/site.js"></script>
-
-  <script src="js/localradio.js"></script>
-
-  <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="dist/images/favicon.png">
-
-</head>
-
-<body class="code-snippets-visible" onload="resizeIframe(this)">
 
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -54,7 +10,7 @@
             <div class="value-prop-row">
                 <div class="six columns value-prop">
                     <div class="value-prop">
-                        <a class="button button-primary" href="tuner_wbfm.html">Wide-band FM</a>
+                        <a class="button button-primary" onclick="loadContent('tuner_wbfm.html');">Wide-band FM</a>
                     </div>
                     Commercial and Educational Broadcasts<br>87.5-107 MHz FM
                 </div>
@@ -63,7 +19,7 @@
             <div class="value-prop-row">
                 <div class="six columns value-prop">
                     <div class="value-prop">
-                        <a class="button button-primary" href="tuner_general.html">Narrow-band FM</a>
+                        <a class="button button-primary" onclick="loadContent('tuner_general.html');">Narrow-band FM</a>
                     </div>
                     Public Safety, Weather Radio<br>30+ MHz FM
                 </div>
@@ -72,7 +28,7 @@
             <div class="value-prop-row">
                 <div class="six columns value-prop">
                     <div class="value-prop">
-                        <a class="button button-primary" href="tuner_am.html">AM</a>
+                        <a class="button button-primary" onclick="loadContent('tuner_am.html');">AM</a>
                     </div>
                     Commercial AM Broadcasts<br>670-1600 KHz AM
                 </div>
@@ -81,7 +37,7 @@
             <div class="value-prop-row">
                 <div class="six columns value-prop">
                     <div class="value-prop">
-                        <a class="button button-primary" href="tuner_aviation.html">Airband</a>
+                        <a class="button button-primary" onclick="loadContent('tuner_aviation.html');">Airband</a>
                     </div>
                     Aviation Frequencies<br>108-400 KHz AM
                 </div>
@@ -90,7 +46,7 @@
             <div class="value-prop-row">
                 <div class="six columns value-prop">
                     <div class="value-prop">
-                        <a class="button button-primary" href="tuner_advanced.html">Advanced</a>
+                        <a class="button button-primary" onclick="loadContent('tuner_advanced.html');">Advanced</a>
                     </div>
                     Advanced RTL-SDR Controls<br>
                     All Frequencies
@@ -99,8 +55,5 @@
         </section>
     </div>
 
+    <div>&nbsp;<br>&nbsp;<br></div>
 
-<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-</body>
-</html>

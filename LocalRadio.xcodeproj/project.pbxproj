@@ -195,6 +195,9 @@
 		0EF173891F653C130067E8C0 /* applymp3settings.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF173881F653C130067E8C0 /* applymp3settings.html */; };
 		0EF2A9431F39BB8F009DB5C8 /* tuner_wbfm.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF2A9421F39BB8F009DB5C8 /* tuner_wbfm.html */; };
 		0EF2A9461F3B19DA009DB5C8 /* settings.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF2A9451F3B19DA009DB5C8 /* settings.html */; };
+		0EF598F320FF3F2400BD2C76 /* LocalRadio-animation.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0EF598F220FF3F2300BD2C76 /* LocalRadio-animation.svg */; };
+		0EF598F520FF42BC00BD2C76 /* info.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF598F420FF42BC00BD2C76 /* info.html */; };
+		0EF598F720FF4C5100BD2C76 /* info.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0EF598F620FF4C5100BD2C76 /* info.svg */; };
 		0EF746551F4ECE920008546F /* tuner_advanced.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF746541F4ECE920008546F /* tuner_advanced.html */; };
 		0EFFD1211EAE08A60041D2F5 /* icecast.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EFFD1201EAE08A60041D2F5 /* icecast.xml */; };
 		0EFFD1231EAE33190041D2F5 /* ezstream_mp3.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EFFD1221EAE33190041D2F5 /* ezstream_mp3.xml */; };
@@ -2198,6 +2201,9 @@
 		0EF2A9421F39BB8F009DB5C8 /* tuner_wbfm.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_wbfm.html; sourceTree = "<group>"; };
 		0EF2A9441F3B1240009DB5C8 /* gear.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gear.svg; sourceTree = "<group>"; };
 		0EF2A9451F3B19DA009DB5C8 /* settings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = settings.html; sourceTree = "<group>"; };
+		0EF598F220FF3F2300BD2C76 /* LocalRadio-animation.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "LocalRadio-animation.svg"; sourceTree = "<group>"; };
+		0EF598F420FF42BC00BD2C76 /* info.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = info.html; sourceTree = "<group>"; };
+		0EF598F620FF4C5100BD2C76 /* info.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = info.svg; sourceTree = "<group>"; };
 		0EF746541F4ECE920008546F /* tuner_advanced.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_advanced.html; sourceTree = "<group>"; };
 		0EFFD1201EAE08A60041D2F5 /* icecast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = icecast.xml; sourceTree = "<group>"; };
 		0EFFD1221EAE33190041D2F5 /* ezstream_mp3.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ezstream_mp3.xml; sourceTree = "<group>"; };
@@ -4097,6 +4103,7 @@
 				0E0FD9FF1EF658F600FEEA06 /* editfavorite.html */,
 				0E84C9B91ED926890065864B /* favorites.html */,
 				0E4461951F472370003C7851 /* frequencylistenbuttonclicked.html */,
+				0EF598F420FF42BC00BD2C76 /* info.html */,
 				0E84C9861ED8FD1B0065864B /* index.html */,
 				0ED12CEA1F35A86800D9DCDC /* index2.html */,
 				0E688FFD1F3C460D00F34AE4 /* insertnewfrequency.html */,
@@ -4142,6 +4149,8 @@
 				0EF2A9441F3B1240009DB5C8 /* gear.svg */,
 				0E84C9BA1ED92A020065864B /* tuner.svg */,
 				0E84C97F1ED8FD1B0065864B /* categories.svg */,
+				0EF598F620FF4C5100BD2C76 /* info.svg */,
+				0EF598F220FF3F2300BD2C76 /* LocalRadio-animation.svg */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -6503,14 +6512,17 @@
 				0EF2A9461F3B19DA009DB5C8 /* settings.html in Resources */,
 				0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */,
 				0E84C9C91ED945E90065864B /* data_skeleton.sqlite3 in Resources */,
+				0EF598F320FF3F2400BD2C76 /* LocalRadio-animation.svg in Resources */,
 				0ED12CF01F35CD6600D9DCDC /* ofl_license.txt in Resources */,
 				0E0FDA001EF658F600FEEA06 /* editfavorite.html in Resources */,
+				0EF598F720FF4C5100BD2C76 /* info.svg in Resources */,
 				0EF746551F4ECE920008546F /* tuner_advanced.html in Resources */,
 				0EFFD1211EAE08A60041D2F5 /* icecast.xml in Resources */,
 				0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */,
 				0ED6C77220AE69B500D82331 /* devicelistenbuttonclicked.html in Resources */,
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
 				0E02EC771F4D8446008BAC27 /* tuner_aviation.html in Resources */,
+				0EF598F520FF42BC00BD2C76 /* info.html in Resources */,
 				0E0936C91F42E3E400BF2B46 /* nowplayingstatus.html in Resources */,
 				0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */,
 				0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */,

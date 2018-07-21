@@ -296,6 +296,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
             NSString * settingsIconSVGString = [self getSVGWithFileName:@"gear.svg"];
             [replacementDict setObject:settingsIconSVGString forKey:@"GEAR_ICON"];
+
+            NSString * infoIconSVGString = [self getSVGWithFileName:@"info.svg"];
+            [replacementDict setObject:infoIconSVGString forKey:@"INFO_ICON"];
         }
         #pragma mark relativePath=favorites.html
         else if ([relativePath isEqualToString:@"/favorites.html"])
@@ -1080,10 +1083,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             }
             [replacementDict setObject:scanCategoryButtonString forKey:@"SCAN_CATEGORY_BUTTON"];
 
-            NSString * scannerSettingsButtonString = [NSString stringWithFormat:@"<form action='editcategorysettings.html'><input class='button twelve columns' type='submit' value='Category Settings'><input type='hidden' name='id' value='%@'></form><br>&nbsp;<br>\n", idString];
+            NSString * scannerSettingsButtonString = [NSString stringWithFormat:@"<form action='javascript:loadContent(\"editcategorysettings.html?id=%@\")'><input class='button twelve columns' type='submit' value='Category Settings'><input type='hidden' name='id' value='%@'></form><br>&nbsp;<br>\n", idString, idString];
             [replacementDict setObject:scannerSettingsButtonString forKey:@"CATEGORY_SETTINGS_BUTTON"];
 
-            NSString * editCategoryButtonString = [NSString stringWithFormat:@"<form action='editcategory.html'><input class='button twelve columns' type='submit' value='Edit Frequencies List'><input type='hidden' name='id' value='%@'></form><br>&nbsp;<br>\n", idString];
+            NSString * editCategoryButtonString = [NSString stringWithFormat:@"<form action='javascript:loadContent(\"editcategory.html?id=%@\")'><input class='button twelve columns' type='submit' value='Edit Frequencies List'><input type='hidden' name='id' value='%@'></form><br>&nbsp;<br>\n", idString, idString];
             [replacementDict setObject:editCategoryButtonString forKey:@"EDIT_CATEGORY_LIST_BUTTON"];
 
             NSString * categoryName = [categoryDictionary objectForKey:@"category_name"];
@@ -1111,6 +1114,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             
             NSString * encodingQualitySelectString = [self generateMP3EncodingQualitySelectString];
             [replacementDict setObject:encodingQualitySelectString forKey:@"MP3_ENCODING_QUALITY_SELECT"];
+        }
+        #pragma mark relativePath=info.html
+        else if ([relativePath isEqualToString:@"/info.html"])
+        {
+            NSString * settingsIconSVGString = [self getSVGWithFileName:@"LocalRadio-animation.svg"];
+            [replacementDict setObject:settingsIconSVGString forKey:@"LOCALRADIO_ANIMATION"];
         }
         #pragma mark relativePath=tuner_wbfm.html
         else if ([relativePath isEqualToString:@"/tuner_wbfm.html"])
@@ -1453,7 +1462,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 - (NSString *)getSVGWithFileName:(NSString *)svgFileName
 {
-
 	NSString * webPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Web"];
     NSString * imagesPath = [webPath stringByAppendingString:@"/images/"];
     NSString * filePath = [imagesPath stringByAppendingString:svgFileName];
@@ -1625,8 +1633,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 @"      <div class=\"container\">\n"
 @"        <ul class=\"navbar-list\">\n"
 @"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"backButtonClicked(self);\" title=\"Click the Back button to return to the previous page in the web interface\">Back</a></li>\n"
-@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"topButtonClicked(self);\"  title=\"Click the Top button to reload the LocalRadio web interface.\">Top</a></li>\n"
-@"          <li class=\"navbar-item\"><a class=\"navbar-link\" id=\"nowPlayingNavBarLink\" href=\"nowplaying.html\" target=\"top_iframe\" title=\"Click the Now Playing button to see the current activity on the radio, including the live Signal Level, which can be helpful for setting the correct Squelch Level.  Note that the Now Playing page will generate more network traffic, and consume more energy on mobile devices.\">Now Playing</a></li>\n"
+@"          <li class=\"navbar-item\"><a class=\"navbar-link\" href=\"#\" onclick=\"loadContent('index2.html');\"  title=\"Click the Top button to reload the LocalRadio web interface.\">Top</a></li>\n"
+@"          <li class=\"navbar-item\"><a class=\"navbar-link\" id=\"nowPlayingNavBarLink\" href=\"#\" onclick=\"loadContent('nowplaying.html');\"   target=\"content_frame\" title=\"Click the Now Playing button to see the current activity on the radio, including the live Signal Level, which can be helpful for setting the correct Squelch Level.  Note that the Now Playing page will generate more network traffic, and consume more energy on mobile devices.\">Now Playing</a></li>\n"
 @"        </ul>\n"
 @"      </div>\n"
 @"    </nav>\n";
@@ -1694,12 +1702,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 
 
-        [formString appendString:@"<br><form action='editfavorite.html'>"];
+        [formString appendFormat:@"<br><form action='javascript:loadContent(\"editfavorite.html?id=%@\")'>", idString];
 
         NSString * editButtonString = @"<br><input class='twelve columns button' type='submit' value='Edit'>";
         [formString appendString:editButtonString];
 
-        [formString appendString:idInputString];
+        //[formString appendString:idInputString];
         
         [formString appendString:@"</form>"];
 
@@ -1783,10 +1791,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                   dataWithJSONObject:nowPlayingDictionary
                   options:0
                   error:&error];
+        
         if (nowPlayingData != NULL)
         {
             NSString * nowPlayingDataString = [[NSString alloc] initWithData:nowPlayingData encoding:NSUTF8StringEncoding];
-            nowPlayingStatusString = nowPlayingDataString;
+            if (nowPlayingDataString.length > 1)
+            {
+                nowPlayingStatusString = nowPlayingDataString;
+            }
         }
     }
 
@@ -1821,7 +1833,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 @"                <div class=\"six columns value-prop\">\n"
 @"                    <embed class=\"value-img\" type=\"image/svg+xml\" src=\"images/favorites.svg\" />\n"
 @"                    <div class=\"value-prop\">\n"
-@"                        <a class=\"button button-primary\" href=\"favorites.html\">%@</a>\n"
+@"                        <a class=\"button button-primary\" onclick=\"loadContent('favorites.html');\">%@</a>\n"
 @"                    </div>\n"
 @"                    %@\n"
 @"                </div>\n";
@@ -1995,7 +2007,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         NSString * titleString = [NSString stringWithFormat:@"Show %@ at %@", stationNameString, frequencyString];
 
-        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary two columns' type='submit' href='viewfavorite.html?id=%@' title='%@'>%@</a>", idString, titleString, frequencyString];
+        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary two columns' type='submit' onclick=\"loadContent('viewfavorite.html?id=%@');\" title='%@'>%@</a>", idString, titleString, frequencyString];
         
         [tableString appendString:buttonString];
         
@@ -3514,7 +3526,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         [resultString appendString:@"<td>"];
 
-        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary two columns' type='submit' href='viewfavorite.html?id=%@'>%@</a>", idString, frequencyString];
+        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary two columns' type='submit' onclick=\"loadContent('viewfavorite.html?id=%@');\">%@</a>", idString, frequencyString];
         [resultString appendString:buttonString];
         
         [resultString appendString:@"</td>"];
@@ -3656,7 +3668,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         NSString * titleString = [NSString stringWithFormat:@"Show category %@", categoryNameString];
 
-        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary' type='submit' href='category.html?id=%@' title='%@'>%@</a>", idString, titleString, idString];
+        NSString * buttonString = [NSString stringWithFormat:@"<a class='button button-primary' type='submit' onclick=\"loadContent('category.html?id=%@');\" title='%@'>%@</a>", idString, titleString, idString];
         [tableString appendString:buttonString];
         
         [tableString appendString:@"</td>"];
@@ -3676,7 +3688,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     //[formNewCategoryString appendString:@"<form class='new-category-form' id='new-category-form' onsubmit='event.preventDefault(); return addCategory(this);' method='POST'>\n"];
     
-    [formNewCategoryString appendString:@"<form class='new-category-form' id='new-category-form' action='./addcategoryform.html'"];
+    [formNewCategoryString appendString:@"<form class='new-category-form' id='new-category-form' action='javascript:loadContent(\"addcategoryform.html\")'"];
 
     NSString * newCategoryButtonString = [NSString stringWithFormat:@"<br>&nbsp;<br>&nbsp;<br>\n<input id='add-category-button' class='twelve columns button button-primary' type='submit' value='Add New Category'>\n"];
     [formNewCategoryString appendString:newCategoryButtonString];

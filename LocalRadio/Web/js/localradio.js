@@ -1,17 +1,23 @@
 
-function resizeIframe(aWindow) {
-    console.log("resizeIframe");
-    var iframe = parent.document.getElementById("top_iframe");
-    iframe.style.visibility = 'hidden';
-    iframe.style.height = "100px";
+
+
+
+/*
+function resizeContentFrame(aWindow) {
+    console.log("resizeContentFrame");
+    var contentFrameDiv = parent.document.getElementById("content_frame");
+    var contentDiv = contentFrameDiv.children[0];
+    contentDiv.style.visibility = 'hidden';
+    contentDiv.style.height = "100px";
     var body = document.body;
     var html = document.documentElement;
     var height = Math.max( body.scrollHeight, body.offsetHeight, 
         html.clientHeight, html.scrollHeight, html.offsetHeight );
-    iframe.style.height = (height + 100) + "px";
-    iframe.style.top = 0;
-    iframe.style.visibility = 'visible';
+    contentDiv.style.height = (height + 100) + "px";
+    contentDiv.style.top = 0;
+    contentDiv.style.visibility = 'visible';
 }
+*/
 
 
 function handleEditCategoryClick(checkbox) {
@@ -71,6 +77,8 @@ function deleteFrequencyRecord (form) {
   }
 
   sendHTTPPostRequest("frequency", deleteFrequencyUrl, jsonData, 3, false, false);
+  
+  window.topButtonClicked(self);
 }
 
 
@@ -158,8 +166,7 @@ function insertNewFrequencyRecord (form) {
                alert("Changes have been saved.");
                
                window.stop();
-               var iframe = parent.document.getElementById("top_iframe");
-               iframe.contentWindow.history.back();
+               window.backButtonClicked(self);
             }
         };
         xhttp.open("POST", url, true);
@@ -208,10 +215,16 @@ function sendHTTPPostRequest (table, url, jsonData, backCount, validateData, sho
                
                if (backCount > 0)
                {
-                    var iframe = parent.document.getElementById("top_iframe");
                     window.stop();
-                    //iframe.contentWindow.history.back();
-                    iframe.contentWindow.history.go(-backCount);
+
+                    if (backCount == 1)
+                    {
+                        window.backButtonClicked();
+                    }
+                    else
+                    {
+                        window.topButtonClicked();
+                    }
                }
             }
         };
@@ -804,3 +817,190 @@ function deviceListenButtonClicked(form)
   //console.log("postMessage startaudio");
 }
 
+
+
+
+    //var displayUpdateInterval = 5000;  // five seconds
+    var displayUpdateInterval = 0;  // fast updates
+    var currentInterval = 0;
+    var pollingInterval = 250;  // four times per second
+
+    function periodicUpdate()
+    {
+      //console.log("periodicUpdate");
+      
+        if (currentInterval >= displayUpdateInterval)
+        {
+          // request to HTTP server to get radio status
+          var getUrl = window.location;
+          var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+          var nowPlayingStatusUrl = baseUrl + "nowplayingstatus.html";
+
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              // response received ok
+              updateStatusDisplay(xhttp.response);
+            }
+          };
+          xhttp.open("POST", nowPlayingStatusUrl, true);
+          xhttp.send();
+        }
+        
+        currentInterval = currentInterval + pollingInterval;
+        
+        if (currentInterval >= displayUpdateInterval)
+        {
+            currentInterval = 0;
+        }
+    }
+
+    // Printing description of statusData:
+    // {"modulation":"fm","oversampling":4,"signal_level":19,"options":"","frequency_scan_interval":0,"tuner_gain":49.7,"station_name":"KUAR-NPR Little Rock 89.1","atan_math":"std","stream_source":"icecast","sampling_mode":0,"sample_rate":85000,"frequency_mode":0,"squelch_level":0,"id":4,"tuner_agc":1,"frequency_scan_end":0,"fir_size":9,"audio_output_filter":"vol 1","audio_output":"icecast","frequency":89100000}
+    function updateStatusDisplay(statusData)
+    {
+        var statusObj = JSON.parse(statusData);
+        
+        var rtlsdr_task_mode = statusObj.rtlsdr_task_mode;
+        
+        var audio_output = statusObj.audio_output;
+        var audio_output_filter = statusObj.audio_output_filter;
+        var atan_math = statusObj.atan_math;
+        var fir_size = statusObj.fir_size;
+        var frequency = statusObj.frequency;
+        var frequency_mode = statusObj.frequency_mode;
+        var frequency_scan_end = statusObj.frequency_scan_end;
+        var frequency_scan_interval = statusObj.frequency_scan_interval;
+        var modulation = statusObj.modulation;
+        var options = statusObj.options;
+        var oversampling = statusObj.oversampling;
+        var sample_rate = statusObj.sample_rate;
+        var sampling_mode = statusObj.sampling_mode;
+        var short_frequency = statusObj.short_frequency;
+        var signal_level = statusObj.signal_level;
+        var squelch_level = statusObj.squelch_level;
+        var station_name = statusObj.station_name;
+        var stream_source = statusObj.stream_source;
+        var tuner_agc = statusObj.tuner_agc;
+        var tuner_gain = statusObj.tuner_gain;
+        
+        if (rtlsdr_task_mode == "frequency")
+        {
+            var nowPlayingName = document.getElementById("now-playing-name");
+            if (nowPlayingName != null)
+            {
+                nowPlayingName.innerHTML = station_name;
+            }
+        }
+
+        if (rtlsdr_task_mode == "scan")
+        {
+            audio_output = statusObj.scan_audio_output;
+            audio_output_filter = statusObj.scan_audio_output_filter;
+            atan_math = statusObj.scan_atan_math;
+            fir_size = statusObj.scan_fir_size;
+            frequency_mode = statusObj.scan_frequency_mode;
+            modulation = statusObj.scan_modulation;
+            options = statusObj.scan_options;
+            oversampling = statusObj.scan_oversampling;
+            sample_rate = statusObj.scan_sample_rate;
+            sampling_mode = statusObj.scan_sampling_mode;
+            squelch_level = statusObj.scan_squelch_level;
+            stream_source = statusObj.scan_stream_source;
+            tuner_agc = statusObj.scan_tuner_agc;
+            tuner_gain = statusObj.scan_tuner_gain;
+        }
+        
+        var statusHtml = "<br><br>";
+        
+        if (rtlsdr_task_mode == "scan")
+        {
+          statusHtml += "<span id='now-playing-details' style='overflow-x: scroll; white-space: nowrap;'>";
+
+          statusHtml += "name: ";
+          statusHtml += station_name;
+          statusHtml += "<br>";
+          
+          statusHtml += "</span>"
+        }
+        
+        statusHtml += "frequency: ";
+        statusHtml += short_frequency;
+        statusHtml += "<br>";
+        statusHtml += "signal level: ";
+        statusHtml += signal_level;
+        statusHtml += "<br>";
+
+        if (rtlsdr_task_mode == "scan")
+        {
+          statusHtml += "<br><br>CATEGORY SCANNER SETTINGS: <br>";
+        }
+        
+        statusHtml += "squelch level: ";
+        statusHtml += squelch_level;
+        statusHtml += "<br>";
+        statusHtml += "modulation: ";
+        statusHtml += modulation;
+        statusHtml += "<br>";
+        statusHtml += "sample rate: ";
+        statusHtml += sample_rate;
+        statusHtml += "<br>";
+        statusHtml += "sampling mode: ";
+        statusHtml += sampling_mode;
+        statusHtml += "<br>";
+        statusHtml += "oversampling: ";
+        statusHtml += oversampling;
+        statusHtml += "<br>";
+        statusHtml += "tuner gain: ";
+        statusHtml += tuner_gain;
+        statusHtml += "<br>";
+        statusHtml += "tuner agc: ";
+        statusHtml += tuner_agc;
+        statusHtml += "<br>";
+        statusHtml += "rtl-sdr options: pad ";
+        statusHtml += options;
+        statusHtml += "<br>";
+        statusHtml += "fir size: ";
+        statusHtml += fir_size;
+        statusHtml += "<br>";
+        statusHtml += "atan math: ";
+        statusHtml += atan_math;
+        statusHtml += "<br>";
+        statusHtml += "audio output filter: rate 48000 ";
+        statusHtml += audio_output_filter;
+        statusHtml += "<br>";
+        statusHtml += "audio output: ";
+        statusHtml += audio_output;
+        statusHtml += "<br>";
+        statusHtml += "stream source: ";
+        statusHtml += stream_source;
+        statusHtml += "<br>";
+        
+        var nowPlayingDetails = document.getElementById("now-playing-details");
+        if (nowPlayingDetails != null)
+        {
+            nowPlayingDetails.innerHTML = statusHtml;
+        }
+        
+        window.top.nowPlayingTitle = station_name;
+
+        var nowPlayingNavBarLink = window.top.document.getElementById("nowPlayingNavBarLink");
+        nowPlayingNavBarLink.innerText = "NOW PLAYING: " + station_name;
+    }
+
+    var intervalID = setInterval(function(){periodicUpdate();}, 20000);     // for Now Playing periodic updates using setInterval()
+
+    function startNowPlayingUpdates()
+    {
+        clearInterval(intervalID);
+
+        intervalID = setInterval(function(){periodicUpdate();}, pollingInterval);   // fast updates
+    }
+
+
+    function stopNowPlayingUpdates()
+    {
+        clearInterval(intervalID);
+
+        intervalID = setInterval(function(){periodicUpdate();}, 20000);    // update every 20 seconds
+    }
