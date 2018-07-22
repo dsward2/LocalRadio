@@ -911,74 +911,77 @@ function updateStatusDisplay(statusData)
         tuner_gain = statusObj.scan_tuner_gain;
     }
     
-    var statusHtml = "<br><br>";
-    
-    if (rtlsdr_task_mode == "scan")
-    {
-      statusHtml += "<span id='now-playing-details' style='overflow-x: scroll; white-space: nowrap;'>";
-
-      statusHtml += "name: ";
-      statusHtml += station_name;
-      statusHtml += "<br>";
-      
-      statusHtml += "</span>"
-    }
-    
-    statusHtml += "frequency: ";
-    statusHtml += short_frequency;
-    statusHtml += "<br>";
-    statusHtml += "signal level: ";
-    statusHtml += signal_level;
-    statusHtml += "<br>";
-
-    if (rtlsdr_task_mode == "scan")
-    {
-      statusHtml += "<br><br>CATEGORY SCANNER SETTINGS: <br>";
-    }
-    
-    statusHtml += "squelch level: ";
-    statusHtml += squelch_level;
-    statusHtml += "<br>";
-    statusHtml += "modulation: ";
-    statusHtml += modulation;
-    statusHtml += "<br>";
-    statusHtml += "sample rate: ";
-    statusHtml += sample_rate;
-    statusHtml += "<br>";
-    statusHtml += "sampling mode: ";
-    statusHtml += sampling_mode;
-    statusHtml += "<br>";
-    statusHtml += "oversampling: ";
-    statusHtml += oversampling;
-    statusHtml += "<br>";
-    statusHtml += "tuner gain: ";
-    statusHtml += tuner_gain;
-    statusHtml += "<br>";
-    statusHtml += "tuner agc: ";
-    statusHtml += tuner_agc;
-    statusHtml += "<br>";
-    statusHtml += "rtl-sdr options: pad ";
-    statusHtml += options;
-    statusHtml += "<br>";
-    statusHtml += "fir size: ";
-    statusHtml += fir_size;
-    statusHtml += "<br>";
-    statusHtml += "atan math: ";
-    statusHtml += atan_math;
-    statusHtml += "<br>";
-    statusHtml += "audio output filter: rate 48000 ";
-    statusHtml += audio_output_filter;
-    statusHtml += "<br>";
-    statusHtml += "audio output: ";
-    statusHtml += audio_output;
-    statusHtml += "<br>";
-    statusHtml += "stream source: ";
-    statusHtml += stream_source;
-    statusHtml += "<br>";
-    
     var nowPlayingDetails = document.getElementById("now-playing-details");
     if (nowPlayingDetails != null)
     {
+        var statusHtml = "<div style=\"position: relative;\">";
+        statusHtml += "<br><br>";
+
+        
+        if (rtlsdr_task_mode == "scan")
+        {
+          statusHtml += "<span id='now-playing-details' style='overflow-x: scroll; white-space: nowrap;'>";
+
+          statusHtml += "name: ";
+          statusHtml += station_name;
+          statusHtml += "<br>";
+          
+          statusHtml += "</span>"
+        }
+        
+        statusHtml += "frequency: ";
+        statusHtml += short_frequency;
+        statusHtml += "<br>";
+        statusHtml += "signal level: ";
+        statusHtml += signal_level;
+        statusHtml += "<br>";
+
+        if (rtlsdr_task_mode == "scan")
+        {
+          statusHtml += "<br><br>CATEGORY SCANNER SETTINGS: <br>";
+        }
+        
+        statusHtml += "squelch level: ";
+        statusHtml += squelch_level;
+        statusHtml += "<br>";
+        statusHtml += "modulation: ";
+        statusHtml += modulation;
+        statusHtml += "<br>";
+        statusHtml += "sample rate: ";
+        statusHtml += sample_rate;
+        statusHtml += "<br>";
+        statusHtml += "sampling mode: ";
+        statusHtml += sampling_mode;
+        statusHtml += "<br>";
+        statusHtml += "oversampling: ";
+        statusHtml += oversampling;
+        statusHtml += "<br>";
+        statusHtml += "tuner gain: ";
+        statusHtml += tuner_gain;
+        statusHtml += "<br>";
+        statusHtml += "tuner agc: ";
+        statusHtml += tuner_agc;
+        statusHtml += "<br>";
+        statusHtml += "rtl-sdr options: pad ";
+        statusHtml += options;
+        statusHtml += "<br>";
+        statusHtml += "fir size: ";
+        statusHtml += fir_size;
+        statusHtml += "<br>";
+        statusHtml += "atan math: ";
+        statusHtml += atan_math;
+        statusHtml += "<br>";
+        statusHtml += "audio output filter: rate 48000 ";
+        statusHtml += audio_output_filter;
+        statusHtml += "<br>";
+        statusHtml += "audio output: ";
+        statusHtml += audio_output;
+        statusHtml += "<br>";
+        statusHtml += "stream source: ";
+        statusHtml += stream_source;
+        statusHtml += "<br>";
+        statusHtml += "<div>";
+
         nowPlayingDetails.innerHTML = statusHtml;
     }
     

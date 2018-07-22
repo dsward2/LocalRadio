@@ -67,7 +67,6 @@
 
     div#navigationbar {
         position: fixed;
-        backface-visibility: hidden;
         top: 0;
         left: 0;
         width: 100%;
@@ -77,22 +76,9 @@
         background-color: lightgray;
     }
 
-    /* div#root is no longer used */
-    div#root {
-        position: fixed;
-        backface-visibility: hidden;
-        top: 50px;
-        left: 0;
-        width: 100%;
-        height: calc(100% - 100px);
-        -webkit-overflow-scrolling: touch;
-        overflow-x: hidden;
-        overflow-y: scroll;
-    }
-
     div#content_frame {
         position: fixed;
-        backface-visibility: hidden;
+        border: none;
         top: 50px;
         left: 0;
         width: 100%;
@@ -100,21 +86,11 @@
         -webkit-overflow-scrolling: touch;
         overflow-x: hidden;
         overflow-y: scroll;
-    }
-
-    div#content_frame_old {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        overflow: auto;
+        word-wrap: break-word;
     }
 
     div#audioplayer {
         position: fixed;
-        backface-visibility: hidden;
         top: calc(100% - 50px);
         left: 0;
         width: 100%;
@@ -449,7 +425,7 @@
             
             audioPlayer.autoplay=true;
             
-            setTimeout(function(){periodicUpdate();}, 1.0);      // a one-shot call to periodicUpdate() for "Now Playing"
+            setTimeout(function(){periodicUpdate();}, 1000);      // a one-shot call to periodicUpdate() for "Now Playing"
         }
     }
   
