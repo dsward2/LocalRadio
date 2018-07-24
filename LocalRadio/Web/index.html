@@ -426,6 +426,8 @@
             audioPlayer.autoplay=true;
             
             setTimeout(function(){periodicUpdate();}, 1000);      // a one-shot call to periodicUpdate() for "Now Playing"
+            setTimeout(function(){periodicUpdate();}, 5000);      // a one-shot call to periodicUpdate() for "Now Playing"
+            setTimeout(function(){periodicUpdate();}, 10000);      // a one-shot call to periodicUpdate() for "Now Playing"
         }
     }
   
@@ -441,6 +443,8 @@
         loadContent("index2.html");
 
         window.addEventListener("message", function(){startAudioPlayer();}, false); // receive "startaudio" via postMessage()
+        
+        setTimeout(function(){periodicUpdate();}, 1000);      // a one-shot call to periodicUpdate() for "Now Playing"
     }
 
 

@@ -678,13 +678,15 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                         
                         if (categoryID != 0)
                         {
-                            NSInteger nowScanningCategoryID = self.appDelegate.statusFrequencyIDTextField.integerValue;
-                        
-                            if (categoryID == nowScanningCategoryID)
-                            {
-                                NSString * categoryIDString = [NSString stringWithFormat:@"%ld", categoryID];
-                                [self scannerListenButtonClickedForCategoryID:categoryIDString];
-                            }
+                            dispatch_sync(dispatch_get_main_queue(), ^{
+                                NSInteger nowScanningCategoryID = self.appDelegate.statusFrequencyIDTextField.integerValue;
+                            
+                                if (categoryID == nowScanningCategoryID)
+                                {
+                                    NSString * categoryIDString = [NSString stringWithFormat:@"%ld", categoryID];
+                                    [self scannerListenButtonClickedForCategoryID:categoryIDString];
+                                }
+                            });
                         }
                     }
                 }
@@ -887,13 +889,15 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                         
                         if (frequencyID != 0)
                         {
-                            NSInteger nowPlayingFrequencyID = self.appDelegate.statusFrequencyIDTextField.integerValue;
-                        
-                            if (frequencyID == nowPlayingFrequencyID)
-                            {
-                                NSString * frequencyIDString = [NSString stringWithFormat:@"%ld", frequencyID];
-                                [self listenButtonClickedForFrequencyID:frequencyIDString];
-                            }
+                            dispatch_sync(dispatch_get_main_queue(), ^{
+                                NSInteger nowPlayingFrequencyID = self.appDelegate.statusFrequencyIDTextField.integerValue;
+                            
+                                if (frequencyID == nowPlayingFrequencyID)
+                                {
+                                    NSString * frequencyIDString = [NSString stringWithFormat:@"%ld", frequencyID];
+                                    [self listenButtonClickedForFrequencyID:frequencyIDString];
+                                }
+                            });
                         }
                     }
                 }
