@@ -109,7 +109,7 @@
         
         AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
 
-        [appDelegate updateCurrentTasksText:self];
+        [appDelegate updateCurrentTasksText:weakSelf];
 
         NSLog(@"TaskItem PID=%d - exit %@ terminationHandler", processIdentifier, weakSelf.functionName);
     }];
