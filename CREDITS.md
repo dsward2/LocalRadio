@@ -187,6 +187,34 @@ Redistribution and use of this software in source and binary forms, with or with
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## wfm-tools
+
+wfm-tools
+
+Developed by Oona Räisänen
+
+Copyright
+
+(c) OH2EIQ. MIT license.
+
+Project page: 
+[https://github.com/windytan/wfm-tools]()
+
+## liquid-dsp
+
+liquid-dsp
+
+Developed by Joseph D. Gaeddert
+
+License
+
+liquid projects are released under the X11/MIT license. Short version: this code is copyrighted to me (Joseph D. Gaeddert), I give you full permission to do wantever you want with it except remove my name from the credits. Seriously, go nuts. See the LICENSE file or http://opensource.org/licenses/MIT for specific terms.
+
+Project pages: [http://liquidsdr.org]()
+[https://github.com/jgaeddert/liquid-dsp]()
+
+
+
 ## Artwork
 
 Favorites icon -<br>

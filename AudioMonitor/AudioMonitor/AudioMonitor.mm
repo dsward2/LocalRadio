@@ -6,9 +6,9 @@
 //  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
-//  Receive input LPCM audio data at stdin, store in first TPCircularBuffer
-//  Use AudioConverter to resample audio to 48000 Hz, store in second TPCircularBuffer, and output to stdout
-//  then enqueue data to AudioQueue to play with default audio device.
+//  Receive input 1-or-2 channel LPCM audio data at stdin, store in first TPCircularBuffer
+//  Use AudioConverter to resample audio to 48000 Hz, store in second TPCircularBuffer, and output to stdout.
+//  If volume > 0, enqueue 48000 Hz data to AudioQueue for playback with default hardware audio device.
 
 //  Apparently, this code violates every rule listed here:
 //  http://atastypixel.com/blog/four-common-mistakes-in-audio-development/
@@ -27,14 +27,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-#define kAudioQueueChannelsCount 1
-#define kAudioQueueSampleRate 48000
-
-#define kInputPacketLength sizeof(SInt16)
+// AudioQueue values for audio device output
 
 #define kInputMaxPackets 65536
-#define kAudioQueueBufferSize (kInputMaxPackets * sizeof(SInt16))
+#define kAudioQueueBufferSize (kInputMaxPackets * sizeof(SInt16) * 2)
 
 @interface AudioMonitor ()
 @end
@@ -53,11 +49,12 @@
 }
 
 
-- (void)runAudioMonitorWithSampleRate:(NSInteger)sampleRate volume:(float)volume
+- (void)runAudioMonitorWithSampleRate:(NSInteger)sampleRate channels:(NSInteger)channels volume:(float)volume
 {
     //raise(SIGSTOP); // Stop and wait for debugger. Click the Debugger's Resume button to continue execution
 
     self.sampleRate = sampleRate;
+    self.inputChannels = (UInt32)channels;
     self.volume = volume;
 
     // start threads for input buffering, resampling and playback to audio device
@@ -82,7 +79,7 @@
     NSTimeInterval lastReadTime = [NSDate timeIntervalSinceReferenceDate] + 20;
     NSTimeInterval nextTimeoutReportInterval = 5;
 
-    int32_t circularBufferLength = 256 * 1024;
+    int32_t circularBufferLength = self.inputChannels * 256 * 1024;
     TPCircularBufferInit(&inputCircularBuffer, circularBufferLength);
     
     // continuous run loop
@@ -94,12 +91,13 @@
         CFTimeInterval runLoopTimeInterval = 0.1f;
         Boolean returnAfterSourceHandled = false;
         CFRunLoopRunResult runLoopResult = CFRunLoopRunInMode(runLoopMode, runLoopTimeInterval, returnAfterSourceHandled);
+        #pragma unused(runLoopResult)
 
         NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
 
         UInt32 bytesAvailableCount = 0;
 
-        // use ioctl to determine amount of data available for reading from the RTL-SDR USB serial device
+        // use ioctl to determine amount of data available for reading from the source input, like the RTL-SDR USB serial device
         int ioctl_result = ioctl( STDIN_FILENO, FIONREAD, &bytesAvailableCount);
         if (ioctl_result < 0)
         {
@@ -115,7 +113,9 @@
         }
         else
         {
-            if (bytesAvailableCount % 2 == 0)
+            //if (bytesAvailableCount % 4 == 0)
+            //if (bytesAvailableCount % sizeof(SInt16) == 0)
+            if (bytesAvailableCount % (self.inputChannels * sizeof(SInt16)) == 0)
             {
                 unsigned char * rtlsdrBuffer = (unsigned char *)malloc(bytesAvailableCount);
                 
@@ -166,13 +166,6 @@
             //NSLog(@"AudioMonitor intervalSinceLastRead >= %f", nextTimeoutReportInterval);
             
             nextTimeoutReportInterval += 5;
-            
-            pid_t currentParentProcessPID = getppid();
-            if (currentParentProcessPID != originalParentProcessPID)
-            {
-                //NSLog(@"AudioMonitor original parent process PID changed, terminating....");
-                //self.doExit = YES;
-            }
         }
         
         packetIndex++;
@@ -193,7 +186,7 @@
     NSTimeInterval lastReadTime = [NSDate timeIntervalSinceReferenceDate] + 20;
     NSTimeInterval nextTimeoutReportInterval = 5;
 
-    int32_t circularBufferLength = 128 * 1024;
+    int32_t circularBufferLength = self.inputChannels * 128 * 1024;
     TPCircularBufferInit(&audioConverterCircularBuffer, circularBufferLength);
 
     [self startAudioConverter];     // resample PCM data to 48000 Hz
@@ -207,6 +200,7 @@
         CFTimeInterval runLoopTimeInterval = 0.1f;
         Boolean returnAfterSourceHandled = false;
         CFRunLoopRunResult runLoopResult = CFRunLoopRunInMode(runLoopMode, runLoopTimeInterval, returnAfterSourceHandled);
+        #pragma unused(runLoopResult)
 
         NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
 
@@ -220,7 +214,8 @@
         }
         else
         {
-            if (bytesAvailableCount % 2 == 0)
+            if (bytesAvailableCount % (self.inputChannels * sizeof(SInt16)) == 0)
+            //if (bytesAvailableCount % sizeof(SInt16) == 0)
             {
                 lastReadTime = currentTime;
                 nextTimeoutReportInterval = 5;
@@ -241,13 +236,6 @@
             //NSLog(@"AudioMonitor intervalSinceLastRead >= %f", nextTimeoutReportInterval);
             
             nextTimeoutReportInterval += 5;
-            
-            pid_t currentParentProcessPID = getppid();
-            if (currentParentProcessPID != originalParentProcessPID)
-            {
-                //NSLog(@"AudioMonitor original parent process PID changed, terminating....");
-                //self.doExit = YES;
-            }
         }
     }
 }
@@ -262,19 +250,36 @@
     // Configure input and output AudioStreamBasicDescription (ADSB) for AudioConverter to resample PCM data to 48000 Hz
     
     memset(&audioConverterInputDescription, 0, sizeof(audioConverterInputDescription));
+    
     audioConverterInputDescription.mSampleRate = self.sampleRate;     // default is 10000 Hz
     audioConverterInputDescription.mFormatID = kAudioFormatLinearPCM;
-    audioConverterInputDescription.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
-    audioConverterInputDescription.mBitsPerChannel = kInputPacketLength * 8;
-    audioConverterInputDescription.mChannelsPerFrame = 1;
-    audioConverterInputDescription.mBytesPerFrame = kInputPacketLength;
+    audioConverterInputDescription.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
+    if (self.inputChannels == 1)
+    {
+        audioConverterInputDescription.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
+    }
+    audioConverterInputDescription.mBytesPerPacket = sizeof(SInt16) * self.inputChannels;
     audioConverterInputDescription.mFramesPerPacket = 1;
-    audioConverterInputDescription.mBytesPerPacket = kInputPacketLength;
+    audioConverterInputDescription.mBytesPerFrame = sizeof(SInt16) * self.inputChannels;
+    audioConverterInputDescription.mChannelsPerFrame = self.inputChannels;
+    audioConverterInputDescription.mBitsPerChannel = sizeof(SInt16) * 8;
+    
     [self logDescription:&audioConverterInputDescription withName:@"audioConverterInputDescription"];
     
-    // copy input AudioStreamBasicDescription fields to output ASBD, except mSampleRate
-    audioConverterOutputDescription = audioConverterInputDescription;
+    // set output AudioStreamBasicDescription fields for stereo output
+    
+    //audioConverterOutputDescription = audioConverterInputDescription;
+    memset(&audioConverterOutputDescription, 0, sizeof(audioConverterOutputDescription));
+
     audioConverterOutputDescription.mSampleRate = 48000;
+    audioConverterOutputDescription.mFormatID = kAudioFormatLinearPCM;
+    audioConverterOutputDescription.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
+    audioConverterOutputDescription.mBytesPerPacket = sizeof(SInt16) * 2;
+    audioConverterOutputDescription.mFramesPerPacket = 1;
+    audioConverterOutputDescription.mBytesPerFrame = sizeof(SInt16) * 2;
+    audioConverterOutputDescription.mChannelsPerFrame = 2;
+    audioConverterOutputDescription.mBitsPerChannel = sizeof(SInt16) * 8;
+    
     [self logDescription:&audioConverterOutputDescription withName:@"audioConverterOutputDescription"];
 
     OSStatus audioConverterNewStatus = AudioConverterNew(&audioConverterInputDescription, &audioConverterOutputDescription, &inAudioConverter);
@@ -293,48 +298,51 @@
     [NSThread sleepForTimeInterval:0.2f];
 
     if (self.volume > 0.0f)
-    {
-    // configure AudioQueue for rendering PCM audio data to default output device (i.e., speakers).
-
-    audioQueueIndex = 0;
-
-    unsigned int i;
-    
-    audioQueueDescription.mSampleRate       = kAudioQueueSampleRate;
-    audioQueueDescription.mFormatID         = kAudioFormatLinearPCM;
-    audioQueueDescription.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
-    audioQueueDescription.mBitsPerChannel   = 8 * sizeof(SInt16);
-    audioQueueDescription.mChannelsPerFrame = kAudioQueueChannelsCount;
-    audioQueueDescription.mBytesPerFrame    = sizeof(SInt16) * kAudioQueueChannelsCount;
-    audioQueueDescription.mFramesPerPacket  = 1;
-    audioQueueDescription.mBytesPerPacket   = audioQueueDescription.mBytesPerFrame * audioQueueDescription.mFramesPerPacket;
-    audioQueueDescription.mReserved         = 0;
-    [self logDescription:&audioQueueDescription withName:@"audioQueueFormat"];
-    
-    OSStatus newQueueOutputStatus = AudioQueueNewOutput(&audioQueueDescription, audioQueueCallback, (__bridge void *)self, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &audioQueue);
-    if (newQueueOutputStatus != noErr)
-    {
-        NSError * error = [NSError errorWithDomain:NSOSStatusErrorDomain code:newQueueOutputStatus userInfo:NULL];
-        NSLog(@"AudioMonitor runAudioQueueOnThread newQueueOutputStatus %@", error);
-    }
-    
-    for (i = 0; i < kAudioQueueBuffersCount; i++)
-    {
-        OSStatus queueAllocateStatus = AudioQueueAllocateBuffer(audioQueue, kAudioQueueBufferSize, &buffers[i]);
-        if (queueAllocateStatus != noErr)
         {
-            NSError * error = [NSError errorWithDomain:NSOSStatusErrorDomain code:queueAllocateStatus userInfo:NULL];
-            NSLog(@"AudioMonitor runAudioQueueOnThread queueAllocateStatus %@", error);
-        }
+        // configure AudioQueue for rendering PCM audio data to default output device (i.e., speakers).
 
-        buffers[i]->mAudioDataByteSize = kAudioQueueBufferSize;
+        audioQueueIndex = 0;
+
+        unsigned int i;
         
-        audioQueueCallback((__bridge void *)self, audioQueue, buffers[i]);
-    }
-    
-    UInt32 inNumberOfFramesToPrepare = 0;   // decode all enqueued buffers
-    UInt32 outNumberOfFramesPrepared = 0;
-    
+        audioQueueDescription.mSampleRate       = 48000;
+        audioQueueDescription.mFormatID         = kAudioFormatLinearPCM;
+        
+        //audioQueueDescription.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
+        audioQueueDescription.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
+        
+        audioQueueDescription.mBitsPerChannel   = 8 * sizeof(SInt16);
+        audioQueueDescription.mChannelsPerFrame = 2;
+        audioQueueDescription.mBytesPerFrame    = sizeof(SInt16) * 2;
+        audioQueueDescription.mFramesPerPacket  = 1;
+        audioQueueDescription.mBytesPerPacket   = audioQueueDescription.mBytesPerFrame * audioQueueDescription.mFramesPerPacket;
+        audioQueueDescription.mReserved         = 0;
+        [self logDescription:&audioQueueDescription withName:@"audioQueueFormat"];
+        
+        OSStatus newQueueOutputStatus = AudioQueueNewOutput(&audioQueueDescription, audioQueueCallback, (__bridge void *)self, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &audioQueue);
+        if (newQueueOutputStatus != noErr)
+        {
+            NSError * error = [NSError errorWithDomain:NSOSStatusErrorDomain code:newQueueOutputStatus userInfo:NULL];
+            NSLog(@"AudioMonitor runAudioQueueOnThread newQueueOutputStatus %@", error);
+        }
+        
+        for (i = 0; i < kAudioQueueBuffersCount; i++)
+        {
+            OSStatus queueAllocateStatus = AudioQueueAllocateBuffer(audioQueue, kAudioQueueBufferSize, &buffers[i]);
+            if (queueAllocateStatus != noErr)
+            {
+                NSError * error = [NSError errorWithDomain:NSOSStatusErrorDomain code:queueAllocateStatus userInfo:NULL];
+                NSLog(@"AudioMonitor runAudioQueueOnThread queueAllocateStatus %@", error);
+            }
+
+            buffers[i]->mAudioDataByteSize = kAudioQueueBufferSize;
+            
+            audioQueueCallback((__bridge void *)self, audioQueue, buffers[i]);
+        }
+        
+        UInt32 inNumberOfFramesToPrepare = 0;   // decode all enqueued buffers
+        UInt32 outNumberOfFramesPrepared = 0;
+        
         OSStatus queuePrimeStatus = AudioQueuePrime(audioQueue, inNumberOfFramesToPrepare, &outNumberOfFramesPrepared);
         if (queuePrimeStatus != noErr)
         {
@@ -373,31 +381,28 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
     
     if (availableBytes > 0)
     {
-        int channelOutputBytes = availableBytes * kAudioQueueChannelsCount;
+        int outputBytes = availableBytes;
 
-        if (channelOutputBytes > audioQueueDataBytesCapacity)
+        if (outputBytes > audioQueueDataBytesCapacity)
         {
-            channelOutputBytes = audioQueueDataBytesCapacity;
+            outputBytes = audioQueueDataBytesCapacity;
         }
 
-        int samplesCount = (channelOutputBytes / kAudioQueueChannelsCount) / sizeof(SInt16);
+        int samplesCount = outputBytes / sizeof(SInt16);
 
         SInt16 * sourcePtr = (SInt16 *)circularBufferDataPtr;
         SInt16 * destinationPtr = (SInt16 *)buffer->mAudioData;
 
         for (int i = 0; i < samplesCount; i++)
         {
-            SInt16 monoSample = *sourcePtr;
+            SInt16 channelSample = *sourcePtr;
             sourcePtr++;
             
-            for (int j = 0; j < kAudioQueueChannelsCount; j++)
-            {
-                *destinationPtr = monoSample;
-                destinationPtr++;
-            }
+            *destinationPtr = channelSample;
+            destinationPtr++;
         }
         
-        buffer->mAudioDataByteSize = channelOutputBytes;
+        buffer->mAudioDataByteSize = outputBytes;
         
         if (self.volume > 0.0f)
         {
@@ -449,7 +454,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
     
     if (dataLength > 0)
     {
-        const UInt32 numFrames = dataLength / 2;
+        const UInt32 numFrames = dataLength / (sizeof(SInt16) * audioConverterInputDescription.mChannelsPerFrame);
 
         audioConverterInputAudioBuffer.mNumberChannels = audioConverterInputDescription.mChannelsPerFrame;
         audioConverterInputAudioBuffer.mDataByteSize = (SInt32)dataLength;
@@ -458,8 +463,8 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
         audioConverterInputBufferOffset = 0;
         audioConverterInputPacketsRemain = numFrames;
         
-        audioConverterOutputBufferPtr = calloc(numFrames, sizeof(SInt16));
-        audioConverterOutputBytes = numFrames * sizeof(SInt16);
+        audioConverterOutputBufferPtr = calloc(numFrames, sizeof(SInt16) * audioConverterOutputDescription.mChannelsPerFrame);
+        audioConverterOutputBytes = numFrames * sizeof(SInt16) * audioConverterOutputDescription.mChannelsPerFrame;
 
         audioConverterOutputBufferList.mNumberBuffers = 1;
         audioConverterOutputBufferList.mBuffers[0].mNumberChannels = audioConverterOutputDescription.mChannelsPerFrame;
@@ -493,14 +498,14 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
             {
                 // produce resampled audio to second circular buffer
                 
-                int32_t convertedDataLength = outputDataPacketSize * sizeof(SInt16);
+                int32_t convertedDataLength = outputDataPacketSize * sizeof(SInt16) * 2;
 
                 void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
 
                 //int32_t space;
                 //void *ptr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for NSLog below
 
-                fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // also write resampled audio to stdout, perhaps for sox, etc.
+                fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
                 
                 bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
 
@@ -621,9 +626,9 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
 
     void * offsetPtr = (char *)self->audioConverterInputAudioBuffer.mData + self->audioConverterInputBufferOffset;
     
-    ioData->mNumberBuffers = 1;         // One buffer is sufficient for non-interleaved data
-    ioData->mBuffers[0].mNumberChannels =  self->audioConverterInputAudioBuffer.mNumberChannels;
-    ioData->mBuffers[0].mDataByteSize = ioNumberDataPacketsProduced * kInputPacketLength;
+    ioData->mNumberBuffers = 1;
+    ioData->mBuffers[0].mNumberChannels =  self.inputChannels;
+    ioData->mBuffers[0].mDataByteSize = ioNumberDataPacketsProduced * sizeof(SInt16) * self.inputChannels;
     ioData->mBuffers[0].mData = offsetPtr;
 
     *ioNumberDataPackets = ioNumberDataPacketsProduced;
@@ -633,7 +638,7 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
         result = 'zero';
     }
     
-    self->audioConverterInputBufferOffset += (ioNumberDataPacketsProduced * kInputPacketLength);
+    self->audioConverterInputBufferOffset += (ioNumberDataPacketsProduced * sizeof(SInt16) * self.inputChannels);
     self->audioConverterInputPacketsRemain -= ioNumberDataPacketsProduced;
     
     //NSLog(@"AudioMonitor - audioConverterComplexInputDataProc ioNumberDataPacketsRequested=%u, ioNumberDataPacketsProduced=%u,  result=%d", ioNumberDataPacketsRequested, ioNumberDataPacketsProduced, result);
@@ -651,9 +656,17 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
 
 - (void)logDescription:(AudioStreamBasicDescription *)asbd withName:(NSString *)name
 {
-    NSLog(@"AudioStreamBasicDescription %@", name);
+    NSLog(@"AudioMonitor - AudioStreamBasicDescription %@", name);
     NSLog(@"   %@.mSampleRate=%f", name, asbd->mSampleRate);
-    NSLog(@"   %@.mFormatID=%c4", name, asbd->mFormatID);
+    
+    unichar c[4];
+    c[0] = (asbd->mFormatID >> 24) & 0xFF;
+    c[1] = (asbd->mFormatID >> 16) & 0xFF;
+    c[2] = (asbd->mFormatID >> 8) & 0xFF;
+    c[3] = (asbd->mFormatID >> 0) & 0xFF;
+    NSString * formatID = [NSString stringWithCharacters:c length:4];
+    NSLog(@"   %@.mFormatID=%@", name, formatID);
+    
     NSLog(@"   %@.mFormatFlags=%u", name, (unsigned int)asbd->mFormatFlags);
     NSLog(@"   %@.mBytesPerPacket=%u", name, (unsigned int)asbd->mBytesPerPacket);
     NSLog(@"   %@.mFramesPerPacket=%u", name, (unsigned int)asbd->mFramesPerPacket);

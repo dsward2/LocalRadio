@@ -10,6 +10,8 @@
 
 exit;
 
+echo codesign -f --entitlements "${SRCROOT}/wfm-tools-master/stereodemux/stereodemux.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/stereodemux
+
 echo codesign -f --entitlements "${SRCROOT}/rtl_fm_localradio/rtl_fm_localradio.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/rtl_fm_localradio
 
 echo codesign -f --entitlements "${SRCROOT}/UDPSender/UDPSender.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/UDPSender

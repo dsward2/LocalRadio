@@ -127,7 +127,7 @@
     [soxTaskItem addArgument:@"-b"];
     [soxTaskItem addArgument:@"16"];
     [soxTaskItem addArgument:@"-c"];
-    [soxTaskItem addArgument:@"1"];
+    [soxTaskItem addArgument:@"2"];
     [soxTaskItem addArgument:@"-r"];
     [soxTaskItem addArgument:@"48000"];
     [soxTaskItem addArgument:@"-t"];

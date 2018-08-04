@@ -610,18 +610,22 @@ Printing description of icecastStatusDictionary:
 {
     // Use try/catch to avoid a crash that can occur during app termination
     // if a property gets released after NULL checks, but before dictionary item added.
+    
+    NSString * currentElementName = self.currentElementName;
+    NSString * currentElementData = self.currentElementData;
+    
     @try {
-        if (self.currentElementName != NULL)
+        if (currentElementName != NULL)
         {
-            if (self.currentElementData != NULL)
+            if (currentElementData != NULL)
             {
                 if (self.inSourceElement == YES)
                 {
-                    [self.currentSourceDictionary setObject:self.currentElementData forKey:self.currentElementName];
+                    [self.currentSourceDictionary setObject:currentElementData forKey:currentElementName];
                 }
                 else
                 {
-                    [self.parserOutputDictionary setObject:self.currentElementData forKey:self.currentElementName];
+                    [self.parserOutputDictionary setObject:currentElementData forKey:currentElementName];
                 }
             }
         }

@@ -6,6 +6,7 @@
 //  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 
 #import <AudioToolbox/AudioToolbox.h>
@@ -43,11 +44,12 @@
 }
 
 @property (assign) NSInteger sampleRate;
+@property (assign) UInt32 inputChannels;
 @property (assign) float volume;
 
 
 
-- (void)runAudioMonitorWithSampleRate:(NSInteger)sampleRate volume:(float)volume;
+- (void)runAudioMonitorWithSampleRate:(NSInteger)sampleRate channels:(NSInteger)channels volume:(float)volume;
 - (void)convertBuffer:(void *)inputBufferPtr length:(UInt32)dataLength;
 
 @end

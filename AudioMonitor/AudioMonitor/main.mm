@@ -22,7 +22,8 @@ int main(int argc, const char * argv[])
         NSString * argMode = @"";
         NSString * argSampleRate = @"10000";
         NSString * argVolume = @"0";
-        
+        NSString * argChannels = @"1";
+
         for (int i = 0; i < argc; i++)
         {
             char * argStringPtr = (char *)argv[i];
@@ -49,9 +50,16 @@ int main(int argc, const char * argv[])
                 argVolume = argString;
                 argMode = @"";
             }
+            else if ([argString isEqualToString:@"-c"] == YES)
+            {
+                argMode = argString;
+            }
+            else if ([argMode isEqualToString:@"-c"] == YES)
+            {
+                argChannels = argString;
+                argMode = @"";
+            }
         }
-
-        AudioMonitor * audioMonitor = [[AudioMonitor alloc] init];
         
         NSInteger sampleRate = argSampleRate.integerValue;
         if (sampleRate <= 0)
@@ -61,7 +69,10 @@ int main(int argc, const char * argv[])
         
         float volume = argVolume.floatValue;
         
-        [audioMonitor runAudioMonitorWithSampleRate:sampleRate volume:volume];
+        NSInteger channels = argChannels.integerValue;
+        
+        AudioMonitor * audioMonitor = [[AudioMonitor alloc] init];
+        [audioMonitor runAudioMonitorWithSampleRate:sampleRate channels:channels volume:volume];
         
         while (1)
         {

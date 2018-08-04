@@ -472,7 +472,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSString * tunerGainString = [listenDictionary objectForKey:@"tuner_gain"];
                 CGFloat tunerGainValue = [tunerGainString floatValue];
                 NSNumber * tunerGainNumber = [NSNumber numberWithFloat:tunerGainValue];
-                
+
+                NSString * stereoFlagString = [listenDictionary objectForKey:@"stereo_flag"];
+                NSInteger stereoFlagValue = [stereoFlagString integerValue];
+                NSNumber * stereoFlagNumber = [NSNumber numberWithInteger:stereoFlagValue];
+
                 //NSMutableDictionary * frequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
                 
                 NSMutableDictionary * frequencyDictionary = self.constructFrequencyDictionary;
@@ -485,6 +489,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 [frequencyDictionary setObject:freqNumber forKey:@"frequency"];
                 [frequencyDictionary setObject:sampleRateNumber forKey:@"sample_rate"];
                 [frequencyDictionary setObject:tunerGainNumber forKey:@"tuner_gain"];
+                [frequencyDictionary setObject:stereoFlagNumber forKey:@"stereo_flag"];
 
                 [self listenButtonClickedForFrequency:frequencyDictionary];
             }
@@ -561,7 +566,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             NSString * frequencyString = self.appDelegate.statusFrequency;
             NSString * modulationString = self.appDelegate.statusModulation;
             NSString * sampleRateString = self.appDelegate.statusSamplingRate;
-
+            
             NSString * nowPlayingDetailsString = [NSString stringWithFormat:@"<br><br>frequency: %@<br>modulation: %@<br>sample rate: %@<br><br>", frequencyString, modulationString, sampleRateString];
 
             [replacementDict setObject:nowPlayingDetailsString forKey:@"NOW_PLAYING_DETAILS"];
@@ -1122,8 +1127,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         #pragma mark relativePath=info.html
         else if ([relativePath isEqualToString:@"/info.html"])
         {
-            NSString * settingsIconSVGString = [self getSVGWithFileName:@"LocalRadio-animation.svg"];
-            [replacementDict setObject:settingsIconSVGString forKey:@"LOCALRADIO_ANIMATION"];
+            NSString * localRadioAnimationSVGString = [self getSVGWithFileName:@"LocalRadio-animation.svg"];
+            [replacementDict setObject:localRadioAnimationSVGString forKey:@"LOCALRADIO_ANIMATION"];
+
+            NSString * localRadioIconSVGString = [self getSVGWithFileName:@"redphone.svg"];
+            [replacementDict setObject:localRadioIconSVGString forKey:@"LOCALRADIO_ICON"];
         }
         #pragma mark relativePath=tuner_wbfm.html
         else if ([relativePath isEqualToString:@"/tuner_wbfm.html"])
@@ -1680,6 +1688,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSNumber * sampleRateNumber = [favoriteDictionary objectForKey:@"sample_rate"];
         NSString * sampleRateString = [sampleRateNumber stringValue];
 
+        NSNumber * stereoFlagNumber = [favoriteDictionary objectForKey:@"stereo_flag"];
+
         NSMutableString * formString = [NSMutableString string];
 
 
@@ -1716,6 +1726,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [formString appendString:@"</form>"];
 
         //[resultString appendFormat:@"id: %@<br>frequency: %@<br>name: %@<br>modulation: %@<br>bandwidth: %@<br><br>%@", idString, frequencyString, stationNameString, modulationString, bandwidthString, formString];
+        
+        if ([modulationString isEqualToString:@"fm"] == YES)
+        {
+            if (stereoFlagNumber.integerValue == 1)
+            {
+                modulationString = @"fm stereo";
+            }
+        }
 
         [resultString appendFormat:@"%@<br><br>frequency: %@<br>modulation: %@<br>sample rate: %@<br><br>", formString, frequencyString, modulationString, sampleRateString];
     }
@@ -1787,6 +1805,15 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSString * tunerGainString = [NSString stringWithFormat:@"%.1f", [tunerGainValue floatValue]];
                 
                 [nowPlayingDictionary setObject:tunerGainString forKey:@"tuner_gain"];
+            }
+        }
+
+        id modulationValue = [nowPlayingDictionary objectForKey:@"modulation"];
+        if ([modulationValue isEqualToString:@"fm"] == YES)
+        {
+            if (self.appDelegate.sdrController.stereoFlag == YES)
+            {
+                [nowPlayingDictionary setObject:@"fm stereo" forKey:@"modulation"];
             }
         }
 
@@ -2965,7 +2992,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * audioOutputString = [favoriteDictionary objectForKey:@"audio_output"];
         
         NSString * streamSourceString = [favoriteDictionary objectForKey:@"stream_source"];
-        
+
+        NSNumber * stereoFlagNumber = [favoriteDictionary objectForKey:@"stereo_flag"];
+        NSString * stereoFlagString = [stereoFlagNumber stringValue];
+
         NSMutableString * formString = [NSMutableString string];
         
         NSString * formAction = @"storeFrequencyRecord";
@@ -3150,6 +3180,24 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             NSString * optionString = [NSString stringWithFormat:@"<option value='%@' %@>%@</option>\n", aModulationString, selectedString, aLabelString];
             [formString appendString:optionString];
         }
+        [formString appendString:@"</select>\n"];
+
+
+        [formString appendString:@"<label for='stereo_flag'>FM Stereo:</label>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='stereo_flag' title='FM stereo is available for strong signals with a sample rate of 106K or greater'>\n"];
+        NSString * stereoFlagOffSelectedString = @"";
+        NSInteger stereoFlag = [stereoFlagNumber integerValue];
+        if (stereoFlag == 0)
+        {
+            stereoFlagOffSelectedString = @"selected";
+        }
+        NSString * stereoFlagOnSelectedString = @"";
+        if (stereoFlag == 1)
+        {
+            stereoFlagOnSelectedString = @"selected";
+        }
+        [formString appendFormat:@"<option value='0' %@>Off</option>\n", stereoFlagOffSelectedString];
+        [formString appendFormat:@"<option value='1' %@>On</option>\n", stereoFlagOnSelectedString];
         [formString appendString:@"</select>\n"];
 
         NSString * formSquelchLevelString = [NSString stringWithFormat:@"<label for='squelch_level'>Squelch Level:</label>\n<input class='twelve columns value-prop' type='number' id='squelch_level' name='squelch_level' value='%@' title='The Squelch setting is used to silence radio static when a signal is too weak or not present to receive.  The static will be automatically silenced when the radio's Signal Level value is less that the Squelch value.  If the radio is not in scanning mode, the Squelch Level can be set to 0 to disable squelch.  In scanning modes, the Squelch Level must be greater than zero.'>\n", squelchLevelString];

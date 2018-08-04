@@ -180,6 +180,8 @@
     // All of the "Listen" button actions eventually call this method
     
     [self checkIcecastAndEZStream];
+    
+    NSInteger sourceChannels = 0;
 
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
 
@@ -188,11 +190,15 @@
     TaskItem * audioSourceTaskItem = NULL;
     if (audioInputDeviceName == NULL)
     {
+        sourceChannels = 1;
+    
         audioSourceTaskItem = [self makeRTLSDRAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];
     }
     else
     {
         // configure for input from a Core Audio device
+        
+        sourceChannels = 2;
 
         self.tunerSampleRateNumber = [NSNumber numberWithInteger:48000];    // needed for audioMonitorTaskItem
 
@@ -253,17 +259,53 @@
         //[audioSourceTaskItem addArgument:@"48000"];
     }
     
-    // Get lpcm from stdin, re-sample to 48000 Hz, optionally play audio directly to current system CoreAudio device, output to stdout
-    TaskItem * audioMonitorTaskItem = [self makeAudioMonitorTaskItem];
+    NSInteger intermediateChannels = sourceChannels;
+    TaskItem * stereoDemuxTaskItem = NULL;
     
-    // Get lpcm from stdin, apply Sox audio processing filters, output MP3 data to stdout
+    if (audioInputDeviceName == NULL)
+    {
+        if (frequenciesArray.count == 1)
+        {
+            NSDictionary * freequencyDictionary = frequenciesArray.firstObject;
+            NSNumber * stereo_flagNumber = [freequencyDictionary objectForKey:@"stereo_flag"];
+            NSNumber * sample_rateNumber = [freequencyDictionary objectForKey:@"sample_rate"];
+            NSString * modulation = [freequencyDictionary objectForKey:@"modulation"];
+            if (stereo_flagNumber.boolValue == YES)
+            {
+                if (sample_rateNumber.integerValue >= 106000)
+                {
+                    if ([modulation isEqualToString:@"fm"] == YES)
+                    {
+                        BOOL addStereoDemux = YES;
+                        
+                        if (sourceChannels > 1)
+                        {
+                            intermediateChannels = 2;
+                            addStereoDemux = NO;
+                        }
+                        
+                        if (addStereoDemux == YES)
+                        {
+                            intermediateChannels = 2;
+                            stereoDemuxTaskItem = [self makeStereoDemuxTaskItem];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Get 1-or-2 channel lpcm from stdin, resample to 48000, output 2-channel lpcm to stdout, and optionally play audio directly to current system CoreAudio device
+    TaskItem * audioMonitorTaskItem = [self makeAudioMonitorTaskItemForSourceChannels:intermediateChannels];
+    
+    // Get lpcm from stdin, apply Sox audio processing filters, output lpcm data to stdout
     TaskItem * soxTaskItem = NULL;
     if (audioOutputFilterStringArray.count > 0)
     {
         soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
     }
 
-    // Get mp3 data from stdin, output to UDP port
+    // Get lpcm data from stdin, output to UDP port
     TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];
 
     BOOL useSecondaryStreamSource = NO;
@@ -287,7 +329,7 @@
             [soxTaskItem addArgument:@"16"];
             
             [soxTaskItem addArgument:@"-c"];
-            [soxTaskItem addArgument:@"1"];
+            [soxTaskItem addArgument:@"2"];
             
             [soxTaskItem addArgument:@"-t"];
             [soxTaskItem addArgument:@"raw"];
@@ -306,7 +348,7 @@
             [soxTaskItem addArgument:@"16"];
             
             [soxTaskItem addArgument:@"-c"];
-            [soxTaskItem addArgument:@"1"];
+            [soxTaskItem addArgument:@"2"];
 
             [soxTaskItem addArgument:@"-t"];
             [soxTaskItem addArgument:@"raw"];
@@ -350,7 +392,7 @@
         [soxTaskItem addArgument:@"16"];
         
         [soxTaskItem addArgument:@"-c"];
-        [soxTaskItem addArgument:@"1"];
+        [soxTaskItem addArgument:@"2"];
         
         [soxTaskItem addArgument:@"-t"];
         [soxTaskItem addArgument:@"raw"];
@@ -394,6 +436,12 @@
     @synchronized (self.radioTaskPipelineManager)
     {
         [self.radioTaskPipelineManager addTaskItem:audioSourceTaskItem];
+
+        if (stereoDemuxTaskItem != NULL)
+        {
+            [self.radioTaskPipelineManager addTaskItem:stereoDemuxTaskItem];
+        }
+
         [self.radioTaskPipelineManager addTaskItem:audioMonitorTaskItem];
         
         if (soxTaskItem != NULL)
@@ -431,8 +479,16 @@
         //self.appDelegate.statusFrequencyTextField.stringValue = megahertzString;
         [self.appDelegate setStatusFrequency:megahertzString];
         
-        self.appDelegate.statusModulationTextField.stringValue = self.modulationString;
-        self.appDelegate.statusModulation = self.modulationString;
+        NSString * extendedModulationString = self.modulationString;
+        if ([extendedModulationString isEqualToString:@"fm"] == YES)
+        {
+            if (stereoDemuxTaskItem != NULL)
+            {
+                extendedModulationString = @"fm stereo";
+            }
+        }
+        self.appDelegate.statusModulationTextField.stringValue = extendedModulationString;
+        self.appDelegate.statusModulation = extendedModulationString;
         
         self.appDelegate.statusSamplingRateTextField.stringValue = self.tunerSampleRateNumber.stringValue;
         self.appDelegate.statusSamplingRate = self.tunerSampleRateNumber.stringValue;
@@ -485,6 +541,7 @@
     self.streamSourceString = @"";
     self.enableDirectSamplingQBranchMode = NO;
     self.enableTunerAGC = NO;
+    self.stereoFlag = NO;
 
     NSString * nameString = @"";
     NSNumber * categoryScanningEnabledNumber = [NSNumber numberWithInteger:0];
@@ -520,6 +577,12 @@
             oversamplingNumber = [firstFrequencyDictionary objectForKey:@"oversampling"];
             firSizeNumber = [firstFrequencyDictionary objectForKey:@"fir_size"];
             atanMathString = [firstFrequencyDictionary objectForKey:@"atan_math"];
+            
+            NSNumber * stereoFlagNumber = [firstFrequencyDictionary objectForKey:@"stereo_flag"];
+            if (stereoFlagNumber.integerValue == 1)
+            {
+                self.stereoFlag = YES;
+            }
 
             NSNumber * frequencyModeNumber = [firstFrequencyDictionary objectForKey:@"frequency_mode"]; // 0 = single frequency, 1 = frequency range
             NSInteger frequencyMode = [frequencyModeNumber integerValue];
@@ -699,18 +762,35 @@
     return audioSourceTaskItem;
 }
 
+//==================================================================================
+//    makeStereoDemuxTaskItem
+//==================================================================================
+
+- (TaskItem *)makeStereoDemuxTaskItem
+{
+    // Get lpcm from stdin, output to stdout
+    TaskItem * stereoDemuxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"stereodemux" functionName:@"StereoDemux"];
+
+    [stereoDemuxTaskItem addArgument:@"-r"];
+    [stereoDemuxTaskItem addArgument:self.tunerSampleRateNumber.stringValue];
+
+    return stereoDemuxTaskItem;
+}
 
 //==================================================================================
-//	makeAudioMonitorTaskItem
+//	makeAudioMonitorTaskItemForSourceChannels:
 //==================================================================================
 
-- (TaskItem *)makeAudioMonitorTaskItem
+- (TaskItem *)makeAudioMonitorTaskItemForSourceChannels:(NSInteger)sourceChannels
 {
     // Get lpcm from stdin, re-sample to 48000 Hz, optionally play audio directly to current system CoreAudio device, output to stdout
     TaskItem * audioMonitorTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"AudioMonitor" functionName:@"AudioMonitor"];
     
     [audioMonitorTaskItem addArgument:@"-r"];
     [audioMonitorTaskItem addArgument:self.tunerSampleRateNumber.stringValue];
+    
+    [audioMonitorTaskItem addArgument:@"-c"];
+    [audioMonitorTaskItem addArgument:[NSString stringWithFormat:@"%ld", sourceChannels]];
 
     NSString * livePlaythroughVolume = @"0.0";
     if (self.appDelegate.useWebViewAudioPlayerCheckbox.state == NO)

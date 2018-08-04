@@ -40,11 +40,47 @@
         self.sqliteIsRunning = [SQLiteLibrary begin];
 
         NSLog(@"startSQLiteConnection sqliteIsRunning = %d", self.sqliteIsRunning);
+        
+        [self updateLocalRadioDatabase];
     }
 }
 
 //==================================================================================
-//	localRadioAppSettingsValueForKey:
+//    updateLocalRadioDatabase
+//==================================================================================
+
+- (void)updateLocalRadioDatabase
+{
+    // Add or alter columns to update earlier versions of the database
+
+    NSString * queryString = @"PRAGMA table_info(frequency)";
+    NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
+
+    BOOL stereoFlagColumnFound = NO;
+
+    if (queryResultArray.count > 0)
+    {
+        for (NSDictionary * resultDictionary in queryResultArray)
+        {
+            NSString * columnName = [resultDictionary objectForKey:@"name"];
+            if ([columnName isEqualToString:@"stereo_flag"] == YES)
+            {
+                stereoFlagColumnFound = YES;
+            }
+        }
+    }
+    
+    if (stereoFlagColumnFound == NO)
+    {
+        NSString * addStereoColumnQueryString = @"ALTER TABLE \"frequency\" ADD COLUMN \"stereo_flag\" Boolean NOT NULL DEFAULT 0;";
+        NSArray * addStereoColumnQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:addStereoColumnQueryString];
+ 
+        NSLog(@"updateLocalRadioDatabase - added stereo_flag to LocalRadio database");
+    }
+}
+
+//==================================================================================
+//    localRadioAppSettingsValueForKey:
 //==================================================================================
 
 - (id)localRadioAppSettingsValueForKey:(NSString *)aKey
@@ -120,7 +156,7 @@
 
     NSInteger frequencyID = [frequencyIDString integerValue];
 
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, audio_output, stream_source FROM frequency WHERE id='%ld';", frequencyID];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, audio_output, stream_source, stereo_flag FROM frequency WHERE id='%ld';", frequencyID];
     
     //NSLog(@"frequencyRecordForID queryString = %@", queryString);
     
@@ -282,7 +318,7 @@
 
 - (NSDictionary *)freqCatRecordForFrequencyID:(NSInteger)frequencyID categoryID:(NSInteger)categoryID
 {
-    NSDictionary * result = NO;
+    NSDictionary * result = NULL;
     
     NSString * freqCatQueryString = [NSString stringWithFormat:@"SELECT id, freq_id, cat_id FROM freq_cat WHERE cat_id='%ld' AND freq_id='%ld';", categoryID, frequencyID];
     NSArray * freqCatQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:freqCatQueryString];
@@ -509,6 +545,11 @@
         {
             NSString * trimmedValue = [columnDefault stringByTrimmingCharactersInSet:singleQuoteCharacterSet];
             newValue = trimmedValue;
+        }
+        else if ([columnType isEqualToString:@"Boolean"] == YES)
+        {
+            NSInteger defaultInteger = [columnDefault integerValue];
+            newValue = [NSNumber numberWithInteger:defaultInteger];
         }
         else
         {

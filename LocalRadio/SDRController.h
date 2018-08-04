@@ -38,6 +38,7 @@
 
 @property (assign) BOOL enableDirectSamplingQBranchMode;
 @property (assign) BOOL enableTunerAGC;
+@property (assign) BOOL stereoFlag;
 
 @property (strong) NSArray * rtlsdrTaskFrequenciesArray;
 @property (assign) NSInteger udpTag;

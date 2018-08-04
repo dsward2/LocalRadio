@@ -72,7 +72,7 @@ AudioBufferList *TPCircularBufferPrepareEmptyAudioBufferList(TPCircularBuffer *b
         
         block->bufferList.mBuffers[i].mData = dataPtr;
         block->bufferList.mBuffers[i].mDataByteSize = bytesPerBuffer;
-        block->bufferList.mBuffers[i].mNumberChannels = 1;
+        block->bufferList.mBuffers[i].mNumberChannels = 2;
         
         dataPtr += bytesPerBuffer;
     }

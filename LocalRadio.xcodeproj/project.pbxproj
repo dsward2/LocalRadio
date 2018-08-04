@@ -27,6 +27,10 @@
 		0E0FDA001EF658F600FEEA06 /* editfavorite.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E0FD9FF1EF658F600FEEA06 /* editfavorite.html */; };
 		0E0FDA031EF76AF800FEEA06 /* IcecastController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDA021EF76AF800FEEA06 /* IcecastController.m */; };
 		0E0FDA061EF786BE00FEEA06 /* SQLiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0FDA051EF786BE00FEEA06 /* SQLiteController.m */; };
+		0E106895211019DE000EF74A /* stereodemux in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0ECAD580210C57E3005F4BB1 /* stereodemux */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E1068E421102CEF000EF74A /* libfftw3f.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1068E321102CEF000EF74A /* libfftw3f.3.dylib */; };
+		0E1068E621102D35000EF74A /* libfftw3f.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E1068E321102CEF000EF74A /* libfftw3f.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E1068E9211582C8000EF74A /* redphone.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0E1068E8211582C7000EF74A /* redphone.svg */; };
 		0E12A4EA1F5F92D000EB28DF /* FCCSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */; };
 		0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E12A5141F5FC65B00EB28DF /* CoreLocation.framework */; };
 		0E1A397C1ECE15CA001E7610 /* libcrypto.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E60808D1ECE0BF400E4D1B6 /* libcrypto.1.0.0.dylib */; };
@@ -184,6 +188,8 @@
 		0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB661F793CDE004B6D05 /* APPNOTES.md */; };
 		0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0EB8CB681F794A2B004B6D05 /* LocalRadio-animation.svg */; };
 		0EC207671EDCE11A006899EB /* SDRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC207661EDCE11A006899EB /* SDRController.m */; };
+		0ECAD5612109BA46005F4BB1 /* libliquid.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ECAD5602109BA46005F4BB1 /* libliquid.dylib */; };
+		0ECAD5632109BBA2005F4BB1 /* libliquid.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0ECAD5602109BA46005F4BB1 /* libliquid.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0ED12CE91F359B0700D9DCDC /* tuner.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CE81F359B0700D9DCDC /* tuner.html */; };
 		0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEA1F35A86800D9DCDC /* index2.html */; };
 		0ED12CF01F35CD6600D9DCDC /* ofl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEF1F35CD6600D9DCDC /* ofl_license.txt */; };
@@ -506,12 +512,26 @@
 			remoteGlobalIDString = 8D1107320486CEB800E47090;
 			remoteInfo = WebDAVServer;
 		};
+		0E6551A2210D911B000565AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0ECAD570210C57E1005F4BB1;
+			remoteInfo = "wfm-tools";
+		};
 		0E7294091F17D21700350F03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E7294051F17D21500350F03 /* UDPSender.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0E7293FB1F17D21500350F03;
 			remoteInfo = UDPSender;
+		};
+		0ECAD57F210C57E3005F4BB1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0ECAD571210C57E1005F4BB1;
+			remoteInfo = "wfm-tools";
 		};
 		0ED6CA2020B2083500D82331 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -811,10 +831,12 @@
 			files = (
 				0E1BA1371EC8A0B500130DB9 /* libcurl.4.dylib in Copy Libraries */,
 				0E1BA1381EC8A0B500130DB9 /* libev.4.dylib in Copy Libraries */,
+				0E1068E621102D35000EF74A /* libfftw3f.3.dylib in Copy Libraries */,
 				0E1BA1391EC8A0B500130DB9 /* libFLAC.8.dylib in Copy Libraries */,
 				0E1BA13A1EC8A0B500130DB9 /* libiconv.2.dylib in Copy Libraries */,
 				0E6849BD1ECE17D90096C03C /* libcrypto.1.0.0.dylib in Copy Libraries */,
 				0E1BA13B1EC8A0B500130DB9 /* libid3tag.0.3.0.dylib in Copy Libraries */,
+				0ECAD5632109BBA2005F4BB1 /* libliquid.dylib in Copy Libraries */,
 				0E6F9E191ED5F835009D469E /* liblzma.5.dylib in Copy Libraries */,
 				0E1BA13C1EC8A0B500130DB9 /* libmad.0.dylib in Copy Libraries */,
 				0E1BA13D1EC8A0B500130DB9 /* libmagic.1.dylib in Copy Libraries */,
@@ -872,6 +894,7 @@
 				0E0562F01F19A0090093B473 /* UDPSender in Copy Tools */,
 				0E0C69391F1C913200A7EE5E /* rtl_fm_localradio in Copy Tools */,
 				0E49700F1F70F74D00E41A06 /* AudioMonitor in Copy Tools */,
+				0E106895211019DE000EF74A /* stereodemux in Copy Tools */,
 			);
 			name = "Copy Tools";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1009,6 +1032,8 @@
 		0E0FDA021EF76AF800FEEA06 /* IcecastController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IcecastController.m; sourceTree = "<group>"; };
 		0E0FDA041EF786BE00FEEA06 /* SQLiteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteController.h; sourceTree = "<group>"; };
 		0E0FDA051EF786BE00FEEA06 /* SQLiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteController.m; sourceTree = "<group>"; };
+		0E1068E321102CEF000EF74A /* libfftw3f.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libfftw3f.3.dylib; sourceTree = "<group>"; };
+		0E1068E8211582C7000EF74A /* redphone.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = redphone.svg; sourceTree = "<group>"; };
 		0E12A4E81F5F92D000EB28DF /* FCCSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCCSearchController.h; sourceTree = "<group>"; };
 		0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCCSearchController.m; sourceTree = "<group>"; };
 		0E12A5141F5FC65B00EB28DF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
@@ -1673,6 +1698,9 @@
 		0EC207661EDCE11A006899EB /* SDRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRController.m; sourceTree = "<group>"; };
 		0EC207681EDF68EE006899EB /* LocalRadio.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = LocalRadio.sqlite3; sourceTree = "<group>"; };
 		0EC207691EDF73EE006899EB /* scannercategories.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = scannercategories.html; sourceTree = "<group>"; };
+		0ECAD5602109BA46005F4BB1 /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libliquid.dylib; sourceTree = "<group>"; };
+		0ECAD565210C35C0005F4BB1 /* fix_stereodemux.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_stereodemux.sh; sourceTree = "<group>"; };
+		0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "wfm-tools.xcodeproj"; path = "wfm-tools/wfm-tools.xcodeproj"; sourceTree = "<group>"; };
 		0ED12CE81F359B0700D9DCDC /* tuner.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner.html; sourceTree = "<group>"; };
 		0ED12CEA1F35A86800D9DCDC /* index2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index2.html; sourceTree = "<group>"; };
 		0ED12CEF1F35CD6600D9DCDC /* ofl_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ofl_license.txt; path = ../ofl_license.txt; sourceTree = "<group>"; };
@@ -2219,6 +2247,7 @@
 				0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */,
 				0E05631C1F1A44510093B473 /* WebKit.framework in Frameworks */,
 				0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */,
+				0E1068E421102CEF000EF74A /* libfftw3f.3.dylib in Frameworks */,
 				0E7F2C401EC1B7250050BD7F /* AudioUnit.framework in Frameworks */,
 				0E7F2C411EC1B7250050BD7F /* CoreAudioKit.framework in Frameworks */,
 				0E9A64EA1EC290C000F12613 /* CoreAudio.framework in Frameworks */,
@@ -2228,6 +2257,7 @@
 				0E1BA15C1EC8A0C200130DB9 /* libiconv.2.dylib in Frameworks */,
 				0E1A397C1ECE15CA001E7610 /* libcrypto.1.0.0.dylib in Frameworks */,
 				0E1BA15D1EC8A0C200130DB9 /* libid3tag.0.3.0.dylib in Frameworks */,
+				0ECAD5612109BA46005F4BB1 /* libliquid.dylib in Frameworks */,
 				0E6F9E181ED5F7EE009D469E /* liblzma.5.dylib in Frameworks */,
 				0E1BA15E1EC8A0C200130DB9 /* libmad.0.dylib in Frameworks */,
 				0E1BA15F1EC8A0C200130DB9 /* libmagic.1.dylib in Frameworks */,
@@ -2293,6 +2323,7 @@
 			children = (
 				0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */,
 				0E0C693F1F1C9E3100A7EE5E /* fix_rtl_fm_localradio.sh */,
+				0ECAD565210C35C0005F4BB1 /* fix_stereodemux.sh */,
 				0E4970091F6F1FF700E41A06 /* codesign_tools.sh */,
 			);
 			path = Scripts;
@@ -2433,9 +2464,11 @@
 				0E60808D1ECE0BF400E4D1B6 /* libcrypto.1.0.0.dylib */,
 				0E1BA1151EC8A09700130DB9 /* libcurl.4.dylib */,
 				0E1BA1161EC8A09700130DB9 /* libev.4.dylib */,
+				0E1068E321102CEF000EF74A /* libfftw3f.3.dylib */,
 				0E1BA1171EC8A09700130DB9 /* libFLAC.8.dylib */,
 				0E1BA1181EC8A09700130DB9 /* libiconv.2.dylib */,
 				0E1BA1191EC8A09700130DB9 /* libid3tag.0.3.0.dylib */,
+				0ECAD5602109BA46005F4BB1 /* libliquid.dylib */,
 				0E6F9E171ED5F7EE009D469E /* liblzma.5.dylib */,
 				0E1BA11A1EC8A09700130DB9 /* libmad.0.dylib */,
 				0E1BA11B1EC8A09700130DB9 /* libmagic.1.dylib */,
@@ -3334,6 +3367,7 @@
 				0E7294051F17D21500350F03 /* UDPSender.xcodeproj */,
 				0E0A95381F129400002E2E5B /* UDPListener.xcodeproj */,
 				0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */,
+				0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
 			);
@@ -4153,6 +4187,7 @@
 				0E84C9BA1ED92A020065864B /* tuner.svg */,
 				0E84C97F1ED8FD1B0065864B /* categories.svg */,
 				0EF598F620FF4C5100BD2C76 /* info.svg */,
+				0E1068E8211582C7000EF74A /* redphone.svg */,
 				0EF598F220FF3F2300BD2C76 /* LocalRadio-animation.svg */,
 			);
 			path = images;
@@ -4287,6 +4322,14 @@
 				0EB8CA7D1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg 825×1250 pixels.webloc */,
 			);
 			path = "Red-Radio-Icon";
+			sourceTree = "<group>";
+		};
+		0ECAD57C210C57E1005F4BB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0ECAD580210C57E3005F4BB1 /* stereodemux */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		0ED12CF11F35D14000D9DCDC /* fonts */ = {
@@ -5612,10 +5655,10 @@
 				0E0FD9E21EF4A84A00FEEA06 /* Run Build Standard RTL-SDR Tools Script */,
 				0E4ECFB71EAB633B00D2157B /* Sources */,
 				0E4ECFB81EAB633B00D2157B /* Frameworks */,
-				0E0C693D1F1C9D4800A7EE5E /* Run fix_rtl_fm_localradio Script */,
 				0E4ED0121EAB65E900D2157B /* Copy Libraries */,
 				0E4ECFB91EAB633B00D2157B /* Resources */,
 				0E4ED21E1EABDC6900D2157B /* Copy Tools */,
+				0E0C693D1F1C9D4800A7EE5E /* Run Fix stereodemux Script */,
 				0EA2128A1ED72D4D004DE453 /* Copy Icecast Admin Files */,
 				0EA212941ED72D7A004DE453 /* Copy Icecast Web Files */,
 				0EA2129E1ED72DAB004DE453 /* Copy Icecast Doc Files */,
@@ -5626,6 +5669,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0E6551A3210D911B000565AF /* PBXTargetDependency */,
 				0E0C69411F1CC5A300A7EE5E /* PBXTargetDependency */,
 				0E0563161F19D5D20093B473 /* PBXTargetDependency */,
 				0E0A959E1F12E4E9002E2E5B /* PBXTargetDependency */,
@@ -5917,6 +5961,10 @@
 					ProductGroup = 0ED6C9AE20B2083500D82331 /* Products */;
 					ProjectRef = 0ED6C9AD20B2083500D82331 /* WebServerIPhone.xcodeproj */;
 				},
+				{
+					ProductGroup = 0ECAD57C210C57E1005F4BB1 /* Products */;
+					ProjectRef = 0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -6204,6 +6252,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = UDPSender;
 			remoteRef = 0E7294091F17D21700350F03 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0ECAD580210C57E3005F4BB1 /* stereodemux */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = stereodemux;
+			remoteRef = 0ECAD57F210C57E3005F4BB1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0ED6CA2120B2083500D82331 /* BenchmarkIPhone.app */ = {
@@ -6509,6 +6564,7 @@
 				0E207E731F1DA81C001AA972 /* editcategorysettings.html in Resources */,
 				0E3CB0E91F679AB40088B498 /* LICENSE in Resources */,
 				0EFFD1231EAE33190041D2F5 /* ezstream_mp3.xml in Resources */,
+				0E1068E9211582C8000EF74A /* redphone.svg in Resources */,
 				0EA5A9131EFF4EB100AAD26D /* silence.mp3 in Resources */,
 				0E35F51020AA392B00154E4E /* InterfaceTest-Info.plist in Resources */,
 				0E0DD2B0210842B60065832A /* favicon.png in Resources */,
@@ -6539,19 +6595,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E0C693D1F1C9D4800A7EE5E /* Run fix_rtl_fm_localradio Script */ = {
+		0E0C693D1F1C9D4800A7EE5E /* Run Fix stereodemux Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run fix_rtl_fm_localradio Script";
+			name = "Run Fix stereodemux Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Moved to rtl_fm_localradio subproject\n\n#bash ${SRCROOT}/LocalRadio/Scripts/fix_rtl_fm_localradio.sh";
+			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_stereodemux.sh";
 		};
 		0E0FD9E21EF4A84A00FEEA06 /* Run Build Standard RTL-SDR Tools Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -6685,6 +6741,11 @@
 			isa = PBXTargetDependency;
 			name = rtl_fm_localradio;
 			targetProxy = 0E0C69401F1CC5A300A7EE5E /* PBXContainerItemProxy */;
+		};
+		0E6551A3210D911B000565AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "wfm-tools";
+			targetProxy = 0E6551A2210D911B000565AF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

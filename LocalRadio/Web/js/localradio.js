@@ -728,7 +728,14 @@ function frequencyListenButtonClicked()
     var tunerGainSelectedOption = tunerGainOptions[tunerGainIndex];
     var tuner_gain = tunerGainSelectedOption.value;
 
-    var tuningArray = {frequency:frequency, sample_rate: sample_rate, tuner_gain: tuner_gain};
+    var stereoFlagSelect = document.getElementById("stereo_flag");
+    var stereoFlagOptions = stereoFlagSelect.children;
+    var stereoFlagIndex = stereoFlagSelect.selectedIndex;
+    var tunerGainSelectedOption = stereoFlagOptions[stereoFlagIndex];
+    var stereo_flag = tunerGainSelectedOption.value;
+
+
+    var tuningArray = {frequency:frequency, sample_rate: sample_rate, tuner_gain: tuner_gain, stereo_flag: stereo_flag};
 
     var jsonData = JSON.stringify(tuningArray);
 
@@ -1007,3 +1014,47 @@ function stopNowPlayingUpdates()
 
     intervalID = setInterval(function(){periodicUpdate();}, 20000);    // update every 20 seconds
 }
+
+
+function applyMP3Settings(form)
+{
+  //console.log("frequencyListenButtonClicked");
+
+    var bitrateSelect = document.getElementById("bitrate_select");
+    var bitrateOptions = bitrateSelect.children;
+    var bitrateIndex = bitrateSelect.selectedIndex;
+    var bitrateSelectedOption = bitrateOptions[bitrateIndex];
+    var bitrate = bitrateSelectedOption.value;
+
+    var encodingQualitySelect = document.getElementById("encoding_quality_select");
+    var encodingQualityOptions = encodingQualitySelect.children;
+    var encodingQualityIndex = encodingQualitySelect.selectedIndex;
+    var encodingQualitySelectedOption = encodingQualityOptions[encodingQualityIndex];
+    var encoding_quality = encodingQualitySelectedOption.value;
+
+    var mp3SettingsArray = {bitrate: bitrate, encoding_quality: encoding_quality};
+
+    var jsonData = JSON.stringify(mp3SettingsArray);
+
+    // request to HTTP server to set radio tuning
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+    var applyMP3SettingsButtonClickedUrl = baseUrl + "applymp3settings.html";
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      //console.log("readyState="+this.readyState+", status="+this.status);
+      if (this.readyState == 4 && this.status == 200) {
+        // response received ok
+        alert("The MP3 streaming settings were changed, and the servers are restarting.  Press the ► Play button to start audio.")
+      }
+    };
+    xhttp.open("POST", applyMP3SettingsButtonClickedUrl, true);
+    xhttp.send(jsonData);
+
+    // handle the audio tag with the new source
+    //window.top.postMessage("startaudio", "*");
+
+    //console.log("postMessage startaudio");
+}
+

@@ -1,0 +1,389 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E6551A4210D9B49000565AF /* stereodemux.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0EA3897E210D7CD900DFC46F /* stereodemux.cc */; };
+		0E6551A9210D9BBD000565AF /* libliquid.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6551A7210D9BBD000565AF /* libliquid.dylib */; };
+		0E6551AA210D9BBD000565AF /* libsndfile.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6551A8210D9BBD000565AF /* libsndfile.1.dylib */; };
+		0E6551AB210DA4BD000565AF /* liquid_wrappers.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAD584210C5AD1005F4BB1 /* liquid_wrappers.cc */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0E65519A210D85C4000565AF /* build_stereodemux.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_stereodemux.sh; sourceTree = "<group>"; };
+		0E6551A1210D9069000565AF /* stereodemux.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = stereodemux.entitlements; sourceTree = "<group>"; };
+		0E6551A7210D9BBD000565AF /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libliquid.dylib; path = ../../../../../../../../opt/local/lib/libliquid.dylib; sourceTree = "<group>"; };
+		0E6551A8210D9BBD000565AF /* libsndfile.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsndfile.1.dylib; path = ../../../../../../../../opt/local/lib/libsndfile.1.dylib; sourceTree = "<group>"; };
+		0EA3897C210D7CD800DFC46F /* autogen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
+		0EA3897D210D7CD800DFC46F /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
+		0EA3897E210D7CD900DFC46F /* stereodemux.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; path = stereodemux.cc; sourceTree = "<group>"; };
+		0EA3897F210D7CD900DFC46F /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		0ECAD571210C57E1005F4BB1 /* stereodemux */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = stereodemux; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ECAD581210C5AD1005F4BB1 /* Could not find liquid-dsp, but liquid-dsp is installed from MacPorts · Issue #45 ·.webarchive */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "Could not find liquid-dsp, but liquid-dsp is installed from MacPorts · Issue #45 ·.webarchive"; sourceTree = SOURCE_ROOT; };
+		0ECAD584210C5AD1005F4BB1 /* liquid_wrappers.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = liquid_wrappers.cc; sourceTree = SOURCE_ROOT; };
+		0ECAD58E210C5AD2005F4BB1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		0ECAD58F210C5AD2005F4BB1 /* liquid_wrappers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = liquid_wrappers.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0ECAD56E210C57E1005F4BB1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E6551A9210D9BBD000565AF /* libliquid.dylib in Frameworks */,
+				0E6551AA210D9BBD000565AF /* libsndfile.1.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E6551A6210D9BBD000565AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E6551A7210D9BBD000565AF /* libliquid.dylib */,
+				0E6551A8210D9BBD000565AF /* libsndfile.1.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0ECAD568210C57E1005F4BB1 = {
+			isa = PBXGroup;
+			children = (
+				0ECAD573210C57E1005F4BB1 /* wfm-tools */,
+				0ECAD572210C57E1005F4BB1 /* Products */,
+				0E6551A6210D9BBD000565AF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0ECAD572210C57E1005F4BB1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0ECAD571210C57E1005F4BB1 /* stereodemux */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0ECAD573210C57E1005F4BB1 /* wfm-tools */ = {
+			isa = PBXGroup;
+			children = (
+				0E65519A210D85C4000565AF /* build_stereodemux.sh */,
+				0ECAD581210C5AD1005F4BB1 /* Could not find liquid-dsp, but liquid-dsp is installed from MacPorts · Issue #45 ·.webarchive */,
+				0ECAD584210C5AD1005F4BB1 /* liquid_wrappers.cc */,
+				0ECAD58F210C5AD2005F4BB1 /* liquid_wrappers.h */,
+				0ECAD58E210C5AD2005F4BB1 /* README.md */,
+				0E6551A1210D9069000565AF /* stereodemux.entitlements */,
+				0ECAD586210C5AD1005F4BB1 /* stereodemux */,
+			);
+			name = "wfm-tools";
+			sourceTree = "<group>";
+		};
+		0ECAD586210C5AD1005F4BB1 /* stereodemux */ = {
+			isa = PBXGroup;
+			children = (
+				0EA3897C210D7CD800DFC46F /* autogen.sh */,
+				0EA3897D210D7CD800DFC46F /* configure.ac */,
+				0EA3897F210D7CD900DFC46F /* Makefile.am */,
+				0EA3897E210D7CD900DFC46F /* stereodemux.cc */,
+			);
+			path = stereodemux;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0ECAD570210C57E1005F4BB1 /* stereodemux */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0ECAD578210C57E1005F4BB1 /* Build configuration list for PBXNativeTarget "stereodemux" */;
+			buildPhases = (
+				0ECAD56D210C57E1005F4BB1 /* Sources */,
+				0ECAD56E210C57E1005F4BB1 /* Frameworks */,
+				0E1068E72111398F000EF74A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = stereodemux;
+			productName = "wfm-tools";
+			productReference = 0ECAD571210C57E1005F4BB1 /* stereodemux */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0ECAD569210C57E1005F4BB1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "ArkPhone LLC";
+				TargetAttributes = {
+					0ECAD570210C57E1005F4BB1 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 0ECAD56C210C57E1005F4BB1 /* Build configuration list for PBXProject "wfm-tools" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0ECAD568210C57E1005F4BB1;
+			productRefGroup = 0ECAD572210C57E1005F4BB1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0ECAD570210C57E1005F4BB1 /* stereodemux */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0E1068E72111398F000EF74A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change \"/opt/local/lib/libliquid.dylib\" \"@executable_path/../Frameworks/libliquid.dylib\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}/stereodemux\"\ninstall_name_tool -change \"/opt/local/lib/libsndfile.1.dylib\" \"@executable_path/../Frameworks/libsndfile.1.dylib\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}/stereodemux\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0ECAD56D210C57E1005F4BB1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E6551A4210D9B49000565AF /* stereodemux.cc in Sources */,
+				0E6551AB210DA4BD000565AF /* liquid_wrappers.cc in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0ECAD576210C57E1005F4BB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = stereodemux.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0ECAD577210C57E1005F4BB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = stereodemux.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0ECAD579210C57E1005F4BB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = stereodemux.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/\"",
+					/opt/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/local/lib/**",
+					"\"$(SRCROOT)/\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-std=c++11",
+					"-Wall",
+					"-Wextra",
+					"-Wstrict-overflow",
+					"-Wshadow",
+					"$(MACPORTS_CF)",
+					"-Wuninitialized",
+					"-pedantic",
+					"$(RFLAGS)",
+					"-Wno-return-type-c-linkage",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/local/lib/**",
+					"\"$(SRCROOT)/\"",
+				);
+			};
+			name = Debug;
+		};
+		0ECAD57A210C57E1005F4BB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = stereodemux.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/\"",
+					/opt/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/local/lib/**",
+					"\"$(SRCROOT)/\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-std=c++11",
+					"-Wall",
+					"-Wextra",
+					"-Wstrict-overflow",
+					"-Wshadow",
+					"$(MACPORTS_CF)",
+					"-Wuninitialized",
+					"-pedantic",
+					"$(RFLAGS)",
+					"-Wno-return-type-c-linkage",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"/opt/local/lib/**",
+					"\"$(SRCROOT)/\"",
+				);
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0ECAD56C210C57E1005F4BB1 /* Build configuration list for PBXProject "wfm-tools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ECAD576210C57E1005F4BB1 /* Debug */,
+				0ECAD577210C57E1005F4BB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0ECAD578210C57E1005F4BB1 /* Build configuration list for PBXNativeTarget "stereodemux" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ECAD579210C57E1005F4BB1 /* Debug */,
+				0ECAD57A210C57E1005F4BB1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0ECAD569210C57E1005F4BB1 /* Project object */;
+}
