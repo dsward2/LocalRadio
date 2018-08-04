@@ -235,7 +235,7 @@
         [audioSourceTaskItem addArgument:@"16"];
         
         [audioSourceTaskItem addArgument:@"-c"];
-        [audioSourceTaskItem addArgument:@"1"];
+        [audioSourceTaskItem addArgument:@"2"];
 
         [audioSourceTaskItem addArgument:@"-t"];
         [audioSourceTaskItem addArgument:@"raw"];
