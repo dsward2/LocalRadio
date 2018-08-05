@@ -1891,14 +1891,16 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
     NSMutableString * resultString = [NSMutableString string];
     
-    NSString * currentMP3Setting = self.appDelegate.mp3SettingsTextField.stringValue;
+    NSString * currentMP3Setting = self.appDelegate.mp3Settings;
     
     NSArray * currentMP3SettingArray = [currentMP3Setting componentsSeparatedByString:@"."];
     
     NSString * currentBitrate = @"16000";
     if (currentMP3SettingArray.count > 0)
     {
-        currentBitrate = currentMP3SettingArray.firstObject;
+        NSString * currentBitrateShort = currentMP3SettingArray.firstObject;
+        NSInteger currentBitrateInteger = currentBitrateShort.integerValue * 1000;
+        currentBitrate = [NSString stringWithFormat:@"%ld", currentBitrateInteger];
     }
     
     NSMutableDictionary * bitrateDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:

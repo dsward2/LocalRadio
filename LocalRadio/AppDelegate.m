@@ -893,6 +893,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     if (mp3SettingsString != NULL)
     {
         self.mp3SettingsTextField.stringValue = mp3SettingsString;
+        self.mp3Settings = mp3SettingsString;
         
         //float mp3SettingsFloat = mp3SettingsString.floatValue;
         //NSInteger mp3SettingsBitrate = fabs(mp3SettingsFloat);
