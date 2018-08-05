@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>419</string>
+	<string>444.7</string>
 	<key>AMApplicationVersion</key>
-	<string>2.6</string>
+	<string>2.8</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -64,14 +64,14 @@
 					<key>displayWarning</key>
 					<false/>
 					<key>explanationText</key>
-					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: sox, UDPSender, UDPListener, rtl_fm_localradio, icecast, ezstream, AudioMonitor.</string>
+					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: sox, UDPSender, UDPListener, rtl_fm_localradio, icecast, ezstream, AudioMonitor, and stereodemux.</string>
 					<key>negativeTitle</key>
 					<string>Cancel</string>
 					<key>questionText</key>
 					<string>Run LocalRadio Clean-up?</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Ask for Confirmation</string>
+				<string>com.apple.Automator.AskforConfirmation</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -173,7 +173,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>318.000000:199.000000</string>
+				<string>270.750000:199.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -275,6 +275,12 @@ else
 	then
     	echo "pkill AudioMonitor"
 		pkill AudioMonitor
+	fi
+
+	if pgrep -x "stereodemux" &gt; /dev/null
+	then
+    	echo "pkill stereodemux"
+		pkill stereodemux
 	fi
 fi
 </string>
@@ -390,9 +396,146 @@ fi
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>318.000000:382.000000</string>
+				<string>270.750000:450.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array/>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>message</key>
+					<dict>
+						<key>tokenizedValue</key>
+						<array>
+							<string>The LocalRadio Clean-up is completed.  Please try launching LocalRadio.app again.</string>
+						</array>
+					</dict>
+					<key>subtitle</key>
+					<dict/>
+					<key>title</key>
+					<dict>
+						<key>tokenizedValue</key>
+						<array>
+							<string>LocalRadio Clean-up Completed.</string>
+						</array>
+					</dict>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array/>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Display Notification.action</string>
+				<key>ActionName</key>
+				<string>Display Notification</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>message</key>
+					<string></string>
+					<key>subtitle</key>
+					<string></string>
+					<key>title</key>
+					<string>LocalRadio Clean-up Completed.</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.Display-Notification</string>
+				<key>CFBundleVersion</key>
+				<string>1.0</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<true/>
+				<key>CanShowWhenRun</key>
+				<false/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>AMDisplayNotificationAction</string>
+				<key>InputUUID</key>
+				<string>8ECB5EFE-BD53-425D-B984-A5F4AB54AB0F</string>
+				<key>Keywords</key>
+				<array/>
+				<key>OutputUUID</key>
+				<string>E7C2DA0B-2E87-4E7E-9292-7EDE1B58AD4F</string>
+				<key>UUID</key>
+				<string>17810AEA-E10E-4539-A179-27F66A9F6362</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>subtitle</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>title</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>message</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>270.750000:640.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Display Notification.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<true/>
@@ -400,7 +543,14 @@ fi
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>2C35D99D-8545-4650-B5FC-7961D0F11DE9</key>
+		<key>0B9E33F7-F22B-4170-B489-6E77A335B564</key>
+		<dict>
+			<key>from</key>
+			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>
+			<key>to</key>
+			<string>17810AEA-E10E-4539-A179-27F66A9F6362 - 17810AEA-E10E-4539-A179-27F66A9F6362</string>
+		</dict>
+		<key>66917305-C763-4618-9E34-1B205CBA8E25</key>
 		<dict>
 			<key>from</key>
 			<string>F71504F6-88ED-4F28-9945-F7A987CB8965 - F71504F6-88ED-4F28-9945-F7A987CB8965</string>
