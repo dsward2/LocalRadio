@@ -537,7 +537,7 @@ Printing description of icecastStatusDictionary:
     [self.icecastStatusParser setDelegate:self];
     [self.icecastStatusParser setShouldResolveExternalEntities:YES];
     
-    BOOL success = [self.icecastStatusParser parse]; // return value not used
+    BOOL success = [self.icecastStatusParser parse];
     
     if (success == YES)
     {

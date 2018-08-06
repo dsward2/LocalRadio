@@ -728,12 +728,15 @@ function frequencyListenButtonClicked()
     var tunerGainSelectedOption = tunerGainOptions[tunerGainIndex];
     var tuner_gain = tunerGainSelectedOption.value;
 
+    var stereo_flag = false;
     var stereoFlagSelect = document.getElementById("stereo_flag");
-    var stereoFlagOptions = stereoFlagSelect.children;
-    var stereoFlagIndex = stereoFlagSelect.selectedIndex;
-    var tunerGainSelectedOption = stereoFlagOptions[stereoFlagIndex];
-    var stereo_flag = tunerGainSelectedOption.value;
-
+    if (stereoFlagSelect !== null)
+    {
+        var stereoFlagOptions = stereoFlagSelect.children;
+        var stereoFlagIndex = stereoFlagSelect.selectedIndex;
+        var tunerGainSelectedOption = stereoFlagOptions[stereoFlagIndex];
+        stereo_flag = tunerGainSelectedOption.value;
+    }
 
     var tuningArray = {frequency:frequency, sample_rate: sample_rate, tuner_gain: tuner_gain, stereo_flag: stereo_flag};
 
