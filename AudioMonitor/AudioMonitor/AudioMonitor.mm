@@ -177,7 +177,8 @@
 
 - (void)runAudioConverterOnThread
 {
-    [NSThread sleepForTimeInterval:0.1f];
+    //[NSThread sleepForTimeInterval:0.1f];
+    usleep(1000);
 
     pid_t originalParentProcessPID = getppid();
     
@@ -295,7 +296,8 @@
 
 - (void)runAudioQueueOnThread
 {
-    [NSThread sleepForTimeInterval:0.2f];
+    //[NSThread sleepForTimeInterval:0.2f];
+    usleep(1000);
 
     if (self.volume > 0.0f)
         {
