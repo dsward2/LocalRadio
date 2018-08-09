@@ -38,4 +38,4 @@ src/rtl_tcp
 CMakeCache.txt
 */CMakeFiles
 CMakeFiles
-*.cmake
+disabled_for_localradio.*.cmake

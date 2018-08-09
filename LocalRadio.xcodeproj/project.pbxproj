@@ -974,9 +974,6 @@
 		0E0FD9AB1EF4A43700FEEA06 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		0E0FD9AC1EF4A43700FEEA06 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
 		0E0FD9AE1EF4A43700FEEA06 /* cmake_uninstall.cmake.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = cmake_uninstall.cmake.in; sourceTree = "<group>"; };
-		0E0FD9B01EF4A43700FEEA06 /* FindLibUSB.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = FindLibUSB.cmake; sourceTree = "<group>"; };
-		0E0FD9B11EF4A43700FEEA06 /* FindThreads.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = FindThreads.cmake; sourceTree = "<group>"; };
-		0E0FD9B21EF4A43700FEEA06 /* Version.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = Version.cmake; sourceTree = "<group>"; };
 		0E0FD9B31EF4A43700FEEA06 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		0E0FD9B41EF4A43700FEEA06 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
 		0E0FD9B51EF4A43700FEEA06 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
@@ -1034,6 +1031,9 @@
 		0E0FDA051EF786BE00FEEA06 /* SQLiteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteController.m; sourceTree = "<group>"; };
 		0E1068E321102CEF000EF74A /* libfftw3f.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libfftw3f.3.dylib; sourceTree = "<group>"; };
 		0E1068E8211582C7000EF74A /* redphone.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = redphone.svg; sourceTree = "<group>"; };
+		0E127495211CD4B30051B2C7 /* FindLibUSB.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = FindLibUSB.cmake; sourceTree = "<group>"; };
+		0E127496211CD4B30051B2C7 /* FindThreads.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = FindThreads.cmake; sourceTree = "<group>"; };
+		0E127497211CD4B30051B2C7 /* Version.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = Version.cmake; sourceTree = "<group>"; };
 		0E12A4E81F5F92D000EB28DF /* FCCSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCCSearchController.h; sourceTree = "<group>"; };
 		0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCCSearchController.m; sourceTree = "<group>"; };
 		0E12A5141F5FC65B00EB28DF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
@@ -2356,19 +2356,9 @@
 			isa = PBXGroup;
 			children = (
 				0E0FD9AE1EF4A43700FEEA06 /* cmake_uninstall.cmake.in */,
-				0E0FD9AF1EF4A43700FEEA06 /* Modules */,
+				0E127494211CD4B30051B2C7 /* Modules */,
 			);
 			path = cmake;
-			sourceTree = "<group>";
-		};
-		0E0FD9AF1EF4A43700FEEA06 /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-				0E0FD9B01EF4A43700FEEA06 /* FindLibUSB.cmake */,
-				0E0FD9B11EF4A43700FEEA06 /* FindThreads.cmake */,
-				0E0FD9B21EF4A43700FEEA06 /* Version.cmake */,
-			);
-			path = Modules;
 			sourceTree = "<group>";
 		};
 		0E0FD9B81EF4A43700FEEA06 /* include */ = {
@@ -2454,6 +2444,16 @@
 				0E0FD9EB1EF4C70700FEEA06 /* rtl_test */,
 			);
 			name = "RTL-SDR tools";
+			sourceTree = "<group>";
+		};
+		0E127494211CD4B30051B2C7 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				0E127495211CD4B30051B2C7 /* FindLibUSB.cmake */,
+				0E127496211CD4B30051B2C7 /* FindThreads.cmake */,
+				0E127497211CD4B30051B2C7 /* Version.cmake */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		0E1BA0A91EC885CA00130DB9 /* MacPorts_Libraries */ = {
