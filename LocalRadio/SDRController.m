@@ -9,7 +9,7 @@
 #import "SDRController.h"
 #import "NSFileManager+DirectoryLocations.h"
 #import "AppDelegate.h"
-#import "SoxController.h"
+//#import "SoxController.h"
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAppSettings.h"
 #import "EZStreamController.h"
@@ -185,78 +185,20 @@
 
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
 
-    NSArray * audioOutputFilterStringArray = [self.audioOutputFilterString componentsSeparatedByString:@" "];
-
     TaskItem * audioSourceTaskItem = NULL;
-    if (audioInputDeviceName == NULL)
+    if (audioInputDeviceName != NULL)
     {
-        sourceChannels = 1;
-    
-        audioSourceTaskItem = [self makeRTLSDRAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];
+        // configure for input from a Core Audio device
+        sourceChannels = 2;
+
+        audioSourceTaskItem = [self makeCoreAudioSourceTaskItem:audioInputDeviceName];
     }
     else
     {
-        // configure for input from a Core Audio device
-        
-        sourceChannels = 2;
-
-        self.tunerSampleRateNumber = [NSNumber numberWithInteger:48000];    // needed for audioMonitorTaskItem
-
-        audioSourceTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
-        
-        [audioSourceTaskItem addArgument:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
-        [audioSourceTaskItem addArgument:@"-q"];    // quiet mode - don't show terminal-style audio meter
-        
-        // input args
-
-        [audioSourceTaskItem addArgument:@"-r"];
-        [audioSourceTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
-        
-        [audioSourceTaskItem addArgument:@"-e"];
-        [audioSourceTaskItem addArgument:@"float"];
-        
-        [audioSourceTaskItem addArgument:@"-b"];
-        [audioSourceTaskItem addArgument:@"32"];
-        
-        [audioSourceTaskItem addArgument:@"-c"];
-        [audioSourceTaskItem addArgument:@"2"];
-        
-        // input from Core Audio device
-        [audioSourceTaskItem addArgument:@"-t"];
-        [audioSourceTaskItem addArgument:@"coreaudio"];       // first stage audio output
-        [audioSourceTaskItem addArgument:audioInputDeviceName];  // quotes are omitted intentionally
-
-        // output args
-        
-        [audioSourceTaskItem addArgument:@"-e"];
-        [audioSourceTaskItem addArgument:@"signed-integer"];
-        
-        [audioSourceTaskItem addArgument:@"-b"];
-        [audioSourceTaskItem addArgument:@"16"];
-        
-        [audioSourceTaskItem addArgument:@"-c"];
-        [audioSourceTaskItem addArgument:@"2"];
-
-        [audioSourceTaskItem addArgument:@"-t"];
-        [audioSourceTaskItem addArgument:@"raw"];
-
-        [audioSourceTaskItem addArgument:@"-"];             // stdout
-        
-        
-        self.audioOutputString = @"icecast";
-        
-        self.statusFunctionString = [NSString stringWithFormat:@"Using Core Audio Input '%@'", audioInputDeviceName];
-        
-        self.frequencyString = [@"N/A" mutableCopy];
-        self.modulationString = @"lpcm";
-        self.squelchLevelNumber = [NSNumber numberWithInteger:0];
-        self.tunerGainNumber = [NSNumber numberWithInteger:0];
-        self.optionsString = @"";
-        self.audioOutputFilterString = @"";
-        self.streamSourceString = @"";
-
-        //[audioSourceTaskItem addArgument:@"rate"];
-        //[audioSourceTaskItem addArgument:@"48000"];
+        // configure for input from RTL-SDR device
+        sourceChannels = 1;
+    
+        audioSourceTaskItem = [self makeRTLSDRAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];
     }
     
     NSInteger intermediateChannels = sourceChannels;
@@ -272,7 +214,7 @@
             NSString * modulation = [freequencyDictionary objectForKey:@"modulation"];
             if (stereo_flagNumber.boolValue == YES)
             {
-                if (sample_rateNumber.integerValue >= 106000)
+                if (sample_rateNumber.integerValue >= 106000)   // stereodemux requires sample rate >= 106000 Hz
                 {
                     if ([modulation isEqualToString:@"fm"] == YES)
                     {
@@ -300,133 +242,21 @@
     
     // Get lpcm from stdin, apply Sox audio processing filters, output lpcm data to stdout
     TaskItem * soxTaskItem = NULL;
-    if (audioOutputFilterStringArray.count > 0)
+    NSString * trimmedFilterString = [self.audioOutputFilterString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (trimmedFilterString.length > 0)
     {
-        soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
+        //soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
+        soxTaskItem = [self makeSoxTaskItem];
     }
 
     // Get lpcm data from stdin, output to UDP port
     TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];
 
-    BOOL useSecondaryStreamSource = NO;
-    
-    if ([self.audioOutputString isEqualToString:@"icecast"])
-    {
-        // if needed, configure sox with user-specified processing options
+    // configure UDPSender task for sending to EZStream/Icecast
 
-        if (soxTaskItem != NULL)
-        {
-            [soxTaskItem addArgument:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
-            [soxTaskItem addArgument:@"-q"];    // quiet mode - don't show terminal-style audio meter
-
-            [soxTaskItem addArgument:@"-r"];
-            [soxTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
-            
-            [soxTaskItem addArgument:@"-e"];
-            [soxTaskItem addArgument:@"signed-integer"];
-            
-            [soxTaskItem addArgument:@"-b"];
-            [soxTaskItem addArgument:@"16"];
-            
-            [soxTaskItem addArgument:@"-c"];
-            [soxTaskItem addArgument:@"2"];
-            
-            [soxTaskItem addArgument:@"-t"];
-            [soxTaskItem addArgument:@"raw"];
-            
-            [soxTaskItem addArgument:@"-"];         // stdin
-
-            // audio output arguments
-
-            //[soxTaskItem addArgument:@"-r"];
-            //[soxTaskItem addArgument:@"48000"];
-
-            [soxTaskItem addArgument:@"-e"];
-            [soxTaskItem addArgument:@"signed-integer"];
-            
-            [soxTaskItem addArgument:@"-b"];
-            [soxTaskItem addArgument:@"16"];
-            
-            [soxTaskItem addArgument:@"-c"];
-            [soxTaskItem addArgument:@"2"];
-
-            [soxTaskItem addArgument:@"-t"];
-            [soxTaskItem addArgument:@"raw"];
-            
-            [soxTaskItem addArgument:@"-"];         // stdout
-            
-            [soxTaskItem addArgument:@"rate"];
-            [soxTaskItem addArgument:@"48000"];
-            
-            for (NSString * audioOutputFilterStringItem in audioOutputFilterStringArray)
-            {
-                [soxTaskItem addArgument:audioOutputFilterStringItem];
-            }
-        }
-
-        // configure UDPSender task for sending to EZStream/Icecast
-
-        [udpSenderTaskItem addArgument:@"-p"];
-        NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"AudioPort"];
-        [udpSenderTaskItem addArgument:audioPortNumber.stringValue];
-    }
-    else
-    {
-        // configure for output to a Core Audio device
-        // audioOutputString should be a Core Audio output devicename
-        // and start a secondary sox task to relay from a different Core Audio device to UDPSender
-        // This can be useful with some third-party audio routing utilities, like SoundFlower
-        
-        [soxTaskItem addArgument:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
-        [soxTaskItem addArgument:@"-q"];    // quiet mode - don't show terminal-style audio meter
-        
-        // input args
-
-        [soxTaskItem addArgument:@"-r"];
-        [soxTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
-        
-        [soxTaskItem addArgument:@"-e"];
-        [soxTaskItem addArgument:@"signed-integer"];
-        
-        [soxTaskItem addArgument:@"-b"];
-        [soxTaskItem addArgument:@"16"];
-        
-        [soxTaskItem addArgument:@"-c"];
-        [soxTaskItem addArgument:@"2"];
-        
-        [soxTaskItem addArgument:@"-t"];
-        [soxTaskItem addArgument:@"raw"];
-        
-        [soxTaskItem addArgument:@"-"];         // stdin
-
-        // output args
-        
-        [soxTaskItem addArgument:@"-e"];
-        [soxTaskItem addArgument:@"float"];
-        
-        [soxTaskItem addArgument:@"-b"];
-        [soxTaskItem addArgument:@"32"];
-        
-        [soxTaskItem addArgument:@"-c"];
-        [soxTaskItem addArgument:@"2"];
-        
-        // send output to a Core Audio device
-        [soxTaskItem addArgument:@"-t"];
-
-        [soxTaskItem addArgument:@"coreaudio"];       // first stage audio output
-        [soxTaskItem addArgument:self.audioOutputString];  // quotes are omitted intentionally
-        
-        [soxTaskItem addArgument:@"rate"];
-        [soxTaskItem addArgument:@"48000"];
-
-        // output sox options like vol, etc.
-        for (NSString * audioOutputFilterStringItem in audioOutputFilterStringArray)
-        {
-            [soxTaskItem addArgument:audioOutputFilterStringItem];
-        }
-
-        useSecondaryStreamSource = YES;     // create a separate task to get audio to EZStream
-    }
+    [udpSenderTaskItem addArgument:@"-p"];
+    NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"AudioPort"];
+    [udpSenderTaskItem addArgument:audioPortNumber.stringValue];
 
     // TODO: BUG: For an undetermined reason, AudioMonitor fails to launch as an NSTask in a sandboxed app extracted from an Xcode Archive
     // if the application path contains a space (e.g., "~/Untitled Folder/LocalRadio.app".
@@ -449,16 +279,8 @@
             [self.radioTaskPipelineManager addTaskItem:soxTaskItem];    // perform user-specified SoX processing
         }
         
-        if (useSecondaryStreamSource == NO)
-        {
-            // send audio to EZStream/icecast
-            [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
-        }
-        else
-        {
-            // send audio to user-specified output device for external processing in a separate app
-            [self.appDelegate.soxController startSecondaryStreamForFrequencies:frequenciesArray category:categoryDictionary];
-        }
+        // send audio to EZStream/icecast
+        [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
     }
 
     [self.radioTaskPipelineManager startTasks];
@@ -519,6 +341,134 @@
             self.appDelegate.statusSamplingModeTextField.stringValue = @"Direct Q-branch";
         }
     });
+}
+
+//==================================================================================
+//    makeCoreAudioSourceTaskItem:
+//==================================================================================
+
+- (TaskItem *)makeCoreAudioSourceTaskItem:(NSString *)audioInputDeviceName
+{
+    self.tunerSampleRateNumber = [NSNumber numberWithInteger:48000];    // needed for audioMonitorTaskItem
+
+    TaskItem * audioSourceTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
+
+    [audioSourceTaskItem addArgument:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
+    [audioSourceTaskItem addArgument:@"-q"];    // quiet mode - don't show terminal-style audio meter
+
+    // input args
+
+    [audioSourceTaskItem addArgument:@"-r"];
+    [audioSourceTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
+
+    [audioSourceTaskItem addArgument:@"-e"];
+    [audioSourceTaskItem addArgument:@"float"];
+
+    [audioSourceTaskItem addArgument:@"-b"];
+    [audioSourceTaskItem addArgument:@"32"];
+
+    [audioSourceTaskItem addArgument:@"-c"];
+    [audioSourceTaskItem addArgument:@"2"];
+
+    // input from Core Audio device
+    [audioSourceTaskItem addArgument:@"-t"];
+    [audioSourceTaskItem addArgument:@"coreaudio"];       // first stage audio output
+    [audioSourceTaskItem addArgument:audioInputDeviceName];  // quotes are omitted intentionally
+
+    // output args
+
+    [audioSourceTaskItem addArgument:@"-e"];
+    [audioSourceTaskItem addArgument:@"signed-integer"];
+
+    [audioSourceTaskItem addArgument:@"-b"];
+    [audioSourceTaskItem addArgument:@"16"];
+
+    [audioSourceTaskItem addArgument:@"-c"];
+    [audioSourceTaskItem addArgument:@"2"];
+
+    [audioSourceTaskItem addArgument:@"-t"];
+    [audioSourceTaskItem addArgument:@"raw"];
+
+    [audioSourceTaskItem addArgument:@"-"];             // stdout
+
+
+    self.audioOutputString = @"icecast";
+
+    self.statusFunctionString = [NSString stringWithFormat:@"Using Core Audio Input '%@'", audioInputDeviceName];
+
+    self.frequencyString = [@"N/A" mutableCopy];
+    self.modulationString = @"lpcm";
+    self.squelchLevelNumber = [NSNumber numberWithInteger:0];
+    self.tunerGainNumber = [NSNumber numberWithInteger:0];
+    self.optionsString = @"";
+    self.audioOutputFilterString = @"";
+    self.streamSourceString = @"";
+
+    //[audioSourceTaskItem addArgument:@"rate"];
+    //[audioSourceTaskItem addArgument:@"48000"];
+
+    return audioSourceTaskItem;
+}
+
+//==================================================================================
+//    makeSoxTaskItem
+//==================================================================================
+
+- (TaskItem *)makeSoxTaskItem
+{
+    NSString * trimmedFilterString = [self.audioOutputFilterString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSArray * audioOutputFilterStringArray = [trimmedFilterString componentsSeparatedByString:@" "];
+
+    TaskItem * soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];;
+
+    [soxTaskItem addArgument:@"-V2"];    // debug verbosity, -V2 shows failures and warnings
+    [soxTaskItem addArgument:@"-q"];    // quiet mode - don't show terminal-style audio meter
+
+    [soxTaskItem addArgument:@"-r"];
+    [soxTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
+    
+    [soxTaskItem addArgument:@"-e"];
+    [soxTaskItem addArgument:@"signed-integer"];
+    
+    [soxTaskItem addArgument:@"-b"];
+    [soxTaskItem addArgument:@"16"];
+    
+    [soxTaskItem addArgument:@"-c"];
+    [soxTaskItem addArgument:@"2"];
+    
+    [soxTaskItem addArgument:@"-t"];
+    [soxTaskItem addArgument:@"raw"];
+    
+    [soxTaskItem addArgument:@"-"];         // stdin
+
+    // audio output arguments
+
+    //[soxTaskItem addArgument:@"-r"];
+    //[soxTaskItem addArgument:@"48000"];
+
+    [soxTaskItem addArgument:@"-e"];
+    [soxTaskItem addArgument:@"signed-integer"];
+    
+    [soxTaskItem addArgument:@"-b"];
+    [soxTaskItem addArgument:@"16"];
+    
+    [soxTaskItem addArgument:@"-c"];
+    [soxTaskItem addArgument:@"2"];
+
+    [soxTaskItem addArgument:@"-t"];
+    [soxTaskItem addArgument:@"raw"];
+    
+    [soxTaskItem addArgument:@"-"];         // stdout
+    
+    [soxTaskItem addArgument:@"rate"];
+    [soxTaskItem addArgument:@"48000"];
+    
+    for (NSString * audioOutputFilterStringItem in audioOutputFilterStringArray)
+    {
+        [soxTaskItem addArgument:audioOutputFilterStringItem];
+    }
+    
+    return soxTaskItem;
 }
 
 //==================================================================================

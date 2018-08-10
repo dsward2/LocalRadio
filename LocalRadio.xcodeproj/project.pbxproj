@@ -103,7 +103,6 @@
 		0E1BA1791EC8A0C200130DB9 /* libz.1.2.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA1351EC8A09700130DB9 /* libz.1.2.11.dylib */; };
 		0E207E731F1DA81C001AA972 /* editcategorysettings.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E207E721F1DA81C001AA972 /* editcategorysettings.html */; };
 		0E207E991F1DCA99001AA972 /* storecategory.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E207E981F1DCA99001AA972 /* storecategory.html */; };
-		0E23B3161F1F36EE00565394 /* SoxController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E23B3151F1F36ED00565394 /* SoxController.m */; };
 		0E28BE6B1F2B6A48005999FB /* UDPStatusListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */; };
 		0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */; };
 		0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */; };
@@ -6708,7 +6707,6 @@
 				0E0A95001F109104002E2E5B /* EZStreamController.m in Sources */,
 				0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */,
 				0E4ED1831EAB7DA700D2157B /* HTTPConnection.m in Sources */,
-				0E23B3161F1F36EE00565394 /* SoxController.m in Sources */,
 				0ED6CA9B20B2089700D82331 /* DDTTYLogger.m in Sources */,
 				0E4ED1AD1EAB823B00D2157B /* WebServerController.m in Sources */,
 				0E12A4EA1F5F92D000EB28DF /* FCCSearchController.m in Sources */,

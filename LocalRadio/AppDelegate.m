@@ -19,7 +19,7 @@
 #import "SDRController.h"
 #import "IcecastController.h"
 #import "EZStreamController.h"
-#import "SoxController.h"
+//#import "SoxController.h"
 #import "NSFileManager+DirectoryLocations.h"
 #import "WebViewDelegate.h"
 #import "UDPStatusListenerController.h"
@@ -275,11 +275,6 @@ typedef struct kinfo_proc kinfo_proc;
         NSString * radioTasksString = self.sdrController.radioTaskPipelineManager.tasksInfoString;
         [tasksString appendString:radioTasksString];
 
-        [tasksString appendString:@"--- Sox second-stage audio tasks ---"];
-        
-        NSString * soxTasksString = self.soxController.soxControllerTaskPipelineManager.tasksInfoString;
-        [tasksString appendString:soxTasksString];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
         
             [self.statusCurrentTasksTextView setString:tasksString];
