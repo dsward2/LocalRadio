@@ -6,7 +6,7 @@
 //  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
-//  Currently not used
+//  Currently not used`
 //  Was previous in LocalRadio to pipe audio from an external application via Core Audio virtual device, to Icecast
 
 #import "SoxController.h"

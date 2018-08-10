@@ -319,9 +319,7 @@
         self.appDelegate.statusTunerGainTextField.stringValue = [NSString stringWithFormat:@"%@", self.tunerGainNumber];
         self.appDelegate.statusRtlsdrOptionsTextField.stringValue = self.optionsString;
         self.appDelegate.statusSignalLevelTextField.stringValue = @"0";
-        self.appDelegate.statusAudioOutputTextField.stringValue = self.audioOutputString;
         self.appDelegate.statusAudioOutputFilterTextField.stringValue = self.audioOutputFilterString;
-        self.appDelegate.statusStreamSourceTextField.stringValue = self.streamSourceString;
         
         if (self.enableTunerAGC == YES)
         {
@@ -391,9 +389,6 @@
 
     [audioSourceTaskItem addArgument:@"-"];             // stdout
 
-
-    self.audioOutputString = @"icecast";
-
     self.statusFunctionString = [NSString stringWithFormat:@"Using Core Audio Input '%@'", audioInputDeviceName];
 
     self.frequencyString = [@"N/A" mutableCopy];
@@ -402,7 +397,6 @@
     self.tunerGainNumber = [NSNumber numberWithInteger:0];
     self.optionsString = @"";
     self.audioOutputFilterString = @"";
-    self.streamSourceString = @"";
 
     //[audioSourceTaskItem addArgument:@"rate"];
     //[audioSourceTaskItem addArgument:@"48000"];
@@ -485,10 +479,8 @@
     self.squelchLevelNumber = [NSNumber numberWithInteger:0];
     self.tunerSampleRateNumber = [NSNumber numberWithInteger:10000];
     self.optionsString = @"";
-    self.audioOutputString = @"";
     self.audioOutputFilterString = @"";
     self.statusFunctionString = @"No active tuning";
-    self.streamSourceString = @"";
     self.enableDirectSamplingQBranchMode = NO;
     self.enableTunerAGC = NO;
     self.stereoFlag = NO;
@@ -517,8 +509,6 @@
             self.tunerSampleRateNumber = [firstFrequencyDictionary objectForKey:@"sample_rate"];
             self.optionsString = [firstFrequencyDictionary objectForKey:@"options"];
             self.audioOutputFilterString = [firstFrequencyDictionary objectForKey:@"audio_output_filter"];
-            self.audioOutputString = [firstFrequencyDictionary objectForKey:@"audio_output"];
-            self.streamSourceString = [firstFrequencyDictionary objectForKey:@"stream_source"];
             
             nameString = [firstFrequencyDictionary objectForKey:@"station_name"];
             categoryScanningEnabledNumber = [NSNumber numberWithInteger:0];
@@ -581,8 +571,6 @@
         self.tunerSampleRateNumber = [categoryDictionary objectForKey:@"scan_sample_rate"];
         self.optionsString = [categoryDictionary objectForKey:@"scan_options"];
         self.audioOutputFilterString = [categoryDictionary objectForKey:@"scan_audio_output_filter"];
-        self.audioOutputString = [categoryDictionary objectForKey:@"scan_audio_output"];
-        self.streamSourceString = [categoryDictionary objectForKey:@"scan_stream_source"];
 
         nameString = [categoryDictionary objectForKey:@"category_name"];
         categoryScanningEnabledNumber = [categoryDictionary objectForKey:@"category_scanning_enabled"];
@@ -643,10 +631,6 @@
 
     self.rtlsdrTaskFrequenciesArray = frequenciesArray;
     
-    NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    self.audioOutputString = [self.audioOutputString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-    self.streamSourceString = [self.streamSourceString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
     TaskItem * audioSourceTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"rtl_fm_localradio" functionName:@"rtl_fm_localradio"];
 
@@ -695,7 +679,7 @@
     NSArray * optionsArray = [self.optionsString componentsSeparatedByString:@" "];
     for (NSString * aOptionString in optionsArray)
     {
-        NSString * trimmedOptionString = [aOptionString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
+        NSString * trimmedOptionString = [aOptionString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if (trimmedOptionString.length > 0)
         {
             [audioSourceTaskItem addArgument:@"-E"];

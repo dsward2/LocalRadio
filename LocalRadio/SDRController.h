@@ -28,11 +28,9 @@
 @property (strong) NSNumber * tunerGainNumber;
 @property (strong) NSNumber * squelchLevelNumber;
 @property (strong) NSString * optionsString;
-@property (strong) NSString * audioOutputString;
 @property (strong) NSString * audioOutputFilterString;
 @property (strong) NSNumber * tunerSampleRateNumber;
 @property (strong) NSString * statusFunctionString;
-@property (strong) NSString * streamSourceString;
 
 @property (strong) NSString * deviceName;
 

@@ -156,7 +156,7 @@
 
     NSInteger frequencyID = [frequencyIDString integerValue];
 
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, audio_output, stream_source, stereo_flag FROM frequency WHERE id='%ld';", frequencyID];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency WHERE id='%ld';", frequencyID];
     
     //NSLog(@"frequencyRecordForID queryString = %@", queryString);
     
@@ -182,7 +182,7 @@
     
     NSInteger frequency = [frequencyString integerValue];
 
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, audio_output, stream_source FROM frequency WHERE frequency='%ld';", frequency];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency WHERE frequency='%ld';", frequency];
     
     //NSLog(@"frequencyRecordForID queryString = %@", queryString);
     
@@ -205,7 +205,7 @@
 
 - (NSArray *)allFrequencyRecords
 {
-    NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, audio_output, stream_source FROM frequency ORDER BY frequency;";
+    NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency ORDER BY frequency;";
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
     return queryResultArray;
@@ -236,7 +236,7 @@
         //NSNumber * catIDNumber = [freqCatDictionary objectForKey:@"cat_id"];
         //NSString * catIDString = [catIDNumber stringValue];
 
-        NSString * freqQueryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, audio_output, stream_source FROM frequency WHERE id='%@';", freqIDNumber];
+        NSString * freqQueryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency WHERE id='%@';", freqIDNumber];
         NSArray * frequencyResultArray = [SQLiteLibrary performQueryAndGetResultList:freqQueryString];
         if (frequencyResultArray.count > 0)
         {
@@ -263,7 +263,7 @@
 {
     NSInteger categoryID = [categoryIDString integerValue];
     
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sample_rate, scan_oversampling, scan_sampling_mode, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter, scan_audio_output, scan_stream_source FROM category WHERE id='%ld' LIMIT 1;", categoryID];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sample_rate, scan_oversampling, scan_sampling_mode, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category WHERE id='%ld' LIMIT 1;", categoryID];
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
     
     NSDictionary * categoryDictionary = queryResultArray.firstObject;
@@ -277,7 +277,7 @@
 
 - (NSDictionary *)categoryRecordForName:(NSString *)categoryNameString
 {
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter, scan_audio_output, scan_stream_source FROM category WHERE category_name='%@' LIMIT 1;", categoryNameString];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category WHERE category_name='%@' LIMIT 1;", categoryNameString];
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
     
     NSDictionary * categoryDictionary = queryResultArray.firstObject;
@@ -291,7 +291,7 @@
 
 - (NSArray *)allCategoryRecords
 {
-    NSString * queryString = @"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter, scan_audio_output, scan_stream_source FROM category ORDER BY category_name;";
+    NSString * queryString = @"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category ORDER BY category_name;";
     
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
 

@@ -53,9 +53,7 @@
 @property (weak) IBOutlet NSTextField * statusTunerGainTextField;
 @property (weak) IBOutlet NSTextField * statusTunerAGCTextField;
 @property (weak) IBOutlet NSTextField * statusSamplingModeTextField;
-@property (weak) IBOutlet NSTextField * statusAudioOutputTextField;
 @property (weak) IBOutlet NSTextField * statusAudioOutputFilterTextField;
-@property (weak) IBOutlet NSTextField * statusStreamSourceTextField;
 @property (weak) IBOutlet NSTextField * statusSignalLevelTextField;
 @property (weak) IBOutlet NSTextField * statusSquelchLevelTextField;
 @property (weak) IBOutlet NSTextField * statusRtlsdrOptionsTextField;

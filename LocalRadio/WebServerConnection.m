@@ -534,7 +534,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                         NSMutableDictionary * deviceDictionary = [deviceArrayObject mutableCopy];
                         
                         NSString * settingName = [deviceDictionary objectForKey:@"name"];
-                        if ([settingName isEqualToString:@"audio_output"] == YES)
+                        if ([settingName isEqualToString:@"audio_input"] == YES)
                         {
                             NSString * deviceName = [deviceDictionary objectForKey:@"value"];
                         
@@ -635,14 +635,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     dataName = [dataName stringByTrimmingCharactersInSet:whitespaceCharacterSet];
                     dataValue = [dataValue stringByTrimmingCharactersInSet:whitespaceCharacterSet];
                     
-                    if ([dataName isEqualToString:@"scan_audio_output"] == YES)
-                    {
-                        if ([dataValue isEqualToString:@"Built-in Icecast Server"] == YES)
-                        {
-                            dataValue = @"icecast";
-                        }
-                    }
-
                     if ([dataName isEqualToString:@"scan_sampling_mode"] == YES)
                     {
                         if ([dataValue isEqualToString:@"sampling_mode_standard"] == YES)
@@ -811,14 +803,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     id validColumn = [prototypeDictionary objectForKey:dataName];
                     if (validColumn != NULL)
                     {
-                        if ([dataName isEqualToString:@"audio_output"] == YES)
-                        {
-                            if ([dataValue isEqualToString:@"Built-in Icecast Server"] == YES)
-                            {
-                                dataValue = @"icecast";
-                            }
-                        }
-                        
                         if ([dataName isEqualToString:@"frequency_mode"] == YES)
                         {
                             if ([dataValue isEqualToString:@"frequency_mode_single"] == YES)
@@ -1268,14 +1252,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     id validField = [frequencyDictionary objectForKey:dataName];
                     if (validField != NULL)
                     {
-                        if ([dataName isEqualToString:@"audio_output"] == YES)
-                        {
-                            if ([dataValue isEqualToString:@"Built-in Icecast Server"] == YES)
-                            {
-                                dataValue = @"icecast";
-                            }
-                        }
-                        
                         if ([dataName isEqualToString:@"frequency_mode"] == YES)
                         {
                             if ([dataValue isEqualToString:@"frequency_mode_single"] == YES)
@@ -2556,10 +2532,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSString * scanAudioOutputFilterString = [categoryDictionary objectForKey:@"scan_audio_output_filter"];
 
-        NSString * scanAudioOutputString = [categoryDictionary objectForKey:@"scan_audio_output"];
-        
-        NSString * scanStreamSourceString = [categoryDictionary objectForKey:@"scan_stream_source"];
-        
         NSMutableString * formString = [NSMutableString string];
         [formString appendString:@"<form class='editcategorysettings' id='editcategorysettings' onsubmit='event.preventDefault(); return storeCategoryRecord(this);' method='POST'>"];
         
@@ -2768,81 +2740,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='frequency'>Sox Audio Output Filter:</label><input class='twelve columns value-prop' type='text' id='scan_audio_output_filter' name='scan_audio_output_filter' value='%@'>", scanAudioOutputFilterString];
         [formString appendString:formAudioOutputFilterString];
-
-
-
-        NSArray * audioDeviceArray = [self generateAudioDeviceList];
-        
-        [formString appendString:@"<label for='scan_audio_output'>Audio Output</label>"];
-        [formString appendString:@"<select name='scan_audio_output' class='twelve columns value-prop'>"];
-        
-        NSString * icecastOutputSelectedString = @"";
-        if ([scanAudioOutputString isEqualToString:@"icecast"] == YES)
-        {
-            icecastOutputSelectedString = @"selected";
-        }
-        [formString appendFormat:@"<option value='icecast' %@>Built-in Icecast Server</option>", icecastOutputSelectedString];
-
-        for (NSDictionary * deviceDictionary in audioDeviceArray)
-        {
-            NSNumber * outputChannelCountNumber = [deviceDictionary objectForKey:@"outputChannelCount"];
-            NSInteger outputChannelCount = outputChannelCountNumber.integerValue;
-            if (outputChannelCount > 0)
-            {
-                NSString * deviceName = [deviceDictionary objectForKey:@"deviceName"];
-                
-                NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-                deviceName = [deviceName stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-                
-                //deviceName = [@" " stringByAppendingString:deviceName];
-                
-                NSString * optionSelectedString = @"";
-                if ([scanAudioOutputString isEqualToString:deviceName] == YES)
-                {
-                    optionSelectedString = @"selected";
-                }
-                
-                [formString appendFormat:@"<option value='%@' %@>%@</option><br>", deviceName, optionSelectedString, deviceName];
-            }
-        }
-        [formString appendString:@"</select>"];
-
-
-        [formString appendString:@"<label for='scan_stream_source'>Stream Source</label>"];
-        [formString appendString:@"<select name='scan_stream_source' class='twelve columns value-prop'>"];
-
-        NSString * icecastStreamSelectedString = @"";
-        if ([scanStreamSourceString isEqualToString:@"icecast"] == YES)
-        {
-            icecastStreamSelectedString = @"selected";
-        }
-        [formString appendFormat:@"<option value='icecast' %@>Built-in Icecast Server</option>", icecastStreamSelectedString];
-
-        for (NSDictionary * deviceDictionary in audioDeviceArray)
-        {
-            NSNumber * outputChannelCountNumber = [deviceDictionary objectForKey:@"outputChannelCount"];
-            NSInteger outputChannelCount = outputChannelCountNumber.integerValue;
-            if (outputChannelCount > 0)
-            {
-                NSString * deviceName = [deviceDictionary objectForKey:@"deviceName"];
-
-                NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-                deviceName = [deviceName stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-
-                //deviceName = [@" " stringByAppendingString:deviceName];
-                
-                NSString * optionSelectedString = @"";
-                if ([scanStreamSourceString isEqualToString:deviceName] == YES)
-                {
-                    optionSelectedString = @"selected";
-                }
-                
-                [formString appendFormat:@"<option value='%@' %@>%@</option><br>", deviceName, optionSelectedString, deviceName];
-            }
-        }
-        [formString appendString:@"</select>"];
-
-
         
         NSString * idInputString = [NSString stringWithFormat:@"<input type='hidden' name='id' value='%@'>", idString];
         [formString appendString:idInputString];
@@ -2891,8 +2788,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
     NSArray * audioDeviceArray = [self generateAudioDeviceList];
     
-    [formString appendString:@"<label for='audio_output'>Select Audio Input</label>\n"];
-    [formString appendString:@"<select name='audio_output' class='twelve columns value-prop' title='The Audio Input setting selects a Core Audio device, like \"Built-in Input\".'>\n"];
+    [formString appendString:@"<label for='audio_input'>Select Audio Input</label>\n"];
+    [formString appendString:@"<select name='audio_input' class='twelve columns value-prop' title='The Audio Input setting selects a Core Audio device, like \"Built-in Input\".'>\n"];
     
     for (NSDictionary * deviceDictionary in audioDeviceArray)
     {
@@ -2990,10 +2887,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * atanMathString = [favoriteDictionary objectForKey:@"atan_math"];
 
         NSString * audioOutputFilterString = [favoriteDictionary objectForKey:@"audio_output_filter"];
-
-        NSString * audioOutputString = [favoriteDictionary objectForKey:@"audio_output"];
-        
-        NSString * streamSourceString = [favoriteDictionary objectForKey:@"stream_source"];
 
         NSNumber * stereoFlagNumber = [favoriteDictionary objectForKey:@"stereo_flag"];
         NSString * stereoFlagString = [stereoFlagNumber stringValue];
@@ -3261,80 +3154,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='frequency'>Sox Audio Output Filter:</label>\n<input class='twelve columns value-prop' type='text' id='audio_output_filter' name='audio_output_filter' value='%@' title='The Audio Output Filter is used by the Sox audio tool for several purposes.  This filter is for the final Sox output.  The default value is \"vol 1\".  Do not set a \"rate\" command here, LocalRadio automatically sets the sample rate to 48000.'>\n", audioOutputFilterString];
         [formString appendString:formAudioOutputFilterString];
 
-
-
-        NSArray * audioDeviceArray = [self generateAudioDeviceList];
-        
-        [formString appendString:@"<label for='audio_output'>Audio Output</label>\n"];
-        [formString appendString:@"<select name='audio_output' class='twelve columns value-prop' title='The Audio Output setting controls the destination of audio from the radio and final Sox filters.  The default setting is \"Built-in Icecast Server\" for normal usage.'>\n"];
-        
-        NSString * icecastOutputSelectedString = @"";
-        if ([audioOutputString isEqualToString:@"icecast"] == YES)
-        {
-            icecastOutputSelectedString = @"selected";
-        }
-        [formString appendFormat:@"<option value='icecast' %@>Built-in Icecast Server</option>\n", icecastOutputSelectedString];
-
-        for (NSDictionary * deviceDictionary in audioDeviceArray)
-        {
-            NSNumber * outputChannelCountNumber = [deviceDictionary objectForKey:@"outputChannelCount"];
-            NSInteger outputChannelCount = outputChannelCountNumber.integerValue;
-            if (outputChannelCount > 0)
-            {
-                NSString * deviceName = [deviceDictionary objectForKey:@"deviceName"];
-
-                NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-                deviceName = [deviceName stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-
-                //deviceName = [@" " stringByAppendingString:deviceName];
-                
-                NSString * optionSelectedString = @"";
-                if ([audioOutputString isEqualToString:deviceName] == YES)
-                {
-                    optionSelectedString = @"selected";
-                }
-                
-                [formString appendFormat:@"<option value='%@' %@>%@</option><br>\n", deviceName, optionSelectedString, deviceName];
-            }
-        }
-        [formString appendString:@"</select>\n"];
-
-
-        [formString appendString:@"<label for='stream_source'>Stream Source</label>\n"];
-        [formString appendString:@"<select name='stream_source' class='twelve columns value-prop' title='The Stream Source controls the input to the Icecast server for streaming audio.  The default setting is \"Built-in Icecast Server\" for normal usage.'>\n"];
-
-        NSString * icecastStreamSelectedString = @"";
-        if ([streamSourceString isEqualToString:@"icecast"] == YES)
-        {
-            icecastStreamSelectedString = @"selected";
-        }
-        [formString appendFormat:@"<option value='icecast' %@>Built-in Icecast Server</option>\n", icecastStreamSelectedString];
-
-        for (NSDictionary * deviceDictionary in audioDeviceArray)
-        {
-            NSNumber * outputChannelCountNumber = [deviceDictionary objectForKey:@"outputChannelCount"];
-            NSInteger outputChannelCount = outputChannelCountNumber.integerValue;
-            if (outputChannelCount > 0)
-            {
-                NSString * deviceName = [deviceDictionary objectForKey:@"deviceName"];
-
-                NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-                deviceName = [deviceName stringByTrimmingCharactersInSet:whitespaceCharacterSet];
-
-                //deviceName = [@" " stringByAppendingString:deviceName];
-                
-                NSString * optionSelectedString = @"";
-                if ([streamSourceString isEqualToString:deviceName] == YES)
-                {
-                    optionSelectedString = @"selected";
-                }
-                
-                [formString appendFormat:@"<option value='%@' %@>%@</option>\n<br>\n", deviceName, optionSelectedString, deviceName];
-            }
-        }
-        [formString appendString:@"</select>\n"];
-
-
         [formString appendString:@"&nbsp;<br>\n"];
         
         
@@ -3541,41 +3360,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * frequencyScanIntervalNumericString = [frequencyScanIntervalNumber stringValue];
         NSString * frequencyScanIntervalString = [self.appDelegate shortHertzString:frequencyScanIntervalNumericString];
         
-        /*
-        NSNumber * tunerGainNumber = [favoriteDictionary objectForKey:@"tuner_gain"];
-        NSString * tunerGainString = [tunerGainNumber stringValue];
-
-        NSNumber * tunerAGCNumber = [favoriteDictionary objectForKey:@"tuner_agc"];
-        NSString * tunerAGCString = [tunerAGCNumber stringValue];
-
-        NSNumber * samplingModeNumber = [favoriteDictionary objectForKey:@"sampling_mode"];
-        NSString * samplingModeString = [samplingModeNumber stringValue];
-
-        NSNumber * sampleRateNumber = [favoriteDictionary objectForKey:@"sample_rate"];
-        NSString * sampleRateString = [sampleRateNumber stringValue];
-
-        NSNumber * oversamplingNumber = [favoriteDictionary objectForKey:@"oversampling"];
-        NSString * oversamplingString = [oversamplingNumber stringValue];
-
-        NSString * modulationString = [favoriteDictionary objectForKey:@"modulation"];
-
-        NSNumber * squelchLevelNumber = [favoriteDictionary objectForKey:@"squelch_level"];
-        NSString * squelchLevelString = [squelchLevelNumber stringValue];
-
-        NSString * optionsString = [favoriteDictionary objectForKey:@"options"];
-
-        NSNumber * firSizeNumber = [favoriteDictionary objectForKey:@"fir_size"];
-        NSString * firSizeString = [firSizeNumber stringValue];
-
-        NSString * atanMathString = [favoriteDictionary objectForKey:@"atan_math"];
-
-        NSString * audioOutputFilterString = [favoriteDictionary objectForKey:@"audio_output_filter"];
-
-        NSString * audioOutputString = [favoriteDictionary objectForKey:@"audio_output"];
-        
-        NSString * streamSourceString = [favoriteDictionary objectForKey:@"stream_source"];
-        */
-
         [resultString appendString:@"<tr>"];
         
         [resultString appendString:@"<td>"];

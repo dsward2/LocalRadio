@@ -866,14 +866,13 @@ function periodicUpdate()
 }
 
 // Printing description of statusData:
-// {"modulation":"fm","oversampling":4,"signal_level":19,"options":"","frequency_scan_interval":0,"tuner_gain":49.7,"station_name":"KUAR-NPR Little Rock 89.1","atan_math":"std","stream_source":"icecast","sampling_mode":0,"sample_rate":85000,"frequency_mode":0,"squelch_level":0,"id":4,"tuner_agc":1,"frequency_scan_end":0,"fir_size":9,"audio_output_filter":"vol 1","audio_output":"icecast","frequency":89100000}
+// {"modulation":"fm","oversampling":4,"signal_level":19,"options":"","frequency_scan_interval":0,"tuner_gain":49.7,"station_name":"KUAR-NPR Little Rock 89.1","atan_math":"std","sampling_mode":0,"sample_rate":85000,"frequency_mode":0,"squelch_level":0,"id":4,"tuner_agc":1,"frequency_scan_end":0,"fir_size":9,"audio_output_filter":"vol 1","frequency":89100000}
 function updateStatusDisplay(statusData)
 {
     var statusObj = JSON.parse(statusData);
     
     var rtlsdr_task_mode = statusObj.rtlsdr_task_mode;
     
-    var audio_output = statusObj.audio_output;
     var audio_output_filter = statusObj.audio_output_filter;
     var atan_math = statusObj.atan_math;
     var fir_size = statusObj.fir_size;
@@ -890,7 +889,6 @@ function updateStatusDisplay(statusData)
     var signal_level = statusObj.signal_level;
     var squelch_level = statusObj.squelch_level;
     var station_name = statusObj.station_name;
-    var stream_source = statusObj.stream_source;
     var tuner_agc = statusObj.tuner_agc;
     var tuner_gain = statusObj.tuner_gain;
     
@@ -905,7 +903,6 @@ function updateStatusDisplay(statusData)
 
     if (rtlsdr_task_mode == "scan")
     {
-        audio_output = statusObj.scan_audio_output;
         audio_output_filter = statusObj.scan_audio_output_filter;
         atan_math = statusObj.scan_atan_math;
         fir_size = statusObj.scan_fir_size;
@@ -916,7 +913,6 @@ function updateStatusDisplay(statusData)
         sample_rate = statusObj.scan_sample_rate;
         sampling_mode = statusObj.scan_sampling_mode;
         squelch_level = statusObj.scan_squelch_level;
-        stream_source = statusObj.scan_stream_source;
         tuner_agc = statusObj.scan_tuner_agc;
         tuner_gain = statusObj.scan_tuner_gain;
     }
@@ -983,12 +979,6 @@ function updateStatusDisplay(statusData)
         statusHtml += "<br>";
         statusHtml += "audio output filter: rate 48000 ";
         statusHtml += audio_output_filter;
-        statusHtml += "<br>";
-        statusHtml += "audio output: ";
-        statusHtml += audio_output;
-        statusHtml += "<br>";
-        statusHtml += "stream source: ";
-        statusHtml += stream_source;
         statusHtml += "<br>";
         statusHtml += "<div>";
 
