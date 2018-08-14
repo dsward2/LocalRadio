@@ -56,6 +56,16 @@
 
 
 
+- (TaskItem *) makeTaskItemWithPathToExecutable:(NSString *)executablePath functionName:(NSString *)functionName
+{
+    TaskItem * taskItem = [[TaskItem alloc] init];
+    
+    taskItem.path = executablePath;
+    taskItem.functionName = functionName;
+    
+    return taskItem;
+}
+
 
 - (void) addTaskItem:(TaskItem *)taskItem
 {

@@ -19,6 +19,7 @@
 @class WebViewDelegate;
 @class UDPStatusListenerController;
 @class FCCMapController;
+@class CustomTaskController;
 
 #define kListenModeIdle 0
 #define kListenModeFrequency 1
@@ -40,6 +41,7 @@
 @property (strong) IBOutlet SoxController * soxController;
 @property (strong) IBOutlet UDPStatusListenerController * udpStatusListenerController;
 @property (strong) IBOutlet FCCMapController * fccMapController;
+@property (strong) IBOutlet CustomTaskController * customTaskController;
 
 @property (weak) IBOutlet NSTextField * statusIcecastServerTextField;
 @property (weak) IBOutlet NSTextField * statusEZStreamServerTextField;
@@ -151,6 +153,8 @@
 - (IBAction)editSetDefaultsButtonAction:(id)sender;
 
 - (IBAction)updateCurrentTasksText:(id)sender;
+
+- (IBAction)reloadWebView:(id)sender;
 
 - (NSString *)localHostString;
 - (NSString *)portString;

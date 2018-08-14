@@ -33,6 +33,7 @@
 @property (strong) NSString * statusFunctionString;
 
 @property (strong) NSString * deviceName;
+@property (strong) NSString * customTaskID;
 
 @property (assign) BOOL enableDirectSamplingQBranchMode;
 @property (assign) BOOL enableTunerAGC;
@@ -46,5 +47,6 @@
 - (void)startRtlsdrTasksForFrequency:(NSDictionary *)frequencyDictionary;
 - (void)startRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
 - (void)startTasksForDevice:(NSString *)deviceName;
+- (void)startTasksForCustomTaskID:(NSString *)customTaskID;
 
 @end

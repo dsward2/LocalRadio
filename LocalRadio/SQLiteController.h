@@ -35,6 +35,11 @@
 - (void)insertFreqCatRecordForFrequencyID:(NSInteger)frequencyID categoryID:(NSInteger)categoryID;
 - (void)deleteFreqCatRecordForFrequencyID:(NSInteger)frequencyID categoryID:(NSInteger)categoryID;
 
+- (NSArray *)allCustomTaskRecords;
+- (NSDictionary *)customTaskForID:(NSString *)customTaskIDString;
+- (void)insertCustomTaskRecord:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels;
+- (void)deleteCustomTaskRecordForID:(NSString *)customTaskIDString;
+
 - (int64_t)storeRecord:(NSDictionary *)recordDictionary table:(NSString *)tableName;   // insert or update, depending on recordDictionary=>'id'
 
 - (NSArray *)getTableInfo:(NSString *)tableName;

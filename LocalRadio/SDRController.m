@@ -16,6 +16,7 @@
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
 #import "IcecastController.h"
+#import "SQLiteController.h"
 
 @implementation SDRController
 
@@ -107,7 +108,7 @@
 
         NSArray * frequenciesArray = [NSArray arrayWithObject:frequencyDictionary];
         
-        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:NULL device:NULL];
+        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:NULL device:NULL customTaskID:NULL];
     });
 }
 
@@ -137,7 +138,7 @@
     
     //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
     dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
-        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary device:NULL];
+        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary device:NULL customTaskID:NULL];
     });
 }
 
@@ -167,15 +168,45 @@
     
     //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
     dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
-        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:deviceName];
+        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:deviceName customTaskID:NULL];
     });
 }
 
 //==================================================================================
-//	dispatchedStartRtlsdrTasksForFrequencies:category:device:
+//    startTasksForCustomTaskID:
 //==================================================================================
 
-- (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary device:(NSString *)audioInputDeviceName
+- (void)startTasksForCustomTaskID:(NSString *)customTaskID
+{
+    //NSLog(@"startTasksForDevice:category");
+
+    CGFloat delay = 0.0;
+    
+    if (self.radioTaskPipelineManager.taskPipelineStatus == kTaskPipelineStatusRunning)
+    {
+        [self.radioTaskPipelineManager terminateTasks];
+        
+        //delay = 1.0;    // one second
+        delay = 0.2;    // one second
+    }
+
+    self.rtlsdrTaskMode = @"custom_task";
+    self.customTaskID = customTaskID;
+
+    int64_t dispatchDelay = (int64_t)(delay * NSEC_PER_SEC);
+    dispatch_time_t dispatchTime = dispatch_time(DISPATCH_TIME_NOW, dispatchDelay);
+    
+    //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+    dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
+        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:NULL customTaskID:customTaskID];
+    });
+}
+
+//==================================================================================
+//	dispatchedStartRtlsdrTasksForFrequencies:category:device:customTaskID:
+//==================================================================================
+
+- (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary device:(NSString *)audioInputDeviceName customTaskID:(NSString *)customTaskID
 {
     // All of the "Listen" button actions eventually call this method
     
@@ -185,20 +216,33 @@
 
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
 
-    TaskItem * audioSourceTaskItem = NULL;
-    if (audioInputDeviceName != NULL)
+    //TaskItem * audioSourceTaskItem = NULL;
+    NSMutableArray * audioSourceTaskItems = [NSMutableArray array];     // array of TaskItem
+    
+    if (customTaskID != 0)
+    {
+        NSDictionary * customSourceDictionary = [self.appDelegate.sqliteController customTaskForID:customTaskID];
+    
+        NSString * channelsString = [customSourceDictionary objectForKey:@"channels"];
+        sourceChannels = channelsString.integerValue;
+
+        audioSourceTaskItems = [self makeCustomTaskAudioSourceTaskItems:customTaskID];
+    }
+    else if (audioInputDeviceName != NULL)
     {
         // configure for input from a Core Audio device
         sourceChannels = 2;
 
-        audioSourceTaskItem = [self makeCoreAudioSourceTaskItem:audioInputDeviceName];
+        TaskItem * audioSourceTaskItem = [self makeCoreAudioSourceTaskItem:audioInputDeviceName];
+        [audioSourceTaskItems addObject:audioSourceTaskItem];
     }
     else
     {
         // configure for input from RTL-SDR device
         sourceChannels = 1;
     
-        audioSourceTaskItem = [self makeRTLSDRAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];
+        TaskItem * audioSourceTaskItem = [self makeRTLSDRAudioSourceTaskItemForFrequencies:frequenciesArray category:categoryDictionary];
+        [audioSourceTaskItems addObject:audioSourceTaskItem];
     }
     
     NSInteger intermediateChannels = sourceChannels;
@@ -265,7 +309,10 @@
     
     @synchronized (self.radioTaskPipelineManager)
     {
-        [self.radioTaskPipelineManager addTaskItem:audioSourceTaskItem];
+        for (TaskItem * audioSourceTaskItem in audioSourceTaskItems)
+        {
+            [self.radioTaskPipelineManager addTaskItem:audioSourceTaskItem];
+        }
 
         if (stereoDemuxTaskItem != NULL)
         {
@@ -403,6 +450,81 @@
 
     return audioSourceTaskItem;
 }
+
+
+
+
+//==================================================================================
+//    makeCustomTaskAudioSourceTaskItems:
+//==================================================================================
+
+- (NSMutableArray *)makeCustomTaskAudioSourceTaskItems:(NSString *)customTaskID
+{
+    NSMutableArray * taskItemsArray = [NSMutableArray array];
+
+    NSDictionary * customTasksDictionary = [self.appDelegate.sqliteController customTaskForID:customTaskID];
+
+    NSString * customTasksName = [customTasksDictionary objectForKey:@"task_name"];
+    NSString * sampleRateString = [customTasksDictionary objectForKey:@"sample_rate"];
+
+    NSArray * tasksArray = NULL;
+
+    NSString * taskJSONString = [customTasksDictionary objectForKey:@"task_json"];
+    NSData * jsonData = [taskJSONString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError * jsonError = NULL;
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&jsonError];
+
+    if (jsonError == NULL)
+    {
+        if ([jsonObject isKindOfClass:[NSDictionary class]] == YES)
+        {
+            NSDictionary * jsonDictionary = jsonObject;
+            id tasksObject = [jsonDictionary objectForKey:@"tasks"];
+            if (tasksObject != NULL)
+            {
+                if ([tasksObject isKindOfClass:[NSArray class]] == YES)
+                {
+                    tasksArray = tasksObject;
+                }
+            }
+        }
+    }
+
+    for (NSDictionary * aCustomTaskDictionary in tasksArray)
+    {
+        NSString * pathToExecutable = [aCustomTaskDictionary objectForKey:@"path"];
+
+        self.tunerSampleRateNumber = [NSNumber numberWithInteger:sampleRateString.integerValue];    // needed for audioMonitorTaskItem
+
+        TaskItem * customTaskItem = [self.radioTaskPipelineManager makeTaskItemWithPathToExecutable:pathToExecutable functionName:customTasksName];
+
+        NSArray * arguments = [aCustomTaskDictionary objectForKey:@"arguments"];
+        for (NSString * aArgument in arguments)
+        {
+            [customTaskItem addArgument:aArgument];
+        }
+
+        [taskItemsArray addObject:customTaskItem];
+    }
+
+    self.statusFunctionString = [NSString stringWithFormat:@"Using Custom Task '%@'", customTasksName];
+
+    self.tunerSampleRateNumber = [NSNumber numberWithInteger:sampleRateString.integerValue];
+    self.frequencyString = [@"N/A" mutableCopy];
+    self.modulationString = @"lpcm";
+    self.squelchLevelNumber = [NSNumber numberWithInteger:0];
+    self.tunerGainNumber = [NSNumber numberWithInteger:0];
+    self.optionsString = @"";
+    self.audioOutputFilterString = @"";
+
+    //[audioSourceTaskItem addArgument:@"rate"];
+    //[audioSourceTaskItem addArgument:@"48000"];
+
+    return taskItemsArray;
+}
+
+
+
 
 //==================================================================================
 //    makeSoxTaskItem

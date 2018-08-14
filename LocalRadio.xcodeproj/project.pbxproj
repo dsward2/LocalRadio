@@ -179,6 +179,8 @@
 		0EA212A21ED72DE4004DE453 /* icecast_urlauth.xml.dist in Copy Icecast Doc Files */ = {isa = PBXBuildFile; fileRef = 0EA2127F1ED72D17004DE453 /* icecast_urlauth.xml.dist */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA5A9131EFF4EB100AAD26D /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0EA5A9121EFF4EB100AAD26D /* silence.mp3 */; };
 		0EA5A9141EFF655000AAD26D /* silence.mp3 in Copy Icecast Web Files */ = {isa = PBXBuildFile; fileRef = 0EA5A9121EFF4EB100AAD26D /* silence.mp3 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0EA9CD4E211E70AA005B792B /* CustomTaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9CD4D211E70AA005B792B /* CustomTaskController.m */; };
+		0EA9CD5021228D93005B792B /* libao.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA9CD4F21228BDC005B792B /* libao.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0EE1F690813008DBE9A /* BUILD.md */; };
 		0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F01F6915D3008DBE9A /* CREDITS.md */; };
 		0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */; };
@@ -828,6 +830,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0EA9CD5021228D93005B792B /* libao.4.dylib in Copy Libraries */,
 				0E1BA1371EC8A0B500130DB9 /* libcurl.4.dylib in Copy Libraries */,
 				0E1BA1381EC8A0B500130DB9 /* libev.4.dylib in Copy Libraries */,
 				0E1068E621102D35000EF74A /* libfftw3f.3.dylib in Copy Libraries */,
@@ -1668,6 +1671,9 @@
 		0EA212881ED72D17004DE453 /* tunein.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tunein.png; sourceTree = "<group>"; };
 		0EA212891ED72D17004DE453 /* xml2json.xslt */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = xml2json.xslt; sourceTree = "<group>"; };
 		0EA5A9121EFF4EB100AAD26D /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
+		0EA9CD4C211E70AA005B792B /* CustomTaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTaskController.h; sourceTree = "<group>"; };
+		0EA9CD4D211E70AA005B792B /* CustomTaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTaskController.m; sourceTree = "<group>"; };
+		0EA9CD4F21228BDC005B792B /* libao.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libao.4.dylib; sourceTree = "<group>"; };
 		0EB5B0EE1F690813008DBE9A /* BUILD.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = BUILD.md; sourceTree = "<group>"; };
 		0EB5B0F01F6915D3008DBE9A /* CREDITS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CREDITS.md; sourceTree = "<group>"; };
 		0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Documents/Images/AppIcon/Assets.xcassets; sourceTree = SOURCE_ROOT; };
@@ -2460,6 +2466,7 @@
 			children = (
 				0E1BA0AA1EC885CA00130DB9 /* import_dylibs.sh */,
 				0E1BA0EE1EC88EF500130DB9 /* import_dylibs2.sh */,
+				0EA9CD4F21228BDC005B792B /* libao.4.dylib */,
 				0E60808D1ECE0BF400E4D1B6 /* libcrypto.1.0.0.dylib */,
 				0E1BA1151EC8A09700130DB9 /* libcurl.4.dylib */,
 				0E1BA1161EC8A09700130DB9 /* libev.4.dylib */,
@@ -3418,6 +3425,8 @@
 				0E0563181F1A3C0D0093B473 /* WebViewDelegate.m */,
 				0E12A4E81F5F92D000EB28DF /* FCCSearchController.h */,
 				0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */,
+				0EA9CD4C211E70AA005B792B /* CustomTaskController.h */,
+				0EA9CD4D211E70AA005B792B /* CustomTaskController.m */,
 				0EFFD1201EAE08A60041D2F5 /* icecast.xml */,
 				0EFFD1221EAE33190041D2F5 /* ezstream_mp3.xml */,
 				0E84C9C81ED945E90065864B /* data_skeleton.sqlite3 */,
@@ -6686,6 +6695,7 @@
 				0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */,
 				0E4ECFC01EAB633B00D2157B /* AppDelegate.m in Sources */,
 				0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */,
+				0EA9CD4E211E70AA005B792B /* CustomTaskController.m in Sources */,
 				0E84C9C11ED935E00065864B /* README.md in Sources */,
 				0E4ED18D1EAB7E4B00D2157B /* HTTPDataResponse.m in Sources */,
 				0E4ED1941EAB7ED000D2157B /* DDData.m in Sources */,

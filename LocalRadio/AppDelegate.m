@@ -19,6 +19,7 @@
 #import "SDRController.h"
 #import "IcecastController.h"
 #import "EZStreamController.h"
+#import "CustomTaskController.h"
 //#import "SoxController.h"
 #import "NSFileManager+DirectoryLocations.h"
 #import "WebViewDelegate.h"
@@ -144,6 +145,8 @@ typedef struct kinfo_proc kinfo_proc;
     }
 
     [self updateCurrentTasksText:self];
+    
+    [self.customTaskController updateTaskNamesArray];
 }
 
 //==================================================================================
@@ -1365,6 +1368,10 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 }
 
 
+- (IBAction)reloadWebView:(id)sender
+{
+    [self.webViewDelegate.webView reload:self];
+}
 
 
 

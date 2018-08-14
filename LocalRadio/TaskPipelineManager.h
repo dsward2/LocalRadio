@@ -23,6 +23,7 @@
 @property (strong) NSTimer * periodicTaskPipelineCheckTimer;
 
 - (TaskItem *) makeTaskItemWithExecutable:(NSString *)executableName functionName:(NSString *)functionName;
+- (TaskItem *) makeTaskItemWithPathToExecutable:(NSString *)executableName functionName:(NSString *)functionName;
 
 - (void) addTaskItem:(TaskItem *)taskItem;
 

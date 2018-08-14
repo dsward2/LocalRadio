@@ -118,6 +118,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             
             return requestContentLength < 4096;
         }
+        else if ([path isEqualToString:@"/customtasklistenbuttonclicked.html"])
+        {
+            // Let's be extra cautious, and make sure the upload isn't 5 gigs
+            
+            return requestContentLength < 4096;
+        }
 		else if ([path isEqualToString:@"/nowplayingstatus.html"])
 		{
 			// Let's be extra cautious, and make sure the upload isn't 5 gigs
@@ -548,6 +554,64 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
             self.appDelegate.listenMode = kListenModeDevice;
         }
+        
+        
+        
+        #pragma mark relativePath=customtasklistenbuttonclicked.html
+        else if ([relativePath isEqualToString:@"/customtasklistenbuttonclicked.html"])
+        {
+            NSString * postString = nil;
+            NSString * messageString = nil;
+            
+            NSData * postData = [request body];
+            if (postData)
+            {
+                postString = [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding];
+            }
+
+            NSData * messageData = [request messageData];
+            if (messageData)
+            {
+                messageString = [[NSString alloc] initWithData:messageData encoding:NSUTF8StringEncoding];
+            }
+            
+            NSError *error = nil;
+            id object = [NSJSONSerialization
+                      JSONObjectWithData:postData
+                      options:0
+                      error:&error];
+            
+            if ([object isKindOfClass:[NSArray class]] == YES)
+            {
+                NSArray * customTaskArray = object;
+                
+                if (customTaskArray.count == 1)
+                {
+                    id customTaskArrayObject = customTaskArray.firstObject;
+                    if ([customTaskArrayObject isKindOfClass:[NSDictionary class]] == YES)
+                    {
+                        NSMutableDictionary * customTaskDictionary = [customTaskArrayObject mutableCopy];
+                        
+                        NSString * settingName = [customTaskDictionary objectForKey:@"name"];
+                        if ([settingName isEqualToString:@"custom_task_select"] == YES)
+                        {
+                            NSString * customTaskIDString = [customTaskDictionary objectForKey:@"value"];
+                        
+                            [self listenButtonClickedForCustomTask:customTaskIDString];
+                        }
+                    }
+                }
+            }
+            
+            [replacementDict setObject:@"OK" forKey:@"CUSTOM_TASK_LISTEN_BUTTON_CLICKED_RESULT"];
+
+            self.appDelegate.listenMode = kListenModeDevice;
+        }
+
+        
+        
+        
+
         #pragma mark relativePath=nowplaying.html
         else if ([relativePath isEqualToString:@"/nowplaying.html"])
         {
@@ -1203,6 +1267,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
             NSString * devicesFormString = [self generateDevicesFormString];
             [replacementDict setObject:devicesFormString forKey:@"DEVICES_FORM"];
+
+            NSString * customTasksFormString = [self generateCustomTasksFormString];
+            [replacementDict setObject:customTasksFormString forKey:@"CUSTOM_TASKS_FORM"];
         }
         #pragma mark relativePath=insertnewfrequency.html
         else if ([relativePath isEqualToString:@"/insertnewfrequency.html"])
@@ -2370,6 +2437,18 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 }
 
 //==================================================================================
+//    listenButtonClickedForCustomTask:
+//==================================================================================
+
+- (void)listenButtonClickedForCustomTask:(NSString *)customTaskID
+{
+    if (customTaskID != NULL)
+    {
+        [self.sdrController startTasksForCustomTaskID:customTaskID];
+    }
+}
+
+//==================================================================================
 //	scannerListenButtonClickedForCategoryID:
 //==================================================================================
 
@@ -2825,8 +2904,49 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     return resultString;
 }
 
+
+
+
 //==================================================================================
-//	generateEditFrequencyFormStringForFrequency:
+//    generateCustomTasksFormString
+//==================================================================================
+
+- (NSString *)generateCustomTasksFormString
+{
+    NSMutableString * resultString = [NSMutableString string];
+
+    NSMutableString * formString = [NSMutableString string];
+
+    NSString * formAction = @"customTaskSelect";
+
+    [formString appendFormat:@"<form class='custom_task_form' id='customTaskForm' onsubmit='event.preventDefault(); return %@(this);' method='POST'>\n", formAction];
+
+    NSArray * allCustomTasksArray = [self.appDelegate.sqliteController allCustomTaskRecords];
+
+    [formString appendString:@"<label for='custom_task_select'>Select Custom Task</label>\n"];
+    [formString appendString:@"<select name='custom_task_select' class='twelve columns value-prop' title='The Custom Task setting allows external tasks to be used as the audio source.'>\n"];
+    
+    for (NSDictionary * aCustomTaskDictionary in allCustomTasksArray)
+    {
+        NSString * taskID = [aCustomTaskDictionary objectForKey:@"id"];
+        NSString * taskName = [aCustomTaskDictionary objectForKey:@"task_name"];
+        
+        [formString appendFormat:@"<option value='%@'>%@</option><br>\n", taskID, taskName];
+    }
+    [formString appendString:@"</select>\n"];
+
+    NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var customTaskForm=getElementById('customTaskForm'); customTaskListenButtonClicked(customTaskForm);\"  title=\"Click the Listen button for the selected custom task.  You may also need to click on the Play button in the audio controls below.\">";
+    [formString appendString:listenButtonString];
+
+    [formString appendString:@"</form>\n<br>&nbsp;<br>\n"];
+
+    [resultString appendString:formString];
+
+    return resultString;
+}
+
+//==================================================================================
+//    generateEditFrequencyFormStringForFrequency:
 //==================================================================================
 
 - (NSString *)generateEditFrequencyFormStringForFrequency:(NSDictionary *)favoriteDictionary

@@ -389,6 +389,86 @@
     BOOL commitResult = [SQLiteLibrary commit];
 }
 
+
+
+
+
+
+
+
+//==================================================================================
+//    allCustomTaskRecords
+//==================================================================================
+
+- (NSArray *)allCustomTaskRecords
+{
+    NSString * queryString = @"SELECT id, task_name, task_json, sample_rate, channels FROM custom_task ORDER BY id;";
+    
+    NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
+
+    return queryResultArray;
+}
+
+//==================================================================================
+//    customTaskForID:
+//==================================================================================
+
+- (NSDictionary *)customTaskForID:(NSString *)customTaskIDString
+{
+    NSInteger customTaskID = [customTaskIDString integerValue];
+
+    NSString * customTaskQueryString = [NSString stringWithFormat:@"SELECT id, task_name, task_json, sample_rate, channels FROM custom_task WHERE id='%ld';", customTaskID];
+    NSArray * customTaskQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:customTaskQueryString];
+    
+    NSDictionary * customTaskQueryResult = customTaskQueryResultArray.firstObject;
+
+    return customTaskQueryResult;
+}
+
+//==================================================================================
+//    insertCustomTaskRecord:json:sampleRate:channels:
+//==================================================================================
+
+- (void)insertCustomTaskRecord:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels
+{
+    //NSString * customTaskInsertQueryString = [NSString stringWithFormat:@"INSERT INTO custom_task (task_name, task_json) VALUES ('%@', '%@');", customTaskName, customTaskJSON];
+    
+    //NSArray * customTaskInsertQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:customTaskInsertQueryString];
+    
+    NSDictionary * customTaskDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+            customTaskName, @"task_name",
+            customTaskJSON, @"task_json",
+            sampleRate, @"sample_rate",
+            channels, @"channels",
+            NULL];
+    
+    BOOL beginResult = [SQLiteLibrary begin];
+    int64_t result = [SQLiteLibrary performInsertQueryInTable:@"custom_task" data:customTaskDictionary];
+    BOOL commitResult = [SQLiteLibrary commit];
+
+    //NSLog(@"insertCustomTaskRecord: %@", customTaskInsertQueryString);
+}
+
+//==================================================================================
+//    deleteCustomTaskRecordForID:
+//==================================================================================
+
+- (void)deleteCustomTaskRecordForID:(NSString *)customTaskIDString;
+{
+    NSString * customTaskDeleteQueryString = [NSString stringWithFormat:@"DELETE FROM custom_task WHERE id='%@';", customTaskIDString];
+    
+    BOOL beginResult = [SQLiteLibrary begin];
+    NSArray * customTaskDeleteQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:customTaskDeleteQueryString];
+    BOOL commitResult = [SQLiteLibrary commit];
+
+    //NSLog(@"deleteCustomTaskRecordForID %@", customTaskDeleteQueryResultArray);
+}
+
+
+
+
+
+
 //==================================================================================
 //	storeRecord:table:
 //==================================================================================

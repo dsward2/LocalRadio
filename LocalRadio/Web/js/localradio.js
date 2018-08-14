@@ -828,6 +828,33 @@ function deviceListenButtonClicked(form)
 }
 
 
+function customTaskListenButtonClicked(form)
+{
+  //console.log("deviceListenButtonClicked");
+  
+  var formArray = $(form).serializeArray();
+  var jsonData = JSON.stringify(formArray);
+
+  // request to HTTP server to set audio input device
+  var getUrl = window.location;
+  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+  var listenButtonClickedUrl = baseUrl + "customtasklistenbuttonclicked.html";
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        // response received ok
+        window.top.nowPlayingTitle = window.document.getElementById("listen_title");
+      }
+    };
+  xhttp.open("POST", listenButtonClickedUrl, true);
+  xhttp.send(jsonData);
+
+  // handle the audio tag with the new source
+  window.top.postMessage("startaudio", "*");
+
+  //console.log("postMessage startaudio");
+}
 
 
 //var displayUpdateInterval = 5000;  // five seconds
