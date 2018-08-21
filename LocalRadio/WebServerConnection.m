@@ -626,6 +626,19 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             //NSString * frequencyString = self.appDelegate.statusFrequencyTextField.stringValue;
             //NSString * modulationString = self.appDelegate.statusModulationTextField.stringValue;
             //NSString * sampleRateString = self.appDelegate.statusSamplingRateTextField.stringValue;
+            
+            if (self.appDelegate.statusFrequency == NULL)
+            {
+                self.appDelegate.statusFrequency = @"–––";
+            }
+            if (self.appDelegate.statusModulation == NULL)
+            {
+                self.appDelegate.statusModulation = @"–––";
+            }
+            if (self.appDelegate.statusSamplingRate == NULL)
+            {
+                self.appDelegate.statusSamplingRate = @"–––";
+            }
 
             NSString * frequencyString = self.appDelegate.statusFrequency;
             NSString * modulationString = self.appDelegate.statusModulation;

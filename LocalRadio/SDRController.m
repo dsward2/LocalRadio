@@ -222,6 +222,9 @@
     if (customTaskID != 0)
     {
         NSDictionary * customSourceDictionary = [self.appDelegate.sqliteController customTaskForID:customTaskID];
+        
+        NSString * taskNameString = [customSourceDictionary objectForKey:@"task_name"];
+        [self.appDelegate setStatusNameString:taskNameString];
     
         NSString * channelsString = [customSourceDictionary objectForKey:@"channels"];
         sourceChannels = channelsString.integerValue;
@@ -232,6 +235,8 @@
     {
         // configure for input from a Core Audio device
         sourceChannels = 2;
+
+        [self.appDelegate setStatusNameString:audioInputDeviceName];
 
         TaskItem * audioSourceTaskItem = [self makeCoreAudioSourceTaskItem:audioInputDeviceName];
         [audioSourceTaskItems addObject:audioSourceTaskItem];
@@ -448,6 +453,10 @@
     //[audioSourceTaskItem addArgument:@"rate"];
     //[audioSourceTaskItem addArgument:@"48000"];
 
+    NSMutableDictionary * nowPlayingDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:audioInputDeviceName, @"station_name", nil];
+    self.appDelegate.udpStatusListenerController.nowPlayingDictionary = nowPlayingDictionary;
+    [self.appDelegate.udpStatusListenerController.statusCacheDictionary removeAllObjects];
+
     return audioSourceTaskItem;
 }
 
@@ -490,11 +499,18 @@
         }
     }
 
+    self.statusFunctionString = [NSString stringWithFormat:@"Using Custom Task '%@'", customTasksName];
+    self.tunerSampleRateNumber = [NSNumber numberWithInteger:sampleRateString.integerValue];    // needed for audioMonitorTaskItem
+    self.frequencyString = [@"N/A" mutableCopy];
+    self.modulationString = @"lpcm";
+    self.squelchLevelNumber = [NSNumber numberWithInteger:0];
+    self.tunerGainNumber = [NSNumber numberWithInteger:0];
+    self.optionsString = @"";
+    self.audioOutputFilterString = @"";
+
     for (NSDictionary * aCustomTaskDictionary in tasksArray)
     {
         NSString * pathToExecutable = [aCustomTaskDictionary objectForKey:@"path"];
-
-        self.tunerSampleRateNumber = [NSNumber numberWithInteger:sampleRateString.integerValue];    // needed for audioMonitorTaskItem
 
         TaskItem * customTaskItem = [self.radioTaskPipelineManager makeTaskItemWithPathToExecutable:pathToExecutable functionName:customTasksName];
 
@@ -506,19 +522,10 @@
 
         [taskItemsArray addObject:customTaskItem];
     }
-
-    self.statusFunctionString = [NSString stringWithFormat:@"Using Custom Task '%@'", customTasksName];
-
-    self.tunerSampleRateNumber = [NSNumber numberWithInteger:sampleRateString.integerValue];
-    self.frequencyString = [@"N/A" mutableCopy];
-    self.modulationString = @"lpcm";
-    self.squelchLevelNumber = [NSNumber numberWithInteger:0];
-    self.tunerGainNumber = [NSNumber numberWithInteger:0];
-    self.optionsString = @"";
-    self.audioOutputFilterString = @"";
-
-    //[audioSourceTaskItem addArgument:@"rate"];
-    //[audioSourceTaskItem addArgument:@"48000"];
+    
+    NSMutableDictionary * nowPlayingDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:customTasksName, @"station_name", nil];
+    self.appDelegate.udpStatusListenerController.nowPlayingDictionary = nowPlayingDictionary;
+    [self.appDelegate.udpStatusListenerController.statusCacheDictionary removeAllObjects];
 
     return taskItemsArray;
 }

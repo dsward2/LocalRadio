@@ -113,7 +113,8 @@
     {
         [self pollAudio];
     
-        [NSThread sleepForTimeInterval:pollingInterval];
+        //[NSThread sleepForTimeInterval:pollingInterval];
+        usleep(1000);
     }
     
     return YES;

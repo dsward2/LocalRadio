@@ -31,52 +31,101 @@
     {
         NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
         
-        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio.sqlite3"];
+        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V2.sqlite3"];
         
+        BOOL localRadioV2Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
+        
+        NSMutableDictionary * databaseUpgradeDictionary = NULL;
+
+        if (localRadioV2Found == NO)
+        {
+            //check for the first database version named "LocalRadio,sqlite3", and import data if found
+            databaseUpgradeDictionary = [self getDatabaseV1Data];
+        }
+
         //NSLog(@"databasePathString = %@", databasePathString);
 
-        [SQLiteLibrary setDatabaseFile:databasePathString];
+        [SQLiteLibrary setDatabaseFile:databasePathString]; // open LocalRadio-V2.sqlite3
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         self.sqliteIsRunning = [SQLiteLibrary begin];
 
+        if (databaseUpgradeDictionary != NULL)
+        {
+            [self emptyTable:@"custom_task"];
+            [self emptyTable:@"freq_cat"];
+            [self emptyTable:@"frequency"];
+            [self emptyTable:@"category"];
+            [self emptyTable:@"local_radio_config"];
+
+            [self importPreviousVersionData:databaseUpgradeDictionary];
+        }
+
         NSLog(@"startSQLiteConnection sqliteIsRunning = %d", self.sqliteIsRunning);
-        
-        [self updateLocalRadioDatabase];
     }
 }
 
 //==================================================================================
-//    updateLocalRadioDatabase
+//    importPreviousVersionData:
 //==================================================================================
 
-- (void)updateLocalRadioDatabase
+- (void)importPreviousVersionData:(NSMutableDictionary *)databaseUpgradeDictionary
 {
-    // Add or alter columns to update earlier versions of the database
-
-    NSString * queryString = @"PRAGMA table_info(frequency)";
-    NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
-
-    BOOL stereoFlagColumnFound = NO;
-
-    if (queryResultArray.count > 0)
+    NSArray * allKeys = databaseUpgradeDictionary.allKeys;
+    
+    for (NSString * tableName in allKeys)
     {
-        for (NSDictionary * resultDictionary in queryResultArray)
+        NSArray * recordsArray = [databaseUpgradeDictionary objectForKey:tableName];
+        
+        for (NSDictionary * aRecordDictionary in recordsArray)
         {
-            NSString * columnName = [resultDictionary objectForKey:@"name"];
-            if ([columnName isEqualToString:@"stereo_flag"] == YES)
-            {
-                stereoFlagColumnFound = YES;
-            }
+            [self importRecord:aRecordDictionary table:tableName];
+        }
+    }
+}
+
+//==================================================================================
+//    getDatabaseV1Data
+//==================================================================================
+
+- (NSMutableDictionary *)getDatabaseV1Data
+{
+    // If V2 database was missing, attempt to access a V1 database and copy the data for deferred import.
+    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+
+    NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+    NSString * databaseV1PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio.sqlite3"];
+    BOOL localRadioV1Found = [[NSFileManager defaultManager] fileExistsAtPath:databaseV1PathString];
+    
+    if (localRadioV1Found == YES)
+    {
+        [SQLiteLibrary setDatabaseFile:databaseV1PathString];
+        [SQLiteLibrary setupDatabaseAndForceReset:NO];
+        BOOL sqliteIsRunning = [SQLiteLibrary begin];
+
+        NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter FROM frequency ORDER BY frequency;";
+        NSArray * allFrequencyRecords = [SQLiteLibrary performQueryAndGetResultList:queryString];
+
+        NSArray * allCategoryRecords = [self allCategoryRecords];
+        NSArray * allFreqCatRecords = [self allFreqCatRecords];
+        //NSArray * allCustomTaskRecords = [self allCustomTaskRecords];
+        
+        if (allFrequencyRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFrequencyRecords forKey:@"frequency"];
+        }
+        
+        if (allCategoryRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allCategoryRecords forKey:@"category"];
+        }
+        
+        if (allFreqCatRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFreqCatRecords forKey:@"freq_cat"];
         }
     }
     
-    if (stereoFlagColumnFound == NO)
-    {
-        NSString * addStereoColumnQueryString = @"ALTER TABLE \"frequency\" ADD COLUMN \"stereo_flag\" Boolean NOT NULL DEFAULT 0;";
-        NSArray * addStereoColumnQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:addStereoColumnQueryString];
- 
-        NSLog(@"updateLocalRadioDatabase - added stereo_flag to LocalRadio database");
-    }
+    return databaseUpgradeDictionary;
 }
 
 //==================================================================================
@@ -107,7 +156,7 @@
 }
 
 //==================================================================================
-//	storLocalRadioAppSettingsValueForKey:
+//	storeLocalRadioAppSettingsValueForKey:
 //==================================================================================
 
 - (void)storeLocalRadioAppSettingsValue:(id)aValue ForKey:(NSString *)aKey
@@ -256,6 +305,19 @@
 }
 
 //==================================================================================
+//    allCategoryRecords
+//==================================================================================
+
+- (NSArray *)allCategoryRecords
+{
+    NSString * queryString = @"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category ORDER BY category_name;";
+    
+    NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
+
+    return queryResultArray;
+}
+
+//==================================================================================
 //	categoryRecordForID:
 //==================================================================================
 
@@ -286,12 +348,12 @@
 }
 
 //==================================================================================
-//	allCategoryRecords
+//    allFreqCatRecords
 //==================================================================================
 
-- (NSArray *)allCategoryRecords
+- (NSArray *)allFreqCatRecords
 {
-    NSString * queryString = @"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category ORDER BY category_name;";
+    NSString * queryString = @"SELECT id, freq_id, cat_id FROM freq_cat ORDER BY id;";
     
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
@@ -435,11 +497,14 @@
     
     //NSArray * customTaskInsertQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:customTaskInsertQueryString];
     
+    NSNumber * sampleRateNumber = [NSNumber numberWithInteger:sampleRate];
+    NSNumber * channelsNumber = [NSNumber numberWithInteger:channels];
+    
     NSDictionary * customTaskDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             customTaskName, @"task_name",
             customTaskJSON, @"task_json",
-            sampleRate, @"sample_rate",
-            channels, @"channels",
+            sampleRateNumber, @"sample_rate",
+            channelsNumber, @"channels",
             NULL];
     
     BOOL beginResult = [SQLiteLibrary begin];
@@ -448,6 +513,27 @@
 
     //NSLog(@"insertCustomTaskRecord: %@", customTaskInsertQueryString);
 }
+
+//==================================================================================
+//    updateCustomTaskRecordForID:name:json:sampleRate:channels:
+//==================================================================================
+
+- (void)updateCustomTaskRecordForID:(NSString *)customTaskID name:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels
+{
+    NSString * updateQueryString = [NSString stringWithFormat:@"UPDATE custom_task SET task_name='%@', task_json='%@', sample_rate='%ld', channels='%ld' WHERE id=%@",
+            customTaskName, customTaskJSON, sampleRate, channels, customTaskID];
+
+    BOOL beginResult = [SQLiteLibrary begin];
+
+    int64_t queryResult = [SQLiteLibrary performQuery:updateQueryString block:nil];
+
+    BOOL commitResult = [SQLiteLibrary commit];
+
+    NSLog(@"updated custom task record: %@", updateQueryString);
+}
+
+
+
 
 //==================================================================================
 //    deleteCustomTaskRecordForID:
@@ -463,10 +549,6 @@
 
     //NSLog(@"deleteCustomTaskRecordForID %@", customTaskDeleteQueryResultArray);
 }
-
-
-
-
 
 
 //==================================================================================
@@ -549,6 +631,95 @@
         queryResult = [SQLiteLibrary performQuery:insertString block:nil];
 
         BOOL commitResult = [SQLiteLibrary commit];
+    }
+    
+    return queryResult;
+}
+
+//==================================================================================
+//    importRecord:table:
+//==================================================================================
+
+- (int64_t)importRecord:(NSDictionary *)recordDictionary table:(NSString *)tableName
+{
+    NSString * idString = [recordDictionary objectForKey:@"id"];
+    NSInteger idInteger = idString.integerValue;
+    
+    int64_t queryResult = 0;
+    
+    if (idInteger > 0)
+    {
+        // check for existing record
+        NSString * existingQueryString = [NSString stringWithFormat:@"SELECT id FROM %@ WHERE id='%ld' LIMIT 1;", tableName, idInteger];
+        NSArray * existingQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:existingQueryString];
+        
+        if (existingQueryResultArray.count == 0)
+        {
+            // insert new record
+
+            NSMutableString * columnsString = [NSMutableString string];
+            NSMutableString * valuesString = [NSMutableString string];
+
+            NSArray * allRecordKeys = [recordDictionary allKeys];
+            
+            for (NSString * aRecordKey in allRecordKeys)
+            {
+                id valueObject = [recordDictionary objectForKey:aRecordKey];
+                
+                if (columnsString.length > 0)
+                {
+                    [columnsString appendString:@","];
+                }
+                [columnsString appendString:aRecordKey];
+                
+                if (valuesString.length > 0)
+                {
+                    [valuesString appendString:@","];
+                }
+                [valuesString appendFormat:@"\"%@\"", valueObject];
+            }
+
+            BOOL beginResult = [SQLiteLibrary begin];
+
+            NSString * insertString = [NSString stringWithFormat:@"INSERT INTO %@ (%@) VALUES(%@)",
+                    tableName, columnsString, valuesString];
+
+            queryResult = [SQLiteLibrary performQuery:insertString block:nil];
+
+            BOOL commitResult = [SQLiteLibrary commit];
+        }
+        else
+        {
+            // update existing record
+            
+            NSMutableString * valuesString = [NSMutableString string];
+            
+            NSArray * allRecordKeys = [recordDictionary allKeys];
+            
+            for (NSString * aRecordKey in allRecordKeys)
+            {
+                if ([aRecordKey isEqualToString:@"id"] == NO)
+                {
+                    id valueObject = [recordDictionary objectForKey:aRecordKey];
+                    
+                    if (valuesString.length > 0)
+                    {
+                        [valuesString appendString:@","];
+                    }
+                    
+                    [valuesString appendFormat:@"%@=\"%@\"", aRecordKey, valueObject];
+                }
+            }
+
+            NSString * updateString = [NSString stringWithFormat:@"UPDATE %@ SET %@ WHERE id=%ld",
+                    tableName, valuesString, idInteger];
+
+            BOOL beginResult = [SQLiteLibrary begin];
+            
+            queryResult = [SQLiteLibrary performQuery:updateString block:nil];
+
+            BOOL commitResult = [SQLiteLibrary commit];
+        }
     }
     
     return queryResult;
@@ -683,6 +854,25 @@
     NSArray * categoryDeleteQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:categoryDeleteQueryString];
     NSLog(@"SQLiteController - deleteCategoryRecordForID %@", categoryDeleteQueryResultArray);
     
+    BOOL commitResult = [SQLiteLibrary commit];
+}
+
+//==================================================================================
+//    emptyTable:
+//==================================================================================
+
+- (void)emptyTable:(NSString *)tableName
+{
+    BOOL beginResult = [SQLiteLibrary begin];
+    
+    NSString * emptyQueryString = [NSString stringWithFormat:@"DELETE FROM %@;", tableName];
+    NSArray * emptyQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:emptyQueryString];
+    NSLog(@"SQLiteController - emptyQueryResultArray %@", emptyQueryResultArray);
+
+    NSString * resetQueryString = [NSString stringWithFormat:@"UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='%@'", tableName];
+    NSArray * resetQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:resetQueryString];
+    NSLog(@"SQLiteController - resetQueryResultArray %@", resetQueryResultArray);
+
     BOOL commitResult = [SQLiteLibrary commit];
 }
 

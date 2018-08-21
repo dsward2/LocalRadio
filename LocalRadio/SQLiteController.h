@@ -28,6 +28,7 @@
 - (NSDictionary *)categoryRecordForName:(NSString *)idString;
 - (void)deleteCategoryRecordForID:(NSString *)categoryIDString;
 
+- (NSArray *)allFreqCatRecords;
 - (NSArray *)freqCatRecordsForCategoryID:(NSString *)categoryIDString;
 - (BOOL)freqCatRecordExistsForFrequencyID:(NSInteger)frequencyID categoryID:(NSInteger)categoryID;
 - (NSDictionary *)freqCatRecordForFrequencyID:(NSInteger)frequencyID categoryID:(NSInteger)categoryID;
@@ -38,9 +39,11 @@
 - (NSArray *)allCustomTaskRecords;
 - (NSDictionary *)customTaskForID:(NSString *)customTaskIDString;
 - (void)insertCustomTaskRecord:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels;
+- (void)updateCustomTaskRecordForID:(NSString *)customTaskID name:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels;
 - (void)deleteCustomTaskRecordForID:(NSString *)customTaskIDString;
 
 - (int64_t)storeRecord:(NSDictionary *)recordDictionary table:(NSString *)tableName;   // insert or update, depending on recordDictionary=>'id'
+- (int64_t)importRecord:(NSDictionary *)recordDictionary table:(NSString *)tableName;   // insert with id
 
 - (NSArray *)getTableInfo:(NSString *)tableName;
 - (NSMutableDictionary *)makePrototypeDictionaryForTable:(NSString *)tableName;
