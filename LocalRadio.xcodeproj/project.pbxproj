@@ -143,6 +143,7 @@
 		0E6F9E1E1ED606F7009D469E /* libxslt.1.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E6F9E1A1ED60348009D469E /* libxslt.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E6F9E201ED60B5D009D469E /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6F9E1F1ED60B5D009D469E /* libssl.1.0.0.dylib */; };
 		0E6F9E211ED60B7E009D469E /* libssl.1.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E6F9E1F1ED60B5D009D469E /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E706F03212FD05100631D77 /* AudioMonitor2 in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E706F02212FD05100631D77 /* AudioMonitor2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E7309401F4027EC00004907 /* URLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E73093F1F4027EC00004907 /* URLTextField.m */; };
 		0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3C1EC1B7250050BD7F /* AudioToolbox.framework */; };
 		0E7F2C401EC1B7250050BD7F /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */; };
@@ -519,6 +520,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0ECAD570210C57E1005F4BB1;
 			remoteInfo = "wfm-tools";
+		};
+		0E706F01212FD05100631D77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0EB51DF9212D3E2F0059D84C;
+			remoteInfo = AudioMonitor2;
 		};
 		0E7294091F17D21700350F03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -897,6 +905,7 @@
 				0E0C69391F1C913200A7EE5E /* rtl_fm_localradio in Copy Tools */,
 				0E49700F1F70F74D00E41A06 /* AudioMonitor in Copy Tools */,
 				0E106895211019DE000EF74A /* stereodemux in Copy Tools */,
+				0E706F03212FD05100631D77 /* AudioMonitor2 in Copy Tools */,
 			);
 			name = "Copy Tools";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2303,6 +2312,7 @@
 			isa = PBXGroup;
 			children = (
 				0E02EC441F494F7E008BAC27 /* AudioMonitor */,
+				0E706F02212FD05100631D77 /* AudioMonitor2 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -6253,6 +6263,13 @@
 			fileType = wrapper.application;
 			path = WebDAVServer.app;
 			remoteRef = 0E4ED1811EAB7D5400D2157B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0E706F02212FD05100631D77 /* AudioMonitor2 */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = AudioMonitor2;
+			remoteRef = 0E706F01212FD05100631D77 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0E72940A1F17D21700350F03 /* UDPSender */ = {

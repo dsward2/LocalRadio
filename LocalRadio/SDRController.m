@@ -847,7 +847,7 @@
 - (TaskItem *)makeAudioMonitorTaskItemForSourceChannels:(NSInteger)sourceChannels
 {
     // Get lpcm from stdin, re-sample to 48000 Hz, optionally play audio directly to current system CoreAudio device, output to stdout
-    TaskItem * audioMonitorTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"AudioMonitor" functionName:@"AudioMonitor"];
+    TaskItem * audioMonitorTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"AudioMonitor2" functionName:@"AudioMonitor2"];
     
     [audioMonitorTaskItem addArgument:@"-r"];
     [audioMonitorTaskItem addArgument:self.tunerSampleRateNumber.stringValue];

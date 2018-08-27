@@ -179,4 +179,10 @@
 }
 
 
+- (NSString *)description
+{
+    return [self taskInfoString];
+}
+
+
 @end
