@@ -94,24 +94,8 @@ int main(int argc, const char * argv[])
 
     int bufferKBPerChannel = atoi(argBufferKBPerChannel);
 
-    //AudioMonitor * audioMonitor = [[AudioMonitor alloc] init];
-    //[audioMonitor runAudioMonitorWithSampleRate:sampleRate channels:channels volume:volume];
-    
-    //AudioMonitor2 * audioMonitor2 = new AudioMonitor2;
-    //audioMonitor2->runAudioMonitor(sampleRate, volume);
-    
     runAudioMonitor(sampleRate, volume, channels, bufferKBPerChannel);
     
-    /*
-    while (1)
-    {
-        //[NSThread sleepForTimeInterval:0.1f];
-        usleep(1000);
-    }
-    */
-    
-    //CFRunLoopRun();
-
     do {
         CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.25, false);
     } while (true);

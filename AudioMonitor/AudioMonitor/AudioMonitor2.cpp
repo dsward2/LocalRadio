@@ -725,7 +725,6 @@ void * runAudioQueueOnThread(void * ptr)
             fprintf(stderr, "AudioMonitor runAudioQueueOnThread newQueueOutputStatus %d\n", newQueueOutputStatus);
         }
 
-
         // AudioQueue values for audio device output
 
         UInt32 audioQueueBufferSize = 65536 * sizeof(SInt16) * 8;
@@ -761,6 +760,7 @@ void * runAudioQueueOnThread(void * ptr)
     
     do {
         CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.25, false);
+        usleep(5000);
     } while (true);
 
     //pthread_exit(NULL);
