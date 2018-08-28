@@ -783,7 +783,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSNumber * controlPortNumber = [self.localRadioAppSettings integerForKey:@"ControlPort"];
     NSNumber * audioPortNumber = [self.localRadioAppSettings integerForKey:@"AudioPort"];
     NSString * mp3SettingsString = [self.localRadioAppSettings valueForKey:@"MP3Settings"];
-    NSString * secondStageSoxFilterString = [self.localRadioAppSettings valueForKey:@"SecondStageSoxFilter"];
 
     NSString * httpHostName = [self localHostString];
     
@@ -991,9 +990,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     BOOL useWebViewAudioPlayer = self.editUseWebViewAudioPlayerCheckbox.state;
     self.useWebViewAudioPlayerCheckbox.state = useWebViewAudioPlayer;
 
-    NSString * secondStageSoxFilterString = self.editSecondStageSoxFilterTextField.stringValue;
-    [self.localRadioAppSettings setValue:secondStageSoxFilterString forKey:@"SecondStageSoxFilter"];
-
     NSString * constantBitrateString = self.editMP3ConstantPopUpButton.titleOfSelectedItem;
     NSInteger constantBitrateInteger = constantBitrateString.integerValue / 1000;
     NSString * encodingQualityString = self.editMP3EncodingQualityPopUpButton.titleOfSelectedItem;
@@ -1060,7 +1056,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
     NSNumber * controlPortNumber = [self.localRadioAppSettings integerForKey:@"ControlPort"];
     NSNumber * audioPortNumber = [self.localRadioAppSettings integerForKey:@"AudioPort"];
-    NSString * secondStageSoxFilterString = [self.localRadioAppSettings valueForKey:@"SecondStageSoxFilter"];
+    NSString * mp3SettingsString = [self.localRadioAppSettings valueForKey:@"MP3Settings"];
 
     self.editIcecastServerHostTextField.stringValue = icecastServerHost;
     self.editIcecastServerPortTextField.integerValue = icecastServerPortNumber.integerValue;
@@ -1070,7 +1066,19 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     self.editStatusPortTextField.integerValue = statusPortNumber.integerValue;
     self.editControlPortTextField.integerValue = controlPortNumber.integerValue;
     self.editAudioPortTextField.integerValue = audioPortNumber.integerValue;
-    self.editSecondStageSoxFilterTextField.stringValue = secondStageSoxFilterString;
+
+    NSDecimalNumber * mp3SettingsDecimalNumber = [[NSDecimalNumber alloc] initWithString:mp3SettingsString];
+    NSInteger bitrateInteger = [mp3SettingsDecimalNumber integerValue];
+    NSDecimalNumber * bitrateDecimalNumber = [[NSDecimalNumber alloc] initWithInteger:bitrateInteger];
+    NSDecimalNumber * encodingQualityDecimalNumber = [mp3SettingsDecimalNumber decimalNumberBySubtracting: bitrateDecimalNumber];
+    encodingQualityDecimalNumber = [encodingQualityDecimalNumber decimalNumberByMultiplyingByPowerOf10: 1];
+    
+    NSString * bitrateString = [NSString stringWithFormat:@"%ld bps", bitrateInteger * 1000];
+    NSInteger encodingQualityInteger = [encodingQualityDecimalNumber integerValue];
+
+    [self.editMP3ConstantPopUpButton selectItemWithTitle:bitrateString];
+    
+    [self.editMP3EncodingQualityPopUpButton selectItemAtIndex:encodingQualityInteger];
 
     [self.window beginSheet:self.editConfigurationSheetWindow  completionHandler:^(NSModalResponse returnCode) {
     }];

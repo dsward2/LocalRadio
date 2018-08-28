@@ -30,10 +30,11 @@
     [self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
     [self setDefaultValue:@"localradio" forKey:@"IcecastServerMountName"];
     
-    [self setDefaultValue:@"vol 10 dither -s" forKey:@"SecondStageSoxFilter"];
-    [self setDefaultValue:@"-4.2" forKey:@"MP3Settings"];
+    [self setDefaultValue:@"32.2" forKey:@"MP3Settings"];
 
     //[self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
+    
+    // Generate a fresh Icecast password each time this app launches
     NSString * randomPassword = [self generateRandomPassword];
     [self setDefaultValue:randomPassword forKey:@"IcecastServerSourcePassword"];
     [self setValue:randomPassword forKey:@"IcecastServerSourcePassword"];

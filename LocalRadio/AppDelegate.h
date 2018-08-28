@@ -104,9 +104,6 @@
 @property (weak) IBOutlet NSPopUpButton * editMP3ConstantPopUpButton;
 @property (weak) IBOutlet NSPopUpButton * editMP3EncodingQualityPopUpButton;
 
-@property (weak) IBOutlet NSTextField * editSecondStageSoxFilterTextField;
-
-
 @property (weak) IBOutlet NSButton * editUseWebViewAudioPlayerCheckbox;
 
 @property (weak) IBOutlet NSButton * editSaveButton;
