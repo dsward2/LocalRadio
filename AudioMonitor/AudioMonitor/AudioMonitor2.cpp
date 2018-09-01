@@ -8,8 +8,6 @@
 
 #include "AudioMonitor2.hpp"
 
-
-
 //  Receive input 1-or-2 channel LPCM audio data at stdin, store in first TPCircularBuffer
 //  Use AudioConverter to resample audio to 48000 Hz, store in second TPCircularBuffer, and output to stdout.
 //  If volume > 0, enqueue 48000 Hz data to AudioQueue for playback with default hardware audio device.
@@ -69,7 +67,10 @@ TPCircularBuffer audioConverterCircularBuffer;        // TPCircularBuffer for st
 unsigned int sampleRate;
 unsigned int inputChannels;
 double volume;
-unsigned int bufferKBPerChannel;
+unsigned int inputBufferSize;
+unsigned int audioConverterBufferSize;
+unsigned int audioQueueBufferSize;
+
 
 AudioBuffer audioConverterInputAudioBuffer;
 UInt64 audioConverterInputBufferOffset;
@@ -138,7 +139,8 @@ void * runInputBufferOnThread(void * ptr)
     time_t lastReadTime = time(NULL) + 20;
     int nextTimeoutReportInterval = 5;
 
-    int32_t circularBufferLength = inputChannels * bufferKBPerChannel * 1024;
+    //int32_t circularBufferLength = inputChannels * bufferKBPerChannel * 1024;
+    int32_t circularBufferLength = inputBufferSize;
     TPCircularBufferInit(&inputCircularBuffer, circularBufferLength);
     
     fprintf(stderr, "AudioMonitor runInputBufferOnThread circularBufferLength = %d\n", circularBufferLength);
@@ -218,6 +220,10 @@ void * runInputBufferOnThread(void * ptr)
                 {
                     fprintf(stderr, "AudioMonitor runInputBufferOnThread - rtlsdrBuffer allocation failed - rtlsdrBuffer=%d\n", bytesAvailableCount);
                 }
+            }
+            else
+            {
+                fprintf(stderr, "AudioMonitor bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
             }
         }
 
@@ -388,6 +394,10 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
     {
         result = 'zero';
     }
+    else
+    {
+        // for testing breakpoint here
+    }
     
     audioConverterInputBufferOffset += (ioNumberDataPacketsProduced * sizeof(SInt16) * inputChannels);
     audioConverterInputPacketsRemain -= ioNumberDataPacketsProduced;
@@ -518,10 +528,11 @@ void * runAudioConverterOnThread(void * ptr)
     time_t lastReadTime = time(NULL) + 20;
     int nextTimeoutReportInterval = 5;
 
-    int32_t circularBufferLength = inputChannels * bufferKBPerChannel * 1024;
+    //int32_t circularBufferLength = inputChannels * bufferKBPerChannel * 1024;
+    int32_t circularBufferLength = audioConverterBufferSize;
     TPCircularBufferInit(&audioConverterCircularBuffer, circularBufferLength);
 
-    fprintf(stderr, "runAudioConverterOnThread circularBufferLength = %d\n", circularBufferLength);
+    fprintf(stderr, "AudioMonitor runAudioConverterOnThread circularBufferLength = %d\n", circularBufferLength);
 
     startAudioConverter();     // resample PCM data to 48000 Hz
 
@@ -556,7 +567,7 @@ void * runAudioConverterOnThread(void * ptr)
         
         if( bytesAvailableCount <= 0)
         {
-            usleep(100000);
+            usleep(5000);
         }
         else
         {
@@ -717,6 +728,7 @@ void * runAudioQueueOnThread(void * ptr)
         audioQueueDescription.mBytesPerPacket   = audioQueueDescription.mBytesPerFrame * audioQueueDescription.mFramesPerPacket;
         audioQueueDescription.mReserved         = 0;
 
+        fprintf(stderr, "AudioMonitor runAudioQueueOnThread audioQueueBufferSize = %d\n", audioQueueBufferSize);
         logDescription(&audioQueueDescription, "audioQueueFormat");
         
         OSStatus newQueueOutputStatus = AudioQueueNewOutput(&audioQueueDescription, audioQueueCallback, NULL, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &audioQueue);
@@ -727,7 +739,7 @@ void * runAudioQueueOnThread(void * ptr)
 
         // AudioQueue values for audio device output
 
-        UInt32 audioQueueBufferSize = 65536 * sizeof(SInt16) * 8;
+        //UInt32 audioQueueBufferSize = 65536 * sizeof(SInt16) * 8;     // replace by global var
 
         for (i = 0; i < kAudioQueueBuffersCount; i++)
         {
@@ -786,14 +798,16 @@ void createAudioQueueThread()
 //    runAudioMonitor()
 //==================================================================================
 
-void runAudioMonitor(unsigned int inSampleRate, double inVolume, unsigned int inChannels, unsigned int inBufferKBPerChannel)
+void runAudioMonitor(unsigned int inSampleRate, double inVolume, unsigned int inChannels, unsigned int inInputBufferSize, unsigned int inAudioConverterBufferSize, unsigned int inAudioQueueBufferSize)
 {
     //raise(SIGSTOP); // Stop and wait for debugger. Click the Debugger's Resume button to continue execution
     
     sampleRate = inSampleRate;
     volume = inVolume;
     inputChannels = inChannels;
-    bufferKBPerChannel = inBufferKBPerChannel;
+    inputBufferSize = inInputBufferSize;
+    audioConverterBufferSize = inAudioConverterBufferSize;
+    audioQueueBufferSize = inAudioQueueBufferSize;
 
     // start threads for input buffering, resampling and playback to audio device
     inputBufferThreadID = 0;

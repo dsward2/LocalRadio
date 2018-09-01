@@ -701,6 +701,27 @@
                 }
                 self.channelsTextField.stringValue = channelsString;
                 
+                NSString * inputBufferSizeString = [itemDictionary objectForKey:@"input_buffer_size"];
+                if (inputBufferSizeString == NULL)
+                {
+                    inputBufferSizeString = @"256";
+                }
+                self.inputBufferSizeTextField.stringValue = inputBufferSizeString;
+                
+                NSString * audioConverterBufferSizeString = [itemDictionary objectForKey:@"audioconverter_buffer_size"];
+                if (audioConverterBufferSizeString == NULL)
+                {
+                    audioConverterBufferSizeString = @"256";
+                }
+                self.audioConverterBufferSizeTextField.stringValue = audioConverterBufferSizeString;
+                
+                NSString * audioQueueBufferSizeString = [itemDictionary objectForKey:@"audioqueue_buffer_size"];
+                if (audioQueueBufferSizeString == NULL)
+                {
+                    audioQueueBufferSizeString = @"256";
+                }
+                self.audioQueueBufferSizeTextField.stringValue = audioQueueBufferSizeString;
+                
                 dataFound = YES;
             }
         }
@@ -710,6 +731,9 @@
     {
         self.sampleRateTextField.stringValue = @"";
         self.channelsTextField.stringValue = @"";
+        self.inputBufferSizeTextField.stringValue = @"";
+        self.audioConverterBufferSizeTextField.stringValue = @"";
+        self.audioQueueBufferSizeTextField.stringValue = @"";
     }
 }
 
@@ -818,7 +842,22 @@
                 NSNumber * channelsNumber = [NSNumber numberWithInteger:self.channelsTextField.integerValue];
                 [itemDictionary setObject:channelsNumber forKey:@"channels"];
             }
-            
+            else if ([identifier isEqualToString:@"input_buffer_size"] == YES)
+            {
+                NSNumber * inputBufferSizeNumber = [NSNumber numberWithInteger:self.inputBufferSizeTextField.integerValue];
+                [itemDictionary setObject:inputBufferSizeNumber forKey:@"input_buffer_size"];
+            }
+            else if ([identifier isEqualToString:@"audioconverter_buffer_size"] == YES)
+            {
+                NSNumber * audioConverterBufferSizeNumber = [NSNumber numberWithInteger:self.audioConverterBufferSizeTextField.integerValue];
+                [itemDictionary setObject:audioConverterBufferSizeNumber forKey:@"audioconverter_buffer_size"];
+            }
+            else if ([identifier isEqualToString:@"audioqueue_buffer_size"] == YES)
+            {
+                NSNumber * audioQueueBufferSizeNumber = [NSNumber numberWithInteger:self.audioQueueBufferSizeTextField.integerValue];
+                [itemDictionary setObject:audioQueueBufferSizeNumber forKey:@"audioqueue_buffer_size"];
+            }
+
             [self.allCustomTasksArray replaceObjectAtIndex:selectedNameIndex withObject:itemDictionary];
             
             [self updateSelectedRecord];

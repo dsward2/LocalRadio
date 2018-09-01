@@ -45,7 +45,6 @@
 		0E02EC381F494F7C008BAC27 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0E4970071F6F1EC200E41A06 /* AudioMonitor.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AudioMonitor.entitlements; sourceTree = "<group>"; };
-		0E706F51212FD76000631D77 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		0EA8B2CE1FA9B568005C3A02 /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.markdown; sourceTree = "<group>"; };
 		0EA8B2CF1FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
 		0EA8B2D01FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
@@ -116,7 +115,6 @@
 		0E213DB11F566BFA00BCE3CB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0E706F51212FD76000631D77 /* CoreFoundation.framework */,
 				0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */,
 			);
 			name = Frameworks;

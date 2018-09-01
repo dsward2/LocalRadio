@@ -21,6 +21,9 @@
 
 @property (weak) IBOutlet NSTextField * sampleRateTextField;
 @property (weak) IBOutlet NSTextField * channelsTextField;
+@property (weak) IBOutlet NSTextField * inputBufferSizeTextField;
+@property (weak) IBOutlet NSTextField * audioConverterBufferSizeTextField;
+@property (weak) IBOutlet NSTextField * audioQueueBufferSizeTextField;
 
 @property (weak) IBOutlet NSButton * addNameButton;
 @property (weak) IBOutlet NSButton * duplicateNameButton;

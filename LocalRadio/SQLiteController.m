@@ -31,21 +31,26 @@
     {
         NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
         
-        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V2.sqlite3"];
+        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V3.sqlite3"];
         
-        BOOL localRadioV2Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
+        BOOL localRadioV3Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
         
         NSMutableDictionary * databaseUpgradeDictionary = NULL;
 
-        if (localRadioV2Found == NO)
+        if (localRadioV3Found == NO)
         {
-            //check for the first database version named "LocalRadio,sqlite3", and import data if found
-            databaseUpgradeDictionary = [self getDatabaseV1Data];
+            //check for earlier database versions, and migrate data if found
+            databaseUpgradeDictionary = [self getDatabaseV2Data];
+
+            if ([databaseUpgradeDictionary count] == 0)
+            {
+                databaseUpgradeDictionary = [self getDatabaseV1Data];
+            }
         }
 
         //NSLog(@"databasePathString = %@", databasePathString);
 
-        [SQLiteLibrary setDatabaseFile:databasePathString]; // open LocalRadio-V2.sqlite3
+        [SQLiteLibrary setDatabaseFile:databasePathString]; // open LocalRadio-V3.sqlite3
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         self.sqliteIsRunning = [SQLiteLibrary begin];
 
@@ -89,7 +94,7 @@
 
 - (NSMutableDictionary *)getDatabaseV1Data
 {
-    // If V2 database was missing, attempt to access a V1 database and copy the data for deferred import.
+    // If current version database is missing, attempt to access a V1 database and copy the data for deferred import.
     NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
@@ -102,7 +107,7 @@
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
 
-        NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter FROM frequency ORDER BY frequency;";
+        NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter FROM frequency ORDER BY id;";
         NSArray * allFrequencyRecords = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
         NSArray * allCategoryRecords = [self allCategoryRecords];
@@ -122,6 +127,58 @@
         if (allFreqCatRecords != NULL)
         {
             [databaseUpgradeDictionary setObject:allFreqCatRecords forKey:@"freq_cat"];
+        }
+    }
+    
+    return databaseUpgradeDictionary;
+}
+
+//==================================================================================
+//    getDatabaseV2Data
+//==================================================================================
+
+- (NSMutableDictionary *)getDatabaseV2Data
+{
+    // If current version database is missing, attempt to access a V2 database and copy the data for deferred import.
+    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+
+    NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+    NSString * databaseV2PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V2.sqlite3"];
+    BOOL localRadioV2Found = [[NSFileManager defaultManager] fileExistsAtPath:databaseV2PathString];
+    
+    if (localRadioV2Found == YES)
+    {
+        [SQLiteLibrary setDatabaseFile:databaseV2PathString];
+        [SQLiteLibrary setupDatabaseAndForceReset:NO];
+        BOOL sqliteIsRunning = [SQLiteLibrary begin];
+
+        NSArray * allFrequencyRecords = [self allFrequencyRecords];     // no changes to this table
+        NSArray * allCategoryRecords = [self allCategoryRecords];       // no changes to this table
+        NSArray * allFreqCatRecords = [self allFreqCatRecords];         // no changes to this table
+
+        // custom_task in V3 adds columns, so select only valid columns for V2
+        //NSArray * allCustomTaskRecords = [self allCustomTaskRecords];
+        NSString * queryString = @"SELECT id, task_name, task_json, sample_rate, channels FROM custom_task ORDER BY id;";
+        NSArray * allCustomTaskRecords = [SQLiteLibrary performQueryAndGetResultList:queryString];
+
+        if (allFrequencyRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFrequencyRecords forKey:@"frequency"];
+        }
+        
+        if (allCategoryRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allCategoryRecords forKey:@"category"];
+        }
+        
+        if (allFreqCatRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFreqCatRecords forKey:@"freq_cat"];
+        }
+        
+        if (allCustomTaskRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allCustomTaskRecords forKey:@"custom_task"];
         }
     }
     
@@ -676,7 +733,7 @@
                 {
                     [valuesString appendString:@","];
                 }
-                [valuesString appendFormat:@"\"%@\"", valueObject];
+                [valuesString appendFormat:@"'%@'", valueObject];
             }
 
             BOOL beginResult = [SQLiteLibrary begin];

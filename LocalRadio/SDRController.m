@@ -210,6 +210,10 @@
 {
     // All of the "Listen" button actions eventually call this method
     
+    NSInteger inputBufferSize = 256;    // input buffer size in kilobytes
+    NSInteger audioConverterBufferSize = 256;   // AudioConverter buffer size in kilobytes
+    NSInteger audioQueueBufferSize = 256;   // AudioQueue buffer size in kilobytes
+
     [self checkIcecastAndEZStream];
     
     NSInteger sourceChannels = 0;
@@ -228,6 +232,15 @@
     
         NSString * channelsString = [customSourceDictionary objectForKey:@"channels"];
         sourceChannels = channelsString.integerValue;
+        
+        NSString * inputBufferSizeString = [customSourceDictionary objectForKey:@"input_buffer_size"];
+        inputBufferSize = inputBufferSizeString.integerValue;
+        
+        NSString * audioConverterBufferSizeString = [customSourceDictionary objectForKey:@"audioconverter_buffer_size"];
+        audioConverterBufferSize = audioConverterBufferSizeString.integerValue;
+        
+        NSString * audioQueueBufferSizeString = [customSourceDictionary objectForKey:@"audioqueue_buffer_size"];
+        audioQueueBufferSize = audioQueueBufferSizeString.integerValue;
 
         audioSourceTaskItems = [self makeCustomTaskAudioSourceTaskItems:customTaskID];
     }
@@ -278,6 +291,12 @@
                         if (addStereoDemux == YES)
                         {
                             intermediateChannels = 2;
+                            
+                            // adjust buffer sizes for 2 channels
+                            inputBufferSize = 768;
+                            audioConverterBufferSize = 768;
+                            audioQueueBufferSize = 512;
+                            
                             stereoDemuxTaskItem = [self makeStereoDemuxTaskItem];
                         }
                     }
@@ -287,7 +306,7 @@
     }
     
     // Get 1-or-2 channel lpcm from stdin, resample to 48000, output 2-channel lpcm to stdout, and optionally play audio directly to current system CoreAudio device
-    TaskItem * audioMonitorTaskItem = [self makeAudioMonitorTaskItemForSourceChannels:intermediateChannels];
+    TaskItem * audioMonitorTaskItem = [self makeAudioMonitorTaskItemForSourceChannels:intermediateChannels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
     
     // Get lpcm from stdin, apply Sox audio processing filters, output lpcm data to stdout
     TaskItem * soxTaskItem = NULL;
@@ -841,10 +860,13 @@
 }
 
 //==================================================================================
-//	makeAudioMonitorTaskItemForSourceChannels:
+//	makeAudioMonitorTaskItemForSourceChannels:inputBufferSize:audioConverterBufferSize:audioQueueBufferSize:
 //==================================================================================
 
 - (TaskItem *)makeAudioMonitorTaskItemForSourceChannels:(NSInteger)sourceChannels
+        inputBufferSize:(NSInteger)inputBufferSize
+        audioConverterBufferSize:(NSInteger)audioConverterBufferSize
+        audioQueueBufferSize:(NSInteger)audioQueueBufferSize
 {
     // Get lpcm from stdin, re-sample to 48000 Hz, optionally play audio directly to current system CoreAudio device, output to stdout
     TaskItem * audioMonitorTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"AudioMonitor2" functionName:@"AudioMonitor2"];

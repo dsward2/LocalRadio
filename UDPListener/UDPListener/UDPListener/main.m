@@ -132,6 +132,7 @@
         void * dataPtr = (void *)streamData.bytes;
 
         size_t writeResult = fwrite(dataPtr, 1, dataLength, stdout);
+        #pragma unused(writeResult)
         
         fflush(stdout);
         
@@ -149,7 +150,8 @@
 
     //NSLog(@"UDPListener sending buffered data to stdout, length: %ld", [data length]);
     
-    void * dataPtr = data.bytes;
+    const void * dataPtr = data.bytes;
+    #pragma unused(dataPtr)
     
     //NSString * dataString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     //NSLog(@"UDPListener dataString: %@", dataString);

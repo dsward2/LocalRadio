@@ -6,12 +6,6 @@
 //  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
-//  AppDelegate start these subprocesses -
-//      mac_rtl_fm - connects to rtl-sdr USB device, and send raw, signed 16-bit PCM data to stdout
-//      lame - mac_rtl_fm data is sent to stdin, encoded MP3 data is sent to stdout
-//      ezstream - lame data is sent to stdin, connects and relays audio data to icecast process
-//      icecast -
-
 #import "AppDelegate.h"
 #import "LocalRadioAppSettings.h"
 #import "WebServerController.h"
@@ -28,7 +22,6 @@
 #import "TaskItem.h"
 #import "FCCSearchController.h"
 #import <IOKit/usb/IOUSBLib.h>
-//#import <IOKit/hid/IOHIDManager.h>
 #import <IOKit/hid/IOHIDLib.h>
 
 // for GetBSDProcessList
@@ -89,8 +82,6 @@ typedef struct kinfo_proc kinfo_proc;
     [self.ezStreamController terminateTasks];
     
     [self.icecastController terminateTasks];
-    
-    //[self.soxController terminateTasks];  // already handled by sdrController terminateTasks
     
     [self updateCurrentTasksText:self];
 }
@@ -220,14 +211,26 @@ typedef struct kinfo_proc kinfo_proc;
 
     if (self.listenMode == kListenModeFrequency)
     {
-        NSInteger nowPlayingFrequencyID = self.statusFrequencyIDTextField.integerValue;
+        __block NSInteger nowPlayingFrequencyID = 0;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            nowPlayingFrequencyID = self.statusFrequencyIDTextField.integerValue;
+        });
     
-        NSString * frequencyIDString = [NSString stringWithFormat:@"%ld", nowPlayingFrequencyID];
-        NSMutableDictionary * frequencyDictionary = [[self.sqliteController frequencyRecordForID:frequencyIDString] mutableCopy];
-        
-        if (frequencyDictionary != NULL)
+        if (nowPlayingFrequencyID > 0)
         {
-            [self.sdrController startRtlsdrTasksForFrequency:frequencyDictionary];
+            NSString * frequencyIDString = [NSString stringWithFormat:@"%ld", nowPlayingFrequencyID];
+            NSMutableDictionary * frequencyDictionary = [[self.sqliteController frequencyRecordForID:frequencyIDString] mutableCopy];
+            
+            if (frequencyDictionary != NULL)
+            {
+                [self.sdrController startRtlsdrTasksForFrequency:frequencyDictionary];
+            }
+        }
+        else
+        {
+            //NSBeep();
+            // probably restarting a non-RTL-SDR source
         }
     }
 
@@ -279,7 +282,6 @@ typedef struct kinfo_proc kinfo_proc;
         [tasksString appendString:radioTasksString];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-        
             [self.statusCurrentTasksTextView setString:tasksString];
         });
     }
@@ -892,15 +894,8 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         self.mp3SettingsTextField.stringValue = mp3SettingsString;
         self.mp3Settings = mp3SettingsString;
         
-        //float mp3SettingsFloat = mp3SettingsString.floatValue;
-        //NSInteger mp3SettingsBitrate = fabs(mp3SettingsFloat);
-        //NSInteger mp3SettingsQuality = (NSInteger)((fabs(mp3SettingsFloat) - (float)mp3SettingsBitrate) * 10.0f);
-
         NSDecimalNumber * mp3SettingsDecimalNumber = [[NSDecimalNumber alloc] initWithString:mp3SettingsString];
 
-        //NSDecimalNumberHandler * behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundUp scale:0 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:NO];
-        //NSDecimalNumber * bitrateDecimalNumber = [mp3SettingsDecimalNumber decimalNumberByRoundingAccordingToBehavior: behavior];
-        
         NSInteger bitrateInteger = [mp3SettingsDecimalNumber integerValue];
         NSDecimalNumber * bitrateDecimalNumber = [[NSDecimalNumber alloc] initWithInteger:bitrateInteger];
         
