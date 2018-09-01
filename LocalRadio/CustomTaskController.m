@@ -887,8 +887,11 @@
             NSString * customTaskJSON = [itemDictionary objectForKey:@"task_json"];
             NSNumber * sampleRate = [itemDictionary objectForKey:@"sample_rate"];
             NSNumber * channels = [itemDictionary objectForKey:@"channels"];
+            NSNumber * inputBufferSize = [itemDictionary objectForKey:@"input_buffer_size"];
+            NSNumber * audioConverterBufferSize = [itemDictionary objectForKey:@"audioconverter_buffer_size"];
+            NSNumber * audioQueueBufferSize = [itemDictionary objectForKey:@"audioqueue_buffer_size"];
 
-            [self.sqliteController updateCustomTaskRecordForID:customTaskID name:customTaskName json:customTaskJSON sampleRate:sampleRate.integerValue channels:channels.integerValue];
+            [self.sqliteController updateCustomTaskRecordForID:customTaskID name:customTaskName json:customTaskJSON sampleRate:sampleRate.integerValue channels:channels.integerValue inputBufferSize:inputBufferSize.integerValue audioConverterBufferSize:audioConverterBufferSize.integerValue audioQueueBufferSize:audioQueueBufferSize.integerValue];
         }
     }
 }
@@ -902,8 +905,11 @@
     NSString * customTaskJSON = @"{\"tasks\":[{\"path\": \"/Applications/LocalRadio.app/Contents/MacOS/rtl_fm_localradio\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17004\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}";
     NSInteger sampleRate = 170000;
     NSInteger channels = 1;
-    
-    [self.sqliteController insertCustomTaskRecord:customTaskName json:customTaskJSON sampleRate:sampleRate channels:channels];
+    NSInteger inputBufferSize = 256;
+    NSInteger audioConverterBufferSize = 256;
+    NSInteger audioQueueBufferSize = 256;
+
+    [self.sqliteController insertCustomTaskRecord:customTaskName json:customTaskJSON sampleRate:sampleRate channels:channels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
     
     self.allCustomTasksArray = [[self.sqliteController allCustomTaskRecords] mutableCopy];
 
@@ -938,7 +944,16 @@
             NSNumber * channelsNumber = [customTaskDictionary objectForKey:@"channels"];
             NSInteger channels = channelsNumber.integerValue;
             
-            [self.sqliteController insertCustomTaskRecord:customTaskName json:customTaskJSON sampleRate:sampleRate channels:channels];
+            NSNumber * inputBufferSizeNumber = [customTaskDictionary objectForKey:@"input_buffer_size"];
+            NSInteger inputBufferSize = inputBufferSizeNumber.integerValue;
+            
+            NSNumber * audioConverterBufferSizeNumber = [customTaskDictionary objectForKey:@"audioconverter_buffer_size"];
+            NSInteger audioConverterBufferSize = audioConverterBufferSizeNumber.integerValue;
+            
+            NSNumber * audioQueueBufferSizeNumber = [customTaskDictionary objectForKey:@"audioqueue_buffer_size"];
+            NSInteger audioQueueBufferSize = audioQueueBufferSizeNumber.integerValue;
+            
+            [self.sqliteController insertCustomTaskRecord:customTaskName json:customTaskJSON sampleRate:sampleRate channels:channels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
             
             self.allCustomTasksArray = [[self.sqliteController allCustomTaskRecords] mutableCopy];
 
@@ -1044,6 +1059,15 @@
             NSNumber * channelsNumber = [customTaskDictionary objectForKey:@"channels"];
             NSInteger channels = channelsNumber.integerValue;
 
+            NSNumber * inputBufferSizeNumber = [customTaskDictionary objectForKey:@"input_buffer_size"];
+            NSInteger inputBufferSize = inputBufferSizeNumber.integerValue;
+
+            NSNumber * audioConverterBufferSizeNumber = [customTaskDictionary objectForKey:@"audioconverter_buffer_size"];
+            NSInteger audioConverterBufferSize = audioConverterBufferSizeNumber.integerValue;
+
+            NSNumber * audioQueueBufferSizeNumber = [customTaskDictionary objectForKey:@"audioqueue_buffer_size"];
+            NSInteger audioQueueBufferSize = audioQueueBufferSizeNumber.integerValue;
+
             NSString * customTaskJSON = [[customTaskDictionary objectForKey:@"task_json"] mutableCopy];
             if (customTaskJSON == NULL)
             {
@@ -1106,7 +1130,7 @@
 
             [self.allCustomTasksArray replaceObjectAtIndex:selectedCustomTaskRow withObject:customTaskDictionary];
             
-            [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels];
+            [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
         }
     }
     
@@ -1149,6 +1173,15 @@
                 NSNumber * channelsNumber = [customTaskDictionary objectForKey:@"channels"];
                 NSInteger channels = channelsNumber.integerValue;
 
+                NSNumber * inputBufferSizeNumber = [customTaskDictionary objectForKey:@"input_buffer_size"];
+                NSInteger inputBufferSize = inputBufferSizeNumber.integerValue;
+                
+                NSNumber * audioConverterBufferSizeNumber = [customTaskDictionary objectForKey:@"audioconverter_buffer_size"];
+                NSInteger audioConverterBufferSize = audioConverterBufferSizeNumber.integerValue;
+                
+                NSNumber * audioQueueBufferSizeNumber = [customTaskDictionary objectForKey:@"audioqueue_buffer_size"];
+                NSInteger audioQueueBufferSize = audioQueueBufferSizeNumber.integerValue;
+
                 NSString * customTaskJSON = [[customTaskDictionary objectForKey:@"task_json"] mutableCopy];
                 if (customTaskJSON == NULL)
                 {
@@ -1178,7 +1211,7 @@
 
                         [self.allCustomTasksArray replaceObjectAtIndex:nameTableSelectedRow withObject:customTaskDictionary];
                         
-                        [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels];
+                        [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
 
                         self.allCustomTasksArray = [[self.sqliteController allCustomTaskRecords] mutableCopy];
 
@@ -1266,6 +1299,15 @@
         NSNumber * channelsNumber = [customTaskDictionary objectForKey:@"channels"];
         NSInteger channels = channelsNumber.integerValue;
 
+        NSNumber * inputBufferSizeNumber = [customTaskDictionary objectForKey:@"input_buffer_size"];
+        NSInteger inputBufferSize = inputBufferSizeNumber.integerValue;
+
+        NSNumber * audioConverterBufferSizeNumber = [customTaskDictionary objectForKey:@"audioconverter_buffer_size"];
+        NSInteger audioConverterBufferSize = audioConverterBufferSizeNumber.integerValue;
+
+        NSNumber * audioQueueBufferSizeNumber = [customTaskDictionary objectForKey:@"audioqueue_buffer_size"];
+        NSInteger audioQueueBufferSize = audioQueueBufferSizeNumber.integerValue;
+
         NSString * customTaskJSON = [[customTaskDictionary objectForKey:@"task_json"] mutableCopy];
         if (customTaskJSON != NULL)
         {
@@ -1310,7 +1352,7 @@
 
                         [self.allCustomTasksArray replaceObjectAtIndex:selectedCustomTaskRow withObject:customTaskDictionary];
                         
-                        [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels];
+                        [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
     
                         self.allCustomTasksArray = [[self.sqliteController allCustomTaskRecords] mutableCopy];
 
@@ -1377,6 +1419,15 @@
         NSNumber * channelsNumber = [customTaskDictionary objectForKey:@"channels"];
         NSInteger channels = channelsNumber.integerValue;
 
+        NSNumber * inputBufferSizeNumber = [customTaskDictionary objectForKey:@"input_buffer_size"];
+        NSInteger inputBufferSize = inputBufferSizeNumber.integerValue;
+    
+        NSNumber * audioConverterBufferSizeNumber = [customTaskDictionary objectForKey:@"audioconverter_buffer_size"];
+        NSInteger audioConverterBufferSize = audioConverterBufferSizeNumber.integerValue;
+    
+        NSNumber * audioQueueBufferSizeNumber = [customTaskDictionary objectForKey:@"audioqueue_buffer_size"];
+        NSInteger audioQueueBufferSize = audioQueueBufferSizeNumber.integerValue;
+
         NSString * customTaskJSON = [[customTaskDictionary objectForKey:@"task_json"] mutableCopy];
         if (customTaskJSON != NULL)
         {
@@ -1422,7 +1473,7 @@
 
                             [self.allCustomTasksArray replaceObjectAtIndex:selectedCustomTaskRow withObject:customTaskDictionary];
                         
-                            [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels];
+                            [self.sqliteController updateCustomTaskRecordForID:taskIDString name:taskName json:newJSONString sampleRate:sampleRate channels:channels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
         
                             self.allCustomTasksArray = [[self.sqliteController allCustomTaskRecords] mutableCopy];
 

@@ -521,7 +521,7 @@
 
 - (NSArray *)allCustomTaskRecords
 {
-    NSString * queryString = @"SELECT id, task_name, task_json, sample_rate, channels FROM custom_task ORDER BY id;";
+    NSString * queryString = @"SELECT id, task_name, task_json, sample_rate, channels, input_buffer_size, audioconverter_buffer_size, audioqueue_buffer_size FROM custom_task ORDER BY id;";
     
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
@@ -536,7 +536,7 @@
 {
     NSInteger customTaskID = [customTaskIDString integerValue];
 
-    NSString * customTaskQueryString = [NSString stringWithFormat:@"SELECT id, task_name, task_json, sample_rate, channels FROM custom_task WHERE id='%ld';", customTaskID];
+    NSString * customTaskQueryString = [NSString stringWithFormat:@"SELECT id, task_name, task_json, sample_rate, channels, input_buffer_size, audioconverter_buffer_size, audioqueue_buffer_size FROM custom_task WHERE id='%ld';", customTaskID];
     NSArray * customTaskQueryResultArray = [SQLiteLibrary performQueryAndGetResultList:customTaskQueryString];
     
     NSDictionary * customTaskQueryResult = customTaskQueryResultArray.firstObject;
@@ -548,7 +548,7 @@
 //    insertCustomTaskRecord:json:sampleRate:channels:
 //==================================================================================
 
-- (void)insertCustomTaskRecord:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels
+- (void)insertCustomTaskRecord:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels inputBufferSize:(NSInteger)inputBufferSize audioConverterBufferSize:(NSInteger)audioConverterBufferSize audioQueueBufferSize:(NSInteger)audioQueueBufferSize
 {
     //NSString * customTaskInsertQueryString = [NSString stringWithFormat:@"INSERT INTO custom_task (task_name, task_json) VALUES ('%@', '%@');", customTaskName, customTaskJSON];
     
@@ -556,12 +556,18 @@
     
     NSNumber * sampleRateNumber = [NSNumber numberWithInteger:sampleRate];
     NSNumber * channelsNumber = [NSNumber numberWithInteger:channels];
-    
+    NSNumber * inputBufferSizeNumber = [NSNumber numberWithInteger:inputBufferSize];
+    NSNumber * audioConverterBufferSizeNumber = [NSNumber numberWithInteger:audioConverterBufferSize];
+    NSNumber * audioQueueBufferSizeNumber = [NSNumber numberWithInteger:audioQueueBufferSize];
+
     NSDictionary * customTaskDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             customTaskName, @"task_name",
             customTaskJSON, @"task_json",
             sampleRateNumber, @"sample_rate",
             channelsNumber, @"channels",
+            inputBufferSizeNumber, @"input_buffer_size",
+            audioConverterBufferSizeNumber, @"audioconverter_buffer_size",
+            audioQueueBufferSizeNumber, @"audioqueue_buffer_size",
             NULL];
     
     BOOL beginResult = [SQLiteLibrary begin];
@@ -575,10 +581,10 @@
 //    updateCustomTaskRecordForID:name:json:sampleRate:channels:
 //==================================================================================
 
-- (void)updateCustomTaskRecordForID:(NSString *)customTaskID name:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels
+- (void)updateCustomTaskRecordForID:(NSString *)customTaskID name:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels inputBufferSize:(NSInteger)inputBufferSize audioConverterBufferSize:(NSInteger)audioConverterBufferSize audioQueueBufferSize:(NSInteger)audioQueueBufferSize
 {
-    NSString * updateQueryString = [NSString stringWithFormat:@"UPDATE custom_task SET task_name='%@', task_json='%@', sample_rate='%ld', channels='%ld' WHERE id=%@",
-            customTaskName, customTaskJSON, sampleRate, channels, customTaskID];
+    NSString * updateQueryString = [NSString stringWithFormat:@"UPDATE custom_task SET task_name='%@', task_json='%@', sample_rate='%ld', channels='%ld', input_buffer_size='%ld', audioconverter_buffer_size='%ld', audioqueue_buffer_size='%ld' WHERE id=%@",
+            customTaskName, customTaskJSON, sampleRate, channels, inputBufferSize, audioConverterBufferSize, audioQueueBufferSize, customTaskID];
 
     BOOL beginResult = [SQLiteLibrary begin];
 

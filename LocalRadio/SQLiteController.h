@@ -38,8 +38,8 @@
 
 - (NSArray *)allCustomTaskRecords;
 - (NSDictionary *)customTaskForID:(NSString *)customTaskIDString;
-- (void)insertCustomTaskRecord:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels;
-- (void)updateCustomTaskRecordForID:(NSString *)customTaskID name:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels;
+- (void)insertCustomTaskRecord:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels inputBufferSize:(NSInteger)inputBufferSize audioConverterBufferSize:(NSInteger)audioConverterBufferSize audioQueueBufferSize:(NSInteger)audioQueueBufferSize;
+- (void)updateCustomTaskRecordForID:(NSString *)customTaskID name:(NSString *)customTaskName json:(NSString *)customTaskJSON sampleRate:(NSInteger)sampleRate channels:(NSInteger)channels inputBufferSize:(NSInteger)inputBufferSize audioConverterBufferSize:(NSInteger)audioConverterBufferSize audioQueueBufferSize:(NSInteger)audioQueueBufferSize;
 - (void)deleteCustomTaskRecordForID:(NSString *)customTaskIDString;
 
 - (int64_t)storeRecord:(NSDictionary *)recordDictionary table:(NSString *)tableName;   // insert or update, depending on recordDictionary=>'id'
