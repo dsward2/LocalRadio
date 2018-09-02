@@ -3021,8 +3021,22 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSString * audioOutputFilterString = [favoriteDictionary objectForKey:@"audio_output_filter"];
 
-        NSNumber * stereoFlagNumber = [favoriteDictionary objectForKey:@"stereo_flag"];
-        NSString * stereoFlagString = [stereoFlagNumber stringValue];
+        //NSString * stereoFlagString = [favoriteDictionary objectForKey:@"stereo_flag"];
+        //NSNumber * stereoFlagNumber = [NSNumber numberWithInteger:stereoFlagString.integerValue];
+        // apparently stereo_flag's type is getting clobbered by form results, can be string or number
+        NSNumber * stereoFlagNumber = NULL;
+        NSString * stereoFlagString = NULL;
+        id stereoFlagValue = [favoriteDictionary objectForKey:@"stereo_flag"];
+        if ([stereoFlagValue isKindOfClass:[NSString class]] == YES)
+        {
+            stereoFlagString = stereoFlagValue;
+            stereoFlagNumber = [NSNumber numberWithInteger:stereoFlagString.integerValue];
+        }
+        else if ([stereoFlagValue isKindOfClass:[NSNumber class]] == YES)
+        {
+            stereoFlagNumber = stereoFlagValue; // the correct type
+            stereoFlagString = stereoFlagNumber.stringValue;
+        }
 
         NSMutableString * formString = [NSMutableString string];
         

@@ -1710,7 +1710,6 @@
 		0EC2075A1EDB83DD006899EB /* listen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listen.html; sourceTree = "<group>"; };
 		0EC207651EDCE11A006899EB /* SDRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRController.h; sourceTree = "<group>"; };
 		0EC207661EDCE11A006899EB /* SDRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRController.m; sourceTree = "<group>"; };
-		0EC207681EDF68EE006899EB /* LocalRadio-V3.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LocalRadio-V3.sqlite3"; sourceTree = "<group>"; };
 		0EC207691EDF73EE006899EB /* scannercategories.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = scannercategories.html; sourceTree = "<group>"; };
 		0ECAD5602109BA46005F4BB1 /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libliquid.dylib; sourceTree = "<group>"; };
 		0ECAD565210C35C0005F4BB1 /* fix_stereodemux.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_stereodemux.sh; sourceTree = "<group>"; };
@@ -3440,7 +3439,6 @@
 				0EFFD1201EAE08A60041D2F5 /* icecast.xml */,
 				0EFFD1221EAE33190041D2F5 /* ezstream_mp3.xml */,
 				0E84C9C81ED945E90065864B /* data_skeleton.sqlite3 */,
-				0EC207681EDF68EE006899EB /* LocalRadio-V3.sqlite3 */,
 				0EF173251F60C25E0067E8C0 /* zip_lat_long.txt */,
 				0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */,
 				0E84C9BB1ED935E00065864B /* SQLiteLibrary-master */,

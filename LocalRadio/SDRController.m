@@ -270,10 +270,10 @@
     {
         if (frequenciesArray.count == 1)
         {
-            NSDictionary * freequencyDictionary = frequenciesArray.firstObject;
-            NSNumber * stereo_flagNumber = [freequencyDictionary objectForKey:@"stereo_flag"];
-            NSNumber * sample_rateNumber = [freequencyDictionary objectForKey:@"sample_rate"];
-            NSString * modulation = [freequencyDictionary objectForKey:@"modulation"];
+            NSDictionary * frequencyDictionary = frequenciesArray.firstObject;
+            NSNumber * stereo_flagNumber = [frequencyDictionary objectForKey:@"stereo_flag"];
+            NSNumber * sample_rateNumber = [frequencyDictionary objectForKey:@"sample_rate"];
+            NSString * modulation = [frequencyDictionary objectForKey:@"modulation"];
             if (stereo_flagNumber.boolValue == YES)
             {
                 if (sample_rateNumber.integerValue >= 106000)   // stereodemux requires sample rate >= 106000 Hz
