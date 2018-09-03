@@ -171,7 +171,7 @@ void * runInputBufferOnThread(void * ptr)
 
         if (bytesAvailableCount <= 0)
         {
-            usleep(10000);
+            usleep(50000);
         }
         else
         {
