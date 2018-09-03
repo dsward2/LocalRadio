@@ -15,6 +15,8 @@
 @property (strong) NSString * functionName;
 @property (strong) NSMutableArray * argsArray;
 
+@property (strong) NSPipe * stderrPipe;
+
 - (void) addArgument:(NSString *)argItem;
 
 - (NSString *) quotedPath;

@@ -293,6 +293,10 @@
                             intermediateChannels = 2;
                             
                             // adjust buffer sizes for 2 channels
+                            //inputBufferSize = 768;
+                            //audioConverterBufferSize = 768;
+                            //audioQueueBufferSize = 512;
+                            
                             inputBufferSize = 768;
                             audioConverterBufferSize = 768;
                             audioQueueBufferSize = 512;
@@ -885,6 +889,15 @@
     [audioMonitorTaskItem addArgument:@"-v"];
     [audioMonitorTaskItem addArgument:livePlaythroughVolume];
     
+    [audioMonitorTaskItem addArgument:@"-b1"];
+    [audioMonitorTaskItem addArgument:[NSString stringWithFormat:@"%ld", inputBufferSize]];
+
+    [audioMonitorTaskItem addArgument:@"-b2"];
+    [audioMonitorTaskItem addArgument:[NSString stringWithFormat:@"%ld", audioConverterBufferSize]];
+
+    [audioMonitorTaskItem addArgument:@"-b3"];
+    [audioMonitorTaskItem addArgument:[NSString stringWithFormat:@"%ld", audioQueueBufferSize]];
+
     return audioMonitorTaskItem;
 }
 

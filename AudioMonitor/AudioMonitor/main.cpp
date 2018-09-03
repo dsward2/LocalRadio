@@ -35,12 +35,6 @@
 // AudioMonitor2 -r 44100 -v 0 -c 2 -b1 512 -b2 512 -b3 512
 
 
-CFComparisonResult compareStrings(CFStringRef str1, CFStringRef str2)
-{
-   return CFStringCompareWithOptions(str1, str2, CFRangeMake(0,CFStringGetLength(str1)), kCFCompareCaseInsensitive);
-}
-
-
 int main(int argc, const char * argv[])
 {
     //raise(SIGSTOP); // Stop and wait for debugger. Click the Debugger's Resume button to continue execution

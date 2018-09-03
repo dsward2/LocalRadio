@@ -12,6 +12,11 @@
 @implementation TaskItem
 
 
+- (void)dealloc
+{
+    [self.task.standardError fileHandleForReading].readabilityHandler = nil;
+}
+
 - (instancetype)init
 {
     self = [super init];

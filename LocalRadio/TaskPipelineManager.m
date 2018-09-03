@@ -13,15 +13,21 @@
 
 @implementation TaskPipelineManager
 
+//==================================================================================
+//    dealloc
+//==================================================================================
 
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [self.periodicTaskPipelineCheckTimer invalidate];
     self.periodicTaskPipelineCheckTimer = NULL;
 }
 
-
-
+//==================================================================================
+//    init
+//==================================================================================
 
 - (instancetype)init
 {
@@ -38,8 +44,9 @@
     return self;
 }
 
-
-
+//==================================================================================
+//    makeTaskItemWithExecutable:functionName:
+//==================================================================================
 
 - (TaskItem *) makeTaskItemWithExecutable:(NSString *)executableName functionName:(NSString *)functionName
 {
@@ -54,7 +61,9 @@
     return taskItem;
 }
 
-
+//==================================================================================
+//    makeTaskItemWithPathToExecutable:functionName:
+//==================================================================================
 
 - (TaskItem *) makeTaskItemWithPathToExecutable:(NSString *)executablePath functionName:(NSString *)functionName
 {
@@ -66,14 +75,18 @@
     return taskItem;
 }
 
+//==================================================================================
+//    addTaskItem:
+//==================================================================================
 
 - (void) addTaskItem:(TaskItem *)taskItem
 {
     [self.taskItemsArray addObject:taskItem];
 }
 
-
-
+//==================================================================================
+//    configureTaskPipes
+//==================================================================================
 
 - (void) configureTaskPipes
 {
@@ -105,20 +118,63 @@
             TaskItem * nextTaskItem = [self.taskItemsArray objectAtIndex:currentTaskItemIndex + 1];
             [nextTaskItem.task setStandardInput:intertaskPipe];
             
-            [taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+            //[taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
         }
         else
         {
             // set last task's stdout to /dev/null
             [taskItem.task setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
 
-            [taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+            //[taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
         }
+
+        
+        // send stderr from the task to this object
+        taskItem.stderrPipe = [NSPipe pipe];
+        [taskItem.task setStandardError:taskItem.stderrPipe];
+
+        /*
+        [[taskItem.task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file)
+        {
+            // read stderr asynchronously and echo NSLog
+            NSData *data = [file availableData];
+            if (data.length > 0)
+            {
+                NSLog(@"LocalRadio stderr: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                
+                [file waitForDataInBackgroundAndNotify];
+            }
+        }];
+        */
+
+        NSFileHandle * stderrFile = taskItem.stderrPipe.fileHandleForReading;
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskReceivedStderrData:) name:NSFileHandleDataAvailableNotification object:stderrFile];
+
+        [stderrFile waitForDataInBackgroundAndNotify];
     }
 }
 
+//==================================================================================
+//    taskReceivedStderrData:
+//==================================================================================
 
+- (void)taskReceivedStderrData:(NSNotification *)notif {
 
+    NSFileHandle * fileHandle = [notif object];
+    NSData * data = [fileHandle availableData];
+    if (data.length > 0)
+    {
+        // if data is found, re-register for more data (and print)
+        NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"LocalRadio stderr: %@" , str);
+    }
+    [fileHandle waitForDataInBackgroundAndNotify];
+}
+
+//==================================================================================
+//    startTasks
+//==================================================================================
 
 - (void) startTasks
 {
@@ -152,8 +208,9 @@
     }
 }
 
-
-
+//==================================================================================
+//    terminateTasks
+//==================================================================================
 
 - (void) terminateTasks
 {
@@ -182,7 +239,9 @@
     self.taskPipelineStatus = kTaskPipelineStatusTerminated;
 }
 
-
+//==================================================================================
+//    periodicTaskPipelineCheckTimerFired
+//==================================================================================
 
 - (void) periodicTaskPipelineCheckTimerFired:(NSTimer *)timer
 {
@@ -216,8 +275,9 @@
     }
 }
 
-
-
+//==================================================================================
+//    tasksInfoString
+//==================================================================================
 
 - (NSString *)tasksInfoString
 {

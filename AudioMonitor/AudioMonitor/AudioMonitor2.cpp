@@ -102,7 +102,7 @@ void stopAudio()
 
 void logDescription(AudioStreamBasicDescription * asbd, const char * name)
 {
-    fprintf(stderr, "AudioMonitor - AudioStreamBasicDescription %s\n", name);
+    fprintf(stderr, "AudioMonitor2 - AudioStreamBasicDescription %s\n", name);
     fprintf(stderr, "   %s.mSampleRate=%f\n", name, asbd->mSampleRate);
     
     char c[5];
@@ -143,7 +143,7 @@ void * runInputBufferOnThread(void * ptr)
     int32_t circularBufferLength = inputBufferSize;
     TPCircularBufferInit(&inputCircularBuffer, circularBufferLength);
     
-    fprintf(stderr, "AudioMonitor runInputBufferOnThread circularBufferLength = %d\n", circularBufferLength);
+    fprintf(stderr, "AudioMonitor2 runInputBufferOnThread circularBufferLength = %d\n", circularBufferLength);
     
     // continuous run loop
     while (doExit == false)
@@ -160,18 +160,18 @@ void * runInputBufferOnThread(void * ptr)
 
         UInt32 bytesAvailableCount = 0;
 
-        // use ioctl to determine amount of data available for reading from the source input, like the RTL-SDR USB serial device
+        // use ioctl to determine amount of data available for reading on stdin, like the RTL-SDR USB serial device
         int ioctl_result = ioctl( STDIN_FILENO, FIONREAD, &bytesAvailableCount);
         if (ioctl_result < 0)
         {
-            fprintf(stderr, "AudioMonitor ioctl failed: %s\n", strerror(errno));
+            fprintf(stderr, "AudioMonitor2 ioctl failed: %s\n", strerror(errno));
             doExit = true;
             break;
         }
 
         if (bytesAvailableCount <= 0)
         {
-            usleep(100000);
+            usleep(10000);
         }
         else
         {
@@ -184,10 +184,12 @@ void * runInputBufferOnThread(void * ptr)
                     memset(rtlsdrBuffer, 0, bytesAvailableCount);
                     
                     long readResult = read( STDIN_FILENO, rtlsdrBuffer, bytesAvailableCount);
-                    
+
+                    //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - read completed, bytesAvailableCount = %d\n", bytesAvailableCount);
+
                     if (readResult <= 0)
                     {
-                        fprintf(stderr, "AudioMonitor read failed: %s\n", strerror(errno));
+                        fprintf(stderr, "AudioMonitor2 read failed: %s\n", strerror(errno));
                         break;
                     }
                     else
@@ -203,7 +205,7 @@ void * runInputBufferOnThread(void * ptr)
                         {
                             TPCircularBufferClear(&inputCircularBuffer);
 
-                            fprintf(stderr, "AudioMonitor runInputBufferOnThread - produce bytes failed, bytesAvailableCount = %d\n", bytesAvailableCount);
+                            fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - produce bytes failed, bytesAvailableCount = %d\n", bytesAvailableCount);
                         }
                         else
                         {
@@ -218,19 +220,19 @@ void * runInputBufferOnThread(void * ptr)
                 }
                 else
                 {
-                    fprintf(stderr, "AudioMonitor runInputBufferOnThread - rtlsdrBuffer allocation failed - rtlsdrBuffer=%d\n", bytesAvailableCount);
+                    fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - rtlsdrBuffer allocation failed - rtlsdrBuffer=%d\n", bytesAvailableCount);
                 }
             }
             else
             {
-                fprintf(stderr, "AudioMonitor bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
+                fprintf(stderr, "AudioMonitor2 bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
             }
         }
 
         time_t intervalSinceLastRead = currentTime - lastReadTime;
         if (intervalSinceLastRead >= nextTimeoutReportInterval)
         {
-            fprintf(stderr, "AudioMonitor intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
+            fprintf(stderr, "AudioMonitor2 intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
 
             nextTimeoutReportInterval += 5;
         }
@@ -300,7 +302,7 @@ void startAudioConverter()
     OSStatus audioConverterNewStatus = AudioConverterNew(&audioConverterInputDescription, &audioConverterOutputDescription, &inAudioConverter);
     if (audioConverterNewStatus != noErr)
     {
-        fprintf(stderr, "AudioMonitor audioConverterNewStatus audioConverterNewStatus %d\n", audioConverterNewStatus);
+        fprintf(stderr, "AudioMonitor2 audioConverterNewStatus audioConverterNewStatus %d\n", audioConverterNewStatus);
     }
 }
 
@@ -667,7 +669,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
             OSStatus queueEnqueueStatus = AudioQueueEnqueueBuffer(queue, buffer, 0, NULL);
             if (queueEnqueueStatus != noErr)
             {
-                fprintf(stderr, "AudioMonitor audioQueueCallback data queueEnqueueStatus %d\n", queueEnqueueStatus);
+                fprintf(stderr, "AudioMonitor2 audioQueueCallback data queueEnqueueStatus %d\n", queueEnqueueStatus);
             }
         }
 
@@ -680,7 +682,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
     {
         // no data available in circular buffer, so output some packets of silence
         
-        //fprintf(stderr, "AudioMonitor audioQueueCallback - no input data available, output silence\n");
+        fprintf(stderr, "AudioMonitor audioQueueCallback - no input data available, output silence\n");
         //buffer->mAudioDataByteSize = 128 * sizeof(SInt16) * 2;      // 128 frames * 2 bytes per packet * 2 packets per frame
         buffer->mAudioDataByteSize = audioQueueDataBytesCapacity;
 
@@ -692,7 +694,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
             OSStatus queueEnqueueStatus = AudioQueueEnqueueBuffer(queue, buffer, 0, NULL);
             if (queueEnqueueStatus != noErr)
             {
-                fprintf(stderr, "AudioMonitor audioQueueCallback silence queueEnqueueStatus %d\n", queueEnqueueStatus);
+                fprintf(stderr, "AudioMonitor2 audioQueueCallback silence queueEnqueueStatus %d\n", queueEnqueueStatus);
             }
         }
     }
@@ -704,7 +706,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
 
 void * runAudioQueueOnThread(void * ptr)
 {
-    pthread_setname_np("runAudioQueueOnThread");
+    pthread_setname_np("AudioMonitor2 runAudioQueueOnThread");
 
     sleep(3);     // allow time for startup
 
@@ -728,13 +730,13 @@ void * runAudioQueueOnThread(void * ptr)
         audioQueueDescription.mBytesPerPacket   = audioQueueDescription.mBytesPerFrame * audioQueueDescription.mFramesPerPacket;
         audioQueueDescription.mReserved         = 0;
 
-        fprintf(stderr, "AudioMonitor runAudioQueueOnThread audioQueueBufferSize = %d\n", audioQueueBufferSize);
+        fprintf(stderr, "AudioMonitor2 runAudioQueueOnThread audioQueueBufferSize = %d\n", audioQueueBufferSize);
         logDescription(&audioQueueDescription, "audioQueueFormat");
         
         OSStatus newQueueOutputStatus = AudioQueueNewOutput(&audioQueueDescription, audioQueueCallback, NULL, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &audioQueue);
         if (newQueueOutputStatus != noErr)
         {
-            fprintf(stderr, "AudioMonitor runAudioQueueOnThread newQueueOutputStatus %d\n", newQueueOutputStatus);
+            fprintf(stderr, "AudioMonitor2 runAudioQueueOnThread newQueueOutputStatus %d\n", newQueueOutputStatus);
         }
 
         // AudioQueue values for audio device output
@@ -746,7 +748,7 @@ void * runAudioQueueOnThread(void * ptr)
             OSStatus queueAllocateStatus = AudioQueueAllocateBuffer(audioQueue, audioQueueBufferSize, &buffers[i]);
             if (queueAllocateStatus != noErr)
             {
-                fprintf(stderr, "AudioMonitor runAudioQueueOnThread queueAllocateStatus %d\n", queueAllocateStatus);
+                fprintf(stderr, "AudioMonitor2 runAudioQueueOnThread queueAllocateStatus %d\n", queueAllocateStatus);
             }
 
             buffers[i]->mAudioDataByteSize = audioQueueBufferSize;
@@ -760,13 +762,13 @@ void * runAudioQueueOnThread(void * ptr)
         OSStatus queuePrimeStatus = AudioQueuePrime(audioQueue, inNumberOfFramesToPrepare, &outNumberOfFramesPrepared);
         if (queuePrimeStatus != noErr)
         {
-            fprintf(stderr, "AudioMonitor runAudioQueueOnThread queuePrimeStatus %d\n", queuePrimeStatus);
+            fprintf(stderr, "AudioMonitor2 runAudioQueueOnThread queuePrimeStatus %d\n", queuePrimeStatus);
         }
         
         OSStatus queueStartStatus = AudioQueueStart(audioQueue, NULL);
         if (queueStartStatus != noErr)
         {
-            fprintf(stderr, "AudioMonitor runAudioQueueOnThread queueStartStatus %d\n", queueStartStatus);
+            fprintf(stderr, "AudioMonitor2 runAudioQueueOnThread queueStartStatus %d\n", queueStartStatus);
         }
     }
     

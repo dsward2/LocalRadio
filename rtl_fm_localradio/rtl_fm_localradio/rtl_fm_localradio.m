@@ -1356,8 +1356,9 @@ static void *controller_thread_fn(void *arg)
 		
 	NSLog(@"Oversampling input by: %ix.", demod.downsample);
 	NSLog(@"Oversampling output by: %ix.", demod.post_downsample);
-	NSLog(@"Buffer size: %0.2fms",
-		1000 * 0.5 * (float)ACTUAL_BUF_LENGTH / (float)dongle.rate);
+	NSLog(@"Buffer size: %0.2fms (%d bytes)",
+		1000 * 0.5 * (float)ACTUAL_BUF_LENGTH / (float)dongle.rate,
+        ACTUAL_BUF_LENGTH);
 		
 
 	/* Set the sample rate */
