@@ -10,6 +10,7 @@
 #import "TaskItem.h"
 #import "AppDelegate.h"
 #import "IcecastController.h"
+#import "LocalRadioAppSettings.h"
 
 @implementation TaskPipelineManager
 
@@ -128,30 +129,29 @@
             //[taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
         }
 
+        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+        NSNumber * captureStderrNumber = [appDelegate.localRadioAppSettings integerForKey:@"CaptureStderr"];
+        BOOL captureStderr = captureStderrNumber.boolValue;
         
-        // send stderr from the task to this object
-        taskItem.stderrPipe = [NSPipe pipe];
-        [taskItem.task setStandardError:taskItem.stderrPipe];
-
-        /*
-        [[taskItem.task.standardError fileHandleForReading] setReadabilityHandler:^(NSFileHandle *file)
+        if (captureStderr == YES)
         {
-            // read stderr asynchronously and echo NSLog
-            NSData *data = [file availableData];
-            if (data.length > 0)
-            {
-                NSLog(@"LocalRadio stderr: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-                
-                [file waitForDataInBackgroundAndNotify];
-            }
-        }];
-        */
+            // send stderr from the NSTask to this object, which calls NSLog()
+            taskItem.stderrPipe = [NSPipe pipe];
+            [taskItem.task setStandardError:taskItem.stderrPipe];
 
-        NSFileHandle * stderrFile = taskItem.stderrPipe.fileHandleForReading;
+            NSFileHandle * stderrFile = taskItem.stderrPipe.fileHandleForReading;
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskReceivedStderrData:) name:NSFileHandleDataAvailableNotification object:stderrFile];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskReceivedStderrData:) name:NSFileHandleDataAvailableNotification object:stderrFile];
 
-        [stderrFile waitForDataInBackgroundAndNotify];
+            [stderrFile waitForDataInBackgroundAndNotify];
+            NSLog(@"LocalRadio TaskPipelineManager configureTaskPipes - captureStderr = YES");
+        }
+        else
+        {
+            // send the NSTask's stderr to /dev/null
+            [taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+            NSLog(@"LocalRadio TaskPipelineManager configureTaskPipes - captureStderr = NO");
+        }
     }
 }
 
@@ -186,7 +186,7 @@
             
             if (createTaskError != NULL)
             {
-                NSLog(@"startTasks - createTaskError - %@", createTaskError);
+                NSLog(@"LocalRadio TaskPipelineManager startTasks - createTaskError - %@", createTaskError);
             }
         }
 
@@ -198,7 +198,7 @@
             
             if (startTaskError != NULL)
             {
-                NSLog(@"startTasks - startTaskError - %@", startTaskError);
+                NSLog(@"LocalRadio TaskPipelineManager startTasks - startTaskError - %@", startTaskError);
             }
             
             [NSThread sleepForTimeInterval:0.2f];
@@ -230,7 +230,7 @@
                 }
             }
         }
-        
+
         [self.taskItemsArray removeAllObjects];
     }
 
@@ -263,7 +263,7 @@
 
     if (failedTaskFound == YES)
     {
-        NSLog(@"TaskPipelineManager - TaskPipelineFailed - %@ - %@", failedTaskItem, self.taskItemsArray);
+        NSLog(@"LocalRadio TaskPipelineManager - TaskPipelineFailed - %@ - %@", failedTaskItem, self.taskItemsArray);
 
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskPipelineFailedNotification" object:self];
 

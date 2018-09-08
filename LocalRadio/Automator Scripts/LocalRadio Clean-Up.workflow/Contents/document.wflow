@@ -64,7 +64,7 @@
 					<key>displayWarning</key>
 					<false/>
 					<key>explanationText</key>
-					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: sox, UDPSender, UDPListener, rtl_fm_localradio, icecast, ezstream, AudioMonitor, and stereodemux.</string>
+					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: sox, UDPSender, UDPListener, rtl_fm_localradio, icecast, ezstream, AudioMonitor, AudioMonitor2 and stereodemux.</string>
 					<key>negativeTitle</key>
 					<string>Cancel</string>
 					<key>questionText</key>
@@ -173,7 +173,7 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>270.750000:199.000000</string>
+				<string>357.500000:199.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -275,6 +275,12 @@ else
 	then
     	echo "pkill AudioMonitor"
 		pkill AudioMonitor
+	fi
+
+	if pgrep -x "AudioMonitor2" &gt; /dev/null
+	then
+    	echo "pkill AudioMonitor2"
+		pkill AudioMonitor2
 	fi
 
 	if pgrep -x "stereodemux" &gt; /dev/null
@@ -396,7 +402,7 @@ fi
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>270.750000:450.000000</string>
+				<string>357.500000:382.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -528,12 +534,10 @@ fi
 						<string>2</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>270.750000:640.000000</string>
+				<string>357.500000:572.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Display Notification.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -543,19 +547,19 @@ fi
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0B9E33F7-F22B-4170-B489-6E77A335B564</key>
-		<dict>
-			<key>from</key>
-			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>
-			<key>to</key>
-			<string>17810AEA-E10E-4539-A179-27F66A9F6362 - 17810AEA-E10E-4539-A179-27F66A9F6362</string>
-		</dict>
-		<key>66917305-C763-4618-9E34-1B205CBA8E25</key>
+		<key>4361561E-A401-4361-93CD-145C9057762B</key>
 		<dict>
 			<key>from</key>
 			<string>F71504F6-88ED-4F28-9945-F7A987CB8965 - F71504F6-88ED-4F28-9945-F7A987CB8965</string>
 			<key>to</key>
 			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>
+		</dict>
+		<key>7657EA24-5DB6-4FCB-8B52-A1C8BE6624C4</key>
+		<dict>
+			<key>from</key>
+			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>
+			<key>to</key>
+			<string>17810AEA-E10E-4539-A179-27F66A9F6362 - 17810AEA-E10E-4539-A179-27F66A9F6362</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

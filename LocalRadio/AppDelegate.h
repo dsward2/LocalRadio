@@ -85,6 +85,7 @@
 
 @property (weak) IBOutlet NSButton * useWebViewAudioPlayerCheckbox;
 @property (weak) IBOutlet NSButton * useAutoPlayCheckbox;
+@property (weak) IBOutlet NSButton * logAllStderrMessagesCheckbox;
 
 
 @property (weak) IBOutlet NSTextField * editHttpServerPortTextField;
@@ -100,11 +101,11 @@
 @property (weak) IBOutlet NSTextField * editControlPortTextField;
 @property (weak) IBOutlet NSTextField * editAudioPortTextField;
 
-@property (weak) IBOutlet NSButton * editMP3ConstantRadioButton;
 @property (weak) IBOutlet NSPopUpButton * editMP3ConstantPopUpButton;
 @property (weak) IBOutlet NSPopUpButton * editMP3EncodingQualityPopUpButton;
 
 @property (weak) IBOutlet NSButton * editUseWebViewAudioPlayerCheckbox;
+@property (weak) IBOutlet NSButton * editLogAllStderrMessages;
 
 @property (weak) IBOutlet NSButton * editSaveButton;
 @property (weak) IBOutlet NSButton * editCancelButton;
@@ -120,6 +121,7 @@
 @property (strong) NSString * mp3Settings;
 @property (assign) BOOL useWebViewAudioPlayer;
 @property (assign) BOOL useAutoPlay;
+@property (assign) BOOL logAllStderrMessages;
 @property (assign) NSUInteger icecastServerPort;
 @property (strong) NSString * statusFrequencyID;
 @property (strong) NSString * statusFrequency;

@@ -31,6 +31,7 @@
                 <outlet property="editIcecastServerPortTextField" destination="J0M-ht-KQr" id="Jyc-79-p4f"/>
                 <outlet property="editIcecastServerSourcePasswordTextField" destination="fuC-VO-4HF" id="Tak-k7-TMG"/>
                 <outlet property="editIcecastServerWebURLTextField" destination="Yny-sG-TDf" id="5qV-rf-qex"/>
+                <outlet property="editLogAllStderrMessages" destination="ILi-lj-8oz" id="twh-yH-Mel"/>
                 <outlet property="editMP3ConstantPopUpButton" destination="9xJ-Ya-ucR" id="TfL-tB-lT9"/>
                 <outlet property="editMP3EncodingQualityPopUpButton" destination="mzI-of-7vc" id="BNI-4g-ucX"/>
                 <outlet property="editSaveButton" destination="zcQ-cW-z91" id="KCl-EY-Nj4"/>
@@ -48,6 +49,7 @@
                 <outlet property="icecastServerSourcePasswordTextField" destination="uJW-ps-tz3" id="z7K-VN-9L1"/>
                 <outlet property="icecastServerWebURLTextField" destination="EM9-rk-98W" id="bfL-qT-rDL"/>
                 <outlet property="localRadioAppSettings" destination="e7V-Ua-sAt" id="eV1-zd-FDq"/>
+                <outlet property="logAllStderrMessagesCheckbox" destination="CW5-5Q-W7U" id="929-HB-sdr"/>
                 <outlet property="mp3SettingsDescriptionTextField" destination="WIb-31-0nH" id="XIM-xa-cD7"/>
                 <outlet property="mp3SettingsTextField" destination="P1Z-tT-rgf" id="GhK-4s-6ux"/>
                 <outlet property="openIcecastWebPageButton" destination="aJu-A8-6K2" id="EdH-e7-8yX"/>
@@ -874,14 +876,14 @@
                         </view>
                     </box>
                     <box fixedFrame="YES" title="Audio Player" translatesAutoresizingMaskIntoConstraints="NO" id="Xha-az-kBL">
-                        <rect key="frame" x="210" y="227" width="211" height="110"/>
+                        <rect key="frame" x="210" y="258" width="211" height="79"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="jqJ-NN-JvP">
-                            <rect key="frame" x="2" y="2" width="207" height="93"/>
+                            <rect key="frame" x="2" y="2" width="207" height="62"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X0z-yz-DCl">
-                                    <rect key="frame" x="12" y="64" width="183" height="18"/>
+                                    <rect key="frame" x="12" y="33" width="183" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Use WebView audio player" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="9nh-01-8Vy">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -889,7 +891,7 @@
                                     </buttonCell>
                                 </button>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dfu-YO-d0f">
-                                    <rect key="frame" x="12" y="38" width="175" height="18"/>
+                                    <rect key="frame" x="12" y="7" width="175" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Use Auto-Play in this app" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HtL-er-1ZY">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -938,9 +940,17 @@ Gw
                             <action selector="editSetDefaultsButtonAction:" target="Voe-Tx-rLC" id="Tsd-cI-9cF"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ILi-lj-8oz">
+                        <rect key="frame" x="222" y="229" width="167" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Log all stderr messages" bezelStyle="regularSquare" imagePosition="left" inset="2" id="PQB-cj-X2q">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="42" y="550.5"/>
+            <point key="canvasLocation" x="49" y="604"/>
         </window>
         <window title="FCC Database Search" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="wir-9v-BJf" userLabel="FCC Search Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
@@ -993,7 +1003,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="pWY-8B-R8i">
                             <rect key="frame" x="1" y="0.0" width="673" height="315"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="20" rowSizeStyle="automatic" headerView="xpx-kQ-Qcl" viewBased="YES" floatsGroupRows="NO" id="3dz-1S-5uR">
                                     <rect key="frame" x="0.0" y="0.0" width="673" height="292"/>
@@ -1374,12 +1384,12 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="LocalRadio" identifier="" id="8Qy-d0-fpa">
-                                <view key="view" ambiguous="YES" id="bIe-XZ-nnh">
-                                    <rect key="frame" x="10" y="33" width="197" height="0.0"/>
+                                <view key="view" id="bIe-XZ-nnh">
+                                    <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uQZ-Iv-hbS" customClass="URLTextField">
-                                            <rect key="frame" x="15" y="-43" width="420" height="32"/>
+                                            <rect key="frame" x="15" y="505" width="420" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" id="x1K-dl-dH5">
                                                 <font key="font" size="22" name="CourierNewPSMT"/>
@@ -1392,7 +1402,7 @@ Gw
                                             </connections>
                                         </textField>
                                         <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T93-lK-wzp">
-                                            <rect key="frame" x="-3" y="-551" width="452" height="500"/>
+                                            <rect key="frame" x="-3" y="-3" width="452" height="500"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </customView>
                                     </subviews>
@@ -1744,7 +1754,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configuration" identifier="" id="Amd-pe-F7E">
-                                <view key="view" id="QdK-3V-Sdm">
+                                <view key="view" ambiguous="YES" id="QdK-3V-Sdm">
                                     <rect key="frame" x="10" y="33" width="450" height="548"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -2017,14 +2027,6 @@ Gw
                                                 </subviews>
                                             </view>
                                         </box>
-                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X6N-TX-t5V">
-                                            <rect key="frame" x="143" y="74" width="183" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Use WebView audio player" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="soh-fS-X96">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
                                         <box fixedFrame="YES" title="MP3 Settings" translatesAutoresizingMaskIntoConstraints="NO" id="3IH-Uj-chv">
                                             <rect key="frame" x="14" y="103" width="417" height="67"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2053,6 +2055,22 @@ Gw
                                                 </subviews>
                                             </view>
                                         </box>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CW5-5Q-W7U">
+                                            <rect key="frame" x="255" y="74" width="167" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Log all stderr messages" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="mBI-gR-0oK">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X6N-TX-t5V">
+                                            <rect key="frame" x="29" y="74" width="183" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Use WebView audio player" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="soh-fS-X96">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>

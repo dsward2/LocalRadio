@@ -27,6 +27,8 @@
 
     [self setDefaultInteger:0 forKey:@"IcecastServerMode"];
 
+    [self setDefaultInteger:0 forKey:@"CaptureStderr"];
+
     [self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
     [self setDefaultValue:@"localradio" forKey:@"IcecastServerMountName"];
     

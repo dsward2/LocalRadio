@@ -110,7 +110,10 @@ typedef struct kinfo_proc kinfo_proc;
             
             self.useWebViewAudioPlayerCheckbox.state = YES;
             self.listenMode = kListenModeIdle;
-            
+
+            NSNumber * logAllStderrMessagesNumber = [self.localRadioAppSettings integerForKey:@"CaptureStderr"];
+            self.logAllStderrMessagesCheckbox.state = logAllStderrMessagesNumber.boolValue;
+
             [self updateCopiedSettingsValues];
 
             [NSThread detachNewThreadSelector:@selector(startServices) toTarget:self withObject:NULL];
@@ -180,6 +183,9 @@ typedef struct kinfo_proc kinfo_proc;
     self.mp3Settings = [self.mp3Settings stringByReplacingOccurrencesOfString:@".0" withString:@".01"];
     
     self.useWebViewAudioPlayer = self.useWebViewAudioPlayerCheckbox.state;
+
+    self.logAllStderrMessages = self.logAllStderrMessagesCheckbox.state;
+    [self.localRadioAppSettings setInteger:self.logAllStderrMessages forKey:@"CaptureStderr"];
 
     self.icecastServerPort = self.icecastServerPortTextField.integerValue;
 }
@@ -984,6 +990,9 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     BOOL useWebViewAudioPlayer = self.editUseWebViewAudioPlayerCheckbox.state;
     self.useWebViewAudioPlayerCheckbox.state = useWebViewAudioPlayer;
+
+    BOOL logAllStderrMessages = self.editLogAllStderrMessages.state;
+    self.logAllStderrMessagesCheckbox.state = logAllStderrMessages;
 
     NSString * constantBitrateString = self.editMP3ConstantPopUpButton.titleOfSelectedItem;
     NSInteger constantBitrateInteger = constantBitrateString.integerValue / 1000;
