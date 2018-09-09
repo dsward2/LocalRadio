@@ -1367,7 +1367,7 @@ Gw
                     </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="167" y="-15"/>
+            <point key="canvasLocation" x="167" y="5"/>
         </window>
         <window title="LocalRadio" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="QvC-M9-y7g" userLabel="Main Window">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
@@ -2081,7 +2081,7 @@ Gw
                     </tabView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-474" y="223.5"/>
+            <point key="canvasLocation" x="-466" y="589"/>
         </window>
         <window title="Custom Tasks" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="JXF-jt-XNF" userLabel="Custom Tasks Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
@@ -2584,7 +2584,7 @@ Gw
                     <constraint firstAttribute="trailing" secondItem="T3O-Vc-C1s" secondAttribute="trailing" id="mT0-CP-d7p"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="85" y="-497"/>
+            <point key="canvasLocation" x="-489" y="12"/>
         </window>
     </objects>
 </document>

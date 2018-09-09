@@ -207,13 +207,6 @@ void * runInputBufferOnThread(void * ptr)
 
                             fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - produce bytes failed, bytesAvailableCount = %d\n", bytesAvailableCount);
                         }
-                        else
-                        {
-                            if (audioConverterThreadID == 0)
-                            {
-                                //createAudioConverterThread();
-                            }
-                        }
                     }
                     
                     free(rtlsdrBuffer);
@@ -468,7 +461,8 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                 void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
 
                 int32_t space;
-                void *ptr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for fprintf to stderr below
+                void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for fprintf to stderr below
+                int64_t bufferFilledSize = (int64_t)headPtr - (int64_t)inputBufferPtr;
 
                 fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
                 
@@ -477,24 +471,29 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                 if (produceBytesResult == false)
                 {
                     // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
-                
-                    // clear buffer and try again (not recommended practice)
-                    TPCircularBufferClear(&(audioConverterCircularBuffer));
                     
+                    // clear buffer and try again (not the recommended practice)
+                    
+                    usleep(500000);
+
+                    TPCircularBufferClear(&(audioConverterCircularBuffer));
+
+                    //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
+
                     produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
 
                     if (produceBytesResult == false)
                     {
                         // If we get here, packets will be dropped
-                    
-                        fprintf(stderr, "AudioMonitor convertBuffer Produce convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, ptr);
-                        fprintf(stderr, "AudioMonitor convertBuffer - produce bytes failed, convertedDataLength = %d\n", convertedDataLength);
+                        
+                        fprintf(stderr, "AudioMonitor2 convertBuffer failed, drop packet, convertedDataLength = %d, space = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, space, headPtr, bufferFilledSize);
                     }
                 }
-                
-                if (audioQueueThreadID == 0)
+                else
                 {
-                    //createAudioQueueThread();
+                    TPCircularBufferClear(&(audioConverterCircularBuffer));
+
+                    usleep(5000);
                 }
             }
 
