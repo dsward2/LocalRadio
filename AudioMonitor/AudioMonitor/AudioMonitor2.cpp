@@ -491,9 +491,12 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                 }
                 else
                 {
-                    TPCircularBufferClear(&(audioConverterCircularBuffer));
+                    if (volume == 0.0)
+                    {
+                        usleep(5000);
 
-                    usleep(5000);
+                        TPCircularBufferClear(&(audioConverterCircularBuffer));
+                    }
                 }
             }
 
