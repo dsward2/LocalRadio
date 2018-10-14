@@ -6,7 +6,12 @@
 #  Created by Douglas Ward on 7/17/17.
 #  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 
+#  No longer used, tool project are now configured to build with an entitlements file that specifies to inherit entitlements from the host app. (com.apple.security.inherit)
+
 #  Remove exit statement and substitute the "Mac Developer: John Doe (xxxxxxxxxx)" identity with a registered Apple developer ID
+#  The commands will be generated in console, and can be pasted to terminal for execution
+
+#  This info might be useful for code signing external tools that can be executed with LocalRadio's Custom Tools feature.
 
 exit;
 
@@ -19,4 +24,8 @@ echo codesign -f --entitlements "${SRCROOT}/UDPSender/UDPSender.entitlements" -s
 echo codesign -f --entitlements "${SRCROOT}/UDPListener/UDPListener.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/UDPListener
 
 echo codesign -f --entitlements "${SRCROOT}/AudioMonitor/AudioMonitor.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/AudioMonitor
+
+echo codesign -f --entitlements "${SRCROOT}/AudioMonitor/AudioMonitor.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/AudioMonitor2
+
+echo codesign -f --entitlements "${SRCROOT}/AudioMonitor/AudioMonitor.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/IcecastSource
 

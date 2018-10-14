@@ -335,7 +335,7 @@ sighandler(int signum)
 {
     exit_signum = signum;
 	if (CTRL_C_EVENT == signum) {
-		fprintf(stderr, "Signal caught, exiting!\n");
+		fprintf(stderr, "rtl_fm_localradio Signal caught, exiting!\n");
 		do_exit = 1;
 		rtlsdr_cancel_async(dongle.dev);
 		return TRUE;
@@ -345,7 +345,7 @@ sighandler(int signum)
 #else
 static void sighandler(int signum)
 {
-	fprintf(stderr, "Signal caught, exiting!\n");
+	fprintf(stderr, "rtl_fm_localradio Signal caught, exiting!\n");
 	do_exit = 1;
     exit_signum = signum;
 	rtlsdr_cancel_async(dongle.dev);

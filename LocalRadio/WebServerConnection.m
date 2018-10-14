@@ -136,12 +136,18 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 			
 			return requestContentLength < 4096;
 		}
-		else if ([path isEqualToString:@"/applymp3settings.html"])
-		{
-			// Let's be extra cautious, and make sure the upload isn't 5 gigs
-			
-			return requestContentLength < 4096;
-		}
+        else if ([path isEqualToString:@"/applymp3settings.html"])
+        {
+            // Let's be extra cautious, and make sure the upload isn't 5 gigs
+            
+            return requestContentLength < 4096;
+        }
+        else if ([path isEqualToString:@"/localradio.m3u"])
+        {
+            // Let's be extra cautious, and make sure the upload isn't 5 gigs
+            
+            return requestContentLength < 4096;
+        }
 	}
 	
 	return [super supportsMethod:method atPath:path];
@@ -237,8 +243,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     //     "Accept-Encoding" = "gzip, deflate";
     //     "Accept-Language" = "en-us";
     //     Connection = "keep-alive";
-    //     Host = "192.168.10.8:17002";
-    //     Referer = "http://192.168.10.8:17002/";
+    //     Host = "192.168.0.8:17002";
+    //     Referer = "http://192.168.0.8:17002/";
     //     "User-Agent" = "LocalRadio/0.5";
     // }
 
@@ -1487,6 +1493,48 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             
             self.appDelegate.listenMode = kListenModeScan;
         }
+        #pragma mark relativePath=localradio.m3u
+        else if ([relativePath isEqualToString:@"/localradio.m3u"])
+        {
+            NSString * m3uURLString = @"";
+            
+            NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
+
+            NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+            NSString * icecastConfigPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.xml"];
+
+            NSError * fileError = NULL;
+            NSString * icecastXMLString = [NSString stringWithContentsOfFile:icecastConfigPath encoding:NSUTF8StringEncoding error:&fileError];
+
+            NSError * xmlError = NULL;
+            NSXMLDocument * xmlDocument = [[NSXMLDocument alloc] initWithXMLString:icecastXMLString options:0 error:&xmlError];
+
+            NSXMLElement * rootElement = [xmlDocument rootElement];
+        
+            NSString * hostnameQuery = @"hostname";
+            NSError * error = NULL;
+            NSArray * hostnameResultArray = [rootElement nodesForXPath:hostnameQuery error:&error];
+            if (hostnameResultArray.count == 1)
+            {
+                NSXMLElement * hostnameElement = hostnameResultArray.firstObject;
+                NSString * hostname = hostnameElement.stringValue;
+                
+                NSString * portQuery = @"listen-socket/port";
+                NSArray * portResultArray = [rootElement nodesForXPath:portQuery error:&error];
+                if (portResultArray.count == 1)
+                {
+                    NSXMLElement * portElement = portResultArray.firstObject;
+                    NSString * portString = portElement.stringValue;
+                    
+                    //NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
+                    //NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
+
+                    m3uURLString = [NSString stringWithFormat:@"http://%@:%@/%@.aac", hostname, portString, icecastServerMountName];
+                }
+            }
+
+            [replacementDict setObject:m3uURLString forKey:@"M3U_DATA"];
+        }
         #pragma mark relativePath=
         else
         {
@@ -2010,7 +2058,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
     NSMutableString * resultString = [NSMutableString string];
     
-    NSString * currentMP3Setting = self.appDelegate.mp3SettingsTextField.stringValue;
+    //NSString * currentMP3Setting = self.appDelegate.mp3SettingsTextField.stringValue;
+    __block NSString * currentMP3Setting = @"64.2";
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        currentMP3Setting = self.appDelegate.mp3SettingsTextField.stringValue;
+    });
     
     NSArray * currentMP3SettingArray = [currentMP3Setting componentsSeparatedByString:@"."];
 
@@ -2276,82 +2328,59 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     if (useMacSystemAudio == NO)
     {
+        //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
+        NSString * icecastServerHost = [self.appDelegate localHostString];
+
+        NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+        
         NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-        NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
-        NSString * icecastConfigPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.xml"];
-
-        NSError * fileError = NULL;
-        NSString * icecastXMLString = [NSString stringWithContentsOfFile:icecastConfigPath encoding:NSUTF8StringEncoding error:&fileError];
-
-        NSError * xmlError = NULL;
-        NSXMLDocument * xmlDocument = [[NSXMLDocument alloc] initWithXMLString:icecastXMLString options:0 error:&xmlError];
-
-        NSXMLElement * rootElement = [xmlDocument rootElement];
+        NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerPortNumber.integerValue, icecastServerMountName];
         
-        NSString * hostnameQuery = @"hostname";
-        NSError * error = NULL;
-        NSArray * hostnameResultArray = [rootElement nodesForXPath:hostnameQuery error:&error];
-        if (hostnameResultArray.count == 1)
+        NSString * autoplayFlag = @"";
+        NSString * audioPlayerJS = @"";
+        
+        BOOL addAutoplayAttributes = NO;
+        
+        if (userAgentIsLocalRadioApp == YES)
         {
-            NSXMLElement * hostnameElement = hostnameResultArray.firstObject;
-            NSString * hostname = hostnameElement.stringValue;
-            
-            NSString * portQuery = @"listen-socket/port";
-            NSArray * portResultArray = [rootElement nodesForXPath:portQuery error:&error];
-            if (portResultArray.count == 1)
-            {
-                NSXMLElement * portElement = portResultArray.firstObject;
-                NSString * portString = portElement.stringValue;
-                
-                //NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
-                //NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
-
-                NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@", hostname, portString, icecastServerMountName];
-                
-                NSString * autoplayFlag = @"";
-                NSString * audioPlayerJS = @"";
-                
-                BOOL addAutoplayAttributes = NO;
-                
-                if (userAgentIsLocalRadioApp == YES)
-                {
-                    //addAutoplayAttributes = self.appDelegate.useAutoPlayCheckbox.state;
-                    addAutoplayAttributes = self.appDelegate.useAutoPlay;
-                }
-                
-                if (addAutoplayAttributes == YES)
-                {
-                    autoplayFlag = @"autoplay";
-                }
-
-                audioPlayerJS =
-                        @" onabort='audioPlayerAbort(this);' "
-                        @" oncanplay='audioPlayerCanPlay(this);' "
-                        @" oncanplaythrough='audioPlayerCanPlaythrough(this);' "
-                        @" ondurationchange='audioPlayerDurationChange(this);' "
-                        @" onemptied='audioPlayerEmptied(this);' "
-                        @" onended='audioPlayerEnded(this);' "
-                        @" onerror='audioPlayerError(this, error);' "
-                        @" onloadeddata='audioPlayerLoadedData(this);' "
-                        @" onloadedmetadata='audioPlayerLoadedMetadata(this);' "
-                        @" onloadstart='audioPlayerLoadStart(this);' "
-                        @" onpause='audioPlayerPaused(this);' "
-                        @" onplay='audioPlayerPlay(this);' "
-                        @" onplaying='audioPlayerPlaying(this);' "
-                        @" onprogress='audioPlayerProgress(this);' "
-                        @" onratechange='audioPlayerRateChange(this);' "
-                        @" onseeked='audioPlayerSeeked(this);' "
-                        @" onseeking='audioPlayerSeeking(this);' "
-                        @" onstalled='audioPlayerStalled(this);' "
-                        @" onplay='audioPlayerStarted(this);' "
-                        @" onsuspend='audioPlayerSuspend(this);' "
-                        @" ontimeupdate='audioPlayerTimeUpdate(this);' "
-                        @" onwaiting='audioPlayerWaiting(this);' ";
-                
-                [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
-            }
+            //addAutoplayAttributes = self.appDelegate.useAutoPlayCheckbox.state;
+            addAutoplayAttributes = self.appDelegate.useAutoPlay;
         }
+        
+        if (addAutoplayAttributes == YES)
+        {
+            autoplayFlag = @"autoplay";
+        }
+
+        audioPlayerJS =
+                @" onabort='audioPlayerAbort(this);' "
+                @" oncanplay='audioPlayerCanPlay(this);' "
+                @" oncanplaythrough='audioPlayerCanPlaythrough(this);' "
+                @" ondurationchange='audioPlayerDurationChange(this);' "
+                @" onemptied='audioPlayerEmptied(this);' "
+                @" onended='audioPlayerEnded(this);' "
+                @" onerror='audioPlayerError(this, error);' "
+                @" onloadeddata='audioPlayerLoadedData(this);' "
+                @" onloadedmetadata='audioPlayerLoadedMetadata(this);' "
+                @" onloadstart='audioPlayerLoadStart(this);' "
+                @" onpause='audioPlayerPaused(this);' "
+                @" onplay='audioPlayerPlay(this);' "
+                @" onplaying='audioPlayerPlaying(this);' "
+                @" onprogress='audioPlayerProgress(this);' "
+                @" onratechange='audioPlayerRateChange(this);' "
+                @" onseeked='audioPlayerSeeked(this);' "
+                @" onseeking='audioPlayerSeeking(this);' "
+                @" onstalled='audioPlayerStalled(this);' "
+                @" onplay='audioPlayerStarted(this);' "
+                @" onsuspend='audioPlayerSuspend(this);' "
+                @" ontimeupdate='audioPlayerTimeUpdate(this);' "
+                @" onwaiting='audioPlayerWaiting(this);' ";
+        
+        //[resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
+        
+        [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/aac' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
+        //NSLog(@"*** testing AAC mp4");
     }
     else
     {

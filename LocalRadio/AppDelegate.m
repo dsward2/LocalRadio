@@ -12,6 +12,7 @@
 #import "SQLiteController.h"
 #import "SDRController.h"
 #import "IcecastController.h"
+#import "IcecastSourceController.h"
 #import "EZStreamController.h"
 #import "CustomTaskController.h"
 //#import "SoxController.h"
@@ -80,6 +81,8 @@ typedef struct kinfo_proc kinfo_proc;
     [self.sdrController terminateTasks];
 
     [self.ezStreamController terminateTasks];
+    
+    [self.icecastSourceController terminateTasks];
     
     [self.icecastController terminateTasks];
     
@@ -162,8 +165,9 @@ typedef struct kinfo_proc kinfo_proc;
 
     [NSThread sleepForTimeInterval:1];
     
-    [self.ezStreamController startEZStreamServer];
-    
+    //[self.ezStreamController startEZStreamServer];
+    [self.icecastSourceController startIcecastSource];
+
     [NSThread sleepForTimeInterval:1];
 
     [self.webServerController startHTTPServer];
@@ -277,12 +281,23 @@ typedef struct kinfo_proc kinfo_proc;
             [tasksString appendString:@"No tasks currently running\n\n"];
         }
 
-        [tasksString appendString:@"--- EZStream tasks ---"];
+        [tasksString appendString:@"--- EZStream tasks ---\n\n"];
 
         NSString * ezStreamTasksString = self.ezStreamController.ezStreamTaskPipelineManager.tasksInfoString;
-        [tasksString appendString:ezStreamTasksString];
+        if (ezStreamTasksString != NULL)
+        {
+            [tasksString appendString:ezStreamTasksString];
+        }
 
-        [tasksString appendString:@"--- RTL-SDR radio tasks ---"];
+        [tasksString appendString:@"--- IcecastSource tasks ---\n\n"];
+
+        NSString * icecastSourceTasksString = self.icecastSourceController.icecastSourceTaskPipelineManager.tasksInfoString;
+        if (icecastSourceTasksString != NULL)
+        {
+            [tasksString appendString:icecastSourceTasksString];
+        }
+
+        [tasksString appendString:@"--- RTL-SDR radio tasks ---\n\n"];
         
         NSString * radioTasksString = self.sdrController.radioTaskPipelineManager.tasksInfoString;
         [tasksString appendString:radioTasksString];
@@ -514,6 +529,12 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     if (icecastProcessID != 0)
     {
         [processConflictReportString appendFormat:@"icecast (Process Identifier = %d)\r", icecastProcessID];
+    }
+
+    int icecastSourceProcessID = [self processIDForProcessName:@"IcecastSource"];
+    if (icecastSourceProcessID != 0)
+    {
+        [processConflictReportString appendFormat:@"IcecastSource (Process Identifier = %d)\r", icecastSourceProcessID];
     }
 
     int audioMonitorID = [self processIDForProcessName:@"AudioMonitor"];
@@ -991,7 +1012,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     BOOL useWebViewAudioPlayer = self.editUseWebViewAudioPlayerCheckbox.state;
     self.useWebViewAudioPlayerCheckbox.state = useWebViewAudioPlayer;
 
-    BOOL logAllStderrMessages = self.editLogAllStderrMessages.state;
+    BOOL logAllStderrMessages = self.editLogAllStderrMessagesCheckbox.state;
     self.logAllStderrMessagesCheckbox.state = logAllStderrMessages;
 
     NSString * constantBitrateString = self.editMP3ConstantPopUpButton.titleOfSelectedItem;

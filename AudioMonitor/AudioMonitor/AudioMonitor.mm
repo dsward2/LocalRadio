@@ -637,7 +637,7 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
     
     if (ioNumberDataPacketsProduced == 0)
     {
-        result = 'zero';
+        result = 'zero';    // done for now, earlier packets may exist in the buffer ready for use
     }
     
     self->audioConverterInputBufferOffset += (ioNumberDataPacketsProduced * sizeof(SInt16) * self.inputChannels);

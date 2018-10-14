@@ -389,7 +389,8 @@
         
         var holdAudioSrc = audioPlayer.src;
         
-        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mpeg"})); // empty buffer data
+        //audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/mpeg"})); // empty buffer data
+        audioPlayer.src = URL.createObjectURL(new Blob([], {type:"audio/aac"})); // empty buffer data
         audioPlayer.load();
         
         audioPlayer.src = holdAudioSrc;

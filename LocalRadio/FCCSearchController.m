@@ -423,16 +423,16 @@
     if (row >= 0)
     {
         NSMutableArray * linesArray = [self.searchResultsArray objectAtIndex:row];
-        NSString * stationNameString = [linesArray objectAtIndex:1];
+        //NSString * stationNameString = [linesArray objectAtIndex:1];
         NSString * frequencyString = [linesArray objectAtIndex:2];
-        NSString * recordTypeString = [linesArray objectAtIndex:3];
-        NSString * cityString = [linesArray objectAtIndex:10];
-        NSString * stateString = [linesArray objectAtIndex:11];
-        NSString * erpString = [linesArray objectAtIndex:15];
-        NSString * licenseeString = [linesArray objectAtIndex:27];
-        NSString * distanceKmString = [linesArray objectAtIndex:28];
-        NSString * distanceMilesString = [linesArray objectAtIndex:29];
-        NSString * directionString = [linesArray objectAtIndex:30];
+        //NSString * recordTypeString = [linesArray objectAtIndex:3];
+        //NSString * cityString = [linesArray objectAtIndex:10];
+        //NSString * stateString = [linesArray objectAtIndex:11];
+        //NSString * erpString = [linesArray objectAtIndex:15];
+        //NSString * licenseeString = [linesArray objectAtIndex:27];
+        //NSString * distanceKmString = [linesArray objectAtIndex:28];
+        //NSString * distanceMilesString = [linesArray objectAtIndex:29];
+        //NSString * directionString = [linesArray objectAtIndex:30];
         
         NSInteger hertzFrequency = [self.appDelegate hertzWithString:frequencyString];
         if (hertzFrequency > 0)
@@ -478,16 +478,16 @@
     if (row >= 0)
     {
         NSMutableArray * linesArray = [self.searchResultsArray objectAtIndex:row];
-        NSString * stationNameString = [linesArray objectAtIndex:1];
+        //NSString * stationNameString = [linesArray objectAtIndex:1];
         NSString * frequencyString = [linesArray objectAtIndex:2];
-        NSString * recordTypeString = [linesArray objectAtIndex:3];
-        NSString * cityString = [linesArray objectAtIndex:10];
-        NSString * stateString = [linesArray objectAtIndex:11];
-        NSString * erpString = [linesArray objectAtIndex:15];
-        NSString * licenseeString = [linesArray objectAtIndex:27];
-        NSString * distanceKmString = [linesArray objectAtIndex:28];
-        NSString * distanceMilesString = [linesArray objectAtIndex:29];
-        NSString * directionString = [linesArray objectAtIndex:30];
+        //NSString * recordTypeString = [linesArray objectAtIndex:3];
+        //NSString * cityString = [linesArray objectAtIndex:10];
+        //NSString * stateString = [linesArray objectAtIndex:11];
+        //NSString * erpString = [linesArray objectAtIndex:15];
+        //NSString * licenseeString = [linesArray objectAtIndex:27];
+        //NSString * distanceKmString = [linesArray objectAtIndex:28];
+        //NSString * distanceMilesString = [linesArray objectAtIndex:29];
+        //NSString * directionString = [linesArray objectAtIndex:30];
         
         NSInteger hertzFrequency = [self.appDelegate hertzWithString:frequencyString];
         if (hertzFrequency > 0)
@@ -543,14 +543,14 @@
         NSMutableArray * linesArray = [self.searchResultsArray objectAtIndex:row];
         NSString * stationNameString = [linesArray objectAtIndex:1];
         NSString * frequencyString = [linesArray objectAtIndex:2];
-        NSString * recordTypeString = [linesArray objectAtIndex:3];
+        //NSString * recordTypeString = [linesArray objectAtIndex:3];
         NSString * cityString = [linesArray objectAtIndex:10];
-        NSString * stateString = [linesArray objectAtIndex:11];
-        NSString * erpString = [linesArray objectAtIndex:15];
-        NSString * licenseeString = [linesArray objectAtIndex:27];
-        NSString * distanceKmString = [linesArray objectAtIndex:28];
-        NSString * distanceMilesString = [linesArray objectAtIndex:29];
-        NSString * directionString = [linesArray objectAtIndex:30];
+        //NSString * stateString = [linesArray objectAtIndex:11];
+        //NSString * erpString = [linesArray objectAtIndex:15];
+        //NSString * licenseeString = [linesArray objectAtIndex:27];
+        //NSString * distanceKmString = [linesArray objectAtIndex:28];
+        //NSString * distanceMilesString = [linesArray objectAtIndex:29];
+        //NSString * directionString = [linesArray objectAtIndex:30];
         
         NSInteger hertzFrequency = [self.appDelegate hertzWithString:frequencyString];
         if (hertzFrequency > 0)
@@ -605,14 +605,14 @@
         NSMutableArray * linesArray = [self.searchResultsArray objectAtIndex:row];
         NSString * stationNameString = [linesArray objectAtIndex:1];
         NSString * frequencyString = [linesArray objectAtIndex:2];
-        NSString * recordTypeString = [linesArray objectAtIndex:3];
+        //NSString * recordTypeString = [linesArray objectAtIndex:3];
         NSString * cityString = [linesArray objectAtIndex:10];
-        NSString * stateString = [linesArray objectAtIndex:11];
-        NSString * erpString = [linesArray objectAtIndex:15];
-        NSString * licenseeString = [linesArray objectAtIndex:27];
-        NSString * distanceKmString = [linesArray objectAtIndex:28];
-        NSString * distanceMilesString = [linesArray objectAtIndex:29];
-        NSString * directionString = [linesArray objectAtIndex:30];
+        //NSString * stateString = [linesArray objectAtIndex:11];
+        //NSString * erpString = [linesArray objectAtIndex:15];
+        //NSString * licenseeString = [linesArray objectAtIndex:27];
+        //NSString * distanceKmString = [linesArray objectAtIndex:28];
+        //NSString * distanceMilesString = [linesArray objectAtIndex:29];
+        //NSString * directionString = [linesArray objectAtIndex:30];
         
         NSInteger hertzFrequency = [self.appDelegate hertzWithString:frequencyString];
         if (hertzFrequency > 0)

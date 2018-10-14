@@ -57,6 +57,8 @@
         //NSLog(@"UDPListener sending binary zeros to stdout");
         
         [self sendDataToEZStream:self.whiteNoiseData];
+        
+        //self.lastReceiveTime = currentTime;
     }
 }
 
@@ -112,7 +114,9 @@
     while (self.doExit == NO)
     {
         [self pollAudio];
-    
+
+        CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.25, false);
+
         //[NSThread sleepForTimeInterval:pollingInterval];
         usleep(1000);
     }

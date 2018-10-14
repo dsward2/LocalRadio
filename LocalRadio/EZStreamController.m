@@ -15,8 +15,9 @@
 
 @implementation EZStreamController
 
-
-
+//==================================================================================
+//    init
+//==================================================================================
 
 - (instancetype)init
 {
@@ -27,7 +28,9 @@
     return self;
 }
 
-// ================================================================
+//==================================================================================
+//    terminateTasks
+//==================================================================================
 
 - (void)terminateTasks
 {
@@ -99,6 +102,15 @@
     }
     NSString * audioPortString = [audioPortNumber stringValue];
 
+    // Set UDPListener arguments
+    TaskItem * udpListenerTaskItem = [self.ezStreamTaskPipelineManager makeTaskItemWithExecutable:@"UDPListener" functionName:@"UDPListener"];
+
+    [udpListenerTaskItem addArgument:@"-l"];
+    [udpListenerTaskItem addArgument:audioPortString];
+
+
+
+
     // sox MP3 encoder quality: "Instead of 0 you have to use .01 (or .99) to specify the highest quality (128.01 or 128.99)."
     //NSString * mp3Settings = self.appDelegate.mp3SettingsTextField.stringValue;
     //mp3Settings = [mp3Settings stringByReplacingOccurrencesOfString:@".0" withString:@".01"];
@@ -108,18 +120,10 @@
     {
         mp3Settings = @"-4.2";
     }
-
-    TaskItem * udpListenerTaskItem = [self.ezStreamTaskPipelineManager makeTaskItemWithExecutable:@"UDPListener" functionName:@"UDPListener"];
-
-    TaskItem * soxTaskItem = [self.ezStreamTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
     
-    TaskItem * ezStreamTaskItem = [self.ezStreamTaskPipelineManager makeTaskItemWithExecutable:@"ezstream" functionName:@"ezstream"];
+    TaskItem * soxTaskItem = NULL;
 
-
-    
-    // Set UDPListener arguments
-    [udpListenerTaskItem addArgument:@"-l"];
-    [udpListenerTaskItem addArgument:audioPortString];
+    soxTaskItem = [self.ezStreamTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
     
     // Set Sox arguments
     [soxTaskItem addArgument:@"-e"];     // start input arguments
@@ -138,22 +142,33 @@
     [soxTaskItem addArgument:@"-C"];     // variable or constant bit rate,  encoding quality - http://sox.sourceforge.net/soxformat.html
     [soxTaskItem addArgument:mp3Settings];
     [soxTaskItem addArgument:@"-"];      // stdout
+    
+    TaskItem * ezStreamTaskItem = [self.ezStreamTaskPipelineManager makeTaskItemWithExecutable:@"ezstream" functionName:@"ezstream"];
 
     // Set EZStream arguments
-    [ezStreamTaskItem addArgument:@"-c"];
+    [ezStreamTaskItem addArgument:@"-v"];          // verbose output
+    [ezStreamTaskItem addArgument:@"-v"];          // verbose output
+    
+    [ezStreamTaskItem addArgument:@"-m"];          // Disable all metadata updates and keep existing metadata in streams untouched
+
+    [ezStreamTaskItem addArgument:@"-c"];           // ezstream config file
     [ezStreamTaskItem addArgument:ezstreamConfigPath];
 
     // Create NSTasks
     @synchronized (self.ezStreamTaskPipelineManager)
     {
         [self.ezStreamTaskPipelineManager addTaskItem:udpListenerTaskItem];
+        
         [self.ezStreamTaskPipelineManager addTaskItem:soxTaskItem];
+        
         [self.ezStreamTaskPipelineManager addTaskItem:ezStreamTaskItem];
     }
     
     [self.ezStreamTaskPipelineManager startTasks];
 
     [self.appDelegate.statusEZStreamServerTextField performSelectorOnMainThread:@selector(setStringValue:) withObject:@"Running" waitUntilDone:NO];
+    
+    NSLog(@"EZStreamController startEZStreamTask startTasks");
 }
 
 
@@ -162,6 +177,7 @@
 //	ezStreamTaskReceivedStderrData:
 //==================================================================================
 
+/*
 - (void)ezStreamTaskReceivedStderrData:(NSNotification *)notif {
     NSFileHandle *fh = [notif object];
     NSData *data = [fh availableData];
@@ -173,6 +189,7 @@
         NSLog(@"EZSteam: %@" ,str);
     }
 }
+*/
 
 //==================================================================================
 //	writeEZStreamConfig
@@ -186,9 +203,10 @@
     NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
     NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
-    NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
     NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
 
+    NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
+    
     NSString * ezStreamConfigPath = [NSBundle.mainBundle pathForResource:@"ezstream_mp3" ofType:@"xml"];
 
     NSError * fileError = NULL;
@@ -215,7 +233,7 @@
     
     NSError * error;
     
-    // <url>http://192.168.10.8:17003/localradio</url>
+    // <url>http://192.168.0.8:17003/localradio</url>
     NSString * ezStreamURLQuery = @"url";
     NSArray * ezStreamURLResultArray = [rootElement nodesForXPath:ezStreamURLQuery error:&error];
     if (ezStreamURLResultArray.count > 0)
@@ -224,7 +242,7 @@
         [ezStreamURLElement setStringValue:ezStreamURLString];
     }
 
-    // <svrinfourl>http://192.168.10.8/localradio</svrinfourl>
+    // <svrinfourl>http://192.168.0.8:17002/localradio.mp3</svrinfourl>
     NSString * svrinfourlQuery = @"svrinfourl";
     NSArray * svrinfourlResultArray = [rootElement nodesForXPath:svrinfourlQuery error:&error];
     if (svrinfourlResultArray.count > 0)
@@ -303,6 +321,16 @@
     {
         NSXMLElement * sourcePasswordElement = sourcePasswordResultArray.firstObject;
         [sourcePasswordElement setStringValue:icecastServerSourcePassword];
+    }
+
+    // <format>format</format>
+    NSString * formatQuery = @"format";
+    NSArray * formatResultArray = [rootElement nodesForXPath:formatQuery error:&error];
+    if (formatResultArray.count > 0)
+    {
+        NSXMLElement * formatElement = formatResultArray.firstObject;
+        //[formatElement setStringValue:self.audioFormat];
+        [formatElement setStringValue:@"MP3"];
     }
 
     NSString * xmlString = [xmlDocument XMLString];

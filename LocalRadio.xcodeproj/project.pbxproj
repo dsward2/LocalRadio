@@ -16,6 +16,7 @@
 		0E0A95641F129E01002E2E5B /* UDPListener in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E0A953D1F129401002E2E5B /* UDPListener */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0C69391F1C913200A7EE5E /* rtl_fm_localradio in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E0C69251F1C8C9000A7EE5E /* rtl_fm_localradio */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0DD2B0210842B60065832A /* favicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0DD262210842AE0065832A /* favicon.png */; };
+		0E0E306A2153566900550BF3 /* localradio.m3u in Resources */ = {isa = PBXBuildFile; fileRef = 0E0E30692153566900550BF3 /* localradio.m3u */; };
 		0E0FD9F61EF4C79A00FEEA06 /* librtlsdr.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E0FD9F41EF4C71200FEEA06 /* librtlsdr.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0FD9F71EF4C7B900FEEA06 /* rtl_adsb in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E0FD9E41EF4C70700FEEA06 /* rtl_adsb */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0FD9F81EF4C7B900FEEA06 /* rtl_eeprom in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E0FD9E51EF4C70700FEEA06 /* rtl_eeprom */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -135,6 +136,7 @@
 		0E4ED1951EAB7ED400D2157B /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED05D1EAB7D5300D2157B /* DDNumber.m */; };
 		0E4ED1961EAB7ED700D2157B /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED05F1EAB7D5300D2157B /* DDRange.m */; };
 		0E4ED1AD1EAB823B00D2157B /* WebServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED1AC1EAB823B00D2157B /* WebServerController.m */; };
+		0E55254B2162117F00DB364C /* Monitor_Beacon.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E5524FD2162117F00DB364C /* Monitor_Beacon.mp3 */; };
 		0E6849BD1ECE17D90096C03C /* libcrypto.1.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E60808D1ECE0BF400E4D1B6 /* libcrypto.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E688FFE1F3C460D00F34AE4 /* insertnewfrequency.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E688FFD1F3C460D00F34AE4 /* insertnewfrequency.html */; };
 		0E6F9E181ED5F7EE009D469E /* liblzma.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6F9E171ED5F7EE009D469E /* liblzma.5.dylib */; };
@@ -144,6 +146,7 @@
 		0E6F9E201ED60B5D009D469E /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6F9E1F1ED60B5D009D469E /* libssl.1.0.0.dylib */; };
 		0E6F9E211ED60B7E009D469E /* libssl.1.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E6F9E1F1ED60B5D009D469E /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E706F03212FD05100631D77 /* AudioMonitor2 in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E706F02212FD05100631D77 /* AudioMonitor2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E7273652148C16C00C5B5DE /* AACEncoder in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E727350214892CA00C5B5DE /* AACEncoder */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E7309401F4027EC00004907 /* URLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E73093F1F4027EC00004907 /* URLTextField.m */; };
 		0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3C1EC1B7250050BD7F /* AudioToolbox.framework */; };
 		0E7F2C401EC1B7250050BD7F /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */; };
@@ -192,11 +195,13 @@
 		0EC207671EDCE11A006899EB /* SDRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC207661EDCE11A006899EB /* SDRController.m */; };
 		0ECAD5612109BA46005F4BB1 /* libliquid.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ECAD5602109BA46005F4BB1 /* libliquid.dylib */; };
 		0ECAD5632109BBA2005F4BB1 /* libliquid.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0ECAD5602109BA46005F4BB1 /* libliquid.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0ED06DE4215F302E00430953 /* IcecastSource in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0EF56186215780B500A5C0AF /* IcecastSource */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0ED06E3B215F354800430953 /* IcecastSourceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED06E3A215F354800430953 /* IcecastSourceController.m */; };
+		0ED07162215F9AF300430953 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6C7CC20B2083300D82331 /* DDLog.m */; };
 		0ED12CE91F359B0700D9DCDC /* tuner.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CE81F359B0700D9DCDC /* tuner.html */; };
 		0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEA1F35A86800D9DCDC /* index2.html */; };
 		0ED12CF01F35CD6600D9DCDC /* ofl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0ED12CEF1F35CD6600D9DCDC /* ofl_license.txt */; };
 		0ED6C77220AE69B500D82331 /* devicelistenbuttonclicked.html in Resources */ = {isa = PBXBuildFile; fileRef = 0ED6C77120AE69B500D82331 /* devicelistenbuttonclicked.html */; };
-		0ED6CA9A20B2087B00D82331 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6C7CC20B2083300D82331 /* DDLog.m */; };
 		0ED6CA9B20B2089700D82331 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6C7D120B2083300D82331 /* DDTTYLogger.m */; };
 		0ED9ED471F529A2A00898460 /* LocalRadioAppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9ED461F529A2A00898460 /* LocalRadioAppSettings.m */; };
 		0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF173251F60C25E0067E8C0 /* zip_lat_long.txt */; };
@@ -528,6 +533,13 @@
 			remoteGlobalIDString = 0EB51DF9212D3E2F0059D84C;
 			remoteInfo = AudioMonitor2;
 		};
+		0E72734F214892CA00C5B5DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0E727341214892C800C5B5DE;
+			remoteInfo = AACEncoder;
+		};
 		0E7294091F17D21700350F03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E7294051F17D21500350F03 /* UDPSender.xcodeproj */;
@@ -541,6 +553,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0ECAD571210C57E1005F4BB1;
 			remoteInfo = "wfm-tools";
+		};
+		0ED07157215F938A00430953 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EB51DED212D3E2F0059D84C;
+			remoteInfo = AudioMonitor2;
+		};
+		0ED07159215F938A00430953 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E727340214892C800C5B5DE;
+			remoteInfo = AACEncoder;
+		};
+		0ED0715B215F938A00430953 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EF56157215780B400A5C0AF;
+			remoteInfo = IcecastSource;
 		};
 		0ED6CA2020B2083500D82331 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -829,6 +862,13 @@
 			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
 			remoteInfo = WebServerIPhone;
 		};
+		0EF56185215780B500A5C0AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0EF56158215780B400A5C0AF;
+			remoteInfo = IcecastSource;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -906,6 +946,8 @@
 				0E49700F1F70F74D00E41A06 /* AudioMonitor in Copy Tools */,
 				0E106895211019DE000EF74A /* stereodemux in Copy Tools */,
 				0E706F03212FD05100631D77 /* AudioMonitor2 in Copy Tools */,
+				0E7273652148C16C00C5B5DE /* AACEncoder in Copy Tools */,
+				0ED06DE4215F302E00430953 /* IcecastSource in Copy Tools */,
 			);
 			name = "Copy Tools";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -980,6 +1022,7 @@
 		0E0C69201F1C8C8E00A7EE5E /* rtl_fm_localradio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = rtl_fm_localradio.xcodeproj; path = rtl_fm_localradio/rtl_fm_localradio.xcodeproj; sourceTree = "<group>"; };
 		0E0C693F1F1C9E3100A7EE5E /* fix_rtl_fm_localradio.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_rtl_fm_localradio.sh; sourceTree = "<group>"; };
 		0E0DD262210842AE0065832A /* favicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favicon.png; sourceTree = "<group>"; };
+		0E0E30692153566900550BF3 /* localradio.m3u */ = {isa = PBXFileReference; lastKnownFileType = text; path = localradio.m3u; sourceTree = "<group>"; };
 		0E0FD99E1EF3307E00FEEA06 /* scancategorylisten.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = scancategorylisten.html; sourceTree = "<group>"; };
 		0E0FD9AA1EF4A43700FEEA06 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		0E0FD9AB1EF4A43700FEEA06 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
@@ -1298,24 +1341,6 @@
 		0E35F41C20AA392B00154E4E /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		0E35F41D20AA392B00154E4E /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		0E35F41E20AA392B00154E4E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0E35F42120AA392B00154E4E /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
-		0E35F42220AA392B00154E4E /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
-		0E35F42320AA392B00154E4E /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
-		0E35F42420AA392B00154E4E /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
-		0E35F42520AA392B00154E4E /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
-		0E35F42620AA392B00154E4E /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
-		0E35F42720AA392B00154E4E /* DDLog+LOGV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDLog+LOGV.h"; sourceTree = "<group>"; };
-		0E35F42820AA392B00154E4E /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
-		0E35F42920AA392B00154E4E /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
-		0E35F42A20AA392B00154E4E /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
-		0E35F42B20AA392B00154E4E /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
-		0E35F42D20AA392B00154E4E /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
-		0E35F42E20AA392B00154E4E /* DDContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDContextFilterLogFormatter.m; sourceTree = "<group>"; };
-		0E35F42F20AA392B00154E4E /* DDDispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDispatchQueueLogFormatter.h; sourceTree = "<group>"; };
-		0E35F43020AA392B00154E4E /* DDDispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDispatchQueueLogFormatter.m; sourceTree = "<group>"; };
-		0E35F43120AA392B00154E4E /* DDMultiFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMultiFormatter.h; sourceTree = "<group>"; };
-		0E35F43220AA392B00154E4E /* DDMultiFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMultiFormatter.m; sourceTree = "<group>"; };
-		0E35F43320AA392B00154E4E /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		0E35F43620AA392B00154E4E /* CocoaAsyncSocketTests.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CocoaAsyncSocketTests.xcodeproj; sourceTree = "<group>"; };
 		0E35F43A20AA392B00154E4E /* Gemfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Gemfile; sourceTree = "<group>"; };
 		0E35F43B20AA392B00154E4E /* Gemfile.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Gemfile.lock; sourceTree = "<group>"; };
@@ -1540,25 +1565,6 @@
 		0E4ED14B1EAB7D5400D2157B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		0E4ED14C1EAB7D5400D2157B /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		0E4ED14D1EAB7D5400D2157B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		0E4ED1501EAB7D5400D2157B /* About.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = About.txt; sourceTree = "<group>"; };
-		0E4ED1511EAB7D5400D2157B /* GCDAsyncSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
-		0E4ED1521EAB7D5400D2157B /* GCDAsyncSocket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
-		0E4ED1541EAB7D5400D2157B /* About.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = About.txt; sourceTree = "<group>"; };
-		0E4ED1551EAB7D5400D2157B /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
-		0E4ED1561EAB7D5400D2157B /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
-		0E4ED1571EAB7D5400D2157B /* DDASLLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
-		0E4ED1581EAB7D5400D2157B /* DDASLLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
-		0E4ED1591EAB7D5400D2157B /* DDFileLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
-		0E4ED15A1EAB7D5400D2157B /* DDFileLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
-		0E4ED15B1EAB7D5400D2157B /* DDLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
-		0E4ED15C1EAB7D5400D2157B /* DDLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
-		0E4ED15D1EAB7D5400D2157B /* DDTTYLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
-		0E4ED15E1EAB7D5400D2157B /* DDTTYLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
-		0E4ED1601EAB7D5400D2157B /* ContextFilterLogFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContextFilterLogFormatter.h; sourceTree = "<group>"; };
-		0E4ED1611EAB7D5400D2157B /* ContextFilterLogFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContextFilterLogFormatter.m; sourceTree = "<group>"; };
-		0E4ED1621EAB7D5400D2157B /* DispatchQueueLogFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DispatchQueueLogFormatter.h; sourceTree = "<group>"; };
-		0E4ED1631EAB7D5400D2157B /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
-		0E4ED1641EAB7D5400D2157B /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		0E4ED1AB1EAB823B00D2157B /* WebServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServerController.h; sourceTree = "<group>"; };
 		0E4ED1AC1EAB823B00D2157B /* WebServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServerController.m; sourceTree = "<group>"; };
 		0E51DDC81F6CA152009B388F /* 1@2x,3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1@2x,3.jpg"; sourceTree = "<group>"; };
@@ -1611,6 +1617,7 @@
 		0E51DDFA1F6CA152009B388F /* MacSafari.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = MacSafari.tiff; sourceTree = "<group>"; };
 		0E51DDFB1F6CA152009B388F /* touch_screen_digitizer_for_celkon_a125_white_by_maxbhi.com_92064.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = touch_screen_digitizer_for_celkon_a125_white_by_maxbhi.com_92064.jpg; sourceTree = "<group>"; };
 		0E51DDFD1F6CA152009B388F /* LocalRadio-poster.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "LocalRadio-poster.svg"; sourceTree = "<group>"; };
+		0E5524FD2162117F00DB364C /* Monitor_Beacon.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Monitor_Beacon.mp3; sourceTree = "<group>"; };
 		0E5C52451F09B65A005CA515 /* rtl_fm_stereo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rtl_fm_stereo.c; sourceTree = "<group>"; };
 		0E5C52461F09B65A005CA515 /* rtl_fm_stereo.patch */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_fm_stereo.patch; sourceTree = "<group>"; };
 		0E60808D1ECE0BF400E4D1B6 /* libcrypto.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcrypto.1.0.0.dylib; sourceTree = "<group>"; };
@@ -1621,6 +1628,7 @@
 		0E6F9E171ED5F7EE009D469E /* liblzma.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = liblzma.5.dylib; sourceTree = "<group>"; };
 		0E6F9E1A1ED60348009D469E /* libxslt.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libxslt.1.dylib; sourceTree = "<group>"; };
 		0E6F9E1F1ED60B5D009D469E /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libssl.1.0.0.dylib; sourceTree = "<group>"; };
+		0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AACEncoder.xcodeproj; path = AACEncoder/AACEncoder.xcodeproj; sourceTree = "<group>"; };
 		0E7294051F17D21500350F03 /* UDPSender.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UDPSender.xcodeproj; path = UDPSender/UDPSender.xcodeproj; sourceTree = "<group>"; };
 		0E7309191F3EBB6300004907 /* LocalRadio Clean-Up.workflow */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "LocalRadio Clean-Up.workflow"; sourceTree = "<group>"; };
 		0E73093E1F4027EC00004907 /* URLTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLTextField.h; sourceTree = "<group>"; };
@@ -1714,6 +1722,8 @@
 		0ECAD5602109BA46005F4BB1 /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libliquid.dylib; sourceTree = "<group>"; };
 		0ECAD565210C35C0005F4BB1 /* fix_stereodemux.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_stereodemux.sh; sourceTree = "<group>"; };
 		0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "wfm-tools.xcodeproj"; path = "wfm-tools/wfm-tools.xcodeproj"; sourceTree = "<group>"; };
+		0ED06E39215F354800430953 /* IcecastSourceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IcecastSourceController.h; sourceTree = "<group>"; };
+		0ED06E3A215F354800430953 /* IcecastSourceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IcecastSourceController.m; sourceTree = "<group>"; };
 		0ED12CE81F359B0700D9DCDC /* tuner.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner.html; sourceTree = "<group>"; };
 		0ED12CEA1F35A86800D9DCDC /* index2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index2.html; sourceTree = "<group>"; };
 		0ED12CEF1F35CD6600D9DCDC /* ofl_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ofl_license.txt; path = ../ofl_license.txt; sourceTree = "<group>"; };
@@ -2244,6 +2254,7 @@
 		0EF2A9421F39BB8F009DB5C8 /* tuner_wbfm.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_wbfm.html; sourceTree = "<group>"; };
 		0EF2A9441F3B1240009DB5C8 /* gear.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gear.svg; sourceTree = "<group>"; };
 		0EF2A9451F3B19DA009DB5C8 /* settings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = settings.html; sourceTree = "<group>"; };
+		0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IcecastSource.xcodeproj; path = IcecastSource/IcecastSource.xcodeproj; sourceTree = "<group>"; };
 		0EF598F220FF3F2300BD2C76 /* LocalRadio-animation.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "LocalRadio-animation.svg"; sourceTree = "<group>"; };
 		0EF598F420FF42BC00BD2C76 /* info.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = info.html; sourceTree = "<group>"; };
 		0EF598F620FF4C5100BD2C76 /* info.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = info.svg; sourceTree = "<group>"; };
@@ -3218,7 +3229,6 @@
 				0E35F41720AA392B00154E4E /* CocoaAsyncSocket.h */,
 				0E35F41820AA392B00154E4E /* GCD */,
 				0E35F41E20AA392B00154E4E /* Info.plist */,
-				0E35F41F20AA392B00154E4E /* Vendor */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -3233,47 +3243,6 @@
 				0E35F41D20AA392B00154E4E /* GCDAsyncUdpSocket.m */,
 			);
 			path = GCD;
-			sourceTree = "<group>";
-		};
-		0E35F41F20AA392B00154E4E /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				0E35F42020AA392B00154E4E /* CocoaLumberjack */,
-			);
-			path = Vendor;
-			sourceTree = "<group>";
-		};
-		0E35F42020AA392B00154E4E /* CocoaLumberjack */ = {
-			isa = PBXGroup;
-			children = (
-				0E35F42120AA392B00154E4E /* DDAbstractDatabaseLogger.h */,
-				0E35F42220AA392B00154E4E /* DDAbstractDatabaseLogger.m */,
-				0E35F42320AA392B00154E4E /* DDASLLogger.h */,
-				0E35F42420AA392B00154E4E /* DDASLLogger.m */,
-				0E35F42520AA392B00154E4E /* DDFileLogger.h */,
-				0E35F42620AA392B00154E4E /* DDFileLogger.m */,
-				0E35F42720AA392B00154E4E /* DDLog+LOGV.h */,
-				0E35F42820AA392B00154E4E /* DDLog.h */,
-				0E35F42920AA392B00154E4E /* DDLog.m */,
-				0E35F42A20AA392B00154E4E /* DDTTYLogger.h */,
-				0E35F42B20AA392B00154E4E /* DDTTYLogger.m */,
-				0E35F42C20AA392B00154E4E /* Extensions */,
-			);
-			path = CocoaLumberjack;
-			sourceTree = "<group>";
-		};
-		0E35F42C20AA392B00154E4E /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				0E35F42D20AA392B00154E4E /* DDContextFilterLogFormatter.h */,
-				0E35F42E20AA392B00154E4E /* DDContextFilterLogFormatter.m */,
-				0E35F42F20AA392B00154E4E /* DDDispatchQueueLogFormatter.h */,
-				0E35F43020AA392B00154E4E /* DDDispatchQueueLogFormatter.m */,
-				0E35F43120AA392B00154E4E /* DDMultiFormatter.h */,
-				0E35F43220AA392B00154E4E /* DDMultiFormatter.m */,
-				0E35F43320AA392B00154E4E /* README.txt */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		0E35F43420AA392B00154E4E /* Tests */ = {
@@ -3383,6 +3352,8 @@
 				0E0A95381F129400002E2E5B /* UDPListener.xcodeproj */,
 				0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */,
 				0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */,
+				0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */,
+				0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
 			);
@@ -3422,6 +3393,8 @@
 				0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */,
 				0E0FDA011EF76AF800FEEA06 /* IcecastController.h */,
 				0E0FDA021EF76AF800FEEA06 /* IcecastController.m */,
+				0ED06E39215F354800430953 /* IcecastSourceController.h */,
+				0ED06E3A215F354800430953 /* IcecastSourceController.m */,
 				0E0A94FE1F109104002E2E5B /* EZStreamController.h */,
 				0E0A94FF1F109104002E2E5B /* EZStreamController.m */,
 				0E23B3141F1F36ED00565394 /* SoxController.h */,
@@ -3467,7 +3440,6 @@
 				0E4ED08A1EAB7D5300D2157B /* LICENSE.txt */,
 				0E4ED08B1EAB7D5300D2157B /* README.markdown */,
 				0E4ED08C1EAB7D5300D2157B /* Samples */,
-				0E4ED14E1EAB7D5400D2157B /* Vendor */,
 			);
 			path = "CocoaHTTPServer-master";
 			sourceTree = "<group>";
@@ -3943,56 +3915,6 @@
 			path = "Xcode-Configurations";
 			sourceTree = "<group>";
 		};
-		0E4ED14E1EAB7D5400D2157B /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				0E4ED14F1EAB7D5400D2157B /* CocoaAsyncSocket */,
-				0E4ED1531EAB7D5400D2157B /* CocoaLumberjack */,
-			);
-			path = Vendor;
-			sourceTree = "<group>";
-		};
-		0E4ED14F1EAB7D5400D2157B /* CocoaAsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				0E4ED1501EAB7D5400D2157B /* About.txt */,
-				0E4ED1511EAB7D5400D2157B /* GCDAsyncSocket.h */,
-				0E4ED1521EAB7D5400D2157B /* GCDAsyncSocket.m */,
-			);
-			path = CocoaAsyncSocket;
-			sourceTree = "<group>";
-		};
-		0E4ED1531EAB7D5400D2157B /* CocoaLumberjack */ = {
-			isa = PBXGroup;
-			children = (
-				0E4ED1541EAB7D5400D2157B /* About.txt */,
-				0E4ED1551EAB7D5400D2157B /* DDAbstractDatabaseLogger.h */,
-				0E4ED1561EAB7D5400D2157B /* DDAbstractDatabaseLogger.m */,
-				0E4ED1571EAB7D5400D2157B /* DDASLLogger.h */,
-				0E4ED1581EAB7D5400D2157B /* DDASLLogger.m */,
-				0E4ED1591EAB7D5400D2157B /* DDFileLogger.h */,
-				0E4ED15A1EAB7D5400D2157B /* DDFileLogger.m */,
-				0E4ED15B1EAB7D5400D2157B /* DDLog.h */,
-				0E4ED15C1EAB7D5400D2157B /* DDLog.m */,
-				0E4ED15D1EAB7D5400D2157B /* DDTTYLogger.h */,
-				0E4ED15E1EAB7D5400D2157B /* DDTTYLogger.m */,
-				0E4ED15F1EAB7D5400D2157B /* Extensions */,
-			);
-			path = CocoaLumberjack;
-			sourceTree = "<group>";
-		};
-		0E4ED15F1EAB7D5400D2157B /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				0E4ED1601EAB7D5400D2157B /* ContextFilterLogFormatter.h */,
-				0E4ED1611EAB7D5400D2157B /* ContextFilterLogFormatter.m */,
-				0E4ED1621EAB7D5400D2157B /* DispatchQueueLogFormatter.h */,
-				0E4ED1631EAB7D5400D2157B /* DispatchQueueLogFormatter.m */,
-				0E4ED1641EAB7D5400D2157B /* README.txt */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		0E4ED21A1EABAE3900D2157B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -4107,6 +4029,14 @@
 			path = stereo;
 			sourceTree = "<group>";
 		};
+		0E72734C214892C800C5B5DE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0E727350214892CA00C5B5DE /* AACEncoder */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0E7294061F17D21500350F03 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -4161,6 +4091,8 @@
 				0ED12CEA1F35A86800D9DCDC /* index2.html */,
 				0E688FFD1F3C460D00F34AE4 /* insertnewfrequency.html */,
 				0E7309441F418CD200004907 /* listenbuttonclicked.html */,
+				0E0E30692153566900550BF3 /* localradio.m3u */,
+				0E5524FD2162117F00DB364C /* Monitor_Beacon.mp3 */,
 				0E4461911F4420A9003C7851 /* scannerlistenbuttonclicked.html */,
 				0E7309421F41172200004907 /* nowplaying.html */,
 				0E0936C81F42E3E400BF2B46 /* nowplayingstatus.html */,
@@ -5661,6 +5593,14 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		0EF56163215780B400A5C0AF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0EF56186215780B500A5C0AF /* IcecastSource */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -5685,6 +5625,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				0ED07158215F938A00430953 /* PBXTargetDependency */,
+				0ED0715A215F938A00430953 /* PBXTargetDependency */,
+				0ED0715C215F938A00430953 /* PBXTargetDependency */,
 				0E6551A3210D911B000565AF /* PBXTargetDependency */,
 				0E0C69411F1CC5A300A7EE5E /* PBXTargetDependency */,
 				0E0563161F19D5D20093B473 /* PBXTargetDependency */,
@@ -5733,6 +5676,10 @@
 			productRefGroup = 0E4ECFBC1EAB633B00D2157B /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 0E72734C214892C800C5B5DE /* Products */;
+					ProjectRef = 0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */;
+				},
 				{
 					ProductGroup = 0E02EC401F494F7C008BAC27 /* Products */;
 					ProjectRef = 0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */;
@@ -5832,6 +5779,10 @@
 				{
 					ProductGroup = 0ED6C89120B2083400D82331 /* Products */;
 					ProjectRef = 0ED6C89020B2083400D82331 /* GlobalLogLevel.xcodeproj */;
+				},
+				{
+					ProductGroup = 0EF56163215780B400A5C0AF /* Products */;
+					ProjectRef = 0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E35F3ED20AA392B00154E4E /* Products */;
@@ -6270,6 +6221,13 @@
 			remoteRef = 0E706F01212FD05100631D77 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		0E727350214892CA00C5B5DE /* AACEncoder */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = AACEncoder;
+			remoteRef = 0E72734F214892CA00C5B5DE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		0E72940A1F17D21700350F03 /* UDPSender */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -6571,6 +6529,13 @@
 			remoteRef = 0ED6CA9820B2083500D82331 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		0EF56186215780B500A5C0AF /* IcecastSource */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = IcecastSource;
+			remoteRef = 0EF56185215780B500A5C0AF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -6592,6 +6557,7 @@
 				0E35F51020AA392B00154E4E /* InterfaceTest-Info.plist in Resources */,
 				0E0DD2B0210842B60065832A /* favicon.png in Resources */,
 				0E4ECFC81EAB633B00D2157B /* MainMenu.xib in Resources */,
+				0E0E306A2153566900550BF3 /* localradio.m3u in Resources */,
 				0EF2A9461F3B19DA009DB5C8 /* settings.html in Resources */,
 				0ED12CEB1F35A86800D9DCDC /* index2.html in Resources */,
 				0E84C9C91ED945E90065864B /* data_skeleton.sqlite3 in Resources */,
@@ -6608,6 +6574,7 @@
 				0EF598F520FF42BC00BD2C76 /* info.html in Resources */,
 				0E0936C91F42E3E400BF2B46 /* nowplayingstatus.html in Resources */,
 				0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */,
+				0E55254B2162117F00DB364C /* Monitor_Beacon.mp3 in Resources */,
 				0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */,
 				0E37EADB20511BEF00CC96EF /* devices.html in Resources */,
 				0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */,
@@ -6658,7 +6625,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/codesign_tools.sh";
+			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/codesign_tools.sh\n";
 		};
 		0E84C9A31ED8FFC90065864B /* Run Copy HTTP Files Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -6695,7 +6662,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ED6CA9A20B2087B00D82331 /* DDLog.m in Sources */,
 				0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */,
 				0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */,
 				0E4ED1851EAB7DC700D2157B /* WebSocket.m in Sources */,
@@ -6708,8 +6674,10 @@
 				0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */,
 				0EC207671EDCE11A006899EB /* SDRController.m in Sources */,
 				0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */,
+				0ED06E3B215F354800430953 /* IcecastSourceController.m in Sources */,
 				0E4ECFC01EAB633B00D2157B /* AppDelegate.m in Sources */,
 				0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */,
+				0ED07162215F9AF300430953 /* DDLog.m in Sources */,
 				0EA9CD4E211E70AA005B792B /* CustomTaskController.m in Sources */,
 				0E84C9C11ED935E00065864B /* README.md in Sources */,
 				0E4ED18D1EAB7E4B00D2157B /* HTTPDataResponse.m in Sources */,
@@ -6769,6 +6737,21 @@
 			isa = PBXTargetDependency;
 			name = "wfm-tools";
 			targetProxy = 0E6551A2210D911B000565AF /* PBXContainerItemProxy */;
+		};
+		0ED07158215F938A00430953 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AudioMonitor2;
+			targetProxy = 0ED07157215F938A00430953 /* PBXContainerItemProxy */;
+		};
+		0ED0715A215F938A00430953 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AACEncoder;
+			targetProxy = 0ED07159215F938A00430953 /* PBXContainerItemProxy */;
+		};
+		0ED0715C215F938A00430953 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = IcecastSource;
+			targetProxy = 0ED0715B215F938A00430953 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -7850,6 +7833,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/LocalRadio/CocoaLumberjack-3.4.2/Classes\"/**",
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
 					"\"/opt/local/include/libusb-1.0\"",
 					"\"$(SRCROOT)/LocalRadio/CocoaAsyncSocket-7.6.3\"/**",
@@ -7882,6 +7866,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/LocalRadio/CocoaLumberjack-3.4.2/Classes\"/**",
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
 					"\"/opt/local/include/libusb-1.0\"",
 					"\"$(SRCROOT)/LocalRadio/CocoaAsyncSocket-7.6.3\"/**",

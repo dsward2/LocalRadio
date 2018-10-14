@@ -1449,7 +1449,6 @@
                     {
                         if ((selectedArgumentsRow >= 0) && (selectedArgumentsRow < argumentsArray.count))
                         {
-                            NSString * emptyString = [NSString string];
                             [argumentsArray removeObjectAtIndex:selectedArgumentsRow];
                             
                             if (selectedArgumentsRow < argumentsArray.count)

@@ -44,7 +44,7 @@
 		0E02EC351F494F7C008BAC27 /* AudioMonitor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AudioMonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E02EC381F494F7C008BAC27 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		0E4970071F6F1EC200E41A06 /* AudioMonitor.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AudioMonitor.entitlements; sourceTree = "<group>"; };
+		0E72735C21489AA900C5B5DE /* AudioMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AudioMonitor.entitlements; sourceTree = SOURCE_ROOT; };
 		0EA8B2CE1FA9B568005C3A02 /* README.markdown */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.markdown; sourceTree = "<group>"; };
 		0EA8B2CF1FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "TPCircularBuffer+AudioBufferList.c"; sourceTree = "<group>"; };
 		0EA8B2D01FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TPCircularBuffer+AudioBufferList.h"; sourceTree = "<group>"; };
@@ -106,8 +106,8 @@
 				0EB51DEC212D3CD10059D84C /* main.cpp */,
 				0EB51DFC212D63890059D84C /* AudioMonitor2.hpp */,
 				0EB51DFB212D63890059D84C /* AudioMonitor2.cpp */,
+				0E72735C21489AA900C5B5DE /* AudioMonitor.entitlements */,
 				0EA8B2CD1FA9B568005C3A02 /* TPCircularBuffer-master */,
-				0E4970071F6F1EC200E41A06 /* AudioMonitor.entitlements */,
 			);
 			path = AudioMonitor;
 			sourceTree = "<group>";
@@ -340,6 +340,7 @@
 		0E02EC3D1F494F7C008BAC27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -350,6 +351,7 @@
 		0E02EC3E1F494F7C008BAC27 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -360,6 +362,7 @@
 		0EB51DF7212D3E2F0059D84C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;
@@ -372,6 +375,7 @@
 		0EB51DF8212D3E2F0059D84C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;

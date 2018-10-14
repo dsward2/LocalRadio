@@ -123,7 +123,7 @@ int main(int argc, const char * argv[])
     int audioConverterBufferSize = atoi(argAudioConverterBufferSize) * 1024;
     int audioQueueBufferSize = atoi(argAudioQueueBufferSize) * 1024;
 
-    runAudioMonitor(sampleRate, volume, channels, inputBufferSize, audioConverterBufferSize, audioQueueBufferSize);
+    runAudioMonitor2(sampleRate, volume, channels, inputBufferSize, audioConverterBufferSize, audioQueueBufferSize);
     
     do {
         CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.25, false);

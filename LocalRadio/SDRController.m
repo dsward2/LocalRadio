@@ -13,6 +13,7 @@
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAppSettings.h"
 #import "EZStreamController.h"
+#import "IcecastSourceController.h"
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
 #import "IcecastController.h"
@@ -905,6 +906,7 @@
 //	radioTaskReceivedStderrData:
 //==================================================================================
 
+/*
 - (void)radioTaskReceivedStderrData:(NSNotification *)notif
 {
     NSFileHandle *fh = [notif object];
@@ -918,6 +920,7 @@
     }
     [fh waitForDataInBackgroundAndNotify];
 }
+*/
 
 //==================================================================================
 //    checkIcecastAndEZStream
@@ -933,6 +936,11 @@
     }
 
     if (self.appDelegate.ezStreamController.ezStreamTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
+    {
+        //restartServices = YES;
+    }
+    
+    if (self.appDelegate.icecastSourceController.icecastSourceTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
     {
         restartServices = YES;
     }

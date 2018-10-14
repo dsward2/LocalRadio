@@ -33,6 +33,8 @@
 
 @property (assign) int icecastTaskProcessID;
 
+@property (strong) NSPipe * stderrPipe;
+
 - (void)terminateTasks;
 
 - (void)configureIcecast;

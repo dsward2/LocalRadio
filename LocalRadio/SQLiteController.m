@@ -106,6 +106,7 @@
         [SQLiteLibrary setDatabaseFile:databaseV1PathString];
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
+        #pragma unused(sqliteIsRunning)
 
         NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter FROM frequency ORDER BY id;";
         NSArray * allFrequencyRecords = [SQLiteLibrary performQueryAndGetResultList:queryString];
@@ -151,6 +152,7 @@
         [SQLiteLibrary setDatabaseFile:databaseV2PathString];
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
+        #pragma unused(sqliteIsRunning)
 
         NSArray * allFrequencyRecords = [self allFrequencyRecords];     // no changes to this table
         NSArray * allCategoryRecords = [self allCategoryRecords];       // no changes to this table

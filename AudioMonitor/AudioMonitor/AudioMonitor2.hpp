@@ -9,6 +9,6 @@
 #ifndef AudioMonitor2_hpp
 #define AudioMonitor2_hpp
 
-void runAudioMonitor(unsigned int inSampleRate, double inVolume, unsigned int inChannels, unsigned int inInputBufferSize, unsigned int inAudioConverterBufferSize, unsigned int inAudioQueueBufferSize);
+void runAudioMonitor2(unsigned int inSampleRate, double inVolume, unsigned int inChannels, unsigned int inInputBufferSize, unsigned int inAudioConverterBufferSize, unsigned int inAudioQueueBufferSize);
 
 #endif /* AudioMonitor2_hpp */

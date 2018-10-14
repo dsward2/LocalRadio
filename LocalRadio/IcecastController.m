@@ -13,11 +13,20 @@
 
 @implementation IcecastController
 
+//==================================================================================
+//    dealloc
+//==================================================================================
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 // ================================================================
 
 - (void)terminateTasks
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.icecastTask terminate];
 }
 
@@ -61,26 +70,6 @@
     }
     else
     {
-        /*
-        NSAlert *alert = [[NSAlert alloc] init];
-        
-        [alert addButtonWithTitle:@"OK"];
-        
-        [alert setMessageText:@"Icecast is already running"];
-        
-        NSString * informativeText = [NSString stringWithFormat:@"An existing Icecast server process was found currently running on this Mac, so a new Icecast server process was not created.\n\nThe existing Icecast process can be inspected and terminated with Activity Monitor.app with Process ID (PID) %d.", icecastProcessID];
-        
-        [alert setInformativeText:informativeText];
-        
-        [alert setAlertStyle:NSWarningAlertStyle];
-
-        if ([alert runModal] == NSAlertFirstButtonReturn)
-        {
-            // OK clicked
-        }
-        */
-
-        
         NSNumber * icecastProcessIDNumber = [NSNumber numberWithInteger:icecastProcessID];
         
         [self performSelectorOnMainThread:@selector(poseIcecastProcessAlert:) withObject:icecastProcessIDNumber waitUntilDone:YES];
@@ -159,12 +148,12 @@
 
 - (void)configureIcecast
 {
-    NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
-    NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
-    NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
+    //NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
+    //NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
+    //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
-    NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
-    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+    //NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
+    //NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
     
@@ -293,9 +282,7 @@
         [adminPasswordElement setStringValue:icecastServerSourcePassword];
     }
     
-
-    
-    NSString * xmlString = [xmlDocument XMLString];
+    NSString * xmlString = [xmlDocument XMLStringWithOptions:NSXMLNodePrettyPrint];
     NSString * newIcecastConfigPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.xml"];
     NSError * writeError = NULL;
     [xmlString writeToFile:newIcecastConfigPath atomically:NO encoding:NSUTF8StringEncoding error:&writeError];
@@ -327,19 +314,37 @@
     self.icecastTask.launchPath = icecastPath;
     self.icecastTask.arguments = self.icecastTaskArgsArray;
 
+
+
+
+    /*
+    // send stderr from the NSTask to this object, which calls NSLog()
+    self.stderrPipe = [NSPipe pipe];
+    [self.icecastTask setStandardError:self.stderrPipe];
+
+    NSFileHandle * stderrFile = self.stderrPipe.fileHandleForReading;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskReceivedStderrData:) name:NSFileHandleDataAvailableNotification object:stderrFile];
+
+    [stderrFile waitForDataInBackgroundAndNotify];
+    */
+    
+
+
+
     IcecastController * weakSelf = self;
     
     [self.icecastTask setTerminationHandler:^(NSTask* task)
     {           
-        NSLog(@"enter IcecastController icecastTask terminationHandler, PID=%d", task.processIdentifier);
+        NSLog(@"LocalRadio IcecastController enter icecastTask terminationHandler, PID=%d", task.processIdentifier);
 
         if ([task terminationStatus] == 0)
         {
-            NSLog(@"startIcecastTask - icecast terminationStatus 0");
+            NSLog(@"LocalRadio IcecastController startIcecastTask - icecast terminationStatus 0");
         }
         else
         {
-            NSLog(@"startIcecastTask - icecast terminationStatus %d", task.terminationStatus);
+            NSLog(@"LocalRadio IcecastController startIcecastTask - icecast terminationStatus %d", task.terminationStatus);
         }
 
         if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
@@ -359,7 +364,7 @@
     
     [self.icecastTask launch];
     
-    NSLog(@"Launched icecastTask, PID=%d", self.icecastTask.processIdentifier);
+    NSLog(@"LocalRadio IcecastController Launched icecastTask, PID=%d", self.icecastTask.processIdentifier);
     
     self.icecastTaskProcessID = self.icecastTask.processIdentifier;
 
@@ -385,7 +390,7 @@ Printing description of icecastStatusDictionary:
     clients = 1;
     connections = 77;
     "file_connections" = 16;
-    host = "192.168.10.8";
+    host = "192.168.0.8";
     icestats = "";
     "listener_connections" = 1;
     listeners = 0;
@@ -405,7 +410,7 @@ Printing description of icecastStatusDictionary:
             genre = Live;
             "listener_peak" = 1;
             listeners = 0;
-            listenurl = "http://192.168.10.8:17003/live";
+            listenurl = "http://192.168.0.8:17003/live";
             "max_listeners" = unlimited;
             public = 0;
             samplerate = 48000;
@@ -427,6 +432,26 @@ Printing description of icecastStatusDictionary:
     "stats_connections" = 0;
 }
 */
+
+//==================================================================================
+//    taskReceivedStderrData:
+//==================================================================================
+
+/*
+- (void)taskReceivedStderrData:(NSNotification *)notif {
+
+    NSFileHandle * fileHandle = [notif object];
+    NSData * data = [fileHandle availableData];
+    if (data.length > 0)
+    {
+        // if data is found, re-register for more data (and print)
+        NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"LocalRadio Icecast stderr: %@" , str);
+    }
+    [fileHandle waitForDataInBackgroundAndNotify];
+}
+*/
+
 
 //==================================================================================
 //	icecastStatusDictionary

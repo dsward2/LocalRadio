@@ -148,7 +148,7 @@ void * runInputBufferOnThread(void * ptr)
     // continuous run loop
     while (doExit == false)
     {
-        //fprintf(stderr, "AudioMonitor runInputBufferOnThread polling loop\n");
+        //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread polling loop\n");
         
         CFRunLoopMode runLoopMode = kCFRunLoopDefaultMode;
         CFTimeInterval runLoopTimeInterval = 0.25f;
@@ -361,7 +361,7 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
     // this can get called multiple times from AudioConverterFillComplexBuffer, and needs to manage short blocks.
     if (ioDataPacketDescription != NULL)
     {
-        fprintf(stderr, "AudioMonitor - audioConverterComplexInputDataProc ioDataPacketDescription not available\n");
+        fprintf(stderr, "AudioMonitor2 - audioConverterComplexInputDataProc ioDataPacketDescription not available\n");
         *ioDataPacketDescription = NULL;
         *ioNumberDataPackets = 0;
         ioData->mNumberBuffers = 0;
@@ -397,7 +397,7 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
     audioConverterInputBufferOffset += (ioNumberDataPacketsProduced * sizeof(SInt16) * inputChannels);
     audioConverterInputPacketsRemain -= ioNumberDataPacketsProduced;
     
-    //fprintf(stderr, "AudioMonitor - audioConverterComplexInputDataProc ioNumberDataPacketsRequested=%u, ioNumberDataPacketsProduced=%u,  result=%d\n", ioNumberDataPacketsRequested, ioNumberDataPacketsProduced, result);
+    //fprintf(stderr, "AudioMonitor2 - audioConverterComplexInputDataProc ioNumberDataPacketsRequested=%u, ioNumberDataPacketsProduced=%u,  result=%d\n", ioNumberDataPacketsRequested, ioNumberDataPacketsProduced, result);
 
     return result;
 }
@@ -431,15 +431,11 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 
         UInt32 outputDataPacketSize = numFrames;    // on entry, max packets capacity
 
-        //fprintf(stderr, "AudioMonitor convertBuffer numFrames=%d, remain=%d\n", numFrames, audioConverterInputPacketsRemain);
-
-        // for up-sampling (e.g., 10000 Hz to 41000 Hz), use multiple calls to AudioConverterFillComplexBuffer
-        // in a loop here and check result for exit condition 'zero' indicating end of input buffer.
-        // Down-sampling (e.g. 85000 Hz to 10000 Hz) seems to get the buffer processed without the loop.
+        //fprintf(stderr, "AudioMonitor2 convertBuffer numFrames=%d, remain=%d\n", numFrames, audioConverterInputPacketsRemain);
 
         OSStatus convertResult = noErr;
         
-        while (convertResult == noErr)
+        //while (convertResult == noErr)
         {
             convertResult = AudioConverterFillComplexBuffer(
                     inAudioConverter,      // AudioConverterRef inAudioConverter
@@ -450,63 +446,66 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                     NULL                   // AudioStreamPacketDescription *outPacketDescription - not applicable for PCM?
                     );
             
-            //fprintf(stderr, "AudioMonitor convertBuffer AudioConverterFillComplexBuffer result = %d, outputDataPacketSize = %d\n", convertResult, outputDataPacketSize);
-
-            if (outputDataPacketSize > 0)   // number of packets converted
+            //fprintf(stderr, "AudioMonitor2 convertBuffer AudioConverterFillComplexBuffer result = %d, outputDataPacketSize = %d\n", convertResult, outputDataPacketSize);
+            
+            if ((convertResult == noErr) || (convertResult == 'zero'))
             {
-                // produce resampled audio to second circular buffer
-                
-                int32_t convertedDataLength = outputDataPacketSize * sizeof(SInt16) * 2;
-
-                void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
-
-                int32_t space;
-                void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for fprintf to stderr below
-                int64_t bufferFilledSize = (int64_t)headPtr - (int64_t)inputBufferPtr;
-
-                fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
-                
-                bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
-
-                if (produceBytesResult == false)
+                if (outputDataPacketSize > 0)   // number of packets converted
                 {
-                    // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
+                    // produce resampled audio to second circular buffer
                     
-                    // clear buffer and try again (not the recommended practice)
+                    int32_t convertedDataLength = outputDataPacketSize * sizeof(SInt16) * 2;
+
+                    void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
+
+                    int32_t space;
+                    void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for fprintf to stderr below
+                    int64_t bufferFilledSize = (int64_t)headPtr - (int64_t)inputBufferPtr;
+
+                    fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
                     
-                    usleep(500000);
-
-                    TPCircularBufferClear(&(audioConverterCircularBuffer));
-
-                    //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
-
-                    produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
+                    bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
 
                     if (produceBytesResult == false)
                     {
-                        // If we get here, packets will be dropped
+                        // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
                         
-                        fprintf(stderr, "AudioMonitor2 convertBuffer failed, drop packet, convertedDataLength = %d, space = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, space, headPtr, bufferFilledSize);
+                        // clear buffer and try again (not the recommended practice)
+                        
+                        usleep(500000);
+
+                        TPCircularBufferClear(&(audioConverterCircularBuffer));
+
+                        //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
+
+                        produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
+
+                        if (produceBytesResult == false)
+                        {
+                            // If we get here, packets will be dropped
+                            
+                            fprintf(stderr, "AudioMonitor2 convertBuffer failed, drop packet, convertedDataLength = %d, space = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, space, headPtr, bufferFilledSize);
+                        }
+                    }
+                    else
+                    {
+                        if (volume == 0.0)
+                        {
+                            usleep(5000);
+
+                            TPCircularBufferClear(&(audioConverterCircularBuffer));
+                        }
                     }
                 }
                 else
                 {
-                    if (volume == 0.0)
-                    {
-                        usleep(5000);
-
-                        TPCircularBufferClear(&(audioConverterCircularBuffer));
-                    }
+                    fprintf(stderr, "AudioMonitor2 convertBuffer outputDataPacketSize=%d\n", outputDataPacketSize);
                 }
             }
-
-            if (convertResult != noErr)
+            else
             {
-                if (convertResult != 'zero')
-                {
-                    fprintf(stderr, "AudioMonitor convertResult=%d\n", convertResult);
-                    AudioConverterReset(inAudioConverter);
-                }
+                fprintf(stderr, "AudioMonitor2 convertBuffer convertResult=%d\n", convertResult);
+                AudioConverterReset(inAudioConverter);
             }
         }
         
@@ -536,14 +535,14 @@ void * runAudioConverterOnThread(void * ptr)
     int32_t circularBufferLength = audioConverterBufferSize;
     TPCircularBufferInit(&audioConverterCircularBuffer, circularBufferLength);
 
-    fprintf(stderr, "AudioMonitor runAudioConverterOnThread circularBufferLength = %d\n", circularBufferLength);
+    fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread circularBufferLength = %d\n", circularBufferLength);
 
     startAudioConverter();     // resample PCM data to 48000 Hz
 
     // continuous run loop
     while (doExit == false)
     {
-        //fprintf(stderr, "AudioMonitor runAudioConverterOnThread polling loop\n");
+        //fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread polling loop\n");
 
         CFRunLoopMode runLoopMode = kCFRunLoopDefaultMode;
         CFTimeInterval runLoopTimeInterval = 0.25f;
@@ -560,7 +559,7 @@ void * runAudioConverterOnThread(void * ptr)
                 case kCFRunLoopRunTimedOut: runLoopResultString = "kCFRunLoopRunTimedOut"; break;
                 case kCFRunLoopRunHandledSource: runLoopResultString = "kCFRunLoopRunHandledSource"; break;
             }
-            fprintf(stderr, "AudioMonitor runAudioConverterOnThread runLoopResult %s\n", runLoopResultString);
+            fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread runLoopResult %s\n", runLoopResultString);
         }
 
         time_t currentTime = time(NULL);
@@ -581,11 +580,11 @@ void * runAudioConverterOnThread(void * ptr)
                 lastReadTime = currentTime;
                 nextTimeoutReportInterval = 5;
                 
-                //fprintf(stderr, "AudioMonitor runAudioConverterOnThread polling loop\n");
+                //fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread polling loop\n");
 
                 convertBuffer(circularBufferDataPtr, bytesAvailableCount);
 
-                //fprintf(stderr, "AudioMonitor runAudioConverterOnThread - Consume bytesAvailableCount = %d, circularBufferDataPtr = %p\n", bytesAvailableCount, circularBufferDataPtr);
+                //fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread - Consume bytesAvailableCount = %d, circularBufferDataPtr = %p\n", bytesAvailableCount, circularBufferDataPtr);
 
                 TPCircularBufferConsume(&inputCircularBuffer, bytesAvailableCount);
             }
@@ -598,7 +597,7 @@ void * runAudioConverterOnThread(void * ptr)
         time_t intervalSinceLastRead = currentTime - lastReadTime;
         if (intervalSinceLastRead >= nextTimeoutReportInterval)
         {
-            fprintf(stderr, "AudioMonitor intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
+            fprintf(stderr, "AudioMonitor2 intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
 
             nextTimeoutReportInterval += 5;
         }
@@ -638,7 +637,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
     int32_t availableBytes = 0;
     void * circularBufferDataPtr = TPCircularBufferTail(&(audioConverterCircularBuffer), &availableBytes);
 
-    //fprintf(stderr, "AudioMonitor audioQueueCallback buffer=%p, availableBytes=%d, audioQueueDataBytesCapacity=%u\n", buffer, availableBytes, audioQueueDataBytesCapacity);
+    //fprintf(stderr, "AudioMonitor2 audioQueueCallback buffer=%p, availableBytes=%d, audioQueueDataBytesCapacity=%u\n", buffer, availableBytes, audioQueueDataBytesCapacity);
 
     if (availableBytes > 0)
     {
@@ -675,7 +674,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
             }
         }
 
-        //fprintf(stderr, "AudioMonitor audioQueueCallback - Consume availableBytes = %d, circularBufferDataPtr = %p\n", availableBytes, circularBufferDataPtr);
+        //fprintf(stderr, "AudioMonitor2 audioQueueCallback - Consume availableBytes = %d, circularBufferDataPtr = %p\n", availableBytes, circularBufferDataPtr);
 
         //TPCircularBufferConsume(&audioConverterCircularBuffer, availableBytes);
         TPCircularBufferConsume(&audioConverterCircularBuffer, outputBytes);
@@ -684,7 +683,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
     {
         // no data available in circular buffer, so output some packets of silence
         
-        fprintf(stderr, "AudioMonitor audioQueueCallback - no input data available, output silence\n");
+        fprintf(stderr, "AudioMonitor2 audioQueueCallback - no input data available, output silence\n");
         //buffer->mAudioDataByteSize = 128 * sizeof(SInt16) * 2;      // 128 frames * 2 bytes per packet * 2 packets per frame
         buffer->mAudioDataByteSize = audioQueueDataBytesCapacity;
 
@@ -799,10 +798,10 @@ void createAudioQueueThread()
 }
 
 //==================================================================================
-//    runAudioMonitor()
+//    runAudioMonitor2()
 //==================================================================================
 
-void runAudioMonitor(unsigned int inSampleRate, double inVolume, unsigned int inChannels, unsigned int inInputBufferSize, unsigned int inAudioConverterBufferSize, unsigned int inAudioQueueBufferSize)
+void runAudioMonitor2(unsigned int inSampleRate, double inVolume, unsigned int inChannels, unsigned int inInputBufferSize, unsigned int inAudioConverterBufferSize, unsigned int inAudioQueueBufferSize)
 {
     //raise(SIGSTOP); // Stop and wait for debugger. Click the Debugger's Resume button to continue execution
     
@@ -815,8 +814,8 @@ void runAudioMonitor(unsigned int inSampleRate, double inVolume, unsigned int in
 
     // start threads for input buffering, resampling and playback to audio device
     inputBufferThreadID = 0;
-    audioQueueThreadID = 0;
     audioConverterThreadID = 0;
+    audioQueueThreadID = 0;
 
     createInputBufferThread();
     createAudioConverterThread();

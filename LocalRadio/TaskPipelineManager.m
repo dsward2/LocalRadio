@@ -118,15 +118,11 @@
             NSInteger currentTaskItemIndex = [self.taskItemsArray indexOfObject:taskItem];
             TaskItem * nextTaskItem = [self.taskItemsArray objectAtIndex:currentTaskItemIndex + 1];
             [nextTaskItem.task setStandardInput:intertaskPipe];
-            
-            //[taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
         }
         else
         {
             // set last task's stdout to /dev/null
             [taskItem.task setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
-
-            //[taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
         }
 
         AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
@@ -135,6 +131,7 @@
         
         if (captureStderr == YES)
         {
+            /*
             // send stderr from the NSTask to this object, which calls NSLog()
             taskItem.stderrPipe = [NSPipe pipe];
             [taskItem.task setStandardError:taskItem.stderrPipe];
@@ -144,13 +141,14 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskReceivedStderrData:) name:NSFileHandleDataAvailableNotification object:stderrFile];
 
             [stderrFile waitForDataInBackgroundAndNotify];
-            NSLog(@"LocalRadio TaskPipelineManager configureTaskPipes - captureStderr = YES");
+            NSLog(@"LocalRadio TaskPipelineManager configureTaskPipes - captureStderr = YES - taskItem = %@", taskItem.path);
+            */
         }
         else
         {
             // send the NSTask's stderr to /dev/null
             [taskItem.task setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-            NSLog(@"LocalRadio TaskPipelineManager configureTaskPipes - captureStderr = NO");
+            NSLog(@"LocalRadio TaskPipelineManager configureTaskPipes - captureStderr = NO - taskItem = %@", taskItem.path);
         }
     }
 }
@@ -161,15 +159,23 @@
 
 - (void)taskReceivedStderrData:(NSNotification *)notif {
 
-    NSFileHandle * fileHandle = [notif object];
-    NSData * data = [fileHandle availableData];
-    if (data.length > 0)
+    id notifObject = [notif object];
+    if ([[notifObject class] isKindOfClass:[NSFileHandle class]] == YES)
     {
-        // if data is found, re-register for more data (and print)
-        NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"LocalRadio stderr: %@" , str);
+        NSFileHandle * fileHandle = notifObject;
+        NSData * data = [fileHandle availableData];
+        if (data.length > 0)
+        {
+            NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"LocalRadio stderr: %@" , str);
+        }
+        // request more data
+        [fileHandle waitForDataInBackgroundAndNotify];
     }
-    [fileHandle waitForDataInBackgroundAndNotify];
+    else
+    {
+        NSLog(@"LocalRadio taskReceivedStderrData error %@, %@", notif, notifObject);
+    }
 }
 
 //==================================================================================
@@ -224,6 +230,7 @@
             {
                 @try {
                     NSError * terminateTaskError = [taskItem terminateTask];
+                    #pragma unused(terminateTaskError)
                 }
                 @catch (NSException *exception) {
                     
@@ -237,6 +244,8 @@
     [NSThread sleepForTimeInterval:0.1f];
 
     self.taskPipelineStatus = kTaskPipelineStatusTerminated;
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 //==================================================================================
@@ -263,7 +272,7 @@
 
     if (failedTaskFound == YES)
     {
-        NSLog(@"LocalRadio TaskPipelineManager - TaskPipelineFailed - %@ - %@", failedTaskItem, self.taskItemsArray);
+        NSLog(@"LocalRadio TaskPipelineManager error - TaskPipelineFailed - %@ - %@", failedTaskItem, self.taskItemsArray);
 
         [[NSNotificationCenter defaultCenter] postNotificationName:@"TaskPipelineFailedNotification" object:self];
 
@@ -281,7 +290,7 @@
 
 - (NSString *)tasksInfoString
 {
-    NSMutableString * tasksInfoString = [NSMutableString stringWithString:@"\n\n"];
+    NSMutableString * tasksInfoString = [NSMutableString string];
     
     if (self.taskItemsArray.count > 0)
     {

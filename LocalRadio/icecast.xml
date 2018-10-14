@@ -2,7 +2,7 @@
     <!-- location and admin are two arbitrary strings that are e.g. visible
          on the server info page of the icecast web interface
          (server_version.xsl). -->
-    <location>Earth</location>
+    <location>LocalRadio</location>
     <admin>icemaster@localhost</admin>
 
     <!-- IMPORTANT!
@@ -18,7 +18,7 @@
         <queue-size>524288</queue-size>
         <client-timeout>30</client-timeout>
         <header-timeout>15</header-timeout>
-        <source-timeout>10</source-timeout>
+        <source-timeout>60</source-timeout>
         
         <!-- If enabled, this will provide a burst of data when a client
              first connects, thereby significantly reducing the startup 
@@ -127,6 +127,29 @@
          Only define <mount> sections if you want to use advanced options,
          like alternative usernames or passwords
     -->
+
+
+
+
+    <!--
+    <mount type="default">
+        <mount-name>/localradio.aac</mount-name>
+        <public>0</public>
+        <type>audio/aac</type>
+        <fallback-mount>/fallback.aac</fallback-mount>
+        <fallback-override>1</fallback-override>
+        <fallback-when-full>1</fallback-when-full>
+    </mount>
+
+    <mount type="normal">
+        <mount-name>/fallback.aac</mount-name>
+        <public>0</public>
+        <type>audio/aac</type>
+    </mount>
+    -->
+
+
+
 
     <!-- Default settings for all mounts that don't have a specific <mount type="normal">.
     -->
@@ -260,4 +283,20 @@
         </changeowner>
         -->
     </security>
+
+
+
+
+    <!--
+    <mount type="default">
+        <mount-name>/default.mp3</mount-name>
+        <public>0</public>
+    </mount>
+
+    <mount type="normal">
+        <mount-name>/normal.mp3</mount-name>
+        <public>0</public>
+    </mount>
+    -->
+
 </icecast>

@@ -14,7 +14,7 @@
      -->
     <!-- <sourceuser>mr_stream</sourceuser> -->
     <sourcepassword>myPassword123</sourcepassword>
-    <format>MP3</format>
+    <format>normal</format>
     <filename>stdin</filename>
     <!-- Once done streaming playlist.m3u, exit: -->
     <stream_once>0</stream_once>
@@ -25,7 +25,7 @@
       <svrinfoquality /> only applies to Ogg Vorbis streams.
      -->
     <svrinfoname>My Stream</svrinfoname>
-    <svrinfourl>http://127.0.0.1/localradio</svrinfourl>
+    <svrinfourl>http://127.0.0.1:17002/localradio.aac</svrinfourl>
     <svrinfogenre>LocalRadio</svrinfogenre>
     <svrinfodescription>LocalRadio streaming audio</svrinfodescription>
     <svrinfobitrate>128</svrinfobitrate>
@@ -35,4 +35,60 @@
       Prohibit the server to advertise the stream on a public YP directory:
      -->
     <svrinfopublic>0</svrinfopublic>
+
+    <reencode>
+        <!-- Enable the reencoding feature: -->
+        <enable>1</enable>
+        <!--
+           Each <encdec /> element specifies a pair of programs to be used for
+           decoding and encoding, respectively, and which file extension and
+           output stream format they apply to.
+
+           All the configuration of the output stream is usually done by using
+           the appropriate command line parameters of the encoders in the
+           <encode /> elements.
+
+           New <encdec /> sections can be added for new input/output formats.
+
+           Distorted audio, or audio playing at the wrong speed/pitch may be
+           caused by conflicting sample rates in the various <decode /> and
+           <encode /> sections, byte order (endianness) issues and mono input
+           files. See the documentation on the various de-/encoders for
+           the options that need to be used to create a consistent stream of
+           raw samples.
+         -->
+        <encdec>
+            <!-- Support for FLAC decoding: -->
+            <format>FLAC</format>
+            <match>.flac</match>
+            <decode>flac -s -d --force-raw-format --sign=signed --endian=little -o - "@T@"</decode>
+            <!-- <encode>Not supported Yet</encode> -->
+        </encdec>
+        <encdec>
+            <!--
+               Support for MP3 decoding via madplay, and encoding via LAME:
+             -->
+            <format>MP3</format>
+            <match>.mp3</match>
+            <!-- Note: madplay uses host byte order for raw samples. -->
+            <decode>madplay -b 16 -R 44100 -S -o raw:- "@T@"</decode>
+            <encode>lame --preset cbr 128 -r -s 44.1 --bitwidth 16 - -</encode>
+        </encdec>
+        <encdec>
+            <format>AAC</format>
+            <!-- <match>.mp4</match> -->
+            <!-- <decode>ffmpeg -i "@T@" -f wav -</decode> -->
+            <match>.aac</match>
+        </encdec>
+        <encdec>
+            <!--
+               Support for Vorbis decoding via oggdec, and encoding via oggenc:
+             -->
+            <format>VORBIS</format>
+            <match>.ogg</match>
+            <decode>oggdec -R -b 16 -e 0 -s 1 -o - "@T@"</decode>
+            <encode>oggenc -r -B 16 -C 2 -R 44100 --raw-endianness 0 -q 1.5 -t "@M@" -</encode>
+        </encdec>
+    </reencode>
+
 </ezstream>

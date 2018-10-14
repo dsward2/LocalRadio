@@ -13,6 +13,7 @@
 @class WebServerController;
 @class SDRController;
 @class IcecastController;
+@class IcecastSourceController;
 @class EZStreamController;
 @class SoxController;
 @class SQLiteController;
@@ -37,6 +38,7 @@
 @property (strong) IBOutlet WebServerController * webServerController;
 @property (strong) IBOutlet SDRController * sdrController;
 @property (strong) IBOutlet IcecastController * icecastController;
+@property (strong) IBOutlet IcecastSourceController * icecastSourceController;
 @property (strong) IBOutlet EZStreamController * ezStreamController;
 @property (strong) IBOutlet SoxController * soxController;
 @property (strong) IBOutlet UDPStatusListenerController * udpStatusListenerController;
@@ -45,6 +47,7 @@
 
 @property (weak) IBOutlet NSTextField * statusIcecastServerTextField;
 @property (weak) IBOutlet NSTextField * statusEZStreamServerTextField;
+@property (weak) IBOutlet NSTextField * statusIcecastSourceTextField;
 @property (weak) IBOutlet NSTextField * statusRTLSDRTextField;
 @property (weak) IBOutlet NSTextField * statusFunctionTextField;
 @property (weak) IBOutlet NSTextField * statusNameTextField;
@@ -105,7 +108,7 @@
 @property (weak) IBOutlet NSPopUpButton * editMP3EncodingQualityPopUpButton;
 
 @property (weak) IBOutlet NSButton * editUseWebViewAudioPlayerCheckbox;
-@property (weak) IBOutlet NSButton * editLogAllStderrMessages;
+@property (weak) IBOutlet NSButton * editLogAllStderrMessagesCheckbox;
 
 @property (weak) IBOutlet NSButton * editSaveButton;
 @property (weak) IBOutlet NSButton * editCancelButton;
