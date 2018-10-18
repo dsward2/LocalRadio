@@ -73,8 +73,6 @@ unsigned int audioQueueBufferSize;
 
 
 AudioBuffer audioConverterInputAudioBuffer;
-UInt64 audioConverterInputBufferOffset;
-UInt32 audioConverterInputPacketsRemain;
 
 pthread_t inputBufferThreadID;
 pthread_t audioConverterThreadID;
@@ -82,6 +80,13 @@ pthread_t audioQueueThreadID;
 
 void createAudioConverterThread();
 void createAudioQueueThread();
+
+typedef struct {
+    void * inputBufferPtr;
+    UInt32 inputBufferDataLength;
+    UInt32 inputChannels;
+    AudioStreamPacketDescription * packetDescription;
+} FillComplexInputParam;
 
 //==================================================================================
 //    stopAudio()
@@ -124,6 +129,533 @@ void logDescription(AudioStreamBasicDescription * asbd, const char * name)
 }
 
 //==================================================================================
+//    logAudioConverterProperties()
+//==================================================================================
+
+void logAudioConverterProperties()
+{
+    UInt32 tmpsiz = sizeof(UInt32);
+    UInt32 encodeBitRate = 0;
+    OSStatus encodeBitRateStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterEncodeBitRate,
+            &tmpsiz, &encodeBitRate);
+    if (encodeBitRateStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterEncodeBitRate = %d\n", (int)encodeBitRate);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterEncodeBitRate error = %d\n", (int)encodeBitRateStatus);
+    }
+
+    tmpsiz = sizeof(UInt32);
+    UInt32 bitDepthHint = 0;
+    OSStatus bitDepthHintStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterPropertyBitDepthHint,
+            &tmpsiz, &bitDepthHint);
+    if (bitDepthHintStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyBitDepthHint = %d\n", (int)bitDepthHint);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyBitDepthHint error = %d\n", (int)bitDepthHintStatus);
+    }
+
+    tmpsiz = sizeof(UInt32);
+    UInt32 minimumInputBufferSize = 0;
+    OSStatus minimumInputBufferSizeStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterPropertyMinimumInputBufferSize,
+            &tmpsiz, &minimumInputBufferSize);
+    if (minimumInputBufferSizeStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMinimumInputBufferSize = %d\n", (int)minimumInputBufferSize);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMinimumInputBufferSize error = %d\n", (int)minimumInputBufferSizeStatus);
+    }
+
+    tmpsiz = sizeof(UInt32);
+    UInt32 minimumOutputBufferSize = 0;
+    OSStatus minimumOutputBufferSizeStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterPropertyMinimumOutputBufferSize,
+            &tmpsiz, &minimumOutputBufferSize);
+    if (minimumOutputBufferSizeStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMinimumOutputBufferSize = %d\n", (int)minimumOutputBufferSize);
+    }
+    else
+    {
+        // returns 'prop', property not supported
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMinimumOutputBufferSize error = %d\n", (int)minimumOutputBufferSizeStatus);
+    }
+
+    tmpsiz = sizeof(UInt32);
+    UInt32 maximumInputBufferSize = 0;
+    OSStatus maximumInputBufferSizeStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterPropertyMaximumInputBufferSize,
+            &tmpsiz, &maximumInputBufferSize);
+    if (maximumInputBufferSizeStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMaximumInputBufferSize = %d\n", (int)maximumInputBufferSize);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMaximumInputBufferSize error = %d\n", (int)maximumInputBufferSizeStatus);
+    }
+
+    tmpsiz = sizeof(UInt32);
+    UInt32 maximumInputPacketSize = 0;
+    OSStatus maximumInputPacketSizeStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterPropertyMaximumInputPacketSize,
+            &tmpsiz, &maximumInputPacketSize);
+    if (maximumInputPacketSizeStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMaximumInputPacketSize = %d\n", (int)maximumInputPacketSize);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMaximumInputPacketSize error = %d\n", (int)maximumInputPacketSize);
+    }
+
+    tmpsiz = sizeof(UInt32);
+    UInt32 maximumOutputPacketSize = 0;     //  indicates the size, in bytes, of the largest single packet of data in the output format (1536 for AAC?)
+    OSStatus maximumOutputPacketSizeStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterPropertyMaximumOutputPacketSize,
+            &tmpsiz, &maximumOutputPacketSize);
+    if (maximumOutputPacketSizeStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMaximumOutputPacketSize = %d\n", (int)maximumOutputPacketSize);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertyMaximumOutputPacketSize error = %d\n", (int)maximumOutputPacketSizeStatus);
+    }
+    
+    // kAudioConverterPropertyCalculateInputBufferSize not used currently
+    // kAudioConverterPropertyCalculateOutputBufferSize not used currently
+    
+    tmpsiz = sizeof(UInt32);
+    UInt32 sampleRateConverterComplexity = 0;
+    OSStatus sampleRateConverterComplexityStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterSampleRateConverterComplexity,
+            &tmpsiz, &sampleRateConverterComplexity);
+    if (sampleRateConverterComplexityStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterSampleRateConverterComplexity = %d\n", (int)sampleRateConverterComplexity);
+    }
+    else
+    {
+        // returned 'prop', property not supported, perhaps because not resampling?
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterSampleRateConverterComplexity error = %d\n", (int)sampleRateConverterComplexityStatus);
+    }
+    
+    tmpsiz = sizeof(UInt32);
+    UInt32 sampleRateConverterQuality = 0;
+    OSStatus sampleRateConverterQualityStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterSampleRateConverterQuality,
+            &tmpsiz, &sampleRateConverterQuality);
+    if (sampleRateConverterQualityStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterSampleRateConverterQuality = %d\n", (int)sampleRateConverterQuality);
+    }
+    else
+    {
+        // returned 'prop', property not supported, apparently for the aac codec?
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterSampleRateConverterQuality error = %d\n", (int)sampleRateConverterQualityStatus);
+    }
+    
+    tmpsiz = sizeof(UInt32);
+    UInt32 codecQuality = 0;
+    OSStatus codecQualityStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterCodecQuality,
+            &tmpsiz, &codecQuality);
+    if (codecQualityStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterCodecQuality = %d\n", (int)codecQuality);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterCodecQuality error = %d\n", (int)codecQualityStatus);
+    }
+
+
+    tmpsiz = sizeof(Float64);
+    Float64 encodeAdjustableSampleRate = 0;
+    OSStatus adjustableSampleRateStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterEncodeAdjustableSampleRate,
+            &tmpsiz, &encodeAdjustableSampleRate);
+    if (adjustableSampleRateStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterEncodeAdjustableSampleRate = %d\n", (int)encodeAdjustableSampleRate);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterEncodeAdjustableSampleRate error = %d\n", (int)adjustableSampleRateStatus);
+    }
+
+    tmpsiz = sizeof(AudioConverterPrimeInfo);
+    AudioConverterPrimeInfo primeInfo;
+    OSStatus primeInfoStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterPrimeInfo,
+            &tmpsiz, &primeInfo);
+    if (primeInfoStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPrimeInfo leadingFrames = %d, trailingFrames = %d\n", (int)primeInfo.leadingFrames, (int)primeInfo.trailingFrames);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPrimeInfo error = %d\n", (int)primeInfoStatus);
+    }
+
+
+
+    tmpsiz = sizeof(AudioChannelLayout);
+    AudioChannelLayout inputChannelLayout;
+    OSStatus inputChannelLayoutStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterInputChannelLayout,
+            &tmpsiz, &inputChannelLayout);
+    if (inputChannelLayoutStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterInputChannelLayout mChannelLayoutTag = %d, mChannelBitmap = %d, mNumberChannelDescriptions = %d\n", inputChannelLayout.mChannelLayoutTag, inputChannelLayout.mChannelBitmap, inputChannelLayout.mNumberChannelDescriptions);
+        AudioChannelDescription inputChannelDescription = inputChannelLayout.mChannelDescriptions[0];
+        AudioChannelLabel inputChannelLabel = inputChannelDescription.mChannelLabel;
+        AudioChannelFlags inputChannelFlags = inputChannelDescription.mChannelFlags;
+        Float32 inputCoordinates0 = inputChannelDescription.mCoordinates[0];
+        Float32 inputCoordinates1 = inputChannelDescription.mCoordinates[1];
+        Float32 inputCoordinates2 = inputChannelDescription.mCoordinates[2];
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterInputChannelLayout AudioChannelDescription AudioChannelLabel = %d, AudioChannelFlags = %d, coordinates = %f,%f,%f\n", inputChannelLabel, inputChannelFlags, inputCoordinates0, inputCoordinates1, inputCoordinates2);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterInputChannelLayout error = %d\n", (int)inputChannelLayoutStatus);
+    }
+
+    tmpsiz = sizeof(AudioChannelLayout);
+    AudioChannelLayout outputChannelLayout;
+    OSStatus outputChannelLayoutStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterOutputChannelLayout,
+            &tmpsiz, &outputChannelLayout);
+    if (outputChannelLayoutStatus == noErr)
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterOutputChannelLayout mChannelLayoutTag = %d, mChannelBitmap = %d, mNumberChannelDescriptions = %d\n", outputChannelLayout.mChannelLayoutTag, outputChannelLayout.mChannelBitmap, outputChannelLayout.mNumberChannelDescriptions);
+        AudioChannelDescription outputChannelDescription = outputChannelLayout.mChannelDescriptions[0];
+        AudioChannelLabel outputChannelLabel = outputChannelDescription.mChannelLabel;
+        AudioChannelFlags outputChannelFlags = outputChannelDescription.mChannelFlags;
+        Float32 outputCoordinates0 = outputChannelDescription.mCoordinates[0];
+        Float32 outputCoordinates1 = outputChannelDescription.mCoordinates[1];
+        Float32 outputCoordinates2 = outputChannelDescription.mCoordinates[2];
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterOutputChannelLayout AudioChannelDescription AudioChannelLabel = %d, AudioChannelFlags = %d, coordinates = %f,%f,%f\n", outputChannelLabel, outputChannelFlags, outputCoordinates0, outputCoordinates1, outputCoordinates2);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterOutputChannelLayout error = %d\n", (int)outputChannelLayoutStatus);
+    }
+
+    tmpsiz = sizeof(AudioStreamBasicDescription);
+    AudioStreamBasicDescription currentOutputStreamDescription;
+    OSStatus currentOutputStreamDescriptionStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterCurrentOutputStreamDescription,
+            &tmpsiz, &currentOutputStreamDescription);
+    if (currentOutputStreamDescriptionStatus == noErr)
+    {
+        logDescription(&currentOutputStreamDescription, "kAudioConverterCurrentOutputStreamDescription");
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterCurrentOutputStreamDescription error = %d\n", (int)currentOutputStreamDescriptionStatus);
+    }
+
+    tmpsiz = sizeof(AudioStreamBasicDescription);
+    AudioStreamBasicDescription currentInputStreamDescription;
+    OSStatus currentInputStreamDescriptionStatus =  AudioConverterGetProperty(inAudioConverter,
+            kAudioConverterCurrentInputStreamDescription,
+            &tmpsiz, &currentInputStreamDescription);
+    if (currentInputStreamDescriptionStatus == noErr)
+    {
+        logDescription(&currentInputStreamDescription, "kAudioConverterCurrentInputStreamDescription");
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterCurrentOutputStreamDescription error = %d\n", (int)currentInputStreamDescriptionStatus);
+    }
+
+    // get applicable bitrates
+    AudioValueRange * applicableBitrates = NULL;
+    ssize_t applicableBitratesCount = 0;
+    OSStatus getApplicableBitratesCountStatus = AudioConverterGetPropertyInfo(inAudioConverter,
+            kAudioConverterApplicableEncodeBitRates,
+            &tmpsiz, NULL);
+    if (getApplicableBitratesCountStatus == noErr)
+    {
+        applicableBitrates = (AudioValueRange *)malloc(tmpsiz);
+
+        OSStatus getApplicableBitratesStatus =  AudioConverterGetProperty(inAudioConverter,
+                kAudioConverterApplicableEncodeBitRates,
+                &tmpsiz, applicableBitrates);
+        if (getApplicableBitratesStatus == noErr)
+        {
+            applicableBitratesCount = tmpsiz / sizeof(AudioValueRange);
+        }
+        else
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty getApplicableBitratesCountStatus error = %d\n", (int)getApplicableBitratesStatus);
+        }
+        
+        fprintf(stderr, "AudioMonitor2 kAudioConverterApplicableEncodeBitRates applicableBitratesCount = %zdd\n", applicableBitratesCount);
+        
+        for (int i = 0; i < applicableBitratesCount; i++)
+        {
+            Float64 minimum = applicableBitrates[i].mMinimum;
+            Float64 maximum = applicableBitrates[i].mMaximum;
+            fprintf(stderr, "AudioMonitor2 kAudioConverterApplicableEncodeBitRates Applicable BitRate %d minimum=%f, maximum=%f\n", i, minimum,  maximum);
+        }
+        
+        free(applicableBitrates);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo getApplicableBitrateStatus error = %d\n", (int)getApplicableBitratesCountStatus);
+    }
+
+    // get available bitrates
+    AudioValueRange * availableBitrates = NULL;
+    ssize_t availableBitratesCount = 0;
+    OSStatus getAvailableBitratesCountStatus = AudioConverterGetPropertyInfo(inAudioConverter,
+            kAudioConverterAvailableEncodeBitRates,
+            &tmpsiz, NULL);
+    if (getAvailableBitratesCountStatus == noErr)
+    {
+        availableBitrates = (AudioValueRange *)malloc(tmpsiz);
+
+        OSStatus getAvailableBitratesStatus =  AudioConverterGetProperty(inAudioConverter,
+                kAudioConverterApplicableEncodeBitRates,
+                &tmpsiz, availableBitrates);
+        if (getAvailableBitratesStatus == noErr)
+        {
+            availableBitratesCount = tmpsiz / sizeof(AudioValueRange);
+        }
+        else
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterApplicableEncodeBitRates error = %d\n", (int)getAvailableBitratesStatus);
+        }
+        
+        fprintf(stderr, "AudioMonitor2 kAudioConverterApplicableEncodeBitRates availableBitratesCount = %zdd\n", availableBitratesCount);
+        
+        for (int i = 0; i < availableBitratesCount; i++)
+        {
+            Float64 minimum = availableBitrates[i].mMinimum;
+            Float64 maximum = availableBitrates[i].mMaximum;
+            fprintf(stderr, "AudioMonitor2 kAudioConverterApplicableEncodeBitRates Available Encode BitRate %d minimum=%f, maximum=%f\n", i, minimum,  maximum);
+        }
+        
+        free(availableBitrates);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterApplicableEncodeBitRates error = %d\n", (int)getAvailableBitratesCountStatus);
+    }
+
+    // get applicable encode sample rates
+    AudioValueRange * applicableEncodeSampleRates = NULL;
+    ssize_t applicableEncodeSampleRatesCount = 0;
+    OSStatus getApplicableEncodeSampleRatesCountStatus = AudioConverterGetPropertyInfo(inAudioConverter,
+            kAudioConverterApplicableEncodeSampleRates,
+            &tmpsiz, NULL);
+    if (getApplicableEncodeSampleRatesCountStatus == noErr)
+    {
+        applicableEncodeSampleRates = (AudioValueRange *)malloc(tmpsiz);
+
+        OSStatus getApplicableEncodeSampleRatesStatus =  AudioConverterGetProperty(inAudioConverter,
+                kAudioConverterApplicableEncodeSampleRates,
+                &tmpsiz, applicableEncodeSampleRates);
+        if (getApplicableEncodeSampleRatesStatus == noErr)
+        {
+            applicableEncodeSampleRatesCount = tmpsiz / sizeof(AudioValueRange);
+        }
+        else
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterApplicableEncodeSampleRates error = %d\n", (int)getApplicableEncodeSampleRatesStatus);
+        }
+        
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterApplicableEncodeSampleRates  = %zdd\n", applicableEncodeSampleRatesCount);
+        
+        for (int i = 0; i < applicableEncodeSampleRatesCount; i++)
+        {
+            Float64 minimum = applicableEncodeSampleRates[i].mMinimum;
+            Float64 maximum = applicableEncodeSampleRates[i].mMaximum;
+            fprintf(stderr, "AudioMonitor2 kAudioConverterApplicableEncodeSampleRates Applicable Encode Sample Rates %d minimum=%f, maximum=%f\n", i, minimum,  maximum);
+        }
+        
+        free(applicableEncodeSampleRates);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterApplicableEncodeSampleRates error = %d\n", (int)getApplicableEncodeSampleRatesCountStatus);
+    }
+
+    // get available encode sample rates
+    AudioValueRange * availableEncodeSampleRates = NULL;
+    ssize_t availableEncodeSampleRatesCount = 0;
+    OSStatus getAvailableEncodeSampleRatesCountStatus = AudioConverterGetPropertyInfo(inAudioConverter,
+            kAudioConverterAvailableEncodeSampleRates,
+            &tmpsiz, NULL);
+    if (getAvailableEncodeSampleRatesCountStatus == noErr)
+    {
+        availableEncodeSampleRates = (AudioValueRange *)malloc(tmpsiz);
+
+        OSStatus getAvailableEncodeSampleRatesStatus =  AudioConverterGetProperty(inAudioConverter,
+                kAudioConverterAvailableEncodeSampleRates,
+                &tmpsiz, availableEncodeSampleRates);
+        if (getAvailableEncodeSampleRatesStatus == noErr)
+        {
+            availableEncodeSampleRatesCount = tmpsiz / sizeof(AudioValueRange);
+        }
+        else
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterAvailableEncodeSampleRates error = %d\n", (int)getAvailableEncodeSampleRatesStatus);
+        }
+        
+        fprintf(stderr, "AudioMonitor2 kAudioConverterAvailableEncodeSampleRates availableEncodeSampleRatesCount = %zdd\n", availableEncodeSampleRatesCount);
+        
+        for (int i = 0; i < availableEncodeSampleRatesCount; i++)
+        {
+            Float64 minimum = availableEncodeSampleRates[i].mMinimum;
+            Float64 maximum = availableEncodeSampleRates[i].mMaximum;
+            fprintf(stderr, "AudioMonitor2 kAudioConverterAvailableEncodeSampleRates Available Encode Sample Rates %d minimum=%f, maximum=%f\n", i, minimum,  maximum);
+        }
+        
+        free(availableEncodeSampleRates);
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterAvailableEncodeSampleRates error = %d\n", (int)getAvailableEncodeSampleRatesCountStatus);
+    }
+    
+    // get channel mapping
+    SInt32 * channelMapping = NULL;
+    ssize_t channelMappingCount = 0;
+    OSStatus channelMappingCountStatus = AudioConverterGetPropertyInfo(inAudioConverter,
+            kAudioConverterChannelMap,
+            &tmpsiz, NULL);
+    if (channelMappingCountStatus == noErr)
+    {
+        channelMapping = (SInt32 *)malloc(tmpsiz);
+
+        OSStatus channelMappingStatus =  AudioConverterGetProperty(inAudioConverter,
+                kAudioConverterChannelMap,
+                &tmpsiz, channelMapping);
+        if (channelMappingStatus == noErr)
+        {
+            channelMappingCount = tmpsiz / sizeof(SInt32);
+        }
+        else
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterChannelMap error = %d\n", (int)getAvailableBitratesCountStatus);
+        }
+        for (int i = 0; i < channelMappingCount; i++)
+        {
+            SInt32 value = channelMapping[i];
+            fprintf(stderr, "AudioMonitor2 kAudioConverterChannelMap %d value=%d\n", i,  (int)value);
+        }
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterChannelMap error = %d\n", (int)channelMappingCountStatus);
+    }
+
+    // get format list
+    AudioFormatListItem * audioFormatList = NULL;
+    ssize_t audioFormatListCount = 0;
+    OSStatus audioFormatListCountStatus = AudioConverterGetPropertyInfo(inAudioConverter,
+            kAudioConverterPropertyFormatList,
+            &tmpsiz, NULL);
+    if (audioFormatListCountStatus == noErr)
+    {
+        audioFormatList = (AudioFormatListItem *)malloc(tmpsiz);
+
+        OSStatus audioFormatListStatus =  AudioConverterGetProperty(inAudioConverter,
+                kAudioConverterPropertyFormatList,
+                &tmpsiz, audioFormatList);
+        if (audioFormatListStatus == noErr)
+        {
+            audioFormatListCount = tmpsiz / sizeof(AudioFormatListItem);
+        }
+        else
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo audioFormatListStatus error = %d\n", (int)audioFormatListStatus);
+        }
+        for (int i = 0; i < audioFormatListCount; i++)
+        {
+            AudioFormatListItem audioFormatListItem = audioFormatList[i];
+            
+            AudioStreamBasicDescription audioStreamBasicDescription = audioFormatListItem.mASBD;
+            AudioChannelLayoutTag channelLayoutTag = audioFormatListItem.mChannelLayoutTag;
+            
+            logDescription(&audioStreamBasicDescription, "kAudioConverterPropertyFormatList");
+            
+            fprintf(stderr, "AudioMonitor2 kAudioConverterPropertyFormatList %d AudioChannelLayoutTag=%u\n", i,  (unsigned int)channelLayoutTag);
+        }
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterPropertyFormatList error = %d\n", (int)audioFormatListCountStatus);
+    }
+
+    // get property settings array
+    OSStatus propertySettingsArrayCountStatus = AudioConverterGetPropertyInfo(inAudioConverter,
+            kAudioConverterPropertySettings,
+            &tmpsiz, NULL);
+    if (propertySettingsArrayCountStatus == noErr)
+    {
+        if (tmpsiz != sizeof(CFArrayRef))
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterPropertySettings CFArrayRef error\n");
+        }
+        
+        CFArrayRef propertySettingsArray = NULL;
+
+        OSStatus propertySettingsArrayStatus =  AudioConverterGetProperty(inAudioConverter,
+                kAudioConverterPropertySettings,
+                &tmpsiz, &propertySettingsArray);
+        if (propertySettingsArrayStatus == noErr)
+        {
+            //CFArrayRef propertySettingsArray = (CFArrayRef)&propertySettingsPtr;
+
+            CFIndex i, c = CFArrayGetCount(propertySettingsArray);
+            for (i = 0; i < c; i++)
+            {
+                const void * item = CFArrayGetValueAtIndex(propertySettingsArray, i);
+                CFTypeID typeID = CFGetTypeID(item);
+                if (typeID == CFDictionaryGetTypeID())
+                {
+                    CFDictionaryRef propertySettingsDictionary = (CFDictionaryRef)item;
+                    
+                    CFIndex propertySettingsDictionaryCount = CFDictionaryGetCount(propertySettingsDictionary);
+
+                    if (propertySettingsDictionaryCount > 0)
+                    {
+                        // generate description of CFDictionary
+                        CFStringRef dictionaryCFString = CFCopyDescription(propertySettingsDictionary);
+                        const char * dictionaryCString = CFStringGetCStringPtr(dictionaryCFString, kCFStringEncodingUTF8);
+                        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertySettings = \n%s\n", dictionaryCString);
+                    }
+                }
+            }
+        }
+        else
+        {
+            fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPropertySettings error = %d\n", (int)propertySettingsArrayStatus);
+        }
+    }
+    else
+    {
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetPropertyInfo kAudioConverterPropertySettings error = %d\n", (int)propertySettingsArrayCountStatus);
+    }
+}
+
+//==================================================================================
 //    runInputBufferOnThread()
 //==================================================================================
 
@@ -144,19 +676,39 @@ void * runInputBufferOnThread(void * ptr)
     TPCircularBufferInit(&inputCircularBuffer, circularBufferLength);
     
     fprintf(stderr, "AudioMonitor2 runInputBufferOnThread circularBufferLength = %d\n", circularBufferLength);
+
+    unsigned char * rtlsdrBuffer = (unsigned char *)malloc(circularBufferLength);
     
+    UInt64 loopCount = 0;
+
     // continuous run loop
     while (doExit == false)
     {
         //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread polling loop\n");
         
         CFRunLoopMode runLoopMode = kCFRunLoopDefaultMode;
-        CFTimeInterval runLoopTimeInterval = 0.25f;
+        CFTimeInterval runLoopTimeInterval = 0.0025f;
         Boolean returnAfterSourceHandled = false;
         CFRunLoopRunResult runLoopResult = CFRunLoopRunInMode(runLoopMode, runLoopTimeInterval, returnAfterSourceHandled);
         #pragma unused(runLoopResult)
 
         time_t currentTime = time(NULL);
+
+        // copy RTL-SDR LPCM data to a circular buffer to be used as input for AudioConverter process
+        
+        int32_t availableSpace;
+        void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &availableSpace);  // for fprintf to stderr below
+        
+        if (loopCount > 0)
+        {
+            if (headPtr == NULL)
+            {
+                // buffer is full?
+                fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - buffer is full?\n");
+
+                usleep(5000);
+            }
+        }
 
         UInt32 bytesAvailableCount = 0;
 
@@ -171,69 +723,74 @@ void * runInputBufferOnThread(void * ptr)
 
         if (bytesAvailableCount <= 0)
         {
-            usleep(50000);
+            usleep(5000);
         }
         else
         {
-            if (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0)
+            if (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0)    // check frame/packet size
             {
-                unsigned char * rtlsdrBuffer = (unsigned char *)malloc(bytesAvailableCount);
+                memset(rtlsdrBuffer, 0, bytesAvailableCount);
                 
-                if (rtlsdrBuffer != NULL)
+                long readResult = read( STDIN_FILENO, rtlsdrBuffer, bytesAvailableCount);
+
+                //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - read completed, bytesAvailableCount = %d\n", bytesAvailableCount);
+
+                if (readResult <= 0)
                 {
-                    memset(rtlsdrBuffer, 0, bytesAvailableCount);
-                    
-                    long readResult = read( STDIN_FILENO, rtlsdrBuffer, bytesAvailableCount);
-
-                    //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - read completed, bytesAvailableCount = %d\n", bytesAvailableCount);
-
-                    if (readResult <= 0)
-                    {
-                        fprintf(stderr, "AudioMonitor2 read failed: %s\n", strerror(errno));
-                        break;
-                    }
-                    else
-                    {
-                        lastReadTime = currentTime;
-                        nextTimeoutReportInterval = 5;
-                        
-                        // copy RTL-SDR LPCM data to a circular buffer to be used as input for AudioConverter process
-                        
-                        bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
-                        
-                        if (produceBytesResult == false)
-                        {
-                            TPCircularBufferClear(&inputCircularBuffer);
-
-                            fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - produce bytes failed, bytesAvailableCount = %d\n", bytesAvailableCount);
-                        }
-                    }
-                    
-                    free(rtlsdrBuffer);
+                    fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - read failed: %s\n", strerror(errno));
+                    break;
                 }
                 else
                 {
-                    fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - rtlsdrBuffer allocation failed - rtlsdrBuffer=%d\n", bytesAvailableCount);
+                    if (bytesAvailableCount != readResult)
+                    {
+                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - bytesAvailableCount=%d, readResult =%ld\n", bytesAvailableCount, readResult);
+                    }
+                
+                    lastReadTime = currentTime;
+                    nextTimeoutReportInterval = 5;
+                    
+                    //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputBufferPtr=%x, bytesAvailableCount=%d\n", headPtr, bytesAvailableCount);
+                    
+                    if (bytesAvailableCount > availableSpace)
+                    {
+                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error inputBufferPtr=%llx, bytesAvailableCount=%d\n", (UInt64)headPtr, bytesAvailableCount);
+                        
+                        sleep(1);
+                    }
+
+                    bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
+
+                    packetIndex++;
+
+                    if (produceBytesResult == false)
+                    {
+                        TPCircularBufferClear(&inputCircularBuffer);
+
+                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - produce bytes failed, bytesAvailableCount = %d\n", bytesAvailableCount);
+                    }
                 }
             }
             else
             {
-                fprintf(stderr, "AudioMonitor2 bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
+                fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
             }
         }
 
         time_t intervalSinceLastRead = currentTime - lastReadTime;
         if (intervalSinceLastRead >= nextTimeoutReportInterval)
         {
-            fprintf(stderr, "AudioMonitor2 intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
+            fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
 
             nextTimeoutReportInterval += 5;
         }
         
-        packetIndex++;
+        loopCount++;
     }
     //pthread_exit(NULL);
-    
+
+    free(rtlsdrBuffer);
+
     return NULL;
 }
 
@@ -281,13 +838,13 @@ void startAudioConverter()
     //audioConverterOutputDescription = audioConverterInputDescription;
     memset(&audioConverterOutputDescription, 0, sizeof(audioConverterOutputDescription));
 
-    audioConverterOutputDescription.mSampleRate = 48000;
+    audioConverterOutputDescription.mSampleRate = 48000;        // AudioMonitor2 always outputs 2 channels
     audioConverterOutputDescription.mFormatID = kAudioFormatLinearPCM;
     audioConverterOutputDescription.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
     audioConverterOutputDescription.mBytesPerPacket = sizeof(SInt16) * 2;
     audioConverterOutputDescription.mFramesPerPacket = 1;
     audioConverterOutputDescription.mBytesPerFrame = sizeof(SInt16) * 2;
-    audioConverterOutputDescription.mChannelsPerFrame = 2;
+    audioConverterOutputDescription.mChannelsPerFrame = 2;      // Currently, AudioMonitor2 always outputs 2 channels
     audioConverterOutputDescription.mBitsPerChannel = sizeof(SInt16) * 8;
     
     logDescription(&audioConverterOutputDescription, "audioConverterOutputDescription");
@@ -297,6 +854,10 @@ void startAudioConverter()
     {
         fprintf(stderr, "AudioMonitor2 audioConverterNewStatus audioConverterNewStatus %d\n", audioConverterNewStatus);
     }
+
+    audioConverterOutputBufferPtr = calloc(1, audioConverterBufferSize);
+
+    logAudioConverterProperties();
 }
 
 //==================================================================================
@@ -348,6 +909,7 @@ void startAudioConverter()
     See AudioConverter.h in AudioToolbox.framework for more details regarding the use of the AudioConverter.
 */
 
+/*
 OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
         UInt32 * ioNumberDataPackets,
         AudioBufferList * ioData,
@@ -401,6 +963,59 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
 
     return result;
 }
+*/
+
+
+OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
+        UInt32 * ioNumberDataPackets,
+        AudioBufferList * ioData,
+        AudioStreamPacketDescription ** ioDataPacketDescription,
+        void * inUserData)
+{
+    FillComplexInputParam * fillComplexInputParam = (FillComplexInputParam *)inUserData;
+    UInt32 requestedNumberDataPackets = *ioNumberDataPackets;
+
+    //fprintf(stderr, "AudioMonitor2 audioConverterComplexInputDataProc ioNumberDataPackets = %d, inputBufferDataLength = %d\n", *ioNumberDataPackets, fillComplexInputParam->inputBufferDataLength);
+
+    if (fillComplexInputParam->inputBufferDataLength <= 0)
+    {
+        *ioNumberDataPackets = 0;
+        return 'zero';    // done for now, earlier packets may exist in the buffer ready for use
+    }
+
+    OSStatus result = noErr;
+    
+    UInt32  availableNumberPackets = fillComplexInputParam->inputBufferDataLength / (fillComplexInputParam->inputChannels * sizeof(SInt16));
+    
+    UInt32 producedNumberPackets = availableNumberPackets;
+    
+    if (requestedNumberDataPackets < availableNumberPackets)
+    {
+        producedNumberPackets = requestedNumberDataPackets;
+    }
+
+    *ioNumberDataPackets = producedNumberPackets;
+    
+    // calculate new buffer pointer and data length for remaining data
+    
+    UInt32  producedPacketBytes = producedNumberPackets * fillComplexInputParam->inputChannels * sizeof(SInt16);
+
+    ioData->mNumberBuffers = 1;
+    ioData->mBuffers[0].mData = fillComplexInputParam->inputBufferPtr;
+    //ioData->mBuffers[0].mDataByteSize = fillComplexInputParam->inputBufferDataLength;
+    ioData->mBuffers[0].mDataByteSize = producedPacketBytes;
+    ioData->mBuffers[0].mNumberChannels =  fillComplexInputParam->inputChannels;
+
+    fillComplexInputParam->inputBufferPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + producedPacketBytes);
+    fillComplexInputParam->inputBufferDataLength = fillComplexInputParam->inputBufferDataLength - (UInt32)producedPacketBytes;
+    
+    //fillComplexInputParam->inputChannels = 0;
+    //fillComplexInputParam->packetDescription = NULL;
+
+    //fprintf(stderr, "AudioMonitor2 - audioConverterComplexInputDataProc ioNumberDataPacketsRequested=%u, ioNumberDataPacketsProduced=%u,  result=%d\n", ioNumberDataPacketsRequested, ioNumberDataPacketsProduced, result);
+
+    return result;
+}
 
 //==================================================================================
 //    convertBuffer()
@@ -409,8 +1024,11 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
 void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 {
     // use AudioConverter to resample PCM audio data from the RTL-SDR device sampling rate to 48000 Hz
-    
-    if (dataLength > 0)
+
+    //fprintf(stderr, "AudioMonitor2 convertBuffer inputBufferPtr=%x, dataLength=%d\n", (void *)inputBufferPtr, dataLength);
+
+    //if (dataLength > 0)
+    if (dataLength >= (1024 * audioConverterInputDescription.mChannelsPerFrame * sizeof(SInt16)))
     {
         const UInt32 numFrames = dataLength / (sizeof(SInt16) * audioConverterInputDescription.mChannelsPerFrame);
 
@@ -418,10 +1036,12 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
         audioConverterInputAudioBuffer.mDataByteSize = (SInt32)dataLength;
         audioConverterInputAudioBuffer.mData = (void *)inputBufferPtr;
 
-        audioConverterInputBufferOffset = 0;
-        audioConverterInputPacketsRemain = numFrames;
-        
-        audioConverterOutputBufferPtr = calloc(numFrames, sizeof(SInt16) * audioConverterOutputDescription.mChannelsPerFrame);
+        FillComplexInputParam fillComplexInputParam;
+        fillComplexInputParam.inputBufferPtr = inputBufferPtr;
+        fillComplexInputParam.inputBufferDataLength = dataLength;
+        fillComplexInputParam.inputChannels = inputChannels;
+        fillComplexInputParam.packetDescription = NULL;
+
         audioConverterOutputBytes = numFrames * sizeof(SInt16) * audioConverterOutputDescription.mChannelsPerFrame;
 
         audioConverterOutputBufferList.mNumberBuffers = 1;
@@ -430,71 +1050,76 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
         audioConverterOutputBufferList.mBuffers[0].mData = audioConverterOutputBufferPtr;
 
         UInt32 outputDataPacketSize = numFrames;    // on entry, max packets capacity
-
+        
         //fprintf(stderr, "AudioMonitor2 convertBuffer numFrames=%d, remain=%d\n", numFrames, audioConverterInputPacketsRemain);
 
         OSStatus convertResult = noErr;
         
-        //while (convertResult == noErr)
+        while (convertResult == noErr)  // this loop will iterate for upsampling cases, e.g. 10000 to 48000
         {
             convertResult = AudioConverterFillComplexBuffer(
                     inAudioConverter,      // AudioConverterRef inAudioConverter
                     audioConverterComplexInputDataProc, // AudioConverterComplexInputDataProc inInputDataProc
-                    NULL,  // void *inInputDataProcUserData
+                    &fillComplexInputParam,  // void *inInputDataProcUserData
                     &outputDataPacketSize, // UInt32 *ioOutputDataPacketSize - entry: max packets capacity, exit: number of packets converted
                     &audioConverterOutputBufferList,     // AudioBufferList *outOutputData
-                    NULL                   // AudioStreamPacketDescription *outPacketDescription - not applicable for PCM?
+                    NULL                   // AudioStreamPacketDescription *outPacketDescription
                     );
-            
+        
             //fprintf(stderr, "AudioMonitor2 convertBuffer AudioConverterFillComplexBuffer result = %d, outputDataPacketSize = %d\n", convertResult, outputDataPacketSize);
             
             if ((convertResult == noErr) || (convertResult == 'zero'))
             {
                 if (outputDataPacketSize > 0)   // number of packets converted
                 {
-                    // produce resampled audio to second circular buffer
+                    // produce resampled audio to second circular buffer for speaker output via AudioQueue
                     
-                    int32_t convertedDataLength = outputDataPacketSize * sizeof(SInt16) * 2;
+                    int32_t convertedDataLength = outputDataPacketSize * sizeof(SInt16) * audioConverterOutputBufferList.mBuffers[0].mNumberChannels;
 
                     void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
 
-                    int32_t space;
-                    void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for fprintf to stderr below
+                    int32_t availableSpace;
+                    void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &availableSpace);  // for fprintf to stderr below
                     int64_t bufferFilledSize = (int64_t)headPtr - (int64_t)inputBufferPtr;
+                    
+                    if (availableSpace < convertedDataLength)
+                    {
+                        sleep(1);
+                    }
 
                     fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
+
+                    //fprintf(stderr, "AudioMonitor2 convertBuffer convertedDataLength = %d, space = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, space, headPtr, bufferFilledSize);
                     
-                    bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
-
-                    if (produceBytesResult == false)
+                    if (volume > 0.0)
                     {
-                        // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
-                        
-                        // clear buffer and try again (not the recommended practice)
-                        
-                        usleep(500000);
-
-                        TPCircularBufferClear(&(audioConverterCircularBuffer));
-
-                        //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
-
-                        produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
+                        bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);  // store for use by AudioQueue
 
                         if (produceBytesResult == false)
                         {
-                            // If we get here, packets will be dropped
+                            // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
                             
-                            fprintf(stderr, "AudioMonitor2 convertBuffer failed, drop packet, convertedDataLength = %d, space = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, space, headPtr, bufferFilledSize);
+                            // clear buffer and try again (not the recommended practice)
+
+                            //fprintf(stderr, "AudioMonitor2 convertBuffer error TPCircularBufferProduceBytes failed\n");
+
+                            //TPCircularBufferClear(&audioConverterCircularBuffer);
+
+                            //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
+
+                            produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
+
+                            if (produceBytesResult == false)
+                            {
+                                // If we get here, packets will be dropped
+                                
+                                fprintf(stderr, "AudioMonitor2 convertBuffer failed, drop packet, convertedDataLength = %d, availableSpace = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, availableSpace, headPtr, bufferFilledSize);
+                            }
                         }
                     }
                     else
                     {
-                        if (volume == 0.0)
-                        {
-                            usleep(5000);
-
-                            TPCircularBufferClear(&(audioConverterCircularBuffer));
-                        }
+                        usleep(5000);
                     }
                 }
                 else
@@ -504,13 +1129,17 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
             }
             else
             {
-                fprintf(stderr, "AudioMonitor2 convertBuffer convertResult=%d\n", convertResult);
+                char c[5];
+                c[0] = (convertResult >> 24) & 0xFF;
+                c[1] = (convertResult >> 16) & 0xFF;
+                c[2] = (convertResult >> 8) & 0xFF;
+                c[3] = (convertResult >> 0) & 0xFF;
+                c[4] = 0;
+        
+                fprintf(stderr, "AudioMonitor2 convertBuffer convertResult=%d %s\n", convertResult, c);
                 AudioConverterReset(inAudioConverter);
             }
         }
-        
-        free(audioConverterOutputBufferPtr);
-        audioConverterOutputBufferPtr = NULL;
     }
 }
 
@@ -520,9 +1149,10 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 
 void * runAudioConverterOnThread(void * ptr)
 {
+    // convert the LPCM input to 48000 sample rate
     pthread_setname_np("runAudioConverterOnThread");
 
-    sleep(1); // allow time for startup
+    //sleep(1); // allow time for input thread to startup
 
     //pid_t originalParentProcessPID = getppid();
     
@@ -545,7 +1175,7 @@ void * runAudioConverterOnThread(void * ptr)
         //fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread polling loop\n");
 
         CFRunLoopMode runLoopMode = kCFRunLoopDefaultMode;
-        CFTimeInterval runLoopTimeInterval = 0.25f;
+        CFTimeInterval runLoopTimeInterval = 0.00125f;
         Boolean returnAfterSourceHandled = false;
         CFRunLoopRunResult runLoopResult = CFRunLoopRunInMode(runLoopMode, runLoopTimeInterval, returnAfterSourceHandled);
         
@@ -567,7 +1197,7 @@ void * runAudioConverterOnThread(void * ptr)
         int32_t bytesAvailableCount = 0;
 
         void * circularBufferDataPtr = TPCircularBufferTail(&inputCircularBuffer, &bytesAvailableCount);    // get pointer to read buffer
-        
+
         if( bytesAvailableCount <= 0)
         {
             usleep(5000);
@@ -581,12 +1211,20 @@ void * runAudioConverterOnThread(void * ptr)
                 nextTimeoutReportInterval = 5;
                 
                 //fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread polling loop\n");
+                
+                int32_t bytesConsumedCount = bytesAvailableCount;
 
-                convertBuffer(circularBufferDataPtr, bytesAvailableCount);
+                int32_t maxBytes = 1024 * inputChannels * sizeof(SInt16);
+                if (bytesConsumedCount > maxBytes)
+                {
+                    bytesConsumedCount = maxBytes;
+                }
+
+                convertBuffer(circularBufferDataPtr, bytesConsumedCount);
 
                 //fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread - Consume bytesAvailableCount = %d, circularBufferDataPtr = %p\n", bytesAvailableCount, circularBufferDataPtr);
 
-                TPCircularBufferConsume(&inputCircularBuffer, bytesAvailableCount);
+                TPCircularBufferConsume(&inputCircularBuffer, bytesConsumedCount);
             }
             else
             {
@@ -603,6 +1241,9 @@ void * runAudioConverterOnThread(void * ptr)
         }
     }
     //pthread_exit(NULL);
+
+    free(audioConverterOutputBufferPtr);
+    audioConverterOutputBufferPtr = NULL;
 
     return NULL;
 }
@@ -809,8 +1450,10 @@ void runAudioMonitor2(unsigned int inSampleRate, double inVolume, unsigned int i
     volume = inVolume;
     inputChannels = inChannels;
     inputBufferSize = inInputBufferSize;
-    audioConverterBufferSize = inAudioConverterBufferSize;
+    audioConverterBufferSize = inAudioConverterBufferSize * 2;
     audioQueueBufferSize = inAudioQueueBufferSize;
+    
+    fprintf(stderr, "AudioMonitor2 sampleRate=%d, inputChannels=%d, inputBufferSize=%d, audioConverterBufferSize=%d, audioQueueBufferSize=%d/n", sampleRate, inputChannels, inputBufferSize, audioConverterBufferSize, inAudioQueueBufferSize);
 
     // start threads for input buffering, resampling and playback to audio device
     inputBufferThreadID = 0;

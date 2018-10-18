@@ -1242,34 +1242,27 @@ void * runAudioConverterOnThread(void * ptr)
         else
         {
             if (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0)
-            //if (bytesAvailableCount % sizeof(SInt16) == 0)
             {
                 lastReadTime = currentTime;
                 nextTimeoutReportInterval = 5;
                 
-                //fprintf(stderr, "AACEncoder runAudioConverterOnThread polling loop\n");
-                
-                /*
-                if (bytesAvailableCount > 4100)
-                {
-                    bytesAvailableCount = 4100;     // kAudioConverterPropertyMaximumInputBufferSize = 4100
-                }
-                */
+                int32_t bytesConsumedCount = bytesAvailableCount;
 
-                if (bytesAvailableCount > 4096)
+                int32_t maxBytesCount = (inputChannels * sizeof(SInt16) * 1024);    // 1024 samples = 2048 for one channel, 4096 for two channels
+
+                if (bytesConsumedCount > maxBytesCount)
                 {
-                    bytesAvailableCount = 4096;     // kAudioConverterPropertyMaximumInputBufferSize = 4100
+                    bytesConsumedCount = maxBytesCount;     // kAudioConverterPropertyMaximumInputBufferSize = 4100
                 }
 
-                convertBuffer(circularBufferDataPtr, bytesAvailableCount);
+                convertBuffer(circularBufferDataPtr, bytesConsumedCount);
 
                 //fprintf(stderr, "AACEncoder runAudioConverterOnThread - Consume bytesAvailableCount = %d, circularBufferDataPtr = %p\n", bytesAvailableCount, circularBufferDataPtr);
 
-                TPCircularBufferConsume(&inputCircularBuffer, bytesAvailableCount);
+                TPCircularBufferConsume(&inputCircularBuffer, bytesConsumedCount);
             }
             else
             {
-                // data size is not an integral multiple of frame size
                 fprintf(stderr, "AACEncoder runAudioConverterOnThread error data size is not an integral multiple of frame size\n");
             }
         }

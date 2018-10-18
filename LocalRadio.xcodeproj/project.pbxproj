@@ -1662,6 +1662,7 @@
 		0E84C9C81ED945E90065864B /* data_skeleton.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = data_skeleton.sqlite3; sourceTree = "<group>"; };
 		0E880CF51EDA606E007BEB99 /* viewfavorite.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = viewfavorite.html; sourceTree = "<group>"; };
 		0E9A64E91EC290C000F12613 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		0EA04ED72175A91200E9804A /* Monitor_Beacon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Monitor_Beacon.wav; sourceTree = "<group>"; };
 		0EA2124A1ED679B7004DE453 /* MacPorts_Tools note */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "MacPorts_Tools note"; sourceTree = "<group>"; };
 		0EA212591ED68139004DE453 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
 		0EA2125A1ED68139004DE453 /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
@@ -4093,6 +4094,7 @@
 				0E7309441F418CD200004907 /* listenbuttonclicked.html */,
 				0E0E30692153566900550BF3 /* localradio.m3u */,
 				0E5524FD2162117F00DB364C /* Monitor_Beacon.mp3 */,
+				0EA04ED72175A91200E9804A /* Monitor_Beacon.wav */,
 				0E4461911F4420A9003C7851 /* scannerlistenbuttonclicked.html */,
 				0E7309421F41172200004907 /* nowplaying.html */,
 				0E0936C81F42E3E400BF2B46 /* nowplayingstatus.html */,
