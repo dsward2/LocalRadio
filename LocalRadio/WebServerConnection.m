@@ -43,7 +43,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         self.appDelegate = (AppDelegate *)[NSApp delegate];
         self.sqliteController = self.appDelegate.sqliteController;
         self.icecastController = self.appDelegate.icecastController;
-        self.ezStreamController = self.appDelegate.ezStreamController;
         self.sdrController = self.appDelegate.sdrController;
     }
     
@@ -136,7 +135,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 			
 			return requestContentLength < 4096;
 		}
-        else if ([path isEqualToString:@"/applymp3settings.html"])
+        else if ([path isEqualToString:@"/applyaacsettings.html"])
         {
             // Let's be extra cautious, and make sure the upload isn't 5 gigs
             
@@ -338,8 +337,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         
         
-        #pragma mark relativePath=applymp3settings.html
-        else if ([relativePath isEqualToString:@"/applymp3settings.html"])
+        #pragma mark relativePath=applyaacsettings.html
+        else if ([relativePath isEqualToString:@"/applyaacsettings.html"])
         {
             // this action is for the Listen button for Favorites frequencies (not the Listen button for the full record HTML form)
 
@@ -368,10 +367,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             {
                 NSDictionary * settingsDictionary = object;
                 
-                [self applyMP3Settings:settingsDictionary];
+                [self applyAACSettings:settingsDictionary];
             }
             
-            [replacementDict setObject:@"OK" forKey:@"APPLY_MP3_SETTINGS_BUTTON_CLICKED_RESULT"];
+            [replacementDict setObject:@"OK" forKey:@"APPLY_AAC_SETTINGS_BUTTON_CLICKED_RESULT"];
         }
 
 
@@ -1185,11 +1184,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         #pragma mark relativePath=settings.html
         else if ([relativePath isEqualToString:@"/settings.html"])
         {
-            NSString * bitrateSelectString = [self generateMP3BitrateSelectString];
-            [replacementDict setObject:bitrateSelectString forKey:@"MP3_BITRATE_SELECT"];
-            
-            NSString * encodingQualitySelectString = [self generateMP3EncodingQualitySelectString];
-            [replacementDict setObject:encodingQualitySelectString forKey:@"MP3_ENCODING_QUALITY_SELECT"];
+            NSString * bitrateSelectString = [self generateAACBitrateSelectString];
+            [replacementDict setObject:bitrateSelectString forKey:@"AAC_BITRATE_SELECT"];
         }
         #pragma mark relativePath=info.html
         else if ([relativePath isEqualToString:@"/info.html"])
@@ -1527,7 +1523,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     NSString * portString = portElement.stringValue;
                     
                     //NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
-                    //NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
+                    //NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
 
                     m3uURLString = [NSString stringWithFormat:@"http://%@:%@/%@.aac", hostname, portString, icecastServerMountName];
                 }
@@ -1988,115 +1984,26 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 }
 
 //==================================================================================
-//	generateMP3BitrateSelectString
+//	generateAACBitrateSelectString
 //==================================================================================
 
-- (NSString *)generateMP3BitrateSelectString
+- (NSString *)generateAACBitrateSelectString
 {
     NSMutableString * resultString = [NSMutableString string];
     
-    NSString * currentMP3Setting = self.appDelegate.mp3Settings;
-    
-    NSArray * currentMP3SettingArray = [currentMP3Setting componentsSeparatedByString:@"."];
-    
-    NSString * currentBitrate = @"16000";
-    if (currentMP3SettingArray.count > 0)
-    {
-        NSString * currentBitrateShort = currentMP3SettingArray.firstObject;
-        NSInteger currentBitrateInteger = currentBitrateShort.integerValue * 1000;
-        currentBitrate = [NSString stringWithFormat:@"%ld", currentBitrateInteger];
-    }
+    NSString * currentAACBitrate = self.appDelegate.aacBitrate;
     
     NSMutableDictionary * bitrateDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            @"", @"8000",
-            @"", @"16000",
-            @"", @"24000",
             @"", @"32000",
-            @"", @"48000",
             @"", @"64000",
-            @"", @"80000",
-            @"", @"96000",
-            @"", @"112000",
             @"", @"128000",
-            @"", @"160000",
-            @"", @"192000",
-            @"", @"224000",
-            @"", @"256000",
-            @"", @"320000",
             NULL];
     
-    [bitrateDictionary setObject:@" selected=\"\"" forKey:currentBitrate];
+    [bitrateDictionary setObject:@" selected=\"\"" forKey:currentAACBitrate];
     
-    // note from LAME:
-    // <bitrate> (bitrate in kbit/s) must be chosen from the following values: 8, 16, 24, 32, 40, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, or 320.
-
-    [resultString appendFormat:@"<option value=\"8000\" %@>8000 bps</option>", [bitrateDictionary objectForKey:@"8000"]];
-    [resultString appendFormat:@"<option value=\"16000\" %@>16000 bps</option>", [bitrateDictionary objectForKey:@"16000"]];
-    [resultString appendFormat:@"<option value=\"24000\" %@>24000 bps</option>", [bitrateDictionary objectForKey:@"24000"]];
     [resultString appendFormat:@"<option value=\"32000\" %@>32000 bps</option>", [bitrateDictionary objectForKey:@"32000"]];
-    [resultString appendFormat:@"<option value=\"40000\" %@>40000 bps</option>", [bitrateDictionary objectForKey:@"40000"]];
-    [resultString appendFormat:@"<option value=\"48000\" %@>48000 bps</option>", [bitrateDictionary objectForKey:@"48000"]];
     [resultString appendFormat:@"<option value=\"64000\" %@>64000 bps</option>", [bitrateDictionary objectForKey:@"64000"]];
-    [resultString appendFormat:@"<option value=\"80000\" %@>80000 bps</option>", [bitrateDictionary objectForKey:@"80000"]];
-    [resultString appendFormat:@"<option value=\"96000\" %@>96000 bps</option>", [bitrateDictionary objectForKey:@"96000"]];
-    [resultString appendFormat:@"<option value=\"112000\" %@>112000 bps</option>", [bitrateDictionary objectForKey:@"112000"]];
     [resultString appendFormat:@"<option value=\"128000\" %@>128000 bps</option>", [bitrateDictionary objectForKey:@"128000"]];
-    [resultString appendFormat:@"<option value=\"160000\" %@>160000 bps</option>", [bitrateDictionary objectForKey:@"160000"]];
-    [resultString appendFormat:@"<option value=\"192000\" %@>192000 bps</option>", [bitrateDictionary objectForKey:@"192000"]];
-    [resultString appendFormat:@"<option value=\"224000\" %@>224000 bps</option>", [bitrateDictionary objectForKey:@"224000"]];
-    [resultString appendFormat:@"<option value=\"256000\" %@>256000 bps</option>", [bitrateDictionary objectForKey:@"256000"]];
-    [resultString appendFormat:@"<option value=\"320000\" %@>320000 bps</option>", [bitrateDictionary objectForKey:@"320000"]];
-    
-    return resultString;
-}
-
-//==================================================================================
-//	generateMP3EncodingQualitySelectString
-//==================================================================================
-
-- (NSString *)generateMP3EncodingQualitySelectString
-{
-    NSMutableString * resultString = [NSMutableString string];
-    
-    //NSString * currentMP3Setting = self.appDelegate.mp3SettingsTextField.stringValue;
-    __block NSString * currentMP3Setting = @"64.2";
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        currentMP3Setting = self.appDelegate.mp3SettingsTextField.stringValue;
-    });
-    
-    NSArray * currentMP3SettingArray = [currentMP3Setting componentsSeparatedByString:@"."];
-
-    NSString * currentEncodingQuality = @"2";
-    if (currentMP3SettingArray.count > 1)
-    {
-        currentEncodingQuality = [currentMP3SettingArray objectAtIndex:1];
-    }
-
-    NSMutableDictionary * encodingQualityDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            @"", @"0",
-            @"", @"1",
-            @"", @"2",
-            @"", @"3",
-            @"", @"4",
-            @"", @"5",
-            @"", @"6",
-            @"", @"7",
-            @"", @"8",
-            @"", @"9",
-            NULL];
-    
-    [encodingQualityDictionary setObject:@" selected=\"\"" forKey:currentEncodingQuality];
-
-    [resultString appendFormat:@"<option value=\"0\" %@ >0 - Higher Quality, Slower</option>", [encodingQualityDictionary objectForKey:@"0"]];
-    [resultString appendFormat:@"<option value=\"1\" %@ >1</option>", [encodingQualityDictionary objectForKey:@"1"]];
-    [resultString appendFormat:@"<option value=\"2\" %@ >2 - Default</option>", [encodingQualityDictionary objectForKey:@"2"]];
-    [resultString appendFormat:@"<option value=\"3\" %@ >3</option>", [encodingQualityDictionary objectForKey:@"3"]];
-    [resultString appendFormat:@"<option value=\"4\" %@ >4</option>", [encodingQualityDictionary objectForKey:@"4"]];
-    [resultString appendFormat:@"<option value=\"5\" %@ >5</option>", [encodingQualityDictionary objectForKey:@"5"]];
-    [resultString appendFormat:@"<option value=\"6\" %@ >6</option>", [encodingQualityDictionary objectForKey:@"6"]];
-    [resultString appendFormat:@"<option value=\"7\" %@ >7</option>", [encodingQualityDictionary objectForKey:@"7"]];
-    [resultString appendFormat:@"<option value=\"8\" %@ >8</option>", [encodingQualityDictionary objectForKey:@"8"]];
-    [resultString appendFormat:@"<option value=\"9\" %@ >9 - Lower Quality, Faster</option>", [encodingQualityDictionary objectForKey:@"9"]];
     
     return resultString;
 }
@@ -2335,7 +2242,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         
         NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-        NSString * mp3URLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerPortNumber.integerValue, icecastServerMountName];
+        NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerPortNumber.integerValue, icecastServerMountName];
         
         NSString * autoplayFlag = @"";
         NSString * audioPlayerJS = @"";
@@ -2377,10 +2284,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 @" ontimeupdate='audioPlayerTimeUpdate(this);' "
                 @" onwaiting='audioPlayerWaiting(this);' ";
         
-        //[resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/mpeg' %@ title='LocalRadio audio player.'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
-        
-        [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/aac' %@ title='LocalRadio for macOS'>Your browser does not support the audio element.</audio>\n", autoplayFlag, mp3URLString, audioPlayerJS];
-        //NSLog(@"*** testing AAC mp4");
+        [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/aac' %@ title='LocalRadio for macOS'>Your browser does not support the audio element.</audio>\n", autoplayFlag, aacURLString, audioPlayerJS];
     }
     else
     {
@@ -2412,35 +2316,27 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 }
 
 //==================================================================================
-//	applyMP3Settings:
+//	applyAACSettings:
 //==================================================================================
 
- - (void)applyMP3Settings:(NSDictionary *)settingsDictionary
+ - (void)applyAACSettings:(NSDictionary *)settingsDictionary
  {
-    NSString * bitrate = [settingsDictionary objectForKey:@"bitrate"];
-    NSString * encoding_quality = [settingsDictionary objectForKey:@"encoding_quality"];
-    
-    NSInteger bitrateInt = bitrate.integerValue;
-    
-    NSInteger bitrateK = bitrateInt / 1000;
-    
-    //NSString * mp3Setting = [NSString stringWithFormat:@"%@.%@", bitrate, encoding_quality];
-    NSString * mp3Setting = [NSString stringWithFormat:@"%ld.%@", bitrateK, encoding_quality];
-    
-    [self performSelectorOnMainThread:@selector(setMP3SettingsTextField:) withObject:mp3Setting waitUntilDone:YES];
+    NSString * aacBitrate = [settingsDictionary objectForKey:@"bitrate"];
+     
+    [self performSelectorOnMainThread:@selector(setAACBitrateTextField:) withObject:aacBitrate waitUntilDone:YES];
 
-    [self.appDelegate.localRadioAppSettings setValue:mp3Setting forKey:@"MP3Settings"];
+    [self.appDelegate.localRadioAppSettings setValue:aacBitrate forKey:@"AACBitrate"];
     
     [self.appDelegate restartServices];
  }
 
 //==================================================================================
-//	setMP3SettingsTextField:
+//	setAACBitrateTextField:
 //==================================================================================
 
- - (void)setMP3SettingsTextField:(NSString *)mp3SettingString
+ - (void)setAACBitrateTextField:(NSString *)aacBitrateString
  {
-    self.appDelegate.mp3SettingsTextField.stringValue = mp3SettingString;
+    self.appDelegate.aacSettingsBitrateTextField.stringValue = aacBitrateString;
  }
 
 //==================================================================================

@@ -11,6 +11,6 @@
 
 #include <stdio.h>
 
-void runAACEncoder(unsigned int inSampleRate, unsigned int inChannels);
+void runAACEncoder(unsigned int inSampleRate, unsigned int inChannels, unsigned int inBitrate);
 
 #endif /* AACEncoder_hpp */

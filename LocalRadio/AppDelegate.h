@@ -14,7 +14,6 @@
 @class SDRController;
 @class IcecastController;
 @class IcecastSourceController;
-@class EZStreamController;
 @class SoxController;
 @class SQLiteController;
 @class WebViewDelegate;
@@ -39,14 +38,12 @@
 @property (strong) IBOutlet SDRController * sdrController;
 @property (strong) IBOutlet IcecastController * icecastController;
 @property (strong) IBOutlet IcecastSourceController * icecastSourceController;
-@property (strong) IBOutlet EZStreamController * ezStreamController;
 @property (strong) IBOutlet SoxController * soxController;
 @property (strong) IBOutlet UDPStatusListenerController * udpStatusListenerController;
 @property (strong) IBOutlet FCCMapController * fccMapController;
 @property (strong) IBOutlet CustomTaskController * customTaskController;
 
 @property (weak) IBOutlet NSTextField * statusIcecastServerTextField;
-@property (weak) IBOutlet NSTextField * statusEZStreamServerTextField;
 @property (weak) IBOutlet NSTextField * statusIcecastSourceTextField;
 @property (weak) IBOutlet NSTextField * statusRTLSDRTextField;
 @property (weak) IBOutlet NSTextField * statusFunctionTextField;
@@ -83,8 +80,7 @@
 @property (weak) IBOutlet NSTextField * controlPortTextField;
 @property (weak) IBOutlet NSTextField * audioPortTextField;
 
-@property (weak) IBOutlet NSTextField * mp3SettingsTextField;
-@property (weak) IBOutlet NSTextField * mp3SettingsDescriptionTextField;
+@property (weak) IBOutlet NSTextField * aacSettingsBitrateTextField;
 
 @property (weak) IBOutlet NSButton * useWebViewAudioPlayerCheckbox;
 @property (weak) IBOutlet NSButton * useAutoPlayCheckbox;
@@ -104,8 +100,7 @@
 @property (weak) IBOutlet NSTextField * editControlPortTextField;
 @property (weak) IBOutlet NSTextField * editAudioPortTextField;
 
-@property (weak) IBOutlet NSPopUpButton * editMP3ConstantPopUpButton;
-@property (weak) IBOutlet NSPopUpButton * editMP3EncodingQualityPopUpButton;
+@property (weak) IBOutlet NSPopUpButton * editAACSettingsBitratePopUpButton;
 
 @property (weak) IBOutlet NSButton * editUseWebViewAudioPlayerCheckbox;
 @property (weak) IBOutlet NSButton * editLogAllStderrMessagesCheckbox;
@@ -121,7 +116,7 @@
 
 @property (strong) NSTimer * periodicUpdateTimer;
 
-@property (strong) NSString * mp3Settings;
+@property (strong) NSString * aacBitrate;
 @property (assign) BOOL useWebViewAudioPlayer;
 @property (assign) BOOL useAutoPlay;
 @property (assign) BOOL logAllStderrMessages;

@@ -27,6 +27,7 @@ int main(int argc, const char * argv[])
     
     char const * argMode = "";
     char const * argSampleRate = "48000";
+    char const * argBitrate = "64000";
     char const * argChannels = "1";
 
     for (int i = 0; i < argc; i++)
@@ -53,6 +54,15 @@ int main(int argc, const char * argv[])
             argChannels = argStringPtr;
             argMode = "";
         }
+        else if (strcmp(argStringPtr, "-b") == 0)   // bitrate
+        {
+            argMode = argStringPtr;
+        }
+        else if (strcmp(argMode, "-b") == 0)
+        {
+            argBitrate = argStringPtr;
+            argMode = "";
+        }
     }
     
     int sampleRate = atoi(argSampleRate);
@@ -63,7 +73,13 @@ int main(int argc, const char * argv[])
 
     int channels = atoi(argChannels);
 
-    runAACEncoder(sampleRate, channels);
+    int bitrate = atoi(argBitrate);
+    if (sampleRate <= 0)
+    {
+        sampleRate = 64000;
+    }
+
+    runAACEncoder(sampleRate, channels, bitrate);
     
     do {
         CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.25, false);

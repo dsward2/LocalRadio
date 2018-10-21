@@ -106,6 +106,7 @@ NSString * password;
 NSString * host;
 BOOL readyToSend;
 int port;
+int bitrate;
 BOOL doExit;
 int lastSignum;
 
@@ -229,7 +230,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
                     //NSLog(@"IcecastSource sent %lu bytes\n", (unsigned long)[bufferData length]);
 
-                    //fwrite(buf, 1, bytesAvailableCount, stdout);    // also write a copy to stdout, perhaps for sox, etc.
+                    //fwrite(buf, bytesAvailableCount, 1, stdout);    // also write a copy to stdout, perhaps for sox, etc.
                 }
             }
             free(buf);
@@ -357,13 +358,13 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     
     //NSString *requestStrFrmt = @"HEAD / HTTP/1.0\r\nHost: %@\r\nConnection: Close\r\n\r\n";
     
-//      > PUT /stream.mp3 HTTP/1.1
+//      > PUT /stream.aac HTTP/1.1
 //      > Host: example.com:8000
 //      > Authorization: Basic c291cmNlOmhhY2ttZQ==
 //      > User-Agent: curl/7.51.0
 //      > Accept: */*
 //      > Transfer-Encoding: chunked
-//      > Content-Type: audio/mpeg
+//      > Content-Type: audio/aac
 //      > Ice-Public: 1
 //      > Ice-Name: Teststream
 //      > Ice-Description: This is just a simple test stream
@@ -378,11 +379,12 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
     NSString * streamURLString = [NSString stringWithFormat:@"http://%@:%hu/localradio.aac", host, port];
     
-    NSString * iceBitrate = @"64";
-    
+    //NSString * iceBitrate = @"64";
+    NSString * iceBitrate = [NSString stringWithFormat:@"%d", bitrate / 1000]; // 32, 64 or 128
+
     //NSString * iceAudioInfo = @"samplerate=48000;quality=10%2e0;channels=2";
     //NSString * iceAudioInfo = @"bitrate=64";
-    NSString * iceAudioInfo = @"ice-bitrate=64;ice-channels=2;ice-samplerate=48000;ice-quality=10%2e0;";
+    NSString * iceAudioInfo = [NSString stringWithFormat:@"ice-bitrate=%@;ice-channels=2;ice-samplerate=48000;", iceBitrate];
 
     NSString *requestStrFrmt =
             @"PUT /localradio.aac HTTP/1.1\r\n"\
@@ -392,18 +394,18 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
             @"Accept: */*\r\n"\
             @"Content-Type: audio/aac\r\n"\
             @"Cache-Control: no-cache\r\n"\
+            @"Transfer-Encoding: chunked\r\n"\
             @"Ice-Public: 0\r\n"\
-            @"Ice-Name: Teststream\r\n"\
-            @"Ice-Description: This is just a simple test stream\r\n"\
+            @"Ice-Name: LocalRadio for macOS\r\n"\
+            @"Ice-Description: LocalRadio for macOS  - https://github.com/dsward2/localradio\r\n"\
             @"Ice-URL: %@\r\n"\
-            @"Ice-Genre: Test\r\n"\
+            @"Ice-Genre: LocalRadio\r\n"\
             @"Ice-Bitrate: %@\r\n"\
             @"Ice-Audio-Info: %@\r\n"\
             @"Connection: keep-alive\r\n"\
             @"Expect: 100-continue\r\n"\
             @"\r\n\r\n";        // end of HTTP header
 
-            //@"Transfer-Encoding: chunked\r\n"\
 
     NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, host, authorizationString, streamURLString, iceBitrate, iceAudioInfo];
     NSData *requestData = [requestStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -591,6 +593,7 @@ int main(int argc, char **argv)
         char const * argPassword = "missing_password";
         char const * argHost = "localhost";
         char const * argPort = "17003";
+        char const * argBitrate = "64000";
 
         for (int i = 0; i < argc; i++)
         {
@@ -632,10 +635,20 @@ int main(int argc, char **argv)
                 argPort = argStringPtr;
                 argMode = "";
             }
+            else if (strcmp(argStringPtr, "-b") == 0)   // bitrate
+            {
+                argMode = argStringPtr;
+            }
+            else if (strcmp(argMode, "-b") == 0)
+            {
+                argBitrate = argStringPtr;
+                argMode = "";
+            }
         }
         
         host = [[NSString alloc] initWithCString:argHost encoding:NSUTF8StringEncoding];
         port = atoi(argPort);
+        bitrate = atoi(argBitrate);
         
         userName = [[NSString alloc] initWithCString:argUserName encoding:NSUTF8StringEncoding];
         password = [[NSString alloc] initWithCString:argPassword encoding:NSUTF8StringEncoding];

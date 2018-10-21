@@ -66,7 +66,7 @@
     NSCharacterSet * whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
     streamSourceString = [streamSourceString stringByTrimmingCharactersInSet:whitespaceCharacterSet];
 
-    // construct commands for output to UDPListener/EZStream
+    // construct commands for output to UDPListener/IcecastSource
 
     // "~/Library/Developer/Xcode/DerivedData/LocalRadio-ddsodcaiskiovrbpbiioihlrnhbo/Build/Products/Debug/LocalRadio.app/Contents/MacOS/sox" -r 48000 -e signed-integer -b 16 -t coreaudio "Soundflower (2ch)" -c 2 -t coreaudio "Built-in Line Out" vol 10
     

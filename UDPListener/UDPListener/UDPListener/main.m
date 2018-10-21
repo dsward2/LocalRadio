@@ -24,6 +24,7 @@
 }
 
 @property (nonatomic, strong, readwrite) GCDAsyncUdpSocket *  udpSocket;
+@property (assign) NSInteger receivedDataIndex;
 @property (assign) NSTimeInterval lastSendTime;
 @property (assign) NSTimeInterval lastReceiveTime;
 @property (strong) NSData * whiteNoiseData;
@@ -41,10 +42,33 @@
 @implementation Main
 
 
+- (void)logHexData:(void *)dataPtr length:(NSInteger)length
+{
+    NSMutableString * hexString = [NSMutableString string];
+    for (NSInteger i = 0; i < length; i++)
+    {
+        UInt8 * bytePtr = (UInt8 *)((UInt64)dataPtr + i);
+        [hexString appendFormat:@"%02x ", *bytePtr];
+        
+        if (i > 0)
+        {
+            if (i % 16 == 15)
+            {
+                [hexString appendString:@"\n"];
+            }
+            else if (i % 4 == 3)
+            {
+                [hexString appendString:@" "];
+            }
+        }
+    }
+    NSLog(@"UDPListener - logHexData -\n%@", hexString);
+}
+
+
+
 - (void)pollAudio
 {
-    
-
     NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
     
     //NSTimeInterval interval = currentTime - self.lastSendTime;
@@ -56,11 +80,12 @@
 
         //NSLog(@"UDPListener sending binary zeros to stdout");
         
-        [self sendDataToEZStream:self.whiteNoiseData];
+        [self sendDataToStdout:self.whiteNoiseData];
         
         //self.lastReceiveTime = currentTime;
     }
 }
+
 
 
 - (BOOL)runServerOnPort:(NSUInteger)port
@@ -127,7 +152,7 @@
 
 
 
-- (void)sendDataToEZStream:(NSData *)streamData
+- (void)sendDataToStdout:(NSData *)streamData
 {
     @synchronized (self) {
         //NSString *msg = [[NSString alloc] initWithData:streamData encoding:NSUTF8StringEncoding];
@@ -135,7 +160,7 @@
         NSInteger dataLength = streamData.length;
         void * dataPtr = (void *)streamData.bytes;
 
-        size_t writeResult = fwrite(dataPtr, 1, dataLength, stdout);
+        size_t writeResult = fwrite(dataPtr, dataLength, 1, stdout);
         #pragma unused(writeResult)
         
         fflush(stdout);
@@ -162,7 +187,16 @@
 
     self.lastReceiveTime = [NSDate timeIntervalSinceReferenceDate];
 
-    [self sendDataToEZStream:data];
+    [self sendDataToStdout:data];
+    
+    /*
+    if (self.receivedDataIndex == 0)
+    {
+        [self logHexData:dataPtr length:data.length];
+    }
+    */
+    
+    self.receivedDataIndex++;
 }
 
 

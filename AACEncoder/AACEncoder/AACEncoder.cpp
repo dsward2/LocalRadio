@@ -44,6 +44,7 @@ https://wiki.multimedia.cx/index.php/ADTS
 
 unsigned int sampleRate;
 unsigned int inputChannels;
+UInt32 bitrate;
 
 pthread_t inputBufferThreadID;
 pthread_t audioConverterThreadID;
@@ -840,9 +841,12 @@ void startAudioConverter()
     memset(&audioConverterOutputDescription, 0, sizeof(audioConverterOutputDescription));
 
     audioConverterOutputDescription.mSampleRate = sampleRate;                // number of frames per second of equivalent decompressed data
+    
     audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC;
-    //audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC_HE;     // best format for streaming if not more than 64000 bitrate
+    //audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC_HE;     // best streaming format if bitrate < 64000
+    
     audioConverterOutputDescription.mFormatFlags = kMPEG4Object_AAC_LC;
+    
     audioConverterOutputDescription.mBytesPerPacket = 0;
     audioConverterOutputDescription.mFramesPerPacket = 1024;
     audioConverterOutputDescription.mBytesPerFrame = 0;
@@ -942,12 +946,11 @@ void startAudioConverter()
     }
 
     //UInt32 bitRate = sampleRate * inputChannels;
-    UInt32 bitRate = 64000;
-    UInt32 bitRateSize = sizeof(bitRate);
-    OSStatus bitRateError = AudioConverterSetProperty(inAudioConverter, kAudioConverterEncodeBitRate, bitRateSize, &bitRate);
-    if (bitRateError != noErr)
+    UInt32 bitrateSize = sizeof(bitrate);
+    OSStatus bitrateError = AudioConverterSetProperty(inAudioConverter, kAudioConverterEncodeBitRate, bitrateSize, &bitrate);
+    if (bitrateError != noErr)
     {
-        fprintf(stderr, "AACEncoder AudioConverterSetProperty kAudioConverterEncodeBitRate %u error = %d\n", (unsigned int)bitRate, (int)bitRateError);
+        fprintf(stderr, "AACEncoder AudioConverterSetProperty kAudioConverterEncodeBitRate %u error = %d\n", (unsigned int)bitrate, (int)bitrateError);
     }
     
     logAudioConverterProperties();
@@ -1156,9 +1159,9 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
              * number of raw data blocks */
             adtsHeader[6] = 0xFC;
 
-            // write encoded audio to stdout, can be piped to ezstream and icecast, etc.
-            //fwrite(&adtsHeader[0], 1, adtsHeaderLength, stdout);    // write ADTS header
-            //fwrite(convertedDataPtr, 1, convertedDataLength, stdout);   // write raw AAC data
+            // write encoded audio to stdout, can be piped to IcecastSource
+            //fwrite(&adtsHeader[0], adtsHeaderLength, 1, stdout);    // write ADTS header
+            //fwrite(convertedDataPtr, convertedDataLength, 1, stdout);   // write raw AAC data
             
             // assemble adts header and acc payload into a packet
             int packetLength = adtsHeaderLength + convertedDataLength;
@@ -1166,7 +1169,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
             memcpy(adtsPacketPtr, &adtsHeader, adtsHeaderLength);
             memcpy(adtsPacketPtr + 7, convertedDataPtr, convertedDataLength);
 
-            fwrite(adtsPacketPtr, 1, packetLength, stdout);   // write ADTS packet
+            fwrite(adtsPacketPtr, packetLength, 1, stdout);   // write ADTS packet
             
             //fprintf(stderr, "AACEncoder convertBuffer packetLength = %d, adtsHeader %02x %02x %02x %02x %02x %02x %02x\n", packetLength, adtsHeader[0], adtsHeader[1], adtsHeader[2], adtsHeader[3], adtsHeader[4], adtsHeader[5], adtsHeader[6]);
         }
@@ -1303,12 +1306,13 @@ void createAudioConverterThread()
 //    runAACEncoder()
 //==================================================================================
 
-void runAACEncoder(unsigned int inSampleRate, unsigned int inChannels)
+void runAACEncoder(unsigned int inSampleRate, unsigned int inChannels, unsigned int inBitrate)
 {
     //raise(SIGSTOP); // Stop and wait for debugger. Click the Debugger's Resume button to continue execution
     
     sampleRate = inSampleRate;
     inputChannels = inChannels;
+    bitrate = inBitrate;
     
     // start threads for input buffering and AAC encoding
     inputBufferThreadID = 0;

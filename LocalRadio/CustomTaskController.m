@@ -670,6 +670,8 @@
     else if (tableView == self.argumentTableView)
     {
     }
+
+    [self updateCommandString];
 }
 
 
@@ -894,6 +896,59 @@
             [self.sqliteController updateCustomTaskRecordForID:customTaskID name:customTaskName json:customTaskJSON sampleRate:sampleRate.integerValue channels:channels.integerValue inputBufferSize:inputBufferSize.integerValue audioConverterBufferSize:audioConverterBufferSize.integerValue audioQueueBufferSize:audioQueueBufferSize.integerValue];
         }
     }
+    
+    [self updateCommandString];
+}
+
+
+- (void)updateCommandString
+{
+    NSMutableString * commandString = [NSMutableString string];
+
+    NSInteger selectedRow = self.nameTableView.selectedRow;
+    
+    if (selectedRow >= 0)
+    {
+        if (selectedRow < self.allCustomTasksArray.count)
+        {
+            NSDictionary * customTaskDictionary = [self.allCustomTasksArray objectAtIndex:selectedRow];
+
+            NSString * customTaskJSON = [customTaskDictionary objectForKey:@"task_json"];
+
+            if (customTaskJSON != NULL)
+            {
+                NSData * jsonData = [customTaskJSON dataUsingEncoding:NSUTF8StringEncoding];
+                NSError * jsonError = NULL;
+                NSMutableDictionary * jsonDictionary = [[NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&jsonError] mutableCopy];
+
+                NSMutableArray * tasksArray = [[jsonDictionary objectForKey:@"tasks"] mutableCopy];
+                if (tasksArray != NULL)
+                {
+                    for (NSDictionary * taskDictionary in tasksArray)
+                    {
+                        if (commandString.length > 0)
+                        {
+                            [commandString appendString:@" | "];    // insert a pipe between tasks
+                        }
+                    
+                        NSString * pathString = [taskDictionary objectForKey:@"path"];
+                        
+                        [commandString appendString:pathString];
+
+                        NSArray * argumentsArray = [taskDictionary objectForKey:@"arguments"];
+                        
+                        for (NSString * aArgument in argumentsArray)
+                        {
+                            [commandString appendString:@" "];
+                            [commandString appendString:aArgument];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    [self.commandStringTextView setString:commandString];
 }
 
 

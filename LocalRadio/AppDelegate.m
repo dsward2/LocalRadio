@@ -13,7 +13,6 @@
 #import "SDRController.h"
 #import "IcecastController.h"
 #import "IcecastSourceController.h"
-#import "EZStreamController.h"
 #import "CustomTaskController.h"
 //#import "SoxController.h"
 #import "NSFileManager+DirectoryLocations.h"
@@ -80,8 +79,6 @@ typedef struct kinfo_proc kinfo_proc;
 {
     [self.sdrController terminateTasks];
 
-    [self.ezStreamController terminateTasks];
-    
     [self.icecastSourceController terminateTasks];
     
     [self.icecastController terminateTasks];
@@ -165,7 +162,6 @@ typedef struct kinfo_proc kinfo_proc;
 
     [NSThread sleepForTimeInterval:1];
     
-    //[self.ezStreamController startEZStreamServer];
     [self.icecastSourceController startIcecastSource];
 
     [NSThread sleepForTimeInterval:1];
@@ -183,8 +179,7 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (void)updateCopiedSettingsValues
 {
-    self.mp3Settings = self.mp3SettingsTextField.stringValue;
-    self.mp3Settings = [self.mp3Settings stringByReplacingOccurrencesOfString:@".0" withString:@".01"];
+    self.aacBitrate = self.aacSettingsBitrateTextField.stringValue;
     
     self.useWebViewAudioPlayer = self.useWebViewAudioPlayerCheckbox.state;
 
@@ -210,7 +205,7 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (void)restartServicesOnThread
 {
-    // restart the server tasks - this will interrupt MP3 client players
+    // restart the server tasks - this will interrupt <audio> players in web browsers
     [self terminateTasks];
     
     [NSThread sleepForTimeInterval:2];
@@ -279,14 +274,6 @@ typedef struct kinfo_proc kinfo_proc;
         else
         {
             [tasksString appendString:@"No tasks currently running\n\n"];
-        }
-
-        [tasksString appendString:@"--- EZStream tasks ---\n\n"];
-
-        NSString * ezStreamTasksString = self.ezStreamController.ezStreamTaskPipelineManager.tasksInfoString;
-        if (ezStreamTasksString != NULL)
-        {
-            [tasksString appendString:ezStreamTasksString];
         }
 
         [tasksString appendString:@"--- IcecastSource tasks ---\n\n"];
@@ -543,12 +530,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         [processConflictReportString appendFormat:@"AudioMonitor (Process Identifier = %d)\r", audioMonitorID];
     }
 
-    int ezstreamProcessID = [self processIDForProcessName:@"ezstream"];
-    if (ezstreamProcessID != 0)
-    {
-        [processConflictReportString appendFormat:@"ezstream (Process Identifier = %d)\r", ezstreamProcessID];
-    }
-
     int soxProcessID = [self processIDForProcessName:@"sox"];
     if (soxProcessID != 0)
     {
@@ -803,7 +784,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     }
 
     NSNumber * httpServerPortNumber = [self.localRadioAppSettings integerForKey:@"HTTPServerPort"];
-    NSNumber * icecastServerModeNumber = [self.localRadioAppSettings integerForKey:@"IcecastServerMode"];
+    //NSNumber * icecastServerModeNumber = [self.localRadioAppSettings integerForKey:@"IcecastServerMode"];
     NSString * icecastServerHost = [self.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
     NSString * icecastServerMountName = [self.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
@@ -811,7 +792,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
     NSNumber * controlPortNumber = [self.localRadioAppSettings integerForKey:@"ControlPort"];
     NSNumber * audioPortNumber = [self.localRadioAppSettings integerForKey:@"AudioPort"];
-    NSString * mp3SettingsString = [self.localRadioAppSettings valueForKey:@"MP3Settings"];
+    NSString * aacBitrateString = [self.localRadioAppSettings valueForKey:@"AACBitrate"];
 
     NSString * httpHostName = [self localHostString];
     
@@ -916,63 +897,15 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         self.audioPortTextField.stringValue = @"";
     }
     
-    if (mp3SettingsString != NULL)
+    if (aacBitrateString != NULL)
     {
-        self.mp3SettingsTextField.stringValue = mp3SettingsString;
-        self.mp3Settings = mp3SettingsString;
-        
-        NSDecimalNumber * mp3SettingsDecimalNumber = [[NSDecimalNumber alloc] initWithString:mp3SettingsString];
-
-        NSInteger bitrateInteger = [mp3SettingsDecimalNumber integerValue];
-        NSDecimalNumber * bitrateDecimalNumber = [[NSDecimalNumber alloc] initWithInteger:bitrateInteger];
-        
-        NSDecimalNumber * encodingQualityDecimalNumber = [mp3SettingsDecimalNumber decimalNumberBySubtracting: bitrateDecimalNumber];
-        encodingQualityDecimalNumber = [encodingQualityDecimalNumber decimalNumberByMultiplyingByPowerOf10: 1];
-        
-        NSString * bitrateString = [NSString stringWithFormat:@"%@", bitrateDecimalNumber];
-        NSString * encodingQualityString = [NSString stringWithFormat:@"%@", encodingQualityDecimalNumber];
-
-        NSInteger mp3SettingsBitrate = labs(bitrateString.integerValue);
-        NSInteger mp3SettingsEncodingQuality = labs(encodingQualityString.integerValue);
-        
-        NSString * encodingQuality = @"Unknown Quality";
-        switch (mp3SettingsEncodingQuality)
-        {
-            case 0:
-                encodingQuality = @"Maximum Quality Encoding";
-                break;
-            case 1:
-                encodingQuality = @"High Quality Encoding";
-                break;
-            case 2:
-                encodingQuality = @"Default High Quality Encoding";
-                break;
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-                encodingQuality = @"Good Quality Encoding";
-                break;
-            case 7:
-            case 8:
-                encodingQuality = @"Low Quality Encoding";
-                break;
-            case 9:
-                encodingQuality = @"Minimum Quality Encoding";
-                break;
-        }
-
-        NSInteger bitrateK = bitrateInteger * 1000;
-        NSString * bitrate = [NSString stringWithFormat:@"%ld bps", bitrateK];
-        
-        NSString * mp3SettingsDescription = [NSString stringWithFormat:@"%@, %@", bitrate, encodingQuality];
-        
-        self.mp3SettingsDescriptionTextField.stringValue = mp3SettingsDescription;
+        self.aacSettingsBitrateTextField.stringValue = aacBitrateString;
+        self.aacBitrate = aacBitrateString;
     }
     else
     {
-        self.mp3SettingsTextField.stringValue = @"16.2";
-        self.mp3SettingsDescriptionTextField.stringValue = @"1600 bps, Default High Encoding Quality";
+        self.aacSettingsBitrateTextField.stringValue = @"64000";
+        self.aacBitrate = aacBitrateString;
     }
 }
 
@@ -1015,13 +948,9 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     BOOL logAllStderrMessages = self.editLogAllStderrMessagesCheckbox.state;
     self.logAllStderrMessagesCheckbox.state = logAllStderrMessages;
 
-    NSString * constantBitrateString = self.editMP3ConstantPopUpButton.titleOfSelectedItem;
-    NSInteger constantBitrateInteger = constantBitrateString.integerValue / 1000;
-    NSString * encodingQualityString = self.editMP3EncodingQualityPopUpButton.titleOfSelectedItem;
-    NSInteger encodingQualityInteger = encodingQualityString.integerValue;
-    NSString * mp3SettingString = [NSString stringWithFormat:@"%ld.%ld", constantBitrateInteger, encodingQualityInteger];
-    self.mp3SettingsTextField.stringValue = mp3SettingString;
-    [self.localRadioAppSettings setValue:mp3SettingString forKey:@"MP3Settings"];
+    NSString * aacBitrateString = self.editAACSettingsBitratePopUpButton.titleOfSelectedItem;
+    self.aacSettingsBitrateTextField.stringValue = aacBitrateString;
+    [self.localRadioAppSettings setValue:aacBitrateString forKey:@"AACBitrate"];
 
     [self updateCopiedSettingsValues];
 }
@@ -1081,7 +1010,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
     NSNumber * controlPortNumber = [self.localRadioAppSettings integerForKey:@"ControlPort"];
     NSNumber * audioPortNumber = [self.localRadioAppSettings integerForKey:@"AudioPort"];
-    NSString * mp3SettingsString = [self.localRadioAppSettings valueForKey:@"MP3Settings"];
+    NSString * aacBitrateString = [self.localRadioAppSettings valueForKey:@"AACBitrate"];
 
     self.editIcecastServerHostTextField.stringValue = icecastServerHost;
     self.editIcecastServerPortTextField.integerValue = icecastServerPortNumber.integerValue;
@@ -1091,19 +1020,9 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     self.editStatusPortTextField.integerValue = statusPortNumber.integerValue;
     self.editControlPortTextField.integerValue = controlPortNumber.integerValue;
     self.editAudioPortTextField.integerValue = audioPortNumber.integerValue;
-
-    NSDecimalNumber * mp3SettingsDecimalNumber = [[NSDecimalNumber alloc] initWithString:mp3SettingsString];
-    NSInteger bitrateInteger = [mp3SettingsDecimalNumber integerValue];
-    NSDecimalNumber * bitrateDecimalNumber = [[NSDecimalNumber alloc] initWithInteger:bitrateInteger];
-    NSDecimalNumber * encodingQualityDecimalNumber = [mp3SettingsDecimalNumber decimalNumberBySubtracting: bitrateDecimalNumber];
-    encodingQualityDecimalNumber = [encodingQualityDecimalNumber decimalNumberByMultiplyingByPowerOf10: 1];
     
-    NSString * bitrateString = [NSString stringWithFormat:@"%ld bps", bitrateInteger * 1000];
-    NSInteger encodingQualityInteger = [encodingQualityDecimalNumber integerValue];
-
-    [self.editMP3ConstantPopUpButton selectItemWithTitle:bitrateString];
-    
-    [self.editMP3EncodingQualityPopUpButton selectItemAtIndex:encodingQualityInteger];
+    [self.editAACSettingsBitratePopUpButton selectItemWithTitle:aacBitrateString];
+    self.aacBitrate = aacBitrateString;
 
     [self.window beginSheet:self.editConfigurationSheetWindow  completionHandler:^(NSModalResponse returnCode) {
     }];

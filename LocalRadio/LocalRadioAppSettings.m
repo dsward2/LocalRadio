@@ -32,7 +32,7 @@
     [self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
     [self setDefaultValue:@"localradio" forKey:@"IcecastServerMountName"];
     
-    [self setDefaultValue:@"32.2" forKey:@"MP3Settings"];
+    [self setDefaultValue:@"64000" forKey:@"AACBitrate"];
 
     //[self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
     

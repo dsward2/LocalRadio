@@ -12,7 +12,6 @@
 //#import "SoxController.h"
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAppSettings.h"
-#import "EZStreamController.h"
 #import "IcecastSourceController.h"
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
@@ -215,7 +214,7 @@
     NSInteger audioConverterBufferSize = 256;   // AudioConverter buffer size in kilobytes
     NSInteger audioQueueBufferSize = 256;   // AudioQueue buffer size in kilobytes
 
-    [self checkIcecastAndEZStream];
+    [self checkIcecastSource];
     
     NSInteger sourceChannels = 0;
 
@@ -325,7 +324,7 @@
     // Get lpcm data from stdin, output to UDP port
     TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];
 
-    // configure UDPSender task for sending to EZStream/Icecast
+    // configure UDPSender task for sending to IcecastSource
 
     [udpSenderTaskItem addArgument:@"-p"];
     NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"AudioPort"];
@@ -355,7 +354,7 @@
             [self.radioTaskPipelineManager addTaskItem:soxTaskItem];    // perform user-specified SoX processing
         }
         
-        // send audio to EZStream/icecast
+        // send audio to IcecastSource
         [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
     }
 
@@ -923,10 +922,10 @@
 */
 
 //==================================================================================
-//    checkIcecastAndEZStream
+//    checkIcecastSource
 //==================================================================================
 
-- (void)checkIcecastAndEZStream
+- (void)checkIcecastSource
 {
     BOOL restartServices = NO;
 
@@ -935,11 +934,6 @@
         restartServices = YES;
     }
 
-    if (self.appDelegate.ezStreamController.ezStreamTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
-    {
-        //restartServices = YES;
-    }
-    
     if (self.appDelegate.icecastSourceController.icecastSourceTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
     {
         restartServices = YES;

@@ -561,19 +561,23 @@ Printing description of icecastStatusDictionary:
    
     [self.icecastStatusParser setDelegate:self];
     [self.icecastStatusParser setShouldResolveExternalEntities:YES];
-    
-    BOOL success = [self.icecastStatusParser parse];
-    
-    if (success == YES)
-    {
-        icecastStatusDictionary = self.parserOutputDictionary;
+
+    @try {
+            BOOL success = [self.icecastStatusParser parse];
         
-        self.parserOutputDictionary = NULL;
-        self.icecastStatusParser = NULL;
-        self.currentElementData = NULL;
-        self.currentSourceDictionary = NULL;
+            if (success == YES)
+            {
+                icecastStatusDictionary = self.parserOutputDictionary;
+            }
+        }
+    @catch (NSException *exception) {
     }
-    
+
+    self.parserOutputDictionary = NULL;
+    self.icecastStatusParser = NULL;
+    self.currentElementData = NULL;
+    self.currentSourceDictionary = NULL;
+
     return icecastStatusDictionary;
 }
 
@@ -639,6 +643,8 @@ Printing description of icecastStatusDictionary:
     NSString * currentElementName = self.currentElementName;
     NSString * currentElementData = self.currentElementData;
     
+    // move try/catch above
+    /*
     @try {
         if (currentElementName != NULL)
         {
@@ -657,6 +663,22 @@ Printing description of icecastStatusDictionary:
 
     }
     @catch (NSException *exception) {
+    }
+    */
+
+    if (currentElementName != NULL)
+    {
+        if (currentElementData != NULL)
+        {
+            if (self.inSourceElement == YES)
+            {
+                [self.currentSourceDictionary setObject:currentElementData forKey:currentElementName];
+            }
+            else
+            {
+                [self.parserOutputDictionary setObject:currentElementData forKey:currentElementName];
+            }
+        }
     }
 
     self.currentElementData = [NSMutableString string];

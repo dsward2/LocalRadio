@@ -25,6 +25,8 @@
 @property (weak) IBOutlet NSTextField * audioConverterBufferSizeTextField;
 @property (weak) IBOutlet NSTextField * audioQueueBufferSizeTextField;
 
+@property (strong) IBOutlet NSTextView * commandStringTextView;
+
 @property (weak) IBOutlet NSButton * addNameButton;
 @property (weak) IBOutlet NSButton * duplicateNameButton;
 @property (weak) IBOutlet NSButton * deleteNameButton;
@@ -32,6 +34,7 @@
 @property (weak) IBOutlet NSButton * deletePathButton;
 @property (weak) IBOutlet NSButton * addArgumentButton;
 @property (weak) IBOutlet NSButton * deleteArgumentButton;
+@property (weak) IBOutlet NSButton * listenButton;
 
 @property (strong) NSMutableArray * allCustomTasksArray;
 @property (strong) NSMutableArray * selectedTaskNameArray;  // array for a pipe of executable paths, containing arrays of arguments

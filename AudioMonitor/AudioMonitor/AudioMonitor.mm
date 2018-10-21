@@ -507,7 +507,7 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
                 //int32_t space;
                 //void *ptr = TPCircularBufferHead(&audioConverterCircularBuffer, &space);  // for NSLog below
 
-                fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
+                fwrite(convertedDataPtr, convertedDataLength, 1, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
                 
                 bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
 

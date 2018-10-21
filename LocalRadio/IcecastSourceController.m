@@ -25,7 +25,6 @@
     if (self) {
         self.icecastSourceTaskPipelineManager = [[TaskPipelineManager alloc] init];
         
-        //self.audioFormat = @"MP3";
         self.audioFormat = @"AAC";
     }
     return self;
@@ -116,6 +115,8 @@
     [aacEncoderTaskItem addArgument:@"48000"];
     [aacEncoderTaskItem addArgument:@"-c"];     // input channels
     [aacEncoderTaskItem addArgument:@"2"];
+    [aacEncoderTaskItem addArgument:@"-b"];     // bitrate
+    [aacEncoderTaskItem addArgument:self.appDelegate.aacBitrate];
 
     TaskItem * icecastSourceTaskItem = [self.icecastSourceTaskPipelineManager makeTaskItemWithExecutable:@"IcecastSource" functionName:@"IcecastSource"];
 
@@ -124,15 +125,18 @@
     [icecastSourceTaskItem addArgument:@"-h"];
     [icecastSourceTaskItem addArgument:hostName];
 
-    [icecastSourceTaskItem addArgument:@"-p"];
+    [icecastSourceTaskItem addArgument:@"-p"];      // port
     [icecastSourceTaskItem addArgument:@"17003"];
 
-    [icecastSourceTaskItem addArgument:@"-u"];
+    [aacEncoderTaskItem addArgument:@"-b"];     // bitrate
+    [aacEncoderTaskItem addArgument:self.appDelegate.aacBitrate];
+
+    [icecastSourceTaskItem addArgument:@"-u"];      // icecast server source user name
     [icecastSourceTaskItem addArgument:@"source"];
 
     NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
 
-    [icecastSourceTaskItem addArgument:@"-pw"];
+    [icecastSourceTaskItem addArgument:@"-pw"];  // icecast server password
     [icecastSourceTaskItem addArgument:icecastServerSourcePassword];
 
     // Create NSTasks

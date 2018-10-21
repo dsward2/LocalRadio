@@ -6,25 +6,20 @@
     <div class="container">
         <section class="header">
             <h2 class="title">Settings</h2>
-            <h3 class="title">MP3 Streaming</h3>
-            <form class="wbfm-tuner-form" id="wbfm-tuner-form" onsubmit="event.preventDefault(); return applyMP3Settings(this);" method="POST">
+            <h3 class="title">AAC Streaming</h3>
+            <form class="wbfm-tuner-form" id="wbfm-tuner-form" onsubmit="event.preventDefault(); return applyAACSettings(this);" method="POST">
 
                 <label for="bitrate_select">Bitrate:</label>
                 <select class="twelve columns value-prop" id="bitrate_select" name="bitrate_select">
-                    %%MP3_BITRATE_SELECT%%
+                    %%AAC_BITRATE_SELECT%%
                 </select>
 
                 <br>
                 
-                <label for="encoding_quality_select">Encoding Quality:</label>
-                <select class="twelve columns value-prop" id="encoding_quality_select" name="encoding_quality_select">
-                    %%MP3_ENCODING_QUALITY_SELECT%%
-                </select>
-
                 <br>&nbsp;
                 <br>
 
-                <input class="twelve columns button button-primary" type="button" value="Save Changes and Restart" onclick="event.preventDefault(); return applyMP3Settings(this);">
+                <input class="twelve columns button button-primary" type="button" value="Save Changes and Restart" onclick="event.preventDefault(); return applyAACSettings(this);">
             </form>
             <br>&nbsp;
             <br>

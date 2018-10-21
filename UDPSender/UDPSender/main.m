@@ -57,6 +57,7 @@
 }
 
 @property (nonatomic, strong, readwrite) GCDAsyncUdpSocket *  udpSocket;
+@property (assign) NSInteger sentDataIndex;
 @property (assign) BOOL doExit;
 
 - (BOOL)runSenderOnPort:(NSUInteger)port;
@@ -72,6 +73,31 @@
 
 Main * mainObj;    // global singleton
 pid_t originalParentProcessPID;
+
+
+
+- (void)logHexData:(void *)dataPtr length:(NSInteger)length
+{
+    NSMutableString * hexString = [NSMutableString string];
+    for (NSInteger i = 0; i < length; i++)
+    {
+        UInt8 * bytePtr = (UInt8 *)((UInt64)dataPtr + i);
+        [hexString appendFormat:@"%02x ", *bytePtr];
+        
+        if (i > 0)
+        {
+            if (i % 16 == 15)
+            {
+                [hexString appendString:@"\n"];
+            }
+            else if (i % 4 == 3)
+            {
+                [hexString appendString:@" "];
+            }
+        }
+    }
+    NSLog(@"UDPSender - logHexData -\n%@", hexString);
+}
 
 
 - (BOOL)runSenderOnPort:(NSUInteger)port
@@ -90,6 +116,8 @@ pid_t originalParentProcessPID;
     while (self.doExit == NO)
     {
         //NSLog(@"UDPSender polling loop");
+        
+        CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.0025, false);
 
         NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
 
@@ -131,7 +159,16 @@ pid_t originalParentProcessPID;
                 
                 [self sendData:bufferData port:port];
                 
-                fwrite(buf, 1, bytesAvailableCount, stdout);    // also write a copy to stdout, perhaps for sox, etc.
+                fwrite(buf, bytesAvailableCount, 1, stdout);    // also write a copy to stdout, perhaps for sox, etc.
+                
+                /*
+                if (self.sentDataIndex == 0)
+                {
+                    [self logHexData:buf length:bytesAvailableCount];
+                }
+                */
+                
+                self.sentDataIndex++;
             }
             free(buf);
         }

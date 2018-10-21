@@ -1036,7 +1036,7 @@ function stopNowPlayingUpdates()
 }
 
 
-function applyMP3Settings(form)
+function applyAACSettings(form)
 {
   //console.log("frequencyListenButtonClicked");
 
@@ -1046,30 +1046,24 @@ function applyMP3Settings(form)
     var bitrateSelectedOption = bitrateOptions[bitrateIndex];
     var bitrate = bitrateSelectedOption.value;
 
-    var encodingQualitySelect = document.getElementById("encoding_quality_select");
-    var encodingQualityOptions = encodingQualitySelect.children;
-    var encodingQualityIndex = encodingQualitySelect.selectedIndex;
-    var encodingQualitySelectedOption = encodingQualityOptions[encodingQualityIndex];
-    var encoding_quality = encodingQualitySelectedOption.value;
+    var aacSettingsArray = {bitrate: bitrate};
 
-    var mp3SettingsArray = {bitrate: bitrate, encoding_quality: encoding_quality};
-
-    var jsonData = JSON.stringify(mp3SettingsArray);
+    var jsonData = JSON.stringify(aacSettingsArray);
 
     // request to HTTP server to set radio tuning
     var getUrl = window.location;
     var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
-    var applyMP3SettingsButtonClickedUrl = baseUrl + "applymp3settings.html";
+    var applyAACSettingsButtonClickedUrl = baseUrl + "applyaacsettings.html";
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       //console.log("readyState="+this.readyState+", status="+this.status);
       if (this.readyState == 4 && this.status == 200) {
         // response received ok
-        alert("The MP3 streaming settings were changed, and the servers are restarting.  Press the ► Play button to start audio.")
+        alert("The AAC streaming settings were changed, and the servers are restarting.  Press the ► Play button to start audio.")
       }
     };
-    xhttp.open("POST", applyMP3SettingsButtonClickedUrl, true);
+    xhttp.open("POST", applyAACSettingsButtonClickedUrl, true);
     xhttp.send(jsonData);
 
     // handle the audio tag with the new source

@@ -71,6 +71,7 @@ unsigned int inputBufferSize;
 unsigned int audioConverterBufferSize;
 unsigned int audioQueueBufferSize;
 
+unsigned int packetOutputIndex;
 
 AudioBuffer audioConverterInputAudioBuffer;
 
@@ -99,6 +100,29 @@ void stopAudio()
     
     TPCircularBufferCleanup(&inputCircularBuffer);
     TPCircularBufferCleanup(&audioConverterCircularBuffer);
+}
+
+void logHexData(void * dataPtr, int length)
+{
+    fprintf(stderr, "AudioMonitor2 - logHexData -\n");
+    for (int i = 0; i < length; i++)
+    {
+        unsigned char * bytePtr = (unsigned char *)((unsigned long long)dataPtr + i);
+        fprintf(stderr, "%02x ", *bytePtr);
+        
+        if (i > 0)
+        {
+            if (i % 16 == 15)
+            {
+                fprintf(stderr, " ***\n");
+            }
+            else if (i % 4 == 3)
+            {
+                fprintf(stderr, " ");
+            }
+        }
+    }
+    fprintf(stderr, "\n");
 }
 
 //==================================================================================
@@ -723,7 +747,7 @@ void * runInputBufferOnThread(void * ptr)
 
         if (bytesAvailableCount <= 0)
         {
-            usleep(5000);
+            usleep(50000);
         }
         else
         {
@@ -982,6 +1006,91 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
         *ioNumberDataPackets = 0;
         return 'zero';    // done for now, earlier packets may exist in the buffer ready for use
     }
+    
+    /*
+    char firstFourBytes[5];
+    memcpy(&firstFourBytes, fillComplexInputParam->inputBufferPtr, 4);
+    firstFourBytes[4] = 0;
+    if (strcmp(firstFourBytes, "RIFF") == 0)
+    {
+        char formatString[9];
+        void * formatPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 8);
+        memcpy(&formatString, formatPtr, 8);
+        formatString[8] = 0;
+        if (strcmp(formatString, "WAVEfmt ") == 0)
+        {
+            if (fillComplexInputParam->inputBufferDataLength >= 44)
+            {
+                // buffer includes a WAV format header
+                UInt32 chunkSize;       // 0x7ffffff7 is extended format
+                void * chunkSizePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 4);
+                memcpy(&chunkSize, chunkSizePtr, 4);
+                
+                char subChunk1ID[4];
+                void * subChunk1IDPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 12);
+                memcpy(&subChunk1ID, subChunk1IDPtr, 4);
+                
+                UInt32 subchunk1Size;
+                void * subChunk1SizePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 16);
+                memcpy(&subchunk1Size, subChunk1SizePtr, 4);
+                
+                SInt16 audioFormat;
+                void * audioFormatPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 20);
+                memcpy(&audioFormat, audioFormatPtr, 2);
+                
+                SInt16 numChannels;
+                void * numChannelsPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 22);
+                memcpy(&numChannels, numChannelsPtr, 2);
+                
+                SInt32 sampleRate;
+                void * sampleRatePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 24);
+                memcpy(&sampleRate, sampleRatePtr, 4);
+                
+                SInt32 byteRate;
+                void * byteRatePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 28);
+                memcpy(&byteRate, byteRatePtr, 4);
+                
+                SInt16 blockAlign;
+                void * blockAlignPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 32);
+                memcpy(&blockAlign, blockAlignPtr, 2);
+                
+                SInt16 bitsPerSample;
+                void * bitsPerSamplePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 34);
+                memcpy(&bitsPerSample, bitsPerSamplePtr, 2);
+
+                SInt16 cbSize;
+                void * cbSizePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 36);
+                memcpy(&cbSize, cbSizePtr, 2);
+
+                SInt16 wValidBitsPerSample;
+                void * wValidBitsPerSamplePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 38);
+                memcpy(&wValidBitsPerSample, wValidBitsPerSamplePtr, 2);
+
+                SInt16 dwChannelMask;
+                void * dwChannelMaskPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 40);
+                memcpy(&dwChannelMask, dwChannelMaskPtr, 4);
+
+                char subFormat[16];
+                void * subFormatPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 44);
+                memcpy(&subFormat, subFormatPtr, 16);
+
+                char subChunk2ID[4];
+                void * subChunk2IDPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 64);
+                memcpy(&subChunk2ID, subChunk2IDPtr, 4);
+
+                UInt32 subchunk2Size;
+                void * subChunk2SizePtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + 64);
+                memcpy(&subchunk2Size, subChunk2SizePtr, 4);
+                
+                UInt32 dataOffset = subchunk1Size + cbSize + 2;
+
+                // audio data starts at +64 offset, adjust accordingly
+                fillComplexInputParam->inputBufferPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + dataOffset);
+                fillComplexInputParam->inputBufferDataLength = fillComplexInputParam->inputBufferDataLength - (SInt16)dataOffset;
+            }
+        }
+    }
+    */
 
     OSStatus result = noErr;
     
@@ -1014,6 +1123,33 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
 
     //fprintf(stderr, "AudioMonitor2 - audioConverterComplexInputDataProc ioNumberDataPacketsRequested=%u, ioNumberDataPacketsProduced=%u,  result=%d\n", ioNumberDataPacketsRequested, ioNumberDataPacketsProduced, result);
 
+    return result;
+}
+
+//==================================================================================
+//    convertBuffer()
+//==================================================================================
+
+bool isAudioDataStarted(void * convertedDataPtr, UInt32 convertedDataLength)
+{
+    bool result = true;
+    
+    if (packetOutputIndex == 0)
+    {
+        bool dataFound = false;
+        for (int i = 0; i < convertedDataLength; i++)
+        {
+            UInt8 * bytePtr = (UInt8 *)((UInt64)convertedDataPtr + i);
+            if (*bytePtr != 0)
+            {
+                dataFound = true;
+                break;
+            }
+        }
+        
+        result = dataFound;
+    }
+    
     return result;
 }
 
@@ -1077,49 +1213,63 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                     int32_t convertedDataLength = outputDataPacketSize * sizeof(SInt16) * audioConverterOutputBufferList.mBuffers[0].mNumberChannels;
 
                     void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
-
-                    int32_t availableSpace;
-                    void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &availableSpace);  // for fprintf to stderr below
-                    int64_t bufferFilledSize = (int64_t)headPtr - (int64_t)inputBufferPtr;
                     
-                    if (availableSpace < convertedDataLength)
+                    if (isAudioDataStarted(convertedDataPtr, convertedDataLength) == true)
                     {
-                        sleep(1);
-                    }
-
-                    fwrite(convertedDataPtr, 1, convertedDataLength, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
-
-                    //fprintf(stderr, "AudioMonitor2 convertBuffer convertedDataLength = %d, space = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, space, headPtr, bufferFilledSize);
-                    
-                    if (volume > 0.0)
-                    {
-                        bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);  // store for use by AudioQueue
-
-                        if (produceBytesResult == false)
+                        int32_t availableSpace;
+                        void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &availableSpace);  // for fprintf to stderr below
+                        int64_t bufferFilledSize = (int64_t)headPtr - (int64_t)inputBufferPtr;
+                        
+                        if (availableSpace < convertedDataLength)
                         {
-                            // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
+                            sleep(1);
+                        }
+
+                        fwrite(convertedDataPtr, convertedDataLength, 1, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
+
+                        /*
+                        if (packetOutputIndex == 0)
+                        {
+                            logHexData(convertedDataPtr, convertedDataLength);
+                        }
+                        */
+                        
+                        packetOutputIndex++;
+
+                        //fprintf(stderr, "AudioMonitor2 convertBuffer convertedDataLength = %d, space = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, space, headPtr, bufferFilledSize);
+                        
+                        if (volume > 0.0)
+                        {
+                            // we are playing directly to the speakers
                             
-                            // clear buffer and try again (not the recommended practice)
-
-                            //fprintf(stderr, "AudioMonitor2 convertBuffer error TPCircularBufferProduceBytes failed\n");
-
-                            //TPCircularBufferClear(&audioConverterCircularBuffer);
-
-                            //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
-
-                            produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
+                            bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);  // store for use by AudioQueue
 
                             if (produceBytesResult == false)
                             {
-                                // If we get here, packets will be dropped
+                                // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
                                 
-                                fprintf(stderr, "AudioMonitor2 convertBuffer failed, drop packet, convertedDataLength = %d, availableSpace = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, availableSpace, headPtr, bufferFilledSize);
+                                // clear buffer and try again (not the recommended practice)
+
+                                //fprintf(stderr, "AudioMonitor2 convertBuffer error TPCircularBufferProduceBytes failed\n");
+
+                                //TPCircularBufferClear(&audioConverterCircularBuffer);
+
+                                //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
+
+                                produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
+
+                                if (produceBytesResult == false)
+                                {
+                                    // If we get here, packets will be dropped
+                                    
+                                    fprintf(stderr, "AudioMonitor2 convertBuffer failed, drop packet, convertedDataLength = %d, availableSpace = %d, head = %p, bufferFilledSize = %lld\n", convertedDataLength, availableSpace, headPtr, bufferFilledSize);
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        usleep(5000);
+                        else
+                        {
+                            usleep(5000);
+                        }
                     }
                 }
                 else
@@ -1459,6 +1609,8 @@ void runAudioMonitor2(unsigned int inSampleRate, double inVolume, unsigned int i
     inputBufferThreadID = 0;
     audioConverterThreadID = 0;
     audioQueueThreadID = 0;
+    
+    packetOutputIndex = 0;
 
     createInputBufferThread();
     createAudioConverterThread();

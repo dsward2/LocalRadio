@@ -15,7 +15,6 @@
 @property(strong) IBOutlet AppDelegate * appDelegate;
 
 @property (strong) NSTask * icecastTask;
-@property (strong) NSTask * ezStreamTask;
 
 @property (strong) NSXMLParser * icecastStatusParser;
 @property (strong) NSString * currentElementName;

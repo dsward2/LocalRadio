@@ -12,7 +12,6 @@
 		0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0563181F1A3C0D0093B473 /* WebViewDelegate.m */; };
 		0E05631C1F1A44510093B473 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E05631B1F1A44510093B473 /* WebKit.framework */; };
 		0E0936C91F42E3E400BF2B46 /* nowplayingstatus.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E0936C81F42E3E400BF2B46 /* nowplayingstatus.html */; };
-		0E0A95001F109104002E2E5B /* EZStreamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0A94FF1F109104002E2E5B /* EZStreamController.m */; };
 		0E0A95641F129E01002E2E5B /* UDPListener in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E0A953D1F129401002E2E5B /* UDPListener */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0C69391F1C913200A7EE5E /* rtl_fm_localradio in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E0C69251F1C8C9000A7EE5E /* rtl_fm_localradio */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0DD2B0210842B60065832A /* favicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E0DD262210842AE0065832A /* favicon.png */; };
@@ -34,8 +33,8 @@
 		0E1068E9211582C8000EF74A /* redphone.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0E1068E8211582C7000EF74A /* redphone.svg */; };
 		0E12A4EA1F5F92D000EB28DF /* FCCSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */; };
 		0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E12A5141F5FC65B00EB28DF /* CoreLocation.framework */; };
+		0E14BE9B217B3520005DFA6F /* customtasklistenbuttonclicked.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E14BE9A217B3520005DFA6F /* customtasklistenbuttonclicked.html */; };
 		0E1A397C1ECE15CA001E7610 /* libcrypto.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E60808D1ECE0BF400E4D1B6 /* libcrypto.1.0.0.dylib */; };
-		0E1BA1081EC892FA00130DB9 /* ezstream in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0F01EC8929800130DB9 /* ezstream */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E1BA1091EC892FA00130DB9 /* icecast in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0F11EC8929800130DB9 /* icecast */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E1BA10A1EC892FA00130DB9 /* lame in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0F21EC8929800130DB9 /* lame */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E1BA1121EC892FA00130DB9 /* socat in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0FA1EC8929800130DB9 /* socat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -206,7 +205,7 @@
 		0ED9ED471F529A2A00898460 /* LocalRadioAppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9ED461F529A2A00898460 /* LocalRadioAppSettings.m */; };
 		0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0EF173251F60C25E0067E8C0 /* zip_lat_long.txt */; };
 		0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */ = {isa = PBXBuildFile; fileRef = 0E7309191F3EBB6300004907 /* LocalRadio Clean-Up.workflow */; };
-		0EF173891F653C130067E8C0 /* applymp3settings.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF173881F653C130067E8C0 /* applymp3settings.html */; };
+		0EF173891F653C130067E8C0 /* applyaacsettings.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF173881F653C130067E8C0 /* applyaacsettings.html */; };
 		0EF2A9431F39BB8F009DB5C8 /* tuner_wbfm.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF2A9421F39BB8F009DB5C8 /* tuner_wbfm.html */; };
 		0EF2A9461F3B19DA009DB5C8 /* settings.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF2A9451F3B19DA009DB5C8 /* settings.html */; };
 		0EF598F320FF3F2400BD2C76 /* LocalRadio-animation.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0EF598F220FF3F2300BD2C76 /* LocalRadio-animation.svg */; };
@@ -214,7 +213,6 @@
 		0EF598F720FF4C5100BD2C76 /* info.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0EF598F620FF4C5100BD2C76 /* info.svg */; };
 		0EF746551F4ECE920008546F /* tuner_advanced.html in Resources */ = {isa = PBXBuildFile; fileRef = 0EF746541F4ECE920008546F /* tuner_advanced.html */; };
 		0EFFD1211EAE08A60041D2F5 /* icecast.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EFFD1201EAE08A60041D2F5 /* icecast.xml */; };
-		0EFFD1231EAE33190041D2F5 /* ezstream_mp3.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0EFFD1221EAE33190041D2F5 /* ezstream_mp3.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -928,7 +926,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				0E1BA1081EC892FA00130DB9 /* ezstream in Copy Tools */,
 				0E1BA1091EC892FA00130DB9 /* icecast in Copy Tools */,
 				0E1BA10A1EC892FA00130DB9 /* lame in Copy Tools */,
 				0E1BA1121EC892FA00130DB9 /* socat in Copy Tools */,
@@ -1091,6 +1088,7 @@
 		0E12A4E81F5F92D000EB28DF /* FCCSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCCSearchController.h; sourceTree = "<group>"; };
 		0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCCSearchController.m; sourceTree = "<group>"; };
 		0E12A5141F5FC65B00EB28DF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		0E14BE9A217B3520005DFA6F /* customtasklistenbuttonclicked.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = customtasklistenbuttonclicked.html; sourceTree = "<group>"; };
 		0E170F4D1EF23B2C00B5489E /* editcategory.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editcategory.html; sourceTree = "<group>"; };
 		0E170F591EF24C0800B5489E /* editcategoryitem.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editcategoryitem.html; sourceTree = "<group>"; };
 		0E1BA0AA1EC885CA00130DB9 /* import_dylibs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = import_dylibs.sh; sourceTree = "<group>"; };
@@ -2251,7 +2249,7 @@
 		0EEE99291EEF957F00A16CA8 /* categories.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = categories.html; sourceTree = "<group>"; };
 		0EEE99351EEF974D00A16CA8 /* category.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = category.html; sourceTree = "<group>"; };
 		0EF173251F60C25E0067E8C0 /* zip_lat_long.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = zip_lat_long.txt; sourceTree = "<group>"; };
-		0EF173881F653C130067E8C0 /* applymp3settings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = applymp3settings.html; sourceTree = "<group>"; };
+		0EF173881F653C130067E8C0 /* applyaacsettings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = applyaacsettings.html; sourceTree = "<group>"; };
 		0EF2A9421F39BB8F009DB5C8 /* tuner_wbfm.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_wbfm.html; sourceTree = "<group>"; };
 		0EF2A9441F3B1240009DB5C8 /* gear.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = gear.svg; sourceTree = "<group>"; };
 		0EF2A9451F3B19DA009DB5C8 /* settings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = settings.html; sourceTree = "<group>"; };
@@ -4072,13 +4070,15 @@
 				0ED148021F7A286700705A24 /* apple-icon-167x167.png */,
 				0ED148031F7A286700705A24 /* apple-icon-180x180.png */,
 				0E6890251F3DC69B00F34AE4 /* addcategory.html */,
-				0EF173881F653C130067E8C0 /* applymp3settings.html */,
+				0EF173881F653C130067E8C0 /* applyaacsettings.html */,
 				0E6890241F3D836D00F34AE4 /* addcategoryform.html */,
 				0EEE99351EEF974D00A16CA8 /* category.html */,
 				0EEE99291EEF957F00A16CA8 /* categories.html */,
 				0E496FEC1F6DBFE700E41A06 /* credits.html */,
+				0E14BE9A217B3520005DFA6F /* customtasklistenbuttonclicked.html */,
 				0E02EC751F4B958E008BAC27 /* deletecategory.html */,
 				0E6890231F3D6A7F00F34AE4 /* deletefrequency.html */,
+				0ED6C77120AE69B500D82331 /* devicelistenbuttonclicked.html */,
 				0E37EADA20511BEF00CC96EF /* devices.html */,
 				0E170F4D1EF23B2C00B5489E /* editcategory.html */,
 				0E170F591EF24C0800B5489E /* editcategoryitem.html */,
@@ -4092,6 +4092,7 @@
 				0ED12CEA1F35A86800D9DCDC /* index2.html */,
 				0E688FFD1F3C460D00F34AE4 /* insertnewfrequency.html */,
 				0E7309441F418CD200004907 /* listenbuttonclicked.html */,
+				0EC2075A1EDB83DD006899EB /* listen.html */,
 				0E0E30692153566900550BF3 /* localradio.m3u */,
 				0E5524FD2162117F00DB364C /* Monitor_Beacon.mp3 */,
 				0EA04ED72175A91200E9804A /* Monitor_Beacon.wav */,
@@ -4100,6 +4101,7 @@
 				0E0936C81F42E3E400BF2B46 /* nowplayingstatus.html */,
 				0EC207691EDF73EE006899EB /* scannercategories.html */,
 				0E41B3861EE79235008524E6 /* scancategory.html */,
+				0E0FD99E1EF3307E00FEEA06 /* scancategorylisten.html */,
 				0EF2A9451F3B19DA009DB5C8 /* settings.html */,
 				0E84C9B81ED916130065864B /* skeleton.html */,
 				0E207E981F1DCA99001AA972 /* storecategory.html */,
@@ -4111,9 +4113,6 @@
 				0EF2A9421F39BB8F009DB5C8 /* tuner_wbfm.html */,
 				0E4461931F451B67003C7851 /* tuner_general.html */,
 				0E880CF51EDA606E007BEB99 /* viewfavorite.html */,
-				0EC2075A1EDB83DD006899EB /* listen.html */,
-				0E0FD99E1EF3307E00FEEA06 /* scancategorylisten.html */,
-				0ED6C77120AE69B500D82331 /* devicelistenbuttonclicked.html */,
 			);
 			path = Web;
 			sourceTree = "<group>";
@@ -6550,10 +6549,9 @@
 				0E207E991F1DCA99001AA972 /* storecategory.html in Resources */,
 				0E4461941F451B67003C7851 /* tuner_general.html in Resources */,
 				0E688FFE1F3C460D00F34AE4 /* insertnewfrequency.html in Resources */,
-				0EF173891F653C130067E8C0 /* applymp3settings.html in Resources */,
+				0EF173891F653C130067E8C0 /* applyaacsettings.html in Resources */,
 				0E207E731F1DA81C001AA972 /* editcategorysettings.html in Resources */,
 				0E3CB0E91F679AB40088B498 /* LICENSE in Resources */,
-				0EFFD1231EAE33190041D2F5 /* ezstream_mp3.xml in Resources */,
 				0E1068E9211582C8000EF74A /* redphone.svg in Resources */,
 				0EA5A9131EFF4EB100AAD26D /* silence.mp3 in Resources */,
 				0E35F51020AA392B00154E4E /* InterfaceTest-Info.plist in Resources */,
@@ -6572,6 +6570,7 @@
 				0E4461921F4420A9003C7851 /* scannerlistenbuttonclicked.html in Resources */,
 				0ED6C77220AE69B500D82331 /* devicelistenbuttonclicked.html in Resources */,
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
+				0E14BE9B217B3520005DFA6F /* customtasklistenbuttonclicked.html in Resources */,
 				0E02EC771F4D8446008BAC27 /* tuner_aviation.html in Resources */,
 				0EF598F520FF42BC00BD2C76 /* info.html in Resources */,
 				0E0936C91F42E3E400BF2B46 /* nowplayingstatus.html in Resources */,
@@ -6613,7 +6612,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/build_standard_rtl_sdr_tools.sh";
+			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/build_standard_rtl_sdr_tools.sh\n";
 		};
 		0E4970081F6F1F1F00E41A06 /* Codesign Tools */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -6699,7 +6698,6 @@
 				0E0FDA061EF786BE00FEEA06 /* SQLiteController.m in Sources */,
 				0E4ED1841EAB7DB000D2157B /* HTTPServer.m in Sources */,
 				0E4ED1951EAB7ED400D2157B /* DDNumber.m in Sources */,
-				0E0A95001F109104002E2E5B /* EZStreamController.m in Sources */,
 				0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */,
 				0E4ED1831EAB7DA700D2157B /* HTTPConnection.m in Sources */,
 				0ED6CA9B20B2089700D82331 /* DDTTYLogger.m in Sources */,
