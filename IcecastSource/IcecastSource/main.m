@@ -104,6 +104,7 @@ GCDAsyncSocket * icecastSourceSocket;
 NSString * userName;
 NSString * password;
 NSString * host;
+NSString * icecastMountName;
 BOOL readyToSend;
 int port;
 int bitrate;
@@ -377,22 +378,29 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
     NSString * authorizationString = [self base64Data:authData];
 
-    NSString * streamURLString = [NSString stringWithFormat:@"http://%@:%hu/localradio.aac", host, port];
-    
+    //NSString * streamURLString = [NSString stringWithFormat:@"http://%@:%hu/localradio.aac", host, port];
+    NSString * streamURLString = [NSString stringWithFormat:@"http://%@:%hu/%@", host, port, icecastMountName];
+
     //NSString * iceBitrate = @"64";
     NSString * iceBitrate = [NSString stringWithFormat:@"%d", bitrate / 1000]; // 32, 64 or 128
 
     //NSString * iceAudioInfo = @"samplerate=48000;quality=10%2e0;channels=2";
     //NSString * iceAudioInfo = @"bitrate=64";
     NSString * iceAudioInfo = [NSString stringWithFormat:@"ice-bitrate=%@;ice-channels=2;ice-samplerate=48000;", iceBitrate];
+    
+    NSString * formatString = @"aac";   // for kMPEG4Object_AAC_LC
+    if (bitrate < 64000)
+    {
+        formatString = @"aacp";     // for kAudioFormatMPEG4AAC_HE
+    }
 
     NSString *requestStrFrmt =
-            @"PUT /localradio.aac HTTP/1.1\r\n"\
+            @"PUT /%@ HTTP/1.1\r\n"\
             @"Host: %@\r\n"\
             @"Authorization: Basic %@\r\n"\
             @"User-Agent: curl/7.51.0\r\n"\
             @"Accept: */*\r\n"\
-            @"Content-Type: audio/aac\r\n"\
+            @"Content-Type: audio/%@\r\n"\
             @"Cache-Control: no-cache\r\n"\
             @"Transfer-Encoding: chunked\r\n"\
             @"Ice-Public: 0\r\n"\
@@ -407,12 +415,12 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
             @"\r\n\r\n";        // end of HTTP header
 
 
-    NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, host, authorizationString, streamURLString, iceBitrate, iceAudioInfo];
+    NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, icecastMountName, host, authorizationString, formatString, streamURLString, iceBitrate, iceAudioInfo];
     NSData *requestData = [requestStr dataUsingEncoding:NSUTF8StringEncoding];
     
     [icecastSourceSocket writeData:requestData withTimeout:-1.0 tag:0];
     
-    NSLog(@"IcecastSource Full httpRequest:\n%@", requestStr);
+    NSLog(@"IcecastSource httpRequest header:\n%@", requestStr);
     
     // Side Note:
     //
@@ -594,6 +602,7 @@ int main(int argc, char **argv)
         char const * argHost = "localhost";
         char const * argPort = "17003";
         char const * argBitrate = "64000";
+        char const * argIcecastMountName = "localradio.aac";
 
         for (int i = 0; i < argc; i++)
         {
@@ -644,6 +653,15 @@ int main(int argc, char **argv)
                 argBitrate = argStringPtr;
                 argMode = "";
             }
+            else if (strcmp(argStringPtr, "-m") == 0)   // Icecast mount name
+            {
+                argMode = argStringPtr;
+            }
+            else if (strcmp(argMode, "-m") == 0)
+            {
+                argIcecastMountName = argStringPtr;
+                argMode = "";
+            }
         }
         
         host = [[NSString alloc] initWithCString:argHost encoding:NSUTF8StringEncoding];
@@ -652,6 +670,7 @@ int main(int argc, char **argv)
         
         userName = [[NSString alloc] initWithCString:argUserName encoding:NSUTF8StringEncoding];
         password = [[NSString alloc] initWithCString:argPassword encoding:NSUTF8StringEncoding];
+        icecastMountName = [[NSString alloc] initWithCString:argIcecastMountName encoding:NSUTF8StringEncoding];
 
         if ( (port > 0) && (port < 65536) )
         {

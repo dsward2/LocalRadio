@@ -161,9 +161,13 @@
         void * dataPtr = (void *)streamData.bytes;
 
         size_t writeResult = fwrite(dataPtr, dataLength, 1, stdout);
-        #pragma unused(writeResult)
         
-        fflush(stdout);
+        if (writeResult != 1)
+        {
+            NSLog(@"UDPListener sendDataToStdout error writeResult=%zu, dataLength=%ld", writeResult, dataLength);
+        }
+        
+        //fflush(stdout);
         
         self.lastSendTime = [NSDate timeIntervalSinceReferenceDate];
     }

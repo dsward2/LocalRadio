@@ -314,6 +314,7 @@
     self.icecastTask.launchPath = icecastPath;
     self.icecastTask.arguments = self.icecastTaskArgsArray;
 
+    [self.icecastTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
 
 
 

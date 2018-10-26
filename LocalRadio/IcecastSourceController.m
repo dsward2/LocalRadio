@@ -128,8 +128,8 @@
     [icecastSourceTaskItem addArgument:@"-p"];      // port
     [icecastSourceTaskItem addArgument:@"17003"];
 
-    [aacEncoderTaskItem addArgument:@"-b"];     // bitrate
-    [aacEncoderTaskItem addArgument:self.appDelegate.aacBitrate];
+    [icecastSourceTaskItem addArgument:@"-b"];     // bitrate
+    [icecastSourceTaskItem addArgument:self.appDelegate.aacBitrate];
 
     [icecastSourceTaskItem addArgument:@"-u"];      // icecast server source user name
     [icecastSourceTaskItem addArgument:@"source"];
@@ -138,6 +138,9 @@
 
     [icecastSourceTaskItem addArgument:@"-pw"];  // icecast server password
     [icecastSourceTaskItem addArgument:icecastServerSourcePassword];
+
+    [icecastSourceTaskItem addArgument:@"-m"];      // Icecast mount name
+    [icecastSourceTaskItem addArgument:self.appDelegate.icecastServerMountNameTextField.stringValue];
 
     // Create NSTasks
     @synchronized (self.icecastSourceTaskPipelineManager)

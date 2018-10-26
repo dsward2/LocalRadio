@@ -2284,7 +2284,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 @" ontimeupdate='audioPlayerTimeUpdate(this);' "
                 @" onwaiting='audioPlayerWaiting(this);' ";
         
-        [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/aac' %@ title='LocalRadio for macOS'>Your browser does not support the audio element.</audio>\n", autoplayFlag, aacURLString, audioPlayerJS];
+        NSString * formatString = @"aac";   // for kMPEG4Object_AAC_LC
+        if (self.appDelegate.aacBitrate.integerValue < 64000)
+        {
+            formatString = @"aacp";     // for kAudioFormatMPEG4AAC_HE
+        }
+        
+        [resultString appendFormat:@"<audio id='audio_element' controls %@ preload=\"none\" src='%@' type='audio/%@' %@ title='LocalRadio for macOS'>Your browser does not support the audio element.</audio>\n", autoplayFlag, aacURLString, formatString, audioPlayerJS];
     }
     else
     {

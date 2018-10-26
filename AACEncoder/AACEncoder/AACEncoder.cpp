@@ -65,6 +65,8 @@ UInt32 audioConverterOutputBytes;
 
 UInt8 * adtsPacketPtr;
 
+unsigned int outputPacketCount;
+
 typedef struct {
     void * inputBufferPtr;
     UInt32 inputBufferDataLength;
@@ -288,6 +290,17 @@ int freqIdxForAdtsHeader(int samplerate)
 
 void logAudioConverterProperties()
 {
+    // kAudioConverterPropertyCalculateInputBufferSize not used currently
+    // kAudioConverterPropertyCalculateOutputBufferSize not used currently
+    // kAudioConverterPropertyInputCodecParameters not used currently
+    // kAudioConverterPropertyOutputCodecParameters not used currently
+    // kAudioConverterSampleRateConverterAlgorithm not used currently
+    // kAudioConverterSampleRateConverterInitialPhase not used currently
+    // kAudioConverterPrimeMethod not used currently
+    // kAudioConverterDecompressionMagicCookie not used currently
+    // kAudioConverterCompressionMagicCookie not used currently
+    // kAudioConverterAvailableEncodeChannelLayoutTags not used currently
+
     UInt32 tmpsiz = sizeof(UInt32);
     UInt32 encodeBitRate = 0;
     OSStatus encodeBitRateStatus =  AudioConverterGetProperty(inAudioConverter,
@@ -386,9 +399,6 @@ void logAudioConverterProperties()
     {
         fprintf(stderr, "AACEncoder AudioConverterGetProperty kAudioConverterPropertyMaximumOutputPacketSize error = %d\n", (int)maximumOutputPacketSizeStatus);
     }
-    
-    // kAudioConverterPropertyCalculateInputBufferSize not used currently
-    // kAudioConverterPropertyCalculateOutputBufferSize not used currently
     
     tmpsiz = sizeof(UInt32);
     UInt32 sampleRateConverterComplexity = 0;
@@ -795,6 +805,14 @@ void logAudioConverterProperties()
                         const char * dictionaryCString = CFStringGetCStringPtr(dictionaryCFString, kCFStringEncodingUTF8);
                         fprintf(stderr, "AACEncoder AudioConverterGetProperty kAudioConverterPropertySettings = \n%s\n", dictionaryCString);
                     }
+                    else
+                    {
+                        fprintf(stderr, "AACEncoder AudioConverterGetProperty kAudioConverterPropertySettings = count = 0\n");
+                    }
+                }
+                else
+                {
+                    fprintf(stderr, "AACEncoder AudioConverterGetProperty kAudioConverterPropertySettings error unknown TypeID = \n%lu\n", typeID);
                 }
             }
         }
@@ -809,6 +827,57 @@ void logAudioConverterProperties()
     }
 }
 
+
+
+void logAudioEncoders()
+{
+    AudioClassDescription audioClassDescription;
+    memset(&audioClassDescription, 0, sizeof(audioClassDescription));
+    UInt32 size;
+
+    OSStatus getPropertyInfoEncodersStatus = AudioFormatGetPropertyInfo(kAudioFormatProperty_Encoders,
+                sizeof(audioConverterOutputDescription.mFormatID),
+                &audioConverterOutputDescription.mFormatID,
+                &size);
+
+    uint32_t count = size / sizeof(AudioClassDescription);
+
+    AudioClassDescription descriptions[count];
+    OSStatus getPropertyEncodersStatus = AudioFormatGetProperty(kAudioFormatProperty_Encoders,
+                sizeof(audioConverterOutputDescription.mFormatID),
+                &audioConverterOutputDescription.mFormatID,
+                &size,
+                descriptions);
+    
+    for (uint32_t i = 0; i < count; i++)
+    {
+        AudioClassDescription aAudioClassDescription = descriptions[i];
+     
+        char mTypeString[5];
+        mTypeString[0] = (aAudioClassDescription.mType >> 24) & 0xFF;
+        mTypeString[1] = (aAudioClassDescription.mType >> 16) & 0xFF;
+        mTypeString[2] = (aAudioClassDescription.mType >> 8) & 0xFF;
+        mTypeString[3] = (aAudioClassDescription.mType >> 0) & 0xFF;
+        mTypeString[4] = 0;
+    
+        char mSubTypeString[5];
+        mSubTypeString[0] = (aAudioClassDescription.mSubType >> 24) & 0xFF;
+        mSubTypeString[1] = (aAudioClassDescription.mSubType >> 16) & 0xFF;
+        mSubTypeString[2] = (aAudioClassDescription.mSubType >> 8) & 0xFF;
+        mSubTypeString[3] = (aAudioClassDescription.mSubType >> 0) & 0xFF;
+        mSubTypeString[4] = 0;
+    
+        char mManufacturerString[5];
+        mManufacturerString[0] = (aAudioClassDescription.mManufacturer >> 24) & 0xFF;
+        mManufacturerString[1] = (aAudioClassDescription.mManufacturer >> 16) & 0xFF;
+        mManufacturerString[2] = (aAudioClassDescription.mManufacturer >> 8) & 0xFF;
+        mManufacturerString[3] = (aAudioClassDescription.mManufacturer >> 0) & 0xFF;
+        mManufacturerString[4] = 0;
+    
+        fprintf(stderr, "AACEncoder AudioClassDescription %d, mType = %s, mSubType = %s, mManufacturer = %s\n", i, mTypeString, mSubTypeString, mManufacturerString);
+    }
+}
+
 //==================================================================================
 //    startAudioConverter()
 //==================================================================================
@@ -816,6 +885,8 @@ void logAudioConverterProperties()
 void startAudioConverter()
 {
     // Configure input and output AudioStreamBasicDescription (ADSB) for AudioConverter to convert PCM data to AAC
+    
+    logAudioEncoders();
  
     memset(&audioConverterInputDescription, 0, sizeof(audioConverterInputDescription));
     
@@ -840,13 +911,6 @@ void startAudioConverter()
     //audioConverterOutputDescription = audioConverterInputDescription;
     memset(&audioConverterOutputDescription, 0, sizeof(audioConverterOutputDescription));
 
-    audioConverterOutputDescription.mSampleRate = sampleRate;                // number of frames per second of equivalent decompressed data
-    
-    audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC;
-    //audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC_HE;     // best streaming format if bitrate < 64000
-    
-    audioConverterOutputDescription.mFormatFlags = kMPEG4Object_AAC_LC;
-    
     audioConverterOutputDescription.mBytesPerPacket = 0;
     audioConverterOutputDescription.mFramesPerPacket = 1024;
     audioConverterOutputDescription.mBytesPerFrame = 0;
@@ -855,72 +919,62 @@ void startAudioConverter()
     
     audioConverterOutputDescription.mBitsPerChannel = 0;
     audioConverterOutputDescription.mReserved = 0;
+
+    audioConverterOutputDescription.mSampleRate = sampleRate;    // frames per second of equivalent decompressed data
+
     
+    if (bitrate >= 64000)
+    {
+        audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC;
+        audioConverterOutputDescription.mFormatFlags = kMPEG4Object_AAC_LC;
+    }
+    else
+    {
+        //audioConverterOutputDescription.mFramesPerPacket = 0;
+
+        // best streaming format if bitrate < 64000
+        audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC_HE;
+        //audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC_HE_V2;
+
+        //audioConverterOutputDescription.mFormatFlags = kMPEG4Object_AAC_SBR;
+        audioConverterOutputDescription.mFormatFlags = 0;
+
+        audioConverterOutputDescription.mFramesPerPacket = 2048;    // for AAC-HE per https://lists.apple.com/archives/coreaudio-api/2011/Mar/msg00176.html
+    }
+
     logDescription(&audioConverterOutputDescription, "audioConverterOutputDescription");
  
      // Create AudioConverter
 
-    /*
-    AudioClassDescription audioClassDescription;
-    memset(&audioClassDescription, 0, sizeof(audioClassDescription));
-    UInt32 size;
-
-    OSStatus getPropertyInfoEncodersStatus = AudioFormatGetPropertyInfo(kAudioFormatProperty_Encoders,
-                sizeof(audioConverterOutputDescription.mFormatID),
-                &audioConverterOutputDescription.mFormatID,
-                &size);
-
-    uint32_t count = size / sizeof(AudioClassDescription);
-
-    AudioClassDescription descriptions[count];
-    OSStatus getPropertyEncodersStatus = AudioFormatGetProperty(kAudioFormatProperty_Encoders,
-                sizeof(audioConverterOutputDescription.mFormatID),
-                &audioConverterOutputDescription.mFormatID,
-                &size,
-                descriptions);
-    
-    for (uint32_t i = 0; i < count; i++)
-    {
-        AudioClassDescription aAudioClassDescription = descriptions[i];
-        
-        char mTypeString[5];
-        mTypeString[0] = (aAudioClassDescription.mType >> 24) & 0xFF;
-        mTypeString[1] = (aAudioClassDescription.mType >> 16) & 0xFF;
-        mTypeString[2] = (aAudioClassDescription.mType >> 8) & 0xFF;
-        mTypeString[3] = (aAudioClassDescription.mType >> 0) & 0xFF;
-        mTypeString[4] = 0;
-    
-        char mSubTypeString[5];
-        mSubTypeString[0] = (aAudioClassDescription.mSubType >> 24) & 0xFF;
-        mSubTypeString[1] = (aAudioClassDescription.mSubType >> 16) & 0xFF;
-        mSubTypeString[2] = (aAudioClassDescription.mSubType >> 8) & 0xFF;
-        mSubTypeString[3] = (aAudioClassDescription.mSubType >> 0) & 0xFF;
-        mSubTypeString[4] = 0;
-    
-        char mManufacturerString[5];
-        mManufacturerString[0] = (aAudioClassDescription.mManufacturer >> 24) & 0xFF;
-        mManufacturerString[1] = (aAudioClassDescription.mManufacturer >> 16) & 0xFF;
-        mManufacturerString[2] = (aAudioClassDescription.mManufacturer >> 8) & 0xFF;
-        mManufacturerString[3] = (aAudioClassDescription.mManufacturer >> 0) & 0xFF;
-        mManufacturerString[4] = 0;
-    
-        fprintf(stderr, "AACEncoder AudioClassDescription %d, mType = %s, mSubType = %s, mManufacturer = %s\n", i, mTypeString, mSubTypeString, mManufacturerString);
-    }
-    
-    AudioClassDescription codecAudioClassDescription;
-    codecAudioClassDescription.mType = 'aenc';
-    codecAudioClassDescription.mSubType = 'aac ';       // for kAudioFormatMPEG4AAC
-    codecAudioClassDescription.mManufacturer = 'aapl';
-
-    //OSStatus audioConverterNewStatus = AudioConverterNew(&audioConverterInputDescription, &audioConverterOutputDescription, &inAudioConverter);
-    OSStatus audioConverterNewStatus = AudioConverterNewSpecific(&audioConverterInputDescription, &audioConverterOutputDescription, 1, &codecAudioClassDescription, &inAudioConverter);
+    OSStatus audioConverterNewStatus = AudioConverterNew(&audioConverterInputDescription, &audioConverterOutputDescription, &inAudioConverter);
     if (audioConverterNewStatus != noErr)
     {
-        fprintf(stderr, "AACEncoder audioConverterNew audioConverterNewStatus error = %d\n", audioConverterNewStatus);
+        char c[5];
+        c[0] = (audioConverterNewStatus >> 24) & 0xFF;
+        c[1] = (audioConverterNewStatus >> 16) & 0xFF;
+        c[2] = (audioConverterNewStatus >> 8) & 0xFF;
+        c[3] = (audioConverterNewStatus >> 0) & 0xFF;
+        c[4] = 0;
+
+        fprintf(stderr, "AACEncoder audioConverterNew audioConverterNewStatus error = %s, %d\n", (char *)&c, audioConverterNewStatus);
+    }
+    else
+    {
+        fprintf(stderr, "AACEncoder audioConverterNew audioConverterNewStatus success\n");
     }
 
     // Set AudioConverter properties
 
+    //UInt32 bitRate = sampleRate * inputChannels;
+    UInt32 bitrateSize = sizeof(bitrate);
+    OSStatus bitrateError = AudioConverterSetProperty(inAudioConverter, kAudioConverterEncodeBitRate, bitrateSize, &bitrate);
+    if (bitrateError != noErr)
+    {
+        fprintf(stderr, "AACEncoder AudioConverterSetProperty kAudioConverterEncodeBitRate %u error = %d\n", (unsigned int)bitrate, (int)bitrateError);
+    }
+
+
+    /*
     UInt32 controlMode = kAudioCodecBitRateControlMode_VariableConstrained;
     //UInt32 controlMode = kAudioCodecBitRateControlMode_Variable;
     UInt32 controlModeSize = sizeof(controlMode);
@@ -939,19 +993,6 @@ void startAudioConverter()
     }
     */
 
-    OSStatus audioConverterNewStatus = AudioConverterNew(&audioConverterInputDescription, &audioConverterOutputDescription, &inAudioConverter);
-    if (audioConverterNewStatus != noErr)
-    {
-        fprintf(stderr, "AACEncoder audioConverterNew audioConverterNewStatus error = %d\n", audioConverterNewStatus);
-    }
-
-    //UInt32 bitRate = sampleRate * inputChannels;
-    UInt32 bitrateSize = sizeof(bitrate);
-    OSStatus bitrateError = AudioConverterSetProperty(inAudioConverter, kAudioConverterEncodeBitRate, bitrateSize, &bitrate);
-    if (bitrateError != noErr)
-    {
-        fprintf(stderr, "AACEncoder AudioConverterSetProperty kAudioConverterEncodeBitRate %u error = %d\n", (unsigned int)bitrate, (int)bitrateError);
-    }
     
     logAudioConverterProperties();
 }
@@ -1025,7 +1066,7 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
     ioData->mBuffers[0].mDataByteSize = fillComplexInputParam->inputBufferDataLength;
     ioData->mBuffers[0].mData = fillComplexInputParam-> inputBufferPtr;
 
-    *ioNumberDataPackets = 1;
+    *ioNumberDataPackets = 1;       // 1 for AAC output
 
     fillComplexInputParam-> inputBufferPtr = NULL;
     fillComplexInputParam->inputBufferDataLength = 0;
@@ -1128,8 +1169,20 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
             
             /* Sync point continued over first 4 bits + static 4 bits
             * (ID, layer, protection)*/
-            //adtsHeader[1] = 0xF9;   // 1111 1 00 1  = syncword, MPEG-2, Layer 0, CRC checksum absent
-            adtsHeader[1] = 0xF1;   // 1111 1 00 1  = syncword, MPEG-4, Layer 0, CRC checksum absent
+            
+            
+            if (bitrate >= 64000)
+            {
+                // for kMPEG4Object_AAC_LC
+                adtsHeader[1] = 0xF9;   // 1111 1 00 1  = syncword, MPEG-2, Layer 0, CRC checksum absent
+                //adtsHeader[1] = 0xF1;   // 1111 0 00 1  = syncword, MPEG-4, Layer 0, CRC checksum absent
+            }
+            else
+            {
+                // for kAudioFormatMPEG4AAC_HE
+                //adtsHeader[1] = 0xF9;   // 1111 1 00 1  = syncword, MPEG-2, Layer 0, CRC checksum absent
+                adtsHeader[1] = 0xF1;   // 1111 0 00 1  = syncword, MPEG-4, Layer 0, CRC checksum absent
+            }
 
             /* Object type over first 2 bits */
             adtsHeader[2] = ((profile - 1) & 0x3) << 6;
@@ -1163,7 +1216,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
             //fwrite(&adtsHeader[0], adtsHeaderLength, 1, stdout);    // write ADTS header
             //fwrite(convertedDataPtr, convertedDataLength, 1, stdout);   // write raw AAC data
             
-            // assemble adts header and acc payload into a packet
+            // assemble adts header and aac payload into a packet
             int packetLength = adtsHeaderLength + convertedDataLength;
             
             memcpy(adtsPacketPtr, &adtsHeader, adtsHeaderLength);
@@ -1171,7 +1224,13 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 
             fwrite(adtsPacketPtr, packetLength, 1, stdout);   // write ADTS packet
             
-            //fprintf(stderr, "AACEncoder convertBuffer packetLength = %d, adtsHeader %02x %02x %02x %02x %02x %02x %02x\n", packetLength, adtsHeader[0], adtsHeader[1], adtsHeader[2], adtsHeader[3], adtsHeader[4], adtsHeader[5], adtsHeader[6]);
+            if (outputPacketCount == 0)
+            {
+                // log the first ADTS header
+                fprintf(stderr, "AACEncoder convertBuffer packetLength = %d, adtsHeader %02x %02x %02x %02x %02x %02x %02x\n", packetLength, adtsHeader[0], adtsHeader[1], adtsHeader[2], adtsHeader[3], adtsHeader[4], adtsHeader[5], adtsHeader[6]);
+            }
+            
+            outputPacketCount++;
         }
         else
         {
@@ -1180,7 +1239,14 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
     }
     else
     {
-        fprintf(stderr, "AACEncoder convertBuffer error AudioConverterFillComplexBuffer failed %d\n", convertResult);
+        char c[5];
+        c[0] = (convertResult >> 24) & 0xFF;
+        c[1] = (convertResult >> 16) & 0xFF;
+        c[2] = (convertResult >> 8) & 0xFF;
+        c[3] = (convertResult >> 0) & 0xFF;
+        c[4] = 0;
+
+        fprintf(stderr, "AACEncoder convertBuffer error AudioConverterFillComplexBuffer failed %s, %d\n", (void *)&c, convertResult);
         AudioConverterReset(inAudioConverter);
     }
 }
@@ -1313,6 +1379,7 @@ void runAACEncoder(unsigned int inSampleRate, unsigned int inChannels, unsigned 
     sampleRate = inSampleRate;
     inputChannels = inChannels;
     bitrate = inBitrate;
+    outputPacketCount = 0;
     
     // start threads for input buffering and AAC encoding
     inputBufferThreadID = 0;

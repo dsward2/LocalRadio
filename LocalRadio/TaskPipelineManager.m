@@ -96,13 +96,16 @@
 
     if (firstTaskItem != NULL)
     {
-        [firstTaskItem.task setStandardInput:[NSPipe pipe]];       // empty pipe for first stage stdin
+        //[firstTaskItem.task setStandardInput:[NSPipe pipe]];       // empty pipe for first stage stdin
+        [firstTaskItem.task setStandardInput:[NSFileHandle fileHandleWithNullDevice]];       // null device for first stage stdin
     }
     
+    /*
     if (lastTaskItem != NULL)
     {
         [lastTaskItem.task setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];  // set last task's stdout to /dev/null
     }
+    */
     
     for (TaskItem * taskItem in self.taskItemsArray)
     {
@@ -211,6 +214,9 @@
         }
 
         self.taskPipelineStatus = kTaskPipelineStatusRunning;
+
+        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+        [appDelegate updateCurrentTasksText:self];
     }
 }
 

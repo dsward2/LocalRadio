@@ -312,14 +312,19 @@
     // Get 1-or-2 channel lpcm from stdin, resample to 48000, output 2-channel lpcm to stdout, and optionally play audio directly to current system CoreAudio device
     TaskItem * audioMonitorTaskItem = [self makeAudioMonitorTaskItemForSourceChannels:intermediateChannels inputBufferSize:inputBufferSize audioConverterBufferSize:audioConverterBufferSize audioQueueBufferSize:audioQueueBufferSize];
     
+    // TODO: Fix apparent problem in AudioConvert2 output, use SoX as a workaround for now
+    
     // Get lpcm from stdin, apply Sox audio processing filters, output lpcm data to stdout
+    /*
     TaskItem * soxTaskItem = NULL;
     NSString * trimmedFilterString = [self.audioOutputFilterString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if (trimmedFilterString.length > 0)
+    if (trimmedFilterString.length == 0)
     {
-        //soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
         soxTaskItem = [self makeSoxTaskItem];
     }
+    */
+    
+    TaskItem * soxTaskItem = [self makeSoxTaskItem];    // this should be optional, based on self.audioOutputFilterString, but use always for now
 
     // Get lpcm data from stdin, output to UDP port
     TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];
@@ -563,6 +568,12 @@
 - (TaskItem *)makeSoxTaskItem
 {
     NSString * trimmedFilterString = [self.audioOutputFilterString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (trimmedFilterString.length == 0)
+    {
+        trimmedFilterString = @"vol 1";
+    }
+    
     NSArray * audioOutputFilterStringArray = [trimmedFilterString componentsSeparatedByString:@" "];
 
     TaskItem * soxTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];;

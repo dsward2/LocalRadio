@@ -112,9 +112,8 @@
         
         weakSelf.task = NULL;
         
-        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
-
-        [appDelegate updateCurrentTasksText:weakSelf];
+        //AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];  // moved to TaskPipelineManager
+        //[appDelegate updateCurrentTasksText:weakSelf];
 
         NSLog(@"TaskItem PID=%d - exit %@ terminationHandler", processIdentifier, weakSelf.functionName);
     }];
