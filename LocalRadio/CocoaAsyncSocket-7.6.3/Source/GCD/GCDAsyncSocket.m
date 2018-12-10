@@ -7189,6 +7189,7 @@ static OSStatus SSLWriteFunction(SSLConnectionRef connection, const void *data, 
 	
 	// 14. kCFStreamSSLLevel
 	
+ /* dsward disabled
 	#pragma clang diagnostic push
 	#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	value = [tlsSettings objectForKey:(__bridge NSString *)kCFStreamSSLLevel];
@@ -7201,7 +7202,8 @@ static OSStatus SSLWriteFunction(SSLConnectionRef connection, const void *data, 
 		[self closeWithError:[self otherError:@"Security option unavailable - kCFStreamSSLLevel"]];
 		return;
 	}
-	
+*/
+
 	// Setup the sslPreBuffer
 	// 
 	// Any data in the preBuffer needs to be moved into the sslPreBuffer,

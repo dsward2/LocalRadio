@@ -18,6 +18,8 @@
 #import "HTTPMessage.h"
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAPI.h"
+#import "DDKeychain.h"
+#import "GCDAsyncSocket.h"
 
 #import <AudioToolbox/AudioServices.h>
 
@@ -338,14 +340,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             NSString * viewFavoriteItemString = [self generateViewFavoriteItemStringForID:freqIDString];
             [replacementDict setObject:viewFavoriteItemString forKey:@"VIEW_FAVORITE_ITEM"];
         }
- 
-        
-        
-        
-        
-        
-        
-        
+         
         #pragma mark relativePath=applyaacsettings.html
         else if ([relativePath isEqualToString:@"/applyaacsettings.html"])
         {
@@ -497,8 +492,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSInteger stereoFlagValue = [stereoFlagString integerValue];
                 NSNumber * stereoFlagNumber = [NSNumber numberWithInteger:stereoFlagValue];
 
-                //NSMutableDictionary * frequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
-                
                 NSMutableDictionary * frequencyDictionary = self.constructFrequencyDictionary;
                 
                 if (frequencyDictionary == NULL)
@@ -622,9 +615,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             self.appDelegate.listenMode = kListenModeDevice;
         }
 
-        
-        
-        
 
         #pragma mark relativePath=nowplaying.html
         else if ([relativePath isEqualToString:@"/nowplaying.html"])
@@ -636,10 +626,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 nowPlayingNameString = @"";
             }
             [replacementDict setObject:nowPlayingNameString forKey:@"NOW_PLAYING_NAME"];
-            
-            //NSString * frequencyString = self.appDelegate.statusFrequencyTextField.stringValue;
-            //NSString * modulationString = self.appDelegate.statusModulationTextField.stringValue;
-            //NSString * sampleRateString = self.appDelegate.statusSamplingRateTextField.stringValue;
             
             if (self.appDelegate.statusFrequency == NULL)
             {
@@ -849,7 +835,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         {
         }
         #pragma mark relativePath=storefrequency.html
-        //else if ([method isEqualToString:@"POST"] && [relativePath isEqualToString:@"/storefrequency.html"])
         else if ([relativePath isEqualToString:@"/storefrequency.html"])
         {
             NSString * postString = nil;
@@ -934,24 +919,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     }
                 }
 
-                /*
-                NSString * frequencyMegahertzString = [frequencyDictionary objectForKey:@"frequency"];
-                NSInteger frequencyInteger = [self.appDelegate hertzWithString:frequencyMegahertzString];
-                NSNumber * frequencyNumber = [NSNumber numberWithInteger:frequencyInteger];
-                [frequencyDictionary setObject:frequencyNumber forKey:@"frequency"];
-                
-                NSString * frequencyScanEndMegahertzString = [frequencyDictionary objectForKey:@"frequency_scan_end"];
-                NSInteger frequencyScanEndInteger = [self.appDelegate hertzWithString:frequencyScanEndMegahertzString];
-                NSNumber * frequencyScanEndNumber = [NSNumber numberWithInteger:frequencyScanEndInteger];
-                [frequencyDictionary setObject:frequencyScanEndNumber forKey:@"frequency_scan_end"];
-                
-                NSString * frequencyScanIntervalMegahertzString = [frequencyDictionary objectForKey:@"frequency_scan_interval"];
-                //NSInteger frequencyScanIntervalInteger = [self.appDelegate hertzWithString:frequencyScanIntervalMegahertzString];
-                NSInteger frequencyScanIntervalInteger = [frequencyScanIntervalMegahertzString integerValue];
-                NSNumber * frequencyScanIntervalNumber = [NSNumber numberWithInteger:frequencyScanIntervalInteger];
-                [frequencyDictionary setObject:frequencyScanIntervalNumber forKey:@"frequency_scan_interval"];
-                */
-                
                 [self convertNumericFieldsInFrequencyDictionary:frequencyDictionary];
                 
                 [self.sqliteController storeRecord:frequencyDictionary table:@"frequency"];
@@ -1389,34 +1356,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                         }
                     }
                 }
-
-                /*
-                id frequencyMegahertzObject = [frequencyDictionary objectForKey:@"frequency"];
-                if ([frequencyMegahertzObject isKindOfClass:[NSString class]] == YES)
-                {
-                    NSInteger frequencyInteger = [self.appDelegate hertzWithString:frequencyMegahertzObject];
-                    NSNumber * frequencyNumber = [NSNumber numberWithInteger:frequencyInteger];
-                    [frequencyDictionary setObject:frequencyNumber forKey:@"frequency"];
-                }
-                
-                id frequencyScanEndMegahertzObject = [frequencyDictionary objectForKey:@"frequency_scan_end"];
-                if ([frequencyScanEndMegahertzObject isKindOfClass:[NSString class]] == YES)
-                {
-                    NSInteger frequencyScanEndInteger = [self.appDelegate hertzWithString:frequencyScanEndMegahertzObject];
-                    NSNumber * frequencyScanEndNumber = [NSNumber numberWithInteger:frequencyScanEndInteger];
-                    [frequencyDictionary setObject:frequencyScanEndNumber forKey:@"frequency_scan_end"];
-                }
-                
-                id frequencyScanIntervalMegahertzObject = [frequencyDictionary objectForKey:@"frequency_scan_interval"];
-                if ([frequencyScanIntervalMegahertzObject isKindOfClass:[NSString class]] == YES)
-                {
-                    //NSInteger frequencyScanIntervalInteger = [self.appDelegate hertzWithString:frequencyScanIntervalMegahertzObject];
-                    NSString * frequencyScanIntervalMegahertzString = frequencyScanIntervalMegahertzObject;
-                    NSInteger frequencyScanIntervalInteger = [frequencyScanIntervalMegahertzString integerValue];
-                    NSNumber * frequencyScanIntervalNumber = [NSNumber numberWithInteger:frequencyScanIntervalInteger];
-                    [frequencyDictionary setObject:frequencyScanIntervalNumber forKey:@"frequency_scan_interval"];
-                }
-                */
                 
                 [self convertNumericFieldsInFrequencyDictionary:frequencyDictionary];
 
@@ -1531,9 +1470,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     NSXMLElement * portElement = portResultArray.firstObject;
                     NSString * portString = portElement.stringValue;
                     
-                    //NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
-                    //NSString * aacURLString = [NSString stringWithFormat:@"https://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
-
                     m3uURLString = [NSString stringWithFormat:@"https://%@:%@/%@.aac", hostname, portString, icecastServerMountName];
                 }
             }
@@ -1785,16 +1721,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * frequencyNumericString = [frequencyNumber stringValue];
         NSString * frequencyString = [self.appDelegate shortHertzString:frequencyNumericString];
         
-        NSNumber * frequencyScanEndNumber = [favoriteDictionary objectForKey:@"frequency_scan_end"];
-        NSString * frequencyScanEndNumericString = [frequencyScanEndNumber stringValue];
-        NSString * frequencyScanEndString = [self.appDelegate shortHertzString:frequencyScanEndNumericString];
-        
-        NSNumber * frequencyScanIntervalNumber = [favoriteDictionary objectForKey:@"frequency_scan_interval"];
-        NSString * frequencyScanIntervalNumericString = [frequencyScanIntervalNumber stringValue];
-        NSString * frequencyScanIntervalString = [self.appDelegate shortHertzString:frequencyScanIntervalNumericString];
-        
-        NSString * stationNameString = [favoriteDictionary objectForKey:@"station_name"];
-        
         NSString * modulationString = [favoriteDictionary objectForKey:@"modulation"];
         
         NSNumber * sampleRateNumber = [favoriteDictionary objectForKey:@"sample_rate"];
@@ -1804,41 +1730,23 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSMutableString * formString = [NSMutableString string];
 
-
-
-        
-        //[formString appendString:@"<form action='listen.html'>"];
         [formString appendString:@"<form id='listenForm' action='#'>"];
         
         NSString * idInputString = [NSString stringWithFormat:@"<input type='hidden' name='id' value='%@'>", idString];
         [formString appendString:idInputString];
-
-        //NSString * listenButtonString = @"<br><input class='twelve columns button button-primary' type='submit' value='Listen'>";
-        //[formString appendString:listenButtonString];
 
         NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var listenForm=getElementById('listenForm'); listenButtonClicked(listenForm);\"  title=\"Click the Listen button to tune the RTL-SDR radio to the frequency shown above.  You may also need to click on the Play button in the audio controls below.\">";
         [formString appendString:listenButtonString];
 
         [formString appendString:@"</form>"];
         
-        //NSString * listenButtonString = @"<br><button class='button button-primary twelve columns' type='button' onclick=\"listenButtonClicked();\">Listen</button>";
-        //[formString appendString:listenButtonString];
-        
-        
-
-
-
         [formString appendFormat:@"<br><form action='javascript:loadContent(\"editfavorite.html?id=%@\")'>", idString];
 
         NSString * editButtonString = @"<br><input class='twelve columns button' type='submit' value='Edit'>";
         [formString appendString:editButtonString];
-
-        //[formString appendString:idInputString];
         
         [formString appendString:@"</form>"];
 
-        //[resultString appendFormat:@"id: %@<br>frequency: %@<br>name: %@<br>modulation: %@<br>bandwidth: %@<br><br>%@", idString, frequencyString, stationNameString, modulationString, bandwidthString, formString];
-        
         if ([modulationString isEqualToString:@"fm"] == YES)
         {
             if (stereoFlagNumber.integerValue == 1)
@@ -2051,14 +1959,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * frequencyNumericString = [frequencyNumber stringValue];
         NSString * frequencyString = [self.appDelegate shortHertzString:frequencyNumericString];
 
-        NSNumber * frequencyScanEndNumber = [favoriteDictionary objectForKey:@"frequency_scan_end"];
-        NSString * frequencyScanEndNumericString = [frequencyScanEndNumber stringValue];
-        NSString * frequencyScanEndString = [self.appDelegate shortHertzString:frequencyScanEndNumericString];
-        
-        NSNumber * frequencyScanIntervalNumber = [favoriteDictionary objectForKey:@"frequency_scan_interval"];
-        NSString * frequencyScanIntervalNumericString = [frequencyScanIntervalNumber stringValue];
-        NSString * frequencyScanIntervalString = [self.appDelegate shortHertzString:frequencyScanIntervalNumericString];
-        
         NSString * stationNameString = [favoriteDictionary objectForKey:@"station_name"];
         
         [tableString appendString:@"<tr>"];
@@ -2250,13 +2150,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
         NSString * icecastServerHost = [self.appDelegate localHostString];
 
-        NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
+        //NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
         NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
 
         NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-        //NSString * aacURLString = [NSString stringWithFormat:@"https://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPSPortNumber.integerValue, icecastServerMountName];
-        NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPPortNumber.integerValue, icecastServerMountName];
+        NSString * aacURLString = [NSString stringWithFormat:@"https://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPSPortNumber.integerValue, icecastServerMountName];
+        //NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPPortNumber.integerValue, icecastServerMountName];
 
         NSString * autoplayFlag = @"";
         NSString * audioPlayerJS = @"";
@@ -2422,14 +2322,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     for (NSDictionary * freqCatDictionary in freqCatQueryResultArray)
     {
-        //NSNumber * freqCatIDNumber = [freqCatDictionary objectForKey:@"id"];
-        //NSString * freqCatIDString = [freqCatIDNumber stringValue];
-        
         NSNumber * freqIDNumber = [freqCatDictionary objectForKey:@"freq_id"];
         NSString * freqIDString = [freqIDNumber stringValue];
-
-        //NSNumber * catIDNumber = [freqCatDictionary objectForKey:@"cat_id"];
-        //NSString * catIDString = [catIDNumber stringValue];
 
         NSDictionary * favoriteDictionary = [self.sqliteController frequencyRecordForID:freqIDString];
         if (favoriteDictionary != NULL)
@@ -2909,15 +2803,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 - (NSString *)generateEditFrequencyFormStringForFrequency:(NSDictionary *)favoriteDictionary
 {
-    //NSDictionary * favoriteDictionary = [self.sqliteController frequencyRecordForID:idString];
-
     NSMutableString * resultString = [NSMutableString string];
     
     if (favoriteDictionary != NULL)
     {
         NSNumber * idNumber = [favoriteDictionary objectForKey:@"id"];
         NSInteger idInteger = [idNumber integerValue];
-        //NSString * idString = [idNumber stringValue];
 
         NSString * stationNameString = [favoriteDictionary objectForKey:@"station_name"];
         
@@ -2933,18 +2824,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * frequencyScanEndString = [self.appDelegate shortHertzString:frequencyScanEndNumericString];
         
         NSNumber * frequencyScanIntervalNumber = [favoriteDictionary objectForKey:@"frequency_scan_interval"];
-        //NSString * frequencyScanIntervalNumericString = [frequencyScanIntervalNumber stringValue];
-        //NSString * frequencyScanIntervalString = [self.appDelegate shortHertzString:frequencyScanIntervalNumericString];
         NSString * frequencyScanIntervalString = [frequencyScanIntervalNumber stringValue];
 
         NSNumber * tunerGainNumber = [favoriteDictionary objectForKey:@"tuner_gain"];
         NSString * tunerGainString = [tunerGainNumber stringValue];
 
         NSNumber * tunerAGCNumber = [favoriteDictionary objectForKey:@"tuner_agc"];
-        //NSString * tunerAGCString = [tunerAGCNumber stringValue];
 
         NSNumber * samplingModeNumber = [favoriteDictionary objectForKey:@"sampling_mode"];
-        //NSString * samplingModeString = [samplingModeNumber stringValue];
 
         NSNumber * sampleRateNumber = [favoriteDictionary objectForKey:@"sample_rate"];
         NSString * sampleRateString = [sampleRateNumber stringValue];
@@ -2966,8 +2853,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSString * audioOutputFilterString = [favoriteDictionary objectForKey:@"audio_output_filter"];
 
-        //NSString * stereoFlagString = [favoriteDictionary objectForKey:@"stereo_flag"];
-        //NSNumber * stereoFlagNumber = [NSNumber numberWithInteger:stereoFlagString.integerValue];
         // apparently stereo_flag's type is getting clobbered by form results, can be string or number
         NSNumber * stereoFlagNumber = NULL;
         NSString * stereoFlagString = NULL;
@@ -3444,13 +3329,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * frequencyNumericString = [frequencyNumber stringValue];
         NSString * frequencyString = [self.appDelegate shortHertzString:frequencyNumericString];
 
-        NSNumber * frequencyScanEndNumber = [favoriteDictionary objectForKey:@"frequency_scan_end"];
-        NSString * frequencyScanEndNumericString = [frequencyScanEndNumber stringValue];
-        NSString * frequencyScanEndString = [self.appDelegate shortHertzString:frequencyScanEndNumericString];
+        //NSNumber * frequencyScanEndNumber = [favoriteDictionary objectForKey:@"frequency_scan_end"];
+        //NSString * frequencyScanEndNumericString = [frequencyScanEndNumber stringValue];
+        //NSString * frequencyScanEndString = [self.appDelegate shortHertzString:frequencyScanEndNumericString];
         
-        NSNumber * frequencyScanIntervalNumber = [favoriteDictionary objectForKey:@"frequency_scan_interval"];
-        NSString * frequencyScanIntervalNumericString = [frequencyScanIntervalNumber stringValue];
-        NSString * frequencyScanIntervalString = [self.appDelegate shortHertzString:frequencyScanIntervalNumericString];
+        //NSNumber * frequencyScanIntervalNumber = [favoriteDictionary objectForKey:@"frequency_scan_interval"];
+        //NSString * frequencyScanIntervalNumericString = [frequencyScanIntervalNumber stringValue];
+        //NSString * frequencyScanIntervalString = [self.appDelegate shortHertzString:frequencyScanIntervalNumericString];
         
         [resultString appendString:@"<tr>"];
         
@@ -3503,33 +3388,16 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     for (NSDictionary * favoriteDictionary in allFrequenciesArray)
     {
         NSNumber * idNumber = [favoriteDictionary objectForKey:@"id"];
-        //NSString * idString = [idNumber stringValue];
         
         NSNumber * frequencyNumber = [favoriteDictionary objectForKey:@"frequency"];
         NSString * frequencyNumericString = [frequencyNumber stringValue];
         NSString * frequencyString = [self.appDelegate shortHertzString:frequencyNumericString];
-
-        NSNumber * frequencyScanEndNumber = [favoriteDictionary objectForKey:@"frequency_scan_end"];
-        NSString * frequencyScanEndNumericString = [frequencyScanEndNumber stringValue];
-        NSString * frequencyScanEndString = [self.appDelegate shortHertzString:frequencyScanEndNumericString];
-        
-        NSNumber * frequencyScanIntervalNumber = [favoriteDictionary objectForKey:@"frequency_scan_interval"];
-        NSString * frequencyScanIntervalNumericString = [frequencyScanIntervalNumber stringValue];
-        NSString * frequencyScanIntervalString = [self.appDelegate shortHertzString:frequencyScanIntervalNumericString];
         
         NSString * stationNameString = [favoriteDictionary objectForKey:@"station_name"];
         
-        //NSString * modulationString = [favoriteDictionary objectForKey:@"modulation"];
-        
-        //NSNumber * bandwidthNumber = [favoriteDictionary objectForKey:@"bandwidth"];
-        //NSString * bandwidthString = [bandwidthNumber stringValue];
-    
         [tableString appendString:@"<tr>"];
         
         [tableString appendString:@"<td>"];
-        
-        //NSString * buttonString = [NSString stringWithFormat:@"<a class='twelve columns button button-primary' type='submit' href='viewfavorite.html?id=%@'>%@</a>", idString, idString];
-        //[tableString appendString:buttonString];
         
         NSString * checkedFlagString = @"";
         NSInteger cat_id = categoryIDString.integerValue;
@@ -3542,7 +3410,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             checkedFlagString = @"checked";
         }
         
-        //NSString * checkboxString = [NSString stringWithFormat:@"<input type='checkbox' class='checkbox' onclick='handleEditCategoryClick(this);' cat_id='%@' freq_id='%@' %@>&nbsp;%@</input>\n", categoryIDString, idNumber, checkedFlagString, idNumber];
         NSString * checkboxString = [NSString stringWithFormat:@"<input type='checkbox' class='checkbox' onclick='handleEditCategoryClick(this);' cat_id='%@' freq_id='%@' %@></input>\n", categoryIDString, idNumber, checkedFlagString];
         [tableString appendString:checkboxString];
         
@@ -3614,8 +3481,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     
     NSMutableString * formNewCategoryString = [NSMutableString string];
-    
-    //[formNewCategoryString appendString:@"<form class='new-category-form' id='new-category-form' onsubmit='event.preventDefault(); return addCategory(this);' method='POST'>\n"];
     
     [formNewCategoryString appendString:@"<form class='new-category-form' id='new-category-form' action='javascript:loadContent(\"addcategoryform.html\")'"];
 
@@ -3708,11 +3573,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
     NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-    //NSString * audioURLString = [NSString stringWithFormat:@"window.location='https://%@:%@/%@'", hostString, icecastServerHTTPSPortNumber, icecastServerMountName];
-    //NSString * audioURLString = [NSString stringWithFormat:@"location.href='https://%@:%@/%@'", hostString, icecastServerHTTPSPortNumber, icecastServerMountName];
     NSString * audioURLString = [NSString stringWithFormat:@"https://%@:%@/%@", hostString, icecastServerHTTPSPortNumber, icecastServerMountName];
-
-    //NSString * listenButtonString = [NSString stringWithFormat:@"<button class='button button-primary twelve columns' type='button' onclick=\"%@\" target='_parent'>Open Audio Player Page</button>", audioURLString];
 
     NSString * listenButtonString = [NSString stringWithFormat:@"<a href='%@' target='_top'><button class='button button-primary twelve columns' type='button'>Open Audio Player Page</button></a>", audioURLString];
 
@@ -3735,6 +3596,41 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 - (NSData *)requestMessageData
 {
     return [request messageData];
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark HTTPS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Returns whether or not the server is configured to be a secure server.
+ * In other words, all connections to this server are immediately secured, thus only secure connections are allowed.
+ * This is the equivalent of having an https server, where it is assumed that all connections must be secure.
+ * If this is the case, then unsecure connections will not be allowed on this server, and a separate unsecure server
+ * would need to be run on a separate port in order to support unsecure connections.
+ *
+ * Note: In order to support secure connections, the sslIdentityAndCertificates method must be implemented.
+**/
+- (BOOL)isSecureServer
+{
+    // Create an HTTPS server (all connections will be secured via SSL/TLS)
+    return YES;
+}
+
+/**
+ * This method is expected to returns an array appropriate for use in kCFStreamSSLCertificates SSL Settings.
+ * It should be an array of SecCertificateRefs except for the first element in the array, which is a SecIdentityRef.
+**/
+- (NSArray *)sslIdentityAndCertificates
+{
+    NSArray *result = [DDKeychain SSLIdentityAndCertificates];
+    if([result count] == 0)
+    {
+        HTTPLogInfo(@"sslIdentityAndCertificates: Creating New Identity...");
+        [DDKeychain createNewIdentity];
+        return [DDKeychain SSLIdentityAndCertificates];
+    }
+    return result;
 }
 
 @end

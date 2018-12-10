@@ -99,7 +99,7 @@ int runIcecastSource()
 
     // Use http, not https, sending to server on same host
     char urlString[256];
-    snprintf((char *)&urlString, 255, "http://%s/localradio.aac", argHost);
+    snprintf((char *)&urlString, 255, "http://%s/localradio.aac", argHost); // use http - not https - for source connection
     if (shout_set_url(shout, (char *)&urlString) != SHOUTERR_SUCCESS) {
         fprintf(stderr, "IcecastSourceClient - Error setting mount: %s\n", shout_get_error(shout));
         return 1;

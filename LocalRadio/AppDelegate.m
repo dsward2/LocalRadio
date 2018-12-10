@@ -599,7 +599,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSString * portString = [self portString];
     NSInteger portInteger = portString.integerValue;
 
-    NSString * urlString = [NSString stringWithFormat:@"http://%@:%ld", hostString, portInteger];
+    NSString * urlString = [NSString stringWithFormat:@"https://%@:%ld", hostString, portInteger];
     
     return urlString;
 }
@@ -908,7 +908,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     if (httpServerPortNumber != NULL)
     {
-        self.httpServerURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", httpHostName, httpServerPortNumber.integerValue];
+        self.httpServerURLTextField.stringValue = [NSString stringWithFormat:@"https://%@:%ld", httpHostName, httpServerPortNumber.integerValue];
     }
     else
     {
@@ -935,7 +935,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     if (httpServerPortNumber != NULL)
     {
-        self.editHttpServerURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", httpHostName, httpServerPortNumber.integerValue];
+        self.editHttpServerURLTextField.stringValue = [NSString stringWithFormat:@"https://%@:%ld", httpHostName, httpServerPortNumber.integerValue];
     }
     else
     {
@@ -974,8 +974,8 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         self.icecastServerHTTPPortTextField.integerValue = icecastServerHTTPPortNumber.integerValue;
         if (icecastServerHTTPSPortNumber == NULL)
         {
-            self.icecastServerWebURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", icecastServerHost, icecastServerHTTPPortNumber.integerValue];
-            self.statusIcecastURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", icecastServerHost, icecastServerHTTPPortNumber.integerValue];
+            self.icecastServerWebURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", icecastServerHost, icecastServerHTTPPortNumber.integerValue];  // fallback to http
+            self.statusIcecastURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", icecastServerHost, icecastServerHTTPPortNumber.integerValue];  // fallback to http
         }
     }
     else

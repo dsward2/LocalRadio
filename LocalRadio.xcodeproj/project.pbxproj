@@ -71,6 +71,7 @@
 		0E1BA16C1EC8A0C200130DB9 /* libsox.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA1281EC8A09700130DB9 /* libsox.3.dylib */; };
 		0E1BA1721EC8A0C200130DB9 /* libtwolame.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA12E1EC8A09700130DB9 /* libtwolame.0.dylib */; };
 		0E1BA1731EC8A0C200130DB9 /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA12F1EC8A09700130DB9 /* libusb-1.0.0.dylib */; };
+		0E1F694821BEFF2A00A1F356 /* DDKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F694721BEFF2900A1F356 /* DDKeychain.m */; };
 		0E28BE6B1F2B6A48005999FB /* UDPStatusListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */; };
 		0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */; };
 		0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */; };
@@ -1086,6 +1087,8 @@
 		0E1BA1311EC8A09700130DB9 /* libvorbisenc.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvorbisenc.2.dylib; sourceTree = "<group>"; };
 		0E1BA1321EC8A09700130DB9 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		0E1BA1331EC8A09700130DB9 /* libwavpack.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libwavpack.1.dylib; sourceTree = "<group>"; };
+		0E1F68F821BEFF2800A1F356 /* DDKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDKeychain.h; sourceTree = "<group>"; };
+		0E1F694721BEFF2900A1F356 /* DDKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDKeychain.m; sourceTree = "<group>"; };
 		0E207E721F1DA81C001AA972 /* editcategorysettings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editcategorysettings.html; sourceTree = "<group>"; };
 		0E207E981F1DCA99001AA972 /* storecategory.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = storecategory.html; sourceTree = "<group>"; };
 		0E23B3141F1F36ED00565394 /* SoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoxController.h; sourceTree = "<group>"; };
@@ -3600,6 +3603,8 @@
 				0E32F8E31FEBA01600492813 /* TaskItem.m */,
 				0E027D642185A4500030B6C1 /* LocalRadioAPI.h */,
 				0E027D652185A4500030B6C1 /* LocalRadioAPI.m */,
+				0E1F68F821BEFF2800A1F356 /* DDKeychain.h */,
+				0E1F694721BEFF2900A1F356 /* DDKeychain.m */,
 				0E84C9711ED8DA650065864B /* WebServerConnection.h */,
 				0E84C9721ED8DA650065864B /* WebServerConnection.m */,
 				0E4ED1AB1EAB823B00D2157B /* WebServerController.h */,
@@ -7449,6 +7454,7 @@
 				0E4ECFC31EAB633B00D2157B /* main.m in Sources */,
 				0E4ED1901EAB7E5700D2157B /* HTTPFileResponse.m in Sources */,
 				0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */,
+				0E1F694821BEFF2A00A1F356 /* DDKeychain.m in Sources */,
 				0EC207671EDCE11A006899EB /* SDRController.m in Sources */,
 				0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */,
 				0ED06E3B215F354800430953 /* IcecastSourceController.m in Sources */,
