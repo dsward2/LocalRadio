@@ -1,5 +1,7 @@
 #!/bin/sh
 
+exit;   # omit rtl_sdr tools for now
+
 # echo SRCROOT = ${SRCROOT}
 
 # modify runtime PATH environment to find MacPorts tools first, particularily the cmake tools

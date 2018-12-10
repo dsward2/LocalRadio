@@ -1,0 +1,15 @@
+# libshout pkg-config source file
+
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+cppflags= -I/usr/local/include -I/opt/local/include -D_THREAD_SAFE
+cflags_only=
+
+Name: Shout
+Description: Audio streaming library for icecast encoders
+Version: 2.4.1
+Requires.private: ogg, vorbis, theora, speex
+Libs: -L${libdir} -lshout
+Cflags: -I${includedir} -D_THREAD_SAFE  

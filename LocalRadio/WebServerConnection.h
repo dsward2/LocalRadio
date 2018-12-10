@@ -30,5 +30,7 @@
 - (void)listenButtonClickedForFrequencyID:(NSString *)frequencyIDString;
 - (void)listenButtonClickedForFrequency:(NSMutableDictionary *)favoriteDictionary;
 
+- (NSData *)requestBody;
+- (NSData *)requestMessageData;
 
 @end

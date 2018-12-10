@@ -6,6 +6,10 @@
 //  Copyright © 2018 ArkPhone LLC. All rights reserved.
 //
 
+//  Our strategy is to configure two Icecast streaming ports for the LocalRadio.aac mount: http and https.
+//  We use the unencrypted http port to send source audio to the Icecast server on the same host, which
+//  automatically provides the same audio data for http and https streaming from Icecast.
+
 //  Code sign note: use inherited entitlements
 //  https://stackoverflow.com/questions/11821632/mac-os-app-sandbox-with-command-line-tool
 
@@ -42,6 +46,8 @@
 //      < Access-Control-Allow-Origin: *
 //      > [ Stream data sent by cient ]
 //      < HTTP/1.0 200 OK
+
+
 
 @import Foundation;
 
@@ -83,6 +89,9 @@
 
 
 #define OPProcessValueUnknown UINT_MAX
+//#define USE_SECURE_CONNECTION 1
+//#define MANUALLY_EVALUATE_TRUST 1
+
 
 
 #pragma mark * Main
@@ -105,6 +114,7 @@ NSString * userName;
 NSString * password;
 NSString * host;
 NSString * icecastMountName;
+NSString * iceURLString;
 BOOL readyToSend;
 int port;
 int bitrate;
@@ -232,6 +242,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
                     //NSLog(@"IcecastSource sent %lu bytes\n", (unsigned long)[bufferData length]);
 
                     //fwrite(buf, bytesAvailableCount, 1, stdout);    // also write a copy to stdout, perhaps for sox, etc.
+                    //fflush(stdout);
                 }
             }
             free(buf);
@@ -316,14 +327,16 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     // There it will find, dequeue and execute our request to start the TLS security protocol.
     //
     // The options passed to the startTLS method are fully documented in the GCDAsyncSocket header file.
-    
+
+
     #if MANUALLY_EVALUATE_TRUST
     {
         // Use socket:shouldTrustPeer: delegate method for manual trust evaluation
         
         NSDictionary *options = @{
             GCDAsyncSocketManuallyEvaluateTrust : @(YES),
-            GCDAsyncSocketSSLPeerName : CERT_HOST
+            //GCDAsyncSocketSSLPeerName : CERT_HOST,
+            GCDAsyncSocketSSLPeerName : host,
         };
         
         NSLog(@"IcecastSource Requesting StartTLS with options:\n%@", options);
@@ -334,7 +347,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
         // Use default trust evaluation, and provide basic security parameters
         
         NSDictionary *options = @{
-            GCDAsyncSocketSSLPeerName : CERT_HOST
+            GCDAsyncSocketSSLPeerName : CERT_HOST,
         };
         
         NSLog(@"IcecastSource Requesting StartTLS with options:\n%@", options);
@@ -347,7 +360,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-    NSLog(@"IcecastSource socket: didConnectToHost:%@ port:%hu", host, port);
+    NSLog(@"IcecastSource socket: didConnectToHost:%@ port:%hu, client port: %hu", host, port, sock.localPort);
     
     // HTTP is a really simple protocol.
     //
@@ -378,8 +391,8 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
     NSString * authorizationString = [self base64Data:authData];
 
-    //NSString * streamURLString = [NSString stringWithFormat:@"http://%@:%hu/localradio.aac", host, port];
-    NSString * streamURLString = [NSString stringWithFormat:@"http://%@:%hu/%@", host, port, icecastMountName];
+    //NSString * streamURLString = [NSString stringWithFormat:@"https://%@:%hu/localradio.aac", host, port];
+    NSString * streamURLString = [NSString stringWithFormat:@"https://%@:%hu/%@", host, port, icecastMountName];
 
     //NSString * iceBitrate = @"64";
     NSString * iceBitrate = [NSString stringWithFormat:@"%d", bitrate / 1000]; // 32, 64 or 128
@@ -415,7 +428,9 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
             @"\r\n\r\n";        // end of HTTP header
 
 
-    NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, icecastMountName, host, authorizationString, formatString, streamURLString, iceBitrate, iceAudioInfo];
+    //NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, icecastMountName, host, authorizationString, formatString, streamURLString, iceBitrate, iceAudioInfo];
+    NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, icecastMountName, host, authorizationString, formatString, iceURLString, iceBitrate, iceAudioInfo];
+    
     NSData *requestData = [requestStr dataUsingEncoding:NSUTF8StringEncoding];
     
     [icecastSourceSocket writeData:requestData withTimeout:-1.0 tag:0];
@@ -458,7 +473,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 - (void)socket:(GCDAsyncSocket *)sock didReceiveTrust:(SecTrustRef)trust
                                     completionHandler:(void (^)(BOOL shouldTrustPeer))completionHandler
 {
-    NSLog(@"IcecastSource socket:shouldTrustPeer:");
+    NSLog(@"IcecastSource socket:didReceiveTrust:");
     
     dispatch_queue_t bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(bgQueue, ^{
@@ -466,14 +481,44 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
         // This is where you would (eventually) invoke SecTrustEvaluate.
         // Presumably, if you're using manual trust evaluation, you're likely doing extra stuff here.
         // For example, allowing a specific self-signed certificate that is known to the app.
+
+        //SecTrustResultType result = kSecTrustResultDeny;
+        SecTrustResultType result = kSecTrustResultProceed;
+
+
+
+
+
+
+        OSStatus anchorStatus = SecTrustSetAnchorCertificates(trust, (CFArrayRef)[NSArray array]); // no anchors
+        OSStatus keychainsStatus = SecTrustSetKeychains(trust, (CFArrayRef)[NSArray array]); // no keychains
+
+
+        CSSM_APPLE_TP_ACTION_DATA tp_action_data;
+        memset(&tp_action_data, 0, sizeof(tp_action_data));
+        tp_action_data.Version = CSSM_APPLE_TP_ACTION_VERSION;
+        tp_action_data.ActionFlags = CSSM_TP_ACTION_IMPLICIT_ANCHORS;
+
+        CFDataRef action_data_ref =
+                CFDataCreateWithBytesNoCopy(kCFAllocatorDefault,
+                (UInt8 *)&tp_action_data,
+                sizeof(tp_action_data), kCFAllocatorNull);
         
-        SecTrustResultType result = kSecTrustResultDeny;
+        OSStatus secTrustStatus = SecTrustSetParameters(trust, CSSM_TP_ACTION_DEFAULT,
+                                 action_data_ref);
+
+
+
+
+
         OSStatus status = SecTrustEvaluate(trust, &result);
         
         if (status == noErr && (result == kSecTrustResultProceed || result == kSecTrustResultUnspecified)) {
+            NSLog(@"IcecastSource SecTrustEvaluate completed");
             completionHandler(YES);
         }
         else {
+            NSLog(@"IcecastSource SecTrustEvaluate failed");
             completionHandler(NO);
         }
     });
@@ -530,7 +575,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-    // Since we requested HTTP/1.0, we expect the server to close the connection as soon as it has sent the response.
+    // If we requested HTTP/1.0, we expect the server to close the connection as soon as it has sent the response.
     
     NSLog(@"IcecastSource socketDidDisconnect:%p withError:%@", sock, err);
 }
@@ -603,6 +648,7 @@ int main(int argc, char **argv)
         char const * argPort = "17003";
         char const * argBitrate = "64000";
         char const * argIcecastMountName = "localradio.aac";
+        char const * argIceURL = "https://localhost:17004";      // for display only, we indicate the https link
 
         for (int i = 0; i < argc; i++)
         {
@@ -662,6 +708,15 @@ int main(int argc, char **argv)
                 argIcecastMountName = argStringPtr;
                 argMode = "";
             }
+            else if (strcmp(argStringPtr, "-o") == 0)   // Ice-URL, audio stream for display on Icecast web page
+            {
+                argMode = argStringPtr;
+            }
+            else if (strcmp(argMode, "-o") == 0)
+            {
+                argIceURL = argStringPtr;
+                argMode = "";
+            }
         }
         
         host = [[NSString alloc] initWithCString:argHost encoding:NSUTF8StringEncoding];
@@ -671,6 +726,7 @@ int main(int argc, char **argv)
         userName = [[NSString alloc] initWithCString:argUserName encoding:NSUTF8StringEncoding];
         password = [[NSString alloc] initWithCString:argPassword encoding:NSUTF8StringEncoding];
         icecastMountName = [[NSString alloc] initWithCString:argIcecastMountName encoding:NSUTF8StringEncoding];
+        iceURLString = [[NSString alloc] initWithCString:argIceURL encoding:NSUTF8StringEncoding];
 
         if ( (port > 0) && (port < 65536) )
         {

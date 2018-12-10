@@ -119,14 +119,17 @@
     [aacEncoderTaskItem addArgument:self.appDelegate.aacBitrate];
 
     TaskItem * icecastSourceTaskItem = [self.icecastSourceTaskPipelineManager makeTaskItemWithExecutable:@"IcecastSource" functionName:@"IcecastSource"];
+    //TaskItem * icecastSourceTaskItem = [self.icecastSourceTaskPipelineManager makeTaskItemWithExecutable:@"IcecastSourceClient" functionName:@"IcecastSourceClient"];
 
     // Set IcecastSource arguments
     NSString * hostName = self.appDelegate.localHostString;
     [icecastSourceTaskItem addArgument:@"-h"];
     [icecastSourceTaskItem addArgument:hostName];
-
+    
+    // We use the non-encrypted HTTP port for the source connection, since the server is local
+    NSString * httpPortString = [NSString stringWithFormat:@"%ld", self.appDelegate.icecastServerHTTPPort];
     [icecastSourceTaskItem addArgument:@"-p"];      // port
-    [icecastSourceTaskItem addArgument:@"17003"];
+    [icecastSourceTaskItem addArgument:httpPortString];
 
     [icecastSourceTaskItem addArgument:@"-b"];     // bitrate
     [icecastSourceTaskItem addArgument:self.appDelegate.aacBitrate];
@@ -140,7 +143,17 @@
     [icecastSourceTaskItem addArgument:icecastServerSourcePassword];
 
     [icecastSourceTaskItem addArgument:@"-m"];      // Icecast mount name
-    [icecastSourceTaskItem addArgument:self.appDelegate.icecastServerMountNameTextField.stringValue];
+    [icecastSourceTaskItem addArgument:self.appDelegate.icecastServerMountName];
+
+    NSString * httpsStreamURLString = [NSString stringWithFormat:@"https://%@:%ld/%@", hostName, self.appDelegate.icecastServerHTTPSPort, self.appDelegate.icecastServerMountName];
+
+    [icecastSourceTaskItem addArgument:@"-o"];      // Icecast stream URL for display on Icecast web page
+    [icecastSourceTaskItem addArgument:httpsStreamURLString];
+
+    //NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+    
+    //[icecastSourceTaskItem addArgument:@"-cp"];      // icecast libshout certificates path
+    //[icecastSourceTaskItem addArgument:applicationSupportDirectoryPath];
 
     // Create NSTasks
     @synchronized (self.icecastSourceTaskPipelineManager)

@@ -509,6 +509,8 @@ void audioQueueCallback(void *custom_data, AudioQueueRef queue, AudioQueueBuffer
 
                 fwrite(convertedDataPtr, convertedDataLength, 1, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
                 
+                fflush(stdout);
+                
                 bool  produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
 
                 if (produceBytesResult == false)

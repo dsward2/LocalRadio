@@ -203,7 +203,7 @@
     NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
     NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
-    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+    NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
 
     NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
     
@@ -226,7 +226,7 @@
         icecastHost = icecastServerHost;
     }
     
-    NSString * icecastPort = [NSString stringWithFormat:@"%ld", icecastServerPortNumber.integerValue];
+    NSString * icecastPort = [NSString stringWithFormat:@"%ld", icecastServerHTTPPortNumber.integerValue];
     
     NSString * ezStreamURLString = [NSString stringWithFormat:@"http://%@:%@/%@",
             icecastHost, icecastPort, icecastServerMountName];

@@ -1,0 +1,20 @@
+LocalRadio does not use the MacPorts version of libshout.  Instead, a modified version of libshout is embedded in the LocalRadio.app bundle to support AAC is used in this project:
+https://github.com/bgeiser/Icecast-libshout
+
+Install MacPorts autoconf (and other required libraries, etc.)
+
+Add Icecast M4 macros to the libshout m4 directory:
+https://github.com/xiph/Icecast-m4
+
+Add Icecast common files to src/common directory:
+https://github.com/xiph/Icecast-common
+
+run autogen.sh and configure in terminal before Xcode make
+
+The produced library should be copied into the MacPorts Libraries directory, and added to Copy Libraries build phase
+
+In the app bundle, the library should be at /Applications/LocalRadio.app/Contents/Frameworks/libshout.3.dylib
+
+
+(A different implementation of AAC - without TLS support - https://github.com/codders/libshout)
+

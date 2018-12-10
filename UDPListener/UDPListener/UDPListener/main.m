@@ -74,14 +74,14 @@
     //NSTimeInterval interval = currentTime - self.lastSendTime;
     NSTimeInterval interval = currentTime - self.lastReceiveTime;
     
-    if (interval > 4.0f)
+    if (interval >= 1.12f) // 28 ms * 4
     {
         // audio input was not received recently, send some white noise to EZStream to keep Icecast connection alive
 
         //NSLog(@"UDPListener sending binary zeros to stdout");
         
         [self sendDataToStdout:self.whiteNoiseData];
-        
+
         //self.lastReceiveTime = currentTime;
     }
 }
@@ -140,10 +140,10 @@
     {
         [self pollAudio];
 
-        CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.25, false);
+        CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.025, false);
 
         //[NSThread sleepForTimeInterval:pollingInterval];
-        usleep(1000);
+        usleep(5000);
     }
     
     return YES;
@@ -155,8 +155,6 @@
 - (void)sendDataToStdout:(NSData *)streamData
 {
     @synchronized (self) {
-        //NSString *msg = [[NSString alloc] initWithData:streamData encoding:NSUTF8StringEncoding];
-        
         NSInteger dataLength = streamData.length;
         void * dataPtr = (void *)streamData.bytes;
 
@@ -167,9 +165,11 @@
             NSLog(@"UDPListener sendDataToStdout error writeResult=%zu, dataLength=%ld", writeResult, dataLength);
         }
         
-        //fflush(stdout);
+        fflush(stdout);
         
         self.lastSendTime = [NSDate timeIntervalSinceReferenceDate];
+        
+        //NSLog(@"UDPListener sendDataToStdout streamData.length = %lu", (unsigned long)streamData.length);
     }
 }
 

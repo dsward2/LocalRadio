@@ -937,9 +937,14 @@ void startAudioConverter()
         //audioConverterOutputDescription.mFormatID = kAudioFormatMPEG4AAC_HE_V2;
 
         //audioConverterOutputDescription.mFormatFlags = kMPEG4Object_AAC_SBR;
-        audioConverterOutputDescription.mFormatFlags = 0;
+        //audioConverterOutputDescription.mFormatFlags = kMPEG4Object_AAC_LC;
+        //audioConverterOutputDescription.mFormatFlags = 0;
 
+        //audioConverterOutputDescription.mFramesPerPacket = 1024;
         audioConverterOutputDescription.mFramesPerPacket = 2048;    // for AAC-HE per https://lists.apple.com/archives/coreaudio-api/2011/Mar/msg00176.html
+        //audioConverterOutputDescription.mFramesPerPacket = 1536;    // per kAudioConverterPropertyMaximumOutputPacketSize
+        //audioConverterOutputDescription.mFramesPerPacket = 3072;    // per kAudioConverterPropertyMaximumOutputPacketSize
+        //audioConverterOutputDescription.mFramesPerPacket = 0;
     }
 
     logDescription(&audioConverterOutputDescription, "audioConverterOutputDescription");
@@ -994,7 +999,7 @@ void startAudioConverter()
     */
 
     
-    logAudioConverterProperties();
+    //logAudioConverterProperties();        // this is a good place to log audio converter properties
 }
 
 //==================================================================================
@@ -1122,7 +1127,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
             &audioConverterOutputBufferList,     // AudioBufferList *outOutputData
             &outputPacketDescriptions            // AudioStreamPacketDescription *outPacketDescription
             );
-    
+
     //fprintf(stderr, "AACEncoder convertBuffer AudioConverterFillComplexBuffer result = %d, outputDataPacketSize = %d\n", convertResult, outputDataPacketSize);
 
     if ((convertResult == noErr) || (convertResult == 'zero'))
@@ -1130,16 +1135,11 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
         if (outputDataPacketSize > 0)   // number of packets converted
         {
             // produce encoded audio to stdout
-
-            SInt64  mStartOffset = outputPacketDescriptions.mStartOffset;
-            UInt32  mVariableFramesInPacket = outputPacketDescriptions.mVariableFramesInPacket;
-            UInt32  mDataByteSize = outputPacketDescriptions.mDataByteSize;
-            #pragma unused(mStartOffset, mVariableFramesInPacket, mDataByteSize)
-
+            
             int32_t convertedDataLength = audioConverterOutputBufferList.mBuffers[0].mDataByteSize;
             void * convertedDataPtr = audioConverterOutputBufferList.mBuffers[0].mData;
 
-            //fprintf(stderr, "AACEncoder convertBuffer AudioConverterFillComplexBuffer mStartOffset = %lld, mVariableFramesInPacket = %d, mDataByteSize = %d, convertedDataLength = %d\n", mStartOffset, mVariableFramesInPacket, mDataByteSize, convertedDataLength);
+            //fprintf(stderr, "AACEncoder convertBuffer AudioConverterFillComplexBuffer mStartOffset = %lld, mVariableFramesInPacket = %d, mDataByteSize = %d\n", mStartOffset, mVariableFramesInPacket, mDataByteSize);
             
             // format ADTS header per  https://wiki.multimedia.cx/index.php/ADTS
             // ADTS header decoder: http://www.p23.nl/projects/aac-header/
@@ -1152,17 +1152,6 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
             UInt32 chanCfg = 2;        // channels
             UInt32 fullLength = adtsHeaderLength + convertedDataLength;
             
-            /*
-            // adapted from https://github.com/JQJoe/AACEncodeAndDecode
-            adtsHeader[0] = (UInt8)0xFF;     // syncword
-            adtsHeader[1] = (UInt8)0xF9;     // syncword, mpeg version, layer, CRC protection absent
-            adtsHeader[2] = (UInt8)(((profile-1)<<6) + (freqIdx<<2) + (chanCfg>>2));  // profile, sampling frequency index, private bit, channel configuration
-            adtsHeader[3] = (UInt8)(((chanCfg&3)<<6) + (fullLength>>11));    // channel configuration, originality, home, copyrighted, copyright id, frame length
-            adtsHeader[4] = (UInt8)((fullLength&0x7FF) >> 3);    // frame length
-            adtsHeader[5] = (UInt8)(((fullLength&7)<<5) + 0x1F); // frame length, buffer fullness
-            adtsHeader[6] = (UInt8)0xFC;     // buffer fullness, number of aac frames minus one
-            */
-
             // adapted from http://lists.live555.com/pipermail/live-devel/2009-August/011113.html
             /* Sync point over a full byte */
             adtsHeader[0] = 0xFF;
@@ -1223,6 +1212,8 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
             memcpy(adtsPacketPtr + 7, convertedDataPtr, convertedDataLength);
 
             fwrite(adtsPacketPtr, packetLength, 1, stdout);   // write ADTS packet
+            
+            fflush(stdout);
             
             if (outputPacketCount == 0)
             {
@@ -1318,7 +1309,7 @@ void * runAudioConverterOnThread(void * ptr)
                 int32_t bytesConsumedCount = bytesAvailableCount;
 
                 int32_t maxBytesCount = (inputChannels * sizeof(SInt16) * 1024);    // 1024 samples = 2048 for one channel, 4096 for two channels
-
+                
                 if (bytesConsumedCount > maxBytesCount)
                 {
                     bytesConsumedCount = maxBytesCount;     // kAudioConverterPropertyMaximumInputBufferSize = 4100

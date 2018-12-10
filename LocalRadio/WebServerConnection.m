@@ -17,6 +17,7 @@
 #import "NSFileManager+DirectoryLocations.h"
 #import "HTTPMessage.h"
 #import "UDPStatusListenerController.h"
+#import "LocalRadioAPI.h"
 
 #import <AudioToolbox/AudioServices.h>
 
@@ -147,6 +148,12 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             
             return requestContentLength < 4096;
         }
+        else if ([path isEqualToString:@"/localradio_api.html"])
+        {
+            // Let's be extra cautious, and make sure the upload isn't 5 gigs
+            
+            return requestContentLength < 4096;
+        }
 	}
 	
 	return [super supportsMethod:method atPath:path];
@@ -156,7 +163,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 //	expectsRequestBodyFromMethod:atPath:
 //==================================================================================
 
-/*
 - (BOOL)expectsRequestBodyFromMethod:(NSString *)method atPath:(NSString *)path
 {
 	HTTPLogTrace();
@@ -168,7 +174,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 	
 	return [super expectsRequestBodyFromMethod:method atPath:path];
 }
-*/
 
 //==================================================================================
 //	httpResponseForMethod:URI:
@@ -194,17 +199,15 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     {
         if ([path isEqualToString:@"/nowplayingstatus.html"] == NO)
         {
-            NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
-        }
-        else if ([self.previousPath isEqualToString:@"/nowplayingstatus.html"] == NO)
-        {
-            // only log the first consecutive request for /nowplayingstatus.html, which is requested several times per second
-            NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+            if ([path isEqualToString:@"/localradio_api.html"] == NO)
+            {
+                //NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+            }
         }
     }
     else
     {
-        NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
+        //NSLog(@"WebServerConnection httpResponseForMethod:%@ URI:%@", method, path);
     }
     self.previousPath = path;
 
@@ -281,8 +284,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 		NSString * navBarString = [self generateNavBar];
 		[replacementDict setObject:navBarString  forKey:@"NAV_BAR"];
 
+        #pragma mark relativePath=localradio_api.html
+        if ([relativePath isEqualToString:@"/localradio_api.html"])
+        {
+            NSString * apiResponseString = [self.appDelegate.localRadioAPI httpResponseForMethod:method URI:path webServerConnection:self];
+            [replacementDict setObject:apiResponseString forKey:@"LOCALRADIO_API_RESPONSE"];
+        }
         #pragma mark relativePath=index.html
-        if ([relativePath isEqualToString:@"/index.html"])
+        else if ([relativePath isEqualToString:@"/index.html"])
         {
             NSString * audioPlayerString = [self generateAudioPlayerString:userAgentIsLocalRadioApp];
             [replacementDict setObject:audioPlayerString forKey:@"AUDIO_PLAYER"];
@@ -1523,15 +1532,15 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                     NSString * portString = portElement.stringValue;
                     
                     //NSString * randomQuery = [self randomQuery];    // TODO: TEST: add random query to URL to force fresh stream
-                    //NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
+                    //NSString * aacURLString = [NSString stringWithFormat:@"https://%@:%@/%@?%@", hostname, portString, icecastServerMountName, randomQuery];
 
-                    m3uURLString = [NSString stringWithFormat:@"http://%@:%@/%@.aac", hostname, portString, icecastServerMountName];
+                    m3uURLString = [NSString stringWithFormat:@"https://%@:%@/%@.aac", hostname, portString, icecastServerMountName];
                 }
             }
 
             [replacementDict setObject:m3uURLString forKey:@"M3U_DATA"];
         }
-        #pragma mark relativePath=
+        #pragma mark relativePath error - match not found
         else
         {
             NSString * pathExtension = [relativePath pathExtension];
@@ -1545,7 +1554,10 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         if ([path isEqualToString:@"/nowplayingstatus.html"] == NO)
         {
-            NSLog(@"WebServerConnection - downloading dynamic file: %@", path);
+            if ([path isEqualToString:@"/localradio_api.html"] == NO)
+            {
+                NSLog(@"WebServerConnection - downloading dynamic file: %@", path);
+            }
         }
 
 		return [[HTTPDynamicFileResponse alloc] initWithFilePath:[self filePathForURI:path]
@@ -1563,7 +1575,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 	}
     */
     
-    NSLog(@"WebServerConnection - downloading static file: %@", path);
+    //NSLog(@"WebServerConnection - downloading static file: %@", path);
 	
 	return [super httpResponseForMethod:method URI:path];
 }
@@ -2238,12 +2250,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
         NSString * icecastServerHost = [self.appDelegate localHostString];
 
-        NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
-        
+        NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
+        NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
+
         NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-        NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerPortNumber.integerValue, icecastServerMountName];
-        
+        //NSString * aacURLString = [NSString stringWithFormat:@"https://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPSPortNumber.integerValue, icecastServerMountName];
+        NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPPortNumber.integerValue, icecastServerMountName];
+
         NSString * autoplayFlag = @"";
         NSString * audioPlayerJS = @"";
         
@@ -3551,7 +3565,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     return tableString;
 }
 
-
 //==================================================================================
 //	generateCategoriesString
 //==================================================================================
@@ -3658,7 +3671,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     [self.sdrController startRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary];
 }
 
-
 //==================================================================================
 //	generateCategorySelectOptions
 //==================================================================================
@@ -3685,7 +3697,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     return selectOptionsString;
 }
 
-
 //==================================================================================
 //	generateOpenAudioPlayerPageButtonString
 //==================================================================================
@@ -3694,18 +3705,36 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
     NSString * hostString = self.appDelegate.localHostString;
 
-    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+    NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
     NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-    //NSString * audioURLString = [NSString stringWithFormat:@"window.location='http://%@:%@/%@'", hostString, icecastServerPortNumber, icecastServerMountName];
-    //NSString * audioURLString = [NSString stringWithFormat:@"location.href='http://%@:%@/%@'", hostString, icecastServerPortNumber, icecastServerMountName];
-    NSString * audioURLString = [NSString stringWithFormat:@"http://%@:%@/%@", hostString, icecastServerPortNumber, icecastServerMountName];
+    //NSString * audioURLString = [NSString stringWithFormat:@"window.location='https://%@:%@/%@'", hostString, icecastServerHTTPSPortNumber, icecastServerMountName];
+    //NSString * audioURLString = [NSString stringWithFormat:@"location.href='https://%@:%@/%@'", hostString, icecastServerHTTPSPortNumber, icecastServerMountName];
+    NSString * audioURLString = [NSString stringWithFormat:@"https://%@:%@/%@", hostString, icecastServerHTTPSPortNumber, icecastServerMountName];
 
     //NSString * listenButtonString = [NSString stringWithFormat:@"<button class='button button-primary twelve columns' type='button' onclick=\"%@\" target='_parent'>Open Audio Player Page</button>", audioURLString];
 
     NSString * listenButtonString = [NSString stringWithFormat:@"<a href='%@' target='_top'><button class='button button-primary twelve columns' type='button'>Open Audio Player Page</button></a>", audioURLString];
 
     return listenButtonString;
+}
+
+//==================================================================================
+//    requestBody
+//==================================================================================
+
+- (NSData *)requestBody
+{
+    return [request body];
+}
+
+//==================================================================================
+//    requestMessageData
+//==================================================================================
+
+- (NSData *)requestMessageData
+{
+    return [request messageData];
 }
 
 @end

@@ -20,16 +20,20 @@
     
     // these are all valid for versions 0 and 1
     [self setDefaultInteger:17002 forKey:@"HTTPServerPort"];
-    [self setDefaultInteger:17003 forKey:@"IcecastServerPort"];
-    [self setDefaultInteger:17004 forKey:@"StatusPort"];
-    [self setDefaultInteger:17005 forKey:@"ControlPort"];
-    [self setDefaultInteger:17006 forKey:@"AudioPort"];
+    [self setDefaultInteger:17003 forKey:@"IcecastServerHTTPPort"];
+    [self setDefaultInteger:17004 forKey:@"IcecastServerHTTPSPort"];
+    [self setDefaultInteger:17005 forKey:@"StatusPort"];
+    [self setDefaultInteger:17006 forKey:@"ControlPort"];
+    [self setDefaultInteger:17007 forKey:@"AudioPort"];
 
     [self setDefaultInteger:0 forKey:@"IcecastServerMode"];
 
     [self setDefaultInteger:1 forKey:@"CaptureStderr"];
 
-    [self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
+    //[self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
+    NSString * localHostName = [[NSHost currentHost] name];
+    [self setDefaultValue:localHostName forKey:@"IcecastServerHost"];
+    
     [self setDefaultValue:@"localradio" forKey:@"IcecastServerMountName"];
     
     [self setDefaultValue:@"64000" forKey:@"AACBitrate"];

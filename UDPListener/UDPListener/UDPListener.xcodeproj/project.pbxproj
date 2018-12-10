@@ -24,6 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E027DB8218813670030B6C1 /* Monitor_Beacon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Monitor_Beacon.wav; path = ../../../LocalRadio/Web/Monitor_Beacon.wav; sourceTree = "<group>"; };
 		0E0A952E1F129400002E2E5B /* UDPListener */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = UDPListener; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E0A95311F129400002E2E5B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E13D6B420A9835A006A6A59 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = "../../../LocalRadio/CocoaAsyncSocket-7.6.3/Source/GCD/GCDAsyncUdpSocket.m"; sourceTree = "<group>"; };
@@ -63,6 +64,7 @@
 				0E0A95311F129400002E2E5B /* main.m */,
 				0E13D6B420A9835A006A6A59 /* GCDAsyncUdpSocket.m */,
 				0E7293C81F14C46C00350F03 /* UDPListener.entitlements */,
+				0E027DB8218813670030B6C1 /* Monitor_Beacon.wav */,
 			);
 			path = UDPListener;
 			sourceTree = "<group>";

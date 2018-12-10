@@ -130,20 +130,22 @@ pid_t originalParentProcessPID;
             break;
         }
 
-        if( bytesAvailableCount <= 0)
+        if (bytesAvailableCount <= 0)
         {
             //[NSThread sleepForTimeInterval:0.1f];
             usleep(1000);
         }
         else
         {
-            if (bytesAvailableCount > 4096)
+            unsigned long bytesConsumedCount = bytesAvailableCount;
+        
+            if (bytesConsumedCount > 4096)
             {
-                bytesAvailableCount = 4096;
+                bytesConsumedCount = 4096;
             }
         
-            char * buf = malloc(bytesAvailableCount);
-            long readResult = read( 0, buf, bytesAvailableCount);
+            char * buf = malloc(bytesConsumedCount);
+            long readResult = read( 0, buf, bytesConsumedCount);
             if( readResult <= 0) {
                 NSLog(@"UDPSender read failed: %s\n", strerror( errno));
                 break;
@@ -153,13 +155,15 @@ pid_t originalParentProcessPID;
                 lastReadTime = currentTime;
                 nextTimeoutReportInterval = 5;
                 
-                //NSLog(@"UDPSender sending data, length=%ld", bytesAvailableCount);
+                //NSLog(@"UDPSender sending data, bytesAvailableCount=%ld, bytesConsumedCount=%ld", bytesAvailableCount, bytesConsumedCount);
 
-                NSData * bufferData = [[NSData alloc] initWithBytes:buf length:bytesAvailableCount];
+                NSData * bufferData = [[NSData alloc] initWithBytes:buf length:bytesConsumedCount];
                 
                 [self sendData:bufferData port:port];       // send to UDPListener > AACEncoder > IcecastSource
                 
-                fwrite(buf, bytesAvailableCount, 1, stdout);    // also write a copy to stdout
+                fwrite(buf, bytesConsumedCount, 1, stdout);    // also write a copy to stdout
+                
+                fflush(stdout);
                 
                 /*
                 if (self.sentDataIndex == 0)

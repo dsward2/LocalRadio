@@ -22,7 +22,7 @@
 }
 
 //==================================================================================
-//	startSQLiteConnection:
+//	startSQLiteConnection
 //==================================================================================
 
 - (void)startSQLiteConnection
@@ -31,16 +31,24 @@
     {
         NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
         
-        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V3.sqlite3"];
+        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V4.sqlite3"];
         
-        BOOL localRadioV3Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
+        BOOL localRadioV4Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
         
         NSMutableDictionary * databaseUpgradeDictionary = NULL;
-
-        if (localRadioV3Found == NO)
+        
+        if (localRadioV4Found == NO)
         {
             //check for earlier database versions, and migrate data if found
-            databaseUpgradeDictionary = [self getDatabaseV2Data];
+            if ([databaseUpgradeDictionary count] == 0)
+            {
+                databaseUpgradeDictionary = [self getDatabaseV3Data];
+            }
+
+            if ([databaseUpgradeDictionary count] == 0)
+            {
+                databaseUpgradeDictionary = [self getDatabaseV2Data];
+            }
 
             if ([databaseUpgradeDictionary count] == 0)
             {
@@ -81,9 +89,26 @@
     {
         NSArray * recordsArray = [databaseUpgradeDictionary objectForKey:tableName];
         
+        // first update existing records
         for (NSDictionary * aRecordDictionary in recordsArray)
         {
-            [self importRecord:aRecordDictionary table:tableName];
+            NSNumber * recordIDNumber = [aRecordDictionary objectForKey:@"id"];
+            NSInteger recordID = recordIDNumber.integerValue;
+            if (recordID != 0)
+            {
+                [self importRecord:aRecordDictionary table:tableName];
+            }
+        }
+        
+        // then insert new records
+        for (NSDictionary * aRecordDictionary in recordsArray)
+        {
+            NSNumber * recordIDNumber = [aRecordDictionary objectForKey:@"id"];
+            NSInteger recordID = recordIDNumber.integerValue;
+            if (recordID == 0)
+            {
+                [self importRecord:aRecordDictionary table:tableName];
+            }
         }
     }
 }
@@ -114,7 +139,8 @@
         NSArray * allCategoryRecords = [self allCategoryRecords];
         NSArray * allFreqCatRecords = [self allFreqCatRecords];
         //NSArray * allCustomTaskRecords = [self allCustomTaskRecords];
-        
+        NSArray * allLocalRadioConfigRecords = [self allLocalRadioConfigRecords];         // no changes to this table
+
         if (allFrequencyRecords != NULL)
         {
             [databaseUpgradeDictionary setObject:allFrequencyRecords forKey:@"frequency"];
@@ -128,6 +154,11 @@
         if (allFreqCatRecords != NULL)
         {
             [databaseUpgradeDictionary setObject:allFreqCatRecords forKey:@"freq_cat"];
+        }
+        
+        if (allLocalRadioConfigRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allLocalRadioConfigRecords forKey:@"local_radio_config"];
         }
     }
     
@@ -157,6 +188,7 @@
         NSArray * allFrequencyRecords = [self allFrequencyRecords];     // no changes to this table
         NSArray * allCategoryRecords = [self allCategoryRecords];       // no changes to this table
         NSArray * allFreqCatRecords = [self allFreqCatRecords];         // no changes to this table
+        NSArray * allLocalRadioConfigRecords = [self allLocalRadioConfigRecords];         // no changes to this table
 
         // custom_task in V3 adds columns, so select only valid columns for V2
         //NSArray * allCustomTaskRecords = [self allCustomTaskRecords];
@@ -182,10 +214,113 @@
         {
             [databaseUpgradeDictionary setObject:allCustomTaskRecords forKey:@"custom_task"];
         }
+
+        if (allLocalRadioConfigRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allLocalRadioConfigRecords forKey:@"local_radio_config"];
+        }
     }
     
     return databaseUpgradeDictionary;
 }
+
+- (void)setConfigRecordInArray:(NSMutableArray *)allLocalRadioConfigRecords integer:(NSInteger)value forKey:(NSString *)key
+{
+    BOOL existingKeyFound = NO;
+
+    for (NSDictionary * configItemDictionary in allLocalRadioConfigRecords)
+    {
+        NSString * existingKey = [configItemDictionary objectForKey:@"config_key"];
+        if ([existingKey isEqualToString:key] == YES)
+        {
+            existingKeyFound = YES;
+            NSNumber * itemIDNumber = [configItemDictionary objectForKey:@"id"];
+            
+            NSNumber * newValueNumber = [NSNumber numberWithInteger:value];
+            
+            NSDictionary * replacementDictionary = [NSDictionary dictionaryWithObjectsAndKeys:itemIDNumber, @"id", newValueNumber, @"config_value", key, @"config_key", nil];
+            
+            NSInteger index = [allLocalRadioConfigRecords indexOfObject:configItemDictionary];
+            [allLocalRadioConfigRecords replaceObjectAtIndex:index withObject:replacementDictionary];
+            
+            break;
+        }
+    }
+    
+    if (existingKeyFound == NO)
+    {
+        NSNumber * newValueNumber = [NSNumber numberWithInteger:value];
+        NSNumber * zeroNumber = [NSNumber numberWithInteger:0];
+        NSDictionary * newDictionary = [NSDictionary dictionaryWithObjectsAndKeys:zeroNumber, @"id", newValueNumber, @"config_value", key, @"config_key", nil];
+        [allLocalRadioConfigRecords addObject:newDictionary];
+    }
+}
+
+//==================================================================================
+//    getDatabaseV3Data
+//==================================================================================
+
+- (NSMutableDictionary *)getDatabaseV3Data
+{
+    // If current version database is missing, attempt to access a V2 database and copy the data for deferred import.
+    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+
+    NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+    NSString * databaseV3PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V3.sqlite3"];
+    BOOL localRadioV3Found = [[NSFileManager defaultManager] fileExistsAtPath:databaseV3PathString];
+    
+    if (localRadioV3Found == YES)
+    {
+        [SQLiteLibrary setDatabaseFile:databaseV3PathString];
+        [SQLiteLibrary setupDatabaseAndForceReset:NO];
+        BOOL sqliteIsRunning = [SQLiteLibrary begin];
+        #pragma unused(sqliteIsRunning)
+
+        NSArray * allFrequencyRecords = [self allFrequencyRecords];     // no changes to this table
+        NSArray * allCategoryRecords = [self allCategoryRecords];       // no changes to this table
+        NSArray * allFreqCatRecords = [self allFreqCatRecords];         // no changes to this table
+        NSArray * allCustomTaskRecords = [self allCustomTaskRecords];   // no changes to this table
+        
+        NSMutableArray * allLocalRadioConfigRecords = [[self allLocalRadioConfigRecords] mutableCopy];
+        
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:4 forKey:@"LocalRadioConfigVersion"];
+
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17002 forKey:@"HTTPServerPort"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17003 forKey:@"IcecastServerHTTPPort"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17004 forKey:@"IcecastServerHTTPSPort"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17005 forKey:@"StatusPort"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17006 forKey:@"ControlPort"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17007 forKey:@"AudioPort"];
+
+        if (allFrequencyRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFrequencyRecords forKey:@"frequency"];
+        }
+        
+        if (allCategoryRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allCategoryRecords forKey:@"category"];
+        }
+        
+        if (allFreqCatRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFreqCatRecords forKey:@"freq_cat"];
+        }
+        
+        if (allCustomTaskRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allCustomTaskRecords forKey:@"custom_task"];
+        }
+        
+        if (allLocalRadioConfigRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allLocalRadioConfigRecords forKey:@"local_radio_config"];
+        }
+    }
+    
+    return databaseUpgradeDictionary;
+}
+
 
 //==================================================================================
 //    localRadioAppSettingsValueForKey:
@@ -525,6 +660,19 @@
 {
     NSString * queryString = @"SELECT id, task_name, task_json, sample_rate, channels, input_buffer_size, audioconverter_buffer_size, audioqueue_buffer_size FROM custom_task ORDER BY id;";
     
+    NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
+
+    return queryResultArray;
+}
+
+//==================================================================================
+//    allLocalRadioConfigRecords
+//==================================================================================
+
+- (NSArray *)allLocalRadioConfigRecords
+{
+    NSString * queryString = @"SELECT id, config_key, config_value FROM local_radio_config ORDER BY id;";
+
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
     return queryResultArray;

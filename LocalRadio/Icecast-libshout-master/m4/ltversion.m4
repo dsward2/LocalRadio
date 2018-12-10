@@ -1,0 +1,1 @@
+/opt/local/share/aclocal/ltversion.m4

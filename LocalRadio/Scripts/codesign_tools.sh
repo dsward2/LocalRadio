@@ -25,7 +25,9 @@ echo codesign -f --entitlements "${SRCROOT}/UDPListener/UDPListener.entitlements
 
 echo codesign -f --entitlements "${SRCROOT}/AudioMonitor/AudioMonitor.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/AudioMonitor
 
-echo codesign -f --entitlements "${SRCROOT}/AudioMonitor/AudioMonitor.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/AudioMonitor2
+echo codesign -f --entitlements "${SRCROOT}/AudioMonitor2/AudioMonitor2.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/AudioMonitor2
 
-echo codesign -f --entitlements "${SRCROOT}/AudioMonitor/AudioMonitor.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/IcecastSource
+echo codesign -f --entitlements "${SRCROOT}/IcecastSource/IcecastSource.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/IcecastSource
+
+echo codesign -f --entitlements "${SRCROOT}/AudioMonitor/AudioMonitor.entitlements" -s "Mac Developer: Developer Name (xxxxxxxxxx)" ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/IcecastSourceClient
 

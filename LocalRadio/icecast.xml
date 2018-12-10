@@ -65,10 +65,18 @@
     <hostname>127.0.0.1</hostname>
 
     <!-- You may have multiple <listener> elements -->
-    <listen-socket>
+    <listen-socket id="https-listen-socket">
         <port>17003</port>
         <!-- <bind-address>127.0.0.1</bind-address> -->
         <!-- <shoutcast-mount>/stream</shoutcast-mount> -->
+        <ssl>1</ssl>
+    </listen-socket>
+
+    <listen-socket id="http-listen-socket">
+        <port>17004</port>
+        <!-- <bind-address>127.0.0.1</bind-address> -->
+        <!-- <shoutcast-mount>/stream</shoutcast-mount> -->
+        <ssl>0</ssl>
     </listen-socket>
     <!--
     <listen-socket>
@@ -255,16 +263,15 @@
         -->
         <alias source="/" destination="/status.xsl"/>
         <!-- The certificate file needs to contain both public and private part.
-             Both should be PEM encoded.
+             Both should be PEM encoded.        -->
         <ssl-certificate>/opt/local/share/icecast/icecast.pem</ssl-certificate>
-        -->
     </paths>
 
     <logging>
         <accesslog>access.log</accesslog>
         <errorlog>error.log</errorlog>
         <!-- <playlistlog>playlist.log</playlistlog> -->
-        <loglevel>3</loglevel> <!-- 4 Debug, 3 Info, 2 Warn, 1 Error -->
+        <loglevel>4</loglevel> <!-- 4 Debug, 3 Info, 2 Warn, 1 Error -->
         <logsize>10000</logsize> <!-- Max size of a logfile -->
         <!-- If logarchive is enabled (1), then when logsize is reached
              the logfile will be moved to [error|access|playlist].log.DATESTAMP,

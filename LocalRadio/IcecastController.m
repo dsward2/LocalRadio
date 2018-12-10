@@ -46,7 +46,7 @@
     NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
     //NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
-    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+    NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
     
     // set user authentication for admin/stats URL requests. or this error will display in log:
     // CredStore - performQuery - Error copying matching creds.  Error=-25300, query={
@@ -57,7 +57,7 @@
     //      srvr = "127.0.0.1";
     //      sync = syna;
     //      }
-    NSURLProtectionSpace * protectionSpace = [[NSURLProtectionSpace alloc] initWithHost:icecastServerHost port:icecastServerPortNumber.integerValue protocol:@"http" realm:@"Icecast2 Server" authenticationMethod:NULL];
+    NSURLProtectionSpace * protectionSpace = [[NSURLProtectionSpace alloc] initWithHost:icecastServerHost port:icecastServerHTTPPortNumber.integerValue protocol:@"http" realm:@"Icecast2 Server" authenticationMethod:NULL];
     NSURLCredential * userCredential = [NSURLCredential credentialWithUser:@"admin" password:icecastServerSourcePassword persistence:NSURLCredentialPersistencePermanent];
     [[NSURLCredentialStorage sharedCredentialStorage] setDefaultCredential:userCredential forProtectionSpace:protectionSpace];
     */
@@ -134,10 +134,10 @@
 {
     NSString * hostString = [self.appDelegate localHostString];
     
-    //NSUInteger portInteger = self.appDelegate.icecastServerPortTextField.integerValue;
-    NSUInteger portInteger = self.appDelegate.icecastServerPort;
+    //NSUInteger portInteger = self.appDelegate.icecastServerHTTPSPortTextField.integerValue;
+    NSUInteger portInteger = self.appDelegate.icecastServerHTTPSPort;
 
-    NSString * urlString = [NSString stringWithFormat:@"http://%@:%ld", hostString, portInteger];
+    NSString * urlString = [NSString stringWithFormat:@"https://%@:%ld", hostString, portInteger];
     
     return urlString;
 }
@@ -148,12 +148,14 @@
 
 - (void)configureIcecast
 {
+    [self configureCertificates];
+
     //NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
     //NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
     //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
     //NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
-    //NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+    //NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
     
@@ -194,16 +196,62 @@
         [hostnameElement setStringValue:hostname];
     }
 
-   // change <listen-socket><port>
-    NSString * portQuery = @"listen-socket/port";
+   // change http <listen-socket><port>
+    NSString * httpPortQuery = @"listen-socket[@id='http-listen-socket']/port";
     //NSError * error = NULL;
-    NSArray * portResultArray = [rootElement nodesForXPath:portQuery error:&error];
-    if (portResultArray.count > 0)
+    NSArray * httpPortResultArray = [rootElement nodesForXPath:httpPortQuery error:&error];
+    if (httpPortResultArray.count > 0)
     {
-        NSXMLElement * portElement = portResultArray.firstObject;
-        NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
-        NSString * portString = [NSString stringWithFormat:@"%ld", icecastServerPortNumber.integerValue];
-        [portElement setStringValue:portString];
+        NSXMLElement * httpPortElement = httpPortResultArray.firstObject;
+        NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
+        NSString * httpPortString = [NSString stringWithFormat:@"%ld", icecastServerHTTPPortNumber.integerValue];
+        [httpPortElement setStringValue:httpPortString];
+    }
+
+   // change https <listen-socket><port>
+    NSString * httpsPortQuery = @"listen-socket[@id='https-listen-socket']/port";
+    //NSError * error = NULL;
+    NSArray * httpsPortResultArray = [rootElement nodesForXPath:httpsPortQuery error:&error];
+    if (httpsPortResultArray.count > 0)
+    {
+        NSXMLElement * httpsPortElement = httpsPortResultArray.firstObject;
+        NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
+        NSString * httpsPortString = [NSString stringWithFormat:@"%ld", icecastServerHTTPSPortNumber.integerValue];
+        [httpsPortElement setStringValue:httpsPortString];
+    }
+
+    NSString * sslQuery = @"listen-socket/ssl";
+    NSArray * sslQueryArray = [rootElement nodesForXPath:sslQuery error:&error];
+    if (sslQueryArray.count > 0)
+    {
+        NSXMLElement * sslElement = sslQueryArray.firstObject;
+        [sslElement setStringValue:@"1"];
+    }
+
+    // change <paths><ssl-certificate>/opt/local/share/icecast/icecast.pem</ssl-certificate></paths>
+    NSString * sslCertificateQuery = @"paths/ssl-certificate";
+    NSArray * sslCertificateResultArray = [rootElement nodesForXPath:sslCertificateQuery error:&error];
+    if (sslCertificateResultArray.count > 0)
+    {
+        NSString * keyPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.key"];
+        NSString * pemPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecast.pem"];
+        NSString * keyPemPath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecastServer.pem"];
+
+        NSError * keyError = NULL;
+        NSString * keyString = [NSString stringWithContentsOfFile:keyPath encoding:NSASCIIStringEncoding error:&keyError];
+        
+        NSError * pemError = NULL;
+        NSString * pemString = [NSString stringWithContentsOfFile:pemPath encoding:NSASCIIStringEncoding error:&pemError];
+
+        // combine key and certificate into a single pem file for Icecast
+        NSString * keyPemString = [NSString stringWithFormat:@"%@%@", keyString, pemString];
+        NSError * keyPemError = NULL;
+        [keyPemString writeToFile:keyPemPath atomically:YES encoding:NSASCIIStringEncoding error:&keyPemError];
+
+        //NSString * sslCertificatePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"icecastServer.pem"];
+        
+        NSXMLElement * sslCertificateElement = sslCertificateResultArray.firstObject;
+        [sslCertificateElement setStringValue:keyPemPath];
     }
 
    // change <basedir>/opt/local/share/icecast</basedir> containing admin, doc and web directories
@@ -348,13 +396,6 @@
             NSLog(@"LocalRadio IcecastController startIcecastTask - icecast terminationStatus %d", task.terminationStatus);
         }
 
-        if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
-        {
-            //NSLog(@"IcecastController.startIcecastTask isMainThread = NO");
-        }
-
-        //self.appDelegate.statusIcecastServerTextField.stringValue = @"Not Running";
-
         [weakSelf.appDelegate.statusIcecastServerTextField performSelectorOnMainThread:@selector(setStringValue:) withObject:@"Not Running" waitUntilDone:NO];
         
         weakSelf.icecastTask = NULL;
@@ -411,14 +452,14 @@ Printing description of icecastStatusDictionary:
             genre = Live;
             "listener_peak" = 1;
             listeners = 0;
-            listenurl = "http://192.168.0.8:17003/live";
+            listenurl = "https://192.168.0.8:17003/live";
             "max_listeners" = unlimited;
             public = 0;
             samplerate = 48000;
             "server_description" = "Unknown";
             "server_name" = "localradio";
             "server_type" = "audio/mpeg";
-            "server_url" = "http://127.0.0.1:17003/live";
+            "server_url" = "https://127.0.0.1:17003/live";
             "slow_listeners" = 0;
             source = "";
             "source_ip" = "127.0.0.1";
@@ -468,6 +509,10 @@ Printing description of icecastStatusDictionary:
         {
             resultDictionary = self.lastIcecastStatusDictionary;
         }
+        else if (self.icecastTask.isRunning == NO)
+        {
+            resultDictionary = self.lastIcecastStatusDictionary;
+        }
         else
         {
             self.icecastStatusBusy = YES;
@@ -477,7 +522,7 @@ Printing description of icecastStatusDictionary:
             //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
             NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
             //NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
-            //NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerPort"];
+            //NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
 
             NSString * icecastURL = [self icecastWebServerURLString];
             //NSString * icecastStatusURL = [icecastURL stringByAppendingPathComponent:@"status-json.xsl"];
@@ -499,7 +544,7 @@ Printing description of icecastStatusDictionary:
             NSString *authValue = [NSString stringWithFormat: @"Basic %@",[authData base64EncodedStringWithOptions:0]];
             [icecastStatusURLRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
 
-
+            [icecastStatusURLRequest setTimeoutInterval:0.1f];
             
             //[[session dataTaskWithURL:[NSURL URLWithString:icecastStatusURL]
             [[session dataTaskWithRequest:icecastStatusURLRequest
@@ -515,7 +560,8 @@ Printing description of icecastStatusDictionary:
             }] resume];
 
             while (!reqProcessed) {
-                [NSThread sleepForTimeInterval:0.1];
+                //[NSThread sleepForTimeInterval:0.1];
+                CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.1, true);
             }
             
             if (icecastResponseData != NULL)
@@ -644,29 +690,6 @@ Printing description of icecastStatusDictionary:
     NSString * currentElementName = self.currentElementName;
     NSString * currentElementData = self.currentElementData;
     
-    // move try/catch above
-    /*
-    @try {
-        if (currentElementName != NULL)
-        {
-            if (currentElementData != NULL)
-            {
-                if (self.inSourceElement == YES)
-                {
-                    [self.currentSourceDictionary setObject:currentElementData forKey:currentElementName];
-                }
-                else
-                {
-                    [self.parserOutputDictionary setObject:currentElementData forKey:currentElementName];
-                }
-            }
-        }
-
-    }
-    @catch (NSException *exception) {
-    }
-    */
-
     if (currentElementName != NULL)
     {
         if (currentElementData != NULL)
@@ -685,7 +708,508 @@ Printing description of icecastStatusDictionary:
     self.currentElementData = [NSMutableString string];
 }
 
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)configureCertificates
+{
+    // configure a Certificate Authoritory and generate self-signed certificates for Icecast server and source client
+    // per https://www.adfinis-sygroup.ch/blog/en/openssl-x509-certificates/
+    
+    NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+
+    NSString * caKeyFileName = @"IcecastCA.key";    // Certificate Authority key
+    NSString * caKeyFilePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:caKeyFileName];
+    BOOL caKeyExists = [[NSFileManager defaultManager] fileExistsAtPath:caKeyFilePath];
+
+    NSString * caCertificateFileName = @"IcecastCA.pem";    // Certificate Authority certificate
+    NSString * caCertificateFilePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:caCertificateFileName];
+    BOOL caCertificateExists = [[NSFileManager defaultManager] fileExistsAtPath:caCertificateFilePath];
+
+    NSString * icecastServerKeyFileName = @"Icecast.key";    // Icecast server key
+    NSString * icecastServerKeyFilePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:icecastServerKeyFileName];
+    BOOL icecastServerKeyExists = [[NSFileManager defaultManager] fileExistsAtPath:icecastServerKeyFilePath];
+
+    NSString * icecastServerCertificateSigningRequestFileName = @"Icecast.csr";    // Icecast Server CSR
+    NSString * icecastServerCertificateSigningRequestFilePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:icecastServerCertificateSigningRequestFileName];
+    BOOL icecastServerCertificateSigningRequestExists = [[NSFileManager defaultManager] fileExistsAtPath:icecastServerCertificateSigningRequestFilePath];
+
+    NSString * icecastServerCertificateFileName = @"icecast.pem";   // certificate only, key not included
+    NSString * icecastServerCertificateFilePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:icecastServerCertificateFileName];
+    BOOL icecastServerCertificateExists = [[NSFileManager defaultManager] fileExistsAtPath:icecastServerCertificateFilePath];
+
+    NSString * icecastServerComboCertificateFileName = @"icecastServer.pem";   // combined key and certificate
+    NSString * icecastServerComboCertificateFilePath = [applicationSupportDirectoryPath stringByAppendingPathComponent:icecastServerComboCertificateFileName];
+    BOOL icecastServerComboCertificateExists = [[NSFileManager defaultManager] fileExistsAtPath:icecastServerComboCertificateFilePath];
+
+    if (caKeyExists == NO)
+    {
+        // create the Certificate Authority key and certificate signing request
+        [self createCAKey:caKeyFilePath];
+        caCertificateExists = NO;
+        icecastServerKeyExists = NO;
+        icecastServerCertificateSigningRequestExists = NO;
+        icecastServerCertificateExists = NO;
+    }
+
+    if (caCertificateExists == NO)
+    {
+        // create the Certificate Authority certificate
+        [self createCACertificate:caCertificateFilePath key:caKeyFilePath];
+        icecastServerKeyExists = NO;
+        icecastServerCertificateSigningRequestExists = NO;
+        icecastServerCertificateExists = NO;
+    }
+    
+    if (icecastServerKeyExists == NO)
+    {
+        // create the Icecast server key and certificate signing request
+        [self createIcecastServerKey:icecastServerKeyFilePath];
+        icecastServerCertificateExists = NO;
+    }
+
+    if (icecastServerCertificateExists == NO)
+    {
+        // create the Icecast server certificate
+        [self createIcecastServerCSR:icecastServerCertificateSigningRequestFilePath serverKey:icecastServerKeyFilePath];
+
+        [self createIcecastServerCertificate:icecastServerCertificateFilePath
+         csr:icecastServerCertificateSigningRequestFilePath caCertificate:caCertificateFilePath caKey:caKeyFilePath];
+    }
+    
+    if (icecastServerComboCertificateExists == NO)
+    {
+        // create the Icecast server certificate
+        [self createIcecastServerComboCertificate:icecastServerComboCertificateFilePath
+         key:icecastServerKeyFilePath certificate:icecastServerCertificateFilePath];
+    }
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)createCAKey:(NSString *)keyFilePath
+{
+    // openssl genrsa -des3 -out IcecastCA.key 2048
+
+    NSLog(@"IcecastController - createCAKey:%@", keyFilePath);
+
+    NSError * removeKeyFileError;
+    [NSFileManager.defaultManager removeItemAtPath:keyFilePath error:&removeKeyFileError];
+
+    NSString * openSSLPath = @"/usr/bin/openssl";
+    
+    NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
+    NSString * passphrase = [NSString stringWithFormat:@"pass:%@", icecastServerSourcePassword];
+    
+    NSArray * openSSLTaskArgsArray = [NSArray arrayWithObjects:
+            @"genrsa",
+            @"-des3",
+            @"-out",
+            keyFilePath,
+            @"-passout",
+            passphrase,
+            //@"-subj",
+            //subjectString,
+            @"2048",
+            NULL];
+
+    NSString * openSSLTaskArgsString = [openSSLTaskArgsArray componentsJoinedByString:@" "];
+    
+    NSLog(@"Launching openssl NSTask: \"%@\" \"%@\"", openSSLPath, openSSLTaskArgsString);
+    
+    NSTask * openSSLCSRTask = [[NSTask alloc] init];
+    openSSLCSRTask.launchPath = openSSLPath;
+    openSSLCSRTask.arguments = openSSLTaskArgsArray;
+
+    [openSSLCSRTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+
+    //IcecastController * weakSelf = self;
+    __block BOOL taskDone = NO;
+    
+    [openSSLCSRTask setTerminationHandler:^(NSTask* task)
+    {
+        NSLog(@"LocalRadio IcecastController enter createCertificateAuthority openssl terminationHandler, PID=%d", task.processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus 0");
+        }
+        else
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus %d", task.terminationStatus);
+        }
+        
+        taskDone = YES;
+    }];
+    
+    [openSSLCSRTask launch];
+
+    while (taskDone == NO)
+    {
+        usleep(5000);
+    }
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)createCACertificate:(NSString *)caCertificateFilePath key:(NSString *)keyFilePath
+{
+    // openssl req -x509 -new -nodes -key IcecastCA.key -sha256 -days 1825 -out IcecastCA.pem
+    
+    NSLog(@"IcecastController - createCACertificate:%@", caCertificateFilePath);
+
+    NSError * removeCertificateFileError;
+    [NSFileManager.defaultManager removeItemAtPath:caCertificateFilePath error:&removeCertificateFileError];
+
+    NSString * openSSLPath = @"/usr/bin/openssl";
+
+    NSString * extFilePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"x509.ext"];
+    
+    NSString * bonjourName = [self localHostString];
+
+    NSString * countryCode = @"US";
+    NSString * stateCode = @"US";
+    NSString * locationName = @"LocalRadio";
+    NSString * organizationName = @"LocalRadio";
+    NSString * unitName = @"LocalRadio";
+    NSString * commonName = bonjourName;
+    
+    NSString * subjectString = [NSString stringWithFormat:@"/C=%@/ST=%@/L=%@/O=%@/OU=%@/CN=%@", countryCode, stateCode, locationName, organizationName, unitName, commonName];
+
+    NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
+    NSString * passphrase = [NSString stringWithFormat:@"pass:%@", icecastServerSourcePassword];
+
+    NSArray * openSSLTaskArgsArray = [NSArray arrayWithObjects:
+            @"req",
+            @"-x509",
+            @"-new",
+            //@"-nodes",
+            @"-key",
+            keyFilePath,
+            @"-sha256",
+            @"-days",
+            @"1825",
+            @"-out",
+            caCertificateFilePath,
+            @"-subj",
+            subjectString,
+            @"-passin",
+            passphrase,
+            NULL];
+
+    
+    NSString * openSSLTaskArgsString = [openSSLTaskArgsArray componentsJoinedByString:@" "];
+    
+    NSLog(@"Launching openssl NSTask: \"%@\" \"%@\"", openSSLPath, openSSLTaskArgsString);
+    
+    NSTask * openSSLCATask = [[NSTask alloc] init];
+    openSSLCATask.launchPath = openSSLPath;
+    openSSLCATask.arguments = openSSLTaskArgsArray;
+
+    [openSSLCATask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+
+    //IcecastController * weakSelf = self;
+    __block BOOL taskDone = NO;
+    
+    [openSSLCATask setTerminationHandler:^(NSTask* task)
+    {
+        NSLog(@"LocalRadio IcecastController enter createCertificateAuthority openssl terminationHandler, PID=%d", task.processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus 0");
+        }
+        else
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus %d", task.terminationStatus);
+        }
+        
+        taskDone = YES;
+    }];
+    
+    [openSSLCATask launch];
+
+    while (taskDone == NO)
+    {
+        usleep(5000);
+    }
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)createIcecastServerKey:(NSString *)icecastServerKeyFilePath
+{
+    // openssl genrsa -out MacName.local 2048
+
+    NSLog(@"IcecastController - createIcecastServerKey:%@", icecastServerKeyFilePath);
+
+    NSError * removeKeyFileError;
+    [NSFileManager.defaultManager removeItemAtPath:icecastServerKeyFilePath error:&removeKeyFileError];
+    
+    NSString * openSSLPath = @"/usr/bin/openssl";
+ 
+    NSArray * openSSLTaskArgsArray = [NSArray arrayWithObjects:
+            @"genrsa",
+            @"-out",
+            icecastServerKeyFilePath,
+            @"2048",
+            NULL];
+    
+    NSString * openSSLTaskArgsString = [openSSLTaskArgsArray componentsJoinedByString:@" "];
+    
+    NSLog(@"Launching openssl NSTask: \"%@\" \"%@\"", openSSLPath, openSSLTaskArgsString);
+    
+    NSTask * openSSLCSRTask = [[NSTask alloc] init];
+    openSSLCSRTask.launchPath = openSSLPath;
+    openSSLCSRTask.arguments = openSSLTaskArgsArray;
+
+    [openSSLCSRTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+
+    //IcecastController * weakSelf = self;
+    __block BOOL taskDone = NO;
+    
+    [openSSLCSRTask setTerminationHandler:^(NSTask* task)
+    {
+        NSLog(@"LocalRadio IcecastController enter createCertificateAuthority openssl terminationHandler, PID=%d", task.processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus 0");
+        }
+        else
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus %d", task.terminationStatus);
+        }
+        
+        taskDone = YES;
+    }];
+    
+    [openSSLCSRTask launch];
+
+    while (taskDone == NO)
+    {
+        usleep(5000);
+    }
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)createIcecastServerCSR:(NSString *)icecastServerCertificateSigningRequestFilePath serverKey:(NSString *)icecastServerKeyFilePath
+{
+    // openssl req -new -key Icecast.key -out Icecast.csr
+
+    NSLog(@"IcecastController - createIcecastServerCSR:%@", icecastServerCertificateSigningRequestFilePath);
+
+    NSError * removeCSRFileError;
+    [NSFileManager.defaultManager removeItemAtPath:icecastServerCertificateSigningRequestFilePath error:&removeCSRFileError];
+
+    NSString * openSSLPath = @"/usr/bin/openssl";
+ 
+    NSString * bonjourName = [self localHostString];
+
+    NSString * countryCode = @"US";
+    NSString * stateCode = @"US";
+    NSString * locationName = @"LocalRadio";
+    NSString * organizationName = @"LocalRadio";
+    NSString * unitName = @"LocalRadio";
+    NSString * commonName = bonjourName;
+    
+    NSString * subjectString = [NSString stringWithFormat:@"/C=%@/ST=%@/L=%@/O=%@/OU=%@/CN=%@", countryCode, stateCode, locationName, organizationName, unitName, commonName];
+
+    NSArray * openSSLTaskArgsArray = [NSArray arrayWithObjects:
+            @"req",
+            @"-new",
+            @"-key",
+            icecastServerKeyFilePath,
+            @"-out",
+            icecastServerCertificateSigningRequestFilePath,
+            @"-subj",
+            subjectString,
+            NULL];
+    
+    NSString * openSSLTaskArgsString = [openSSLTaskArgsArray componentsJoinedByString:@" "];
+    
+    NSLog(@"Launching openssl NSTask: \"%@\" \"%@\"", openSSLPath, openSSLTaskArgsString);
+    
+    NSTask * openSSLCSRTask = [[NSTask alloc] init];
+    openSSLCSRTask.launchPath = openSSLPath;
+    openSSLCSRTask.arguments = openSSLTaskArgsArray;
+
+    [openSSLCSRTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+
+    //IcecastController * weakSelf = self;
+    __block BOOL taskDone = NO;
+    
+    [openSSLCSRTask setTerminationHandler:^(NSTask* task)
+    {
+        NSLog(@"LocalRadio IcecastController enter createCertificateAuthority openssl terminationHandler, PID=%d", task.processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus 0");
+        }
+        else
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus %d", task.terminationStatus);
+        }
+        
+        taskDone = YES;
+    }];
+    
+    [openSSLCSRTask launch];
+
+    while (taskDone == NO)
+    {
+        usleep(5000);
+    }
+}
 
 
+
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)createIcecastServerCertificate:(NSString *)icecastServerCertificateFilePath csr:(NSString *)icecastServerCertificateSigningRequestFilePath caCertificate:(NSString *)caCertificateFilePath caKey:(NSString *)caRSAKeyFilePath
+{
+    // openssl x509 -req -in icecast.csr -CA IcecastCA.pem -CAkey IcecastCA.key -CAcreateserial -out Icecast.crt -days 1825 -sha256 -extfile x509.ext
+
+    NSLog(@"IcecastController - createIcecastServerCertificate:%@", icecastServerCertificateFilePath);
+
+    NSError * removeCertificateFileError;
+    [NSFileManager.defaultManager removeItemAtPath:icecastServerCertificateFilePath error:&removeCertificateFileError];
+
+    NSString * openSSLPath = @"/usr/bin/openssl";
+
+    NSString * extFilePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"x509.ext"];
+
+    NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+ 
+    NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
+    NSString * passphrase = [NSString stringWithFormat:@"pass:%@", icecastServerSourcePassword];
+    
+    NSString * caSerialFilePath = [applicationSupportDirectoryPath stringByAppendingString:@"CA.srl"];
+
+    NSArray * openSSLTaskArgsArray = [NSArray arrayWithObjects:
+            @"x509",
+            @"-req",
+            @"-in",
+            icecastServerCertificateSigningRequestFilePath,
+            @"-CA",
+            caCertificateFilePath,
+            @"-CAkey",
+            caRSAKeyFilePath,
+            @"-CAcreateserial",
+            @"-CAserial",
+            caSerialFilePath,
+            @"-out",
+            icecastServerCertificateFilePath,
+            @"-days",
+            @"1825",
+            @"-sha256",
+            @"-extfile",
+            extFilePath,
+            @"-extensions",
+            @"server",
+            @"-passin",
+            passphrase,
+            NULL];
+
+    NSString * openSSLTaskArgsString = [openSSLTaskArgsArray componentsJoinedByString:@" "];
+    
+    NSLog(@"Launching openssl NSTask: \"%@\" \"%@\"", openSSLPath, openSSLTaskArgsString);
+    
+    NSTask * openSSLCATask = [[NSTask alloc] init];
+    openSSLCATask.launchPath = openSSLPath;
+    openSSLCATask.arguments = openSSLTaskArgsArray;
+
+    [openSSLCATask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+
+    //IcecastController * weakSelf = self;
+    __block BOOL taskDone = NO;
+    
+    [openSSLCATask setTerminationHandler:^(NSTask* task)
+    {
+        NSLog(@"LocalRadio IcecastController enter createCertificateAuthority openssl terminationHandler, PID=%d", task.processIdentifier);
+
+        if ([task terminationStatus] == 0)
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus 0");
+        }
+        else
+        {
+            NSLog(@"LocalRadio IcecastController createCertificateAuthority - openssl terminationStatus %d", task.terminationStatus);
+        }
+        
+        taskDone = YES;
+    }];
+    
+    [openSSLCATask launch];
+
+    while (taskDone == NO)
+    {
+        usleep(5000);
+    }
+
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)createIcecastServerComboCertificate:(NSString *)icecastServerComboCertificateFilePath
+        key:(NSString *)icecastServerKeyFilePath certificate:(NSString *)icecastServerCertificateFilePath
+{
+    // openssl x509 -req -sha256 -CA IcecastCA.pem -CAkey IcecastCA.key -days 730 -CAcreateserial -CAserial CA.srl -extfile x509.ext -extensions server -in icecast.csr -out icecast.pem
+
+    NSLog(@"IcecastController - createIcecastServerComboCertificate:%@", icecastServerComboCertificateFilePath);
+
+    NSError * removeCertificateFileError;
+    [NSFileManager.defaultManager removeItemAtPath:icecastServerComboCertificateFilePath error:&removeCertificateFileError];
+
+    NSError * keyFileError;
+    NSString * keyString = [NSString stringWithContentsOfFile:icecastServerKeyFilePath encoding:NSUTF8StringEncoding error:&keyFileError];
+
+    NSError * certificateFileError;
+    NSString * certificateString = [NSString stringWithContentsOfFile:icecastServerCertificateFilePath encoding:NSUTF8StringEncoding error:&certificateFileError];
+
+    NSString * comboString = [NSString stringWithFormat:@"%@%@", keyString, certificateString];
+    
+    NSError * comboFileError;
+    [comboString writeToFile:icecastServerComboCertificateFilePath atomically:YES encoding:NSUTF8StringEncoding error:&comboFileError];
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (NSString *)localHostString
+{
+    NSString * bonjourName = [[NSHost currentHost] name];
+    
+    NSArray * hostNames = [[NSHost currentHost] names];
+    
+    for (NSString * aHostName in hostNames)
+    {
+        NSRange localRange = [aHostName rangeOfString:@".local"];
+        if (localRange.location == aHostName.length - 6)
+        {
+            bonjourName = aHostName;
+            break;
+        }
+    }
+    
+    return bonjourName;
+}
 
 @end

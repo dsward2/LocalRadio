@@ -14,8 +14,8 @@
       "tasks" :
       [
         {
-          "path": "/Applications/rtl-sdr/nrsc5-master/build/src/nrsc5",
-          "arguments" : ["-q", "-o", "-", "-f", "wav", "89.1", "1"]
+          "path": "/path/to/executable",
+          "arguments" : ["-a", "-b", "c", "-d"]
         }
       ],
     }
@@ -955,9 +955,12 @@
 
 - (IBAction)addTaskName:(id)sender
 {
+    NSString * pathToExecutables = [self pathToExecutables];
+    NSString * pathToLocalRadio = [pathToExecutables stringByAppendingPathComponent:@"rtl_fm_localradio"];
+
     NSString * timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     NSString * customTaskName = [NSString stringWithFormat:@"Custom Task %@", timestamp];
-    NSString * customTaskJSON = @"{\"tasks\":[{\"path\": \"/Applications/LocalRadio.app/Contents/MacOS/rtl_fm_localradio\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17004\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}";
+    NSString * customTaskJSON = [NSString stringWithFormat:@"{\"tasks\":[{\"path\": \"%@\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17004\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}", pathToLocalRadio];;
     NSInteger sampleRate = 170000;
     NSInteger channels = 1;
     NSInteger inputBufferSize = 256;
@@ -1123,10 +1126,13 @@
             NSNumber * audioQueueBufferSizeNumber = [customTaskDictionary objectForKey:@"audioqueue_buffer_size"];
             NSInteger audioQueueBufferSize = audioQueueBufferSizeNumber.integerValue;
 
+            NSString * pathToExecutables = [self pathToExecutables];
+            NSString * pathToLocalRadio = [pathToExecutables stringByAppendingPathComponent:@"rtl_fm_localradio"];
+
             NSString * customTaskJSON = [[customTaskDictionary objectForKey:@"task_json"] mutableCopy];
             if (customTaskJSON == NULL)
             {
-                customTaskJSON = @"{\"tasks\":[{\"path\": \"/Applications/LocalRadio.app/Contents/MacOS/rtl_fm_localradio\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17004\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}";
+                customTaskJSON = [NSString stringWithFormat:@"{\"tasks\":[{\"path\": \"%@\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17004\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}", pathToExecutables];
             }
             
             NSData * jsonData = [customTaskJSON dataUsingEncoding:NSUTF8StringEncoding];
@@ -1145,14 +1151,17 @@
             
             if (existingTasksArrayCount == 0)
             {
-                [newTaskDictionary setObject:@"/Applications/LocalRadio.app/Contents/MacOS/rtl_fm_localradio" forKey:@"path"];
+                [newTaskDictionary setObject:pathToLocalRadio forKey:@"path"];
                 
                 NSMutableArray * newTaskArgumentsArray = [NSMutableArray arrayWithObjects:@"-M", @"fm", @"-l", @"0", @"-t", @"0", @"-F", @"9", @"-g", @"49.6", @"-s", @"170000", @"-o", @"2", @"-A", @"std", @"-p", @"0", @"-c", @"17004", @"-E", @"pad", @"-f", @"89100000", NULL];
                 [newTaskDictionary setObject:newTaskArgumentsArray forKey:@"arguments"];
             }
             else
             {
-                [newTaskDictionary setObject:@"/Applications/LocalRadio.app/Contents/MacOS/sox" forKey:@"path"];
+                NSString * executablesPath = [[NSBundle mainBundle] executablePath];
+                NSString * soxExecutablePath = [executablesPath stringByAppendingPathComponent:@"sox"];
+
+                [newTaskDictionary setObject:soxExecutablePath forKey:@"path"];
                 
                 NSMutableArray * newTaskArgumentsArray = [NSMutableArray arrayWithObjects:@"-V2", @"-q", @"-r", @"48000", @"-e", @"signed-integer", @"-b", @"16", @"-c", @"1", @"-t", @"raw", @"-", @"-e", @"signed-integer", @"-b", @"16", @"-c", @"1", @"-t", @"raw", @"-", @"rate", @"48000", @"vol", @"1", @"dither", @"-s", NULL];
                 [newTaskDictionary setObject:newTaskArgumentsArray forKey:@"arguments"];
@@ -1623,6 +1632,13 @@
             }
         }
     }
+}
+
+
+- (NSString *)pathToExecutables
+{
+    NSString * executablesPath = [[NSBundle mainBundle] executablePath];
+    return executablesPath;
 }
 
 

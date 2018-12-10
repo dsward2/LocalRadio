@@ -1,0 +1,330 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0EBD6B48219E826300D2F9F4 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EBD6B47219E826300D2F9F4 /* main.c */; };
+		0EBD6CC8219EADF400D2F9F4 /* libshout.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EBD6CC7219EADF400D2F9F4 /* libshout.3.dylib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0EBD669B219CE2C200D2F9F4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0E5CEC2021A7DBCC007DD431 /* libssl.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.1.dylib; path = ../LocalRadio/MacPorts_Libraries/libssl.1.1.dylib; sourceTree = "<group>"; };
+		0E5CEC2221A7DBDA007DD431 /* libcrypto.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.1.dylib; path = ../LocalRadio/MacPorts_Libraries/libcrypto.1.1.dylib; sourceTree = "<group>"; };
+		0EBD669D219CE2C200D2F9F4 /* IcecastSourceClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = IcecastSourceClient; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EBD6B46219E826300D2F9F4 /* LocalRadio libshout note.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "LocalRadio libshout note.txt"; sourceTree = "<group>"; };
+		0EBD6B47219E826300D2F9F4 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		0EBD6CC2219E8BD300D2F9F4 /* shout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = shout.h; path = "../../LocalRadio/Icecast-libshout-master/include/shout/shout.h"; sourceTree = "<group>"; };
+		0EBD6CC7219EADF400D2F9F4 /* libshout.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libshout.3.dylib; path = "../LocalRadio/Icecast-libshout-master/src/.libs/libshout.3.dylib"; sourceTree = "<group>"; };
+		0EBD6CCB219EB7BB00D2F9F4 /* IcecastSourceClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IcecastSourceClient.entitlements; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0EBD669A219CE2C200D2F9F4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EBD6CC8219EADF400D2F9F4 /* libshout.3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0EBD6694219CE2C200D2F9F4 = {
+			isa = PBXGroup;
+			children = (
+				0EBD6B45219E826300D2F9F4 /* IcecastSourceClient */,
+				0EBD669E219CE2C200D2F9F4 /* Products */,
+				0EBD6CC6219EADF400D2F9F4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0EBD669E219CE2C200D2F9F4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0EBD669D219CE2C200D2F9F4 /* IcecastSourceClient */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0EBD6B45219E826300D2F9F4 /* IcecastSourceClient */ = {
+			isa = PBXGroup;
+			children = (
+				0EBD6B46219E826300D2F9F4 /* LocalRadio libshout note.txt */,
+				0EBD6CC2219E8BD300D2F9F4 /* shout.h */,
+				0EBD6B47219E826300D2F9F4 /* main.c */,
+				0EBD6CCB219EB7BB00D2F9F4 /* IcecastSourceClient.entitlements */,
+			);
+			path = IcecastSourceClient;
+			sourceTree = "<group>";
+		};
+		0EBD6CC6219EADF400D2F9F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0EBD6CC7219EADF400D2F9F4 /* libshout.3.dylib */,
+				0E5CEC2021A7DBCC007DD431 /* libssl.1.1.dylib */,
+				0E5CEC2221A7DBDA007DD431 /* libcrypto.1.1.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0EBD669C219CE2C200D2F9F4 /* IcecastSourceClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0EBD66A4219CE2C200D2F9F4 /* Build configuration list for PBXNativeTarget "IcecastSourceClient" */;
+			buildPhases = (
+				0EBD6699219CE2C200D2F9F4 /* Sources */,
+				0EBD669A219CE2C200D2F9F4 /* Frameworks */,
+				0EBD669B219CE2C200D2F9F4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IcecastSourceClient;
+			productName = IcecastSourceClient;
+			productReference = 0EBD669D219CE2C200D2F9F4 /* IcecastSourceClient */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0EBD6695219CE2C200D2F9F4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "ArkPhone LLC";
+				TargetAttributes = {
+					0EBD669C219CE2C200D2F9F4 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 0EBD6698219CE2C200D2F9F4 /* Build configuration list for PBXProject "IcecastSourceClient" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0EBD6694219CE2C200D2F9F4;
+			productRefGroup = 0EBD669E219CE2C200D2F9F4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0EBD669C219CE2C200D2F9F4 /* IcecastSourceClient */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0EBD6699219CE2C200D2F9F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EBD6B48219E826300D2F9F4 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0EBD66A2219CE2C200D2F9F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0EBD66A3219CE2C200D2F9F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0EBD66A5219CE2C200D2F9F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = IcecastSourceClient.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				HEADER_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../LocalRadio/MacPorts_Libraries\"",
+					"@rpath/Frameworks/",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../LocalRadio/MacPorts_Libraries\"",
+					"$(PROJECT_DIR)/IcecastSourceClient",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Debug;
+		};
+		0EBD66A6219CE2C200D2F9F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = IcecastSourceClient.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				HEADER_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../LocalRadio/MacPorts_Libraries\"",
+					"@rpath/Frameworks/",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../LocalRadio/MacPorts_Libraries\"",
+					"$(PROJECT_DIR)/IcecastSourceClient",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0EBD6698219CE2C200D2F9F4 /* Build configuration list for PBXProject "IcecastSourceClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EBD66A2219CE2C200D2F9F4 /* Debug */,
+				0EBD66A3219CE2C200D2F9F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0EBD66A4219CE2C200D2F9F4 /* Build configuration list for PBXNativeTarget "IcecastSourceClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EBD66A5219CE2C200D2F9F4 /* Debug */,
+				0EBD66A6219CE2C200D2F9F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0EBD6695219CE2C200D2F9F4 /* Project object */;
+}

@@ -797,7 +797,7 @@ void * runInputBufferOnThread(void * ptr)
             }
             else
             {
-                fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
+                //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
             }
         }
 
@@ -1141,6 +1141,8 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                         }
 
                         fwrite(convertedDataPtr, convertedDataLength, 1, stdout);    // write resampled audio to stdout, can be piped to sox, etc.
+                        
+                        fflush(stdout);
 
                         /*
                         if (packetOutputIndex == 0)

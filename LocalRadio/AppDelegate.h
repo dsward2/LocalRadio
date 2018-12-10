@@ -20,6 +20,7 @@
 @class UDPStatusListenerController;
 @class FCCMapController;
 @class CustomTaskController;
+@class LocalRadioAPI;
 
 #define kListenModeIdle 0
 #define kListenModeFrequency 1
@@ -32,6 +33,7 @@
 
 @property (weak) IBOutlet WebViewDelegate * webViewDelegate;
 
+// These object are instantiated and inter-connected in Inteface Builder
 @property (strong) IBOutlet LocalRadioAppSettings * localRadioAppSettings;
 @property (strong) IBOutlet SQLiteController * sqliteController;
 @property (strong) IBOutlet WebServerController * webServerController;
@@ -42,7 +44,9 @@
 @property (strong) IBOutlet UDPStatusListenerController * udpStatusListenerController;
 @property (strong) IBOutlet FCCMapController * fccMapController;
 @property (strong) IBOutlet CustomTaskController * customTaskController;
+@property (strong) IBOutlet LocalRadioAPI * localRadioAPI;
 
+// Main window elements
 @property (weak) IBOutlet NSTextField * statusIcecastServerTextField;
 @property (weak) IBOutlet NSTextField * statusIcecastSourceTextField;
 @property (weak) IBOutlet NSTextField * statusRTLSDRTextField;
@@ -70,7 +74,8 @@
 @property (weak) IBOutlet NSTextField * httpServerURLTextField;
 
 @property (weak) IBOutlet NSTextField * icecastServerHostTextField;
-@property (weak) IBOutlet NSTextField * icecastServerPortTextField;
+@property (weak) IBOutlet NSTextField * icecastServerHTTPPortTextField;
+@property (weak) IBOutlet NSTextField * icecastServerHTTPSPortTextField;
 @property (weak) IBOutlet NSTextField * icecastServerMountNameTextField;
 @property (weak) IBOutlet NSTextField * icecastServerSourcePasswordTextField;
 @property (weak) IBOutlet NSTextField * icecastServerWebURLTextField;
@@ -91,7 +96,8 @@
 @property (weak) IBOutlet NSTextField * editHttpServerURLTextField;
 
 @property (weak) IBOutlet NSTextField * editIcecastServerHostTextField;
-@property (weak) IBOutlet NSTextField * editIcecastServerPortTextField;
+@property (weak) IBOutlet NSTextField * editIcecastServerHTTPPortTextField;
+@property (weak) IBOutlet NSTextField * editIcecastServerHTTPSPortTextField;
 @property (weak) IBOutlet NSTextField * editIcecastServerMountNameTextField;
 @property (weak) IBOutlet NSTextField * editIcecastServerSourcePasswordTextField;
 @property (weak) IBOutlet NSTextField * editIcecastServerWebURLTextField;
@@ -117,10 +123,13 @@
 @property (strong) NSTimer * periodicUpdateTimer;
 
 @property (strong) NSString * aacBitrate;
+@property (strong) NSString * icecastServerMountName;
+
 @property (assign) BOOL useWebViewAudioPlayer;
 @property (assign) BOOL useAutoPlay;
 @property (assign) BOOL logAllStderrMessages;
-@property (assign) NSUInteger icecastServerPort;
+@property (assign) NSUInteger icecastServerHTTPPort;
+@property (assign) NSUInteger icecastServerHTTPSPort;
 @property (strong) NSString * statusFrequencyID;
 @property (strong) NSString * statusFrequency;
 @property (strong) NSString * statusName;

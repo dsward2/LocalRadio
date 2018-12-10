@@ -7,7 +7,7 @@
    respective input files.
  -->
 <ezstream>
-    <url>http://127.0.0.1:17003/live</url>
+    <url>https://127.0.0.1:17003/live</url>
     <!--
       If a different user name than "source" should be used, set it in
       <sourceuser/>:
@@ -25,7 +25,7 @@
       <svrinfoquality /> only applies to Ogg Vorbis streams.
      -->
     <svrinfoname>My Stream</svrinfoname>
-    <svrinfourl>http://127.0.0.1:17002/localradio.aac</svrinfourl>
+    <svrinfourl>https://127.0.0.1:17002/localradio.aac</svrinfourl>
     <svrinfogenre>LocalRadio</svrinfogenre>
     <svrinfodescription>LocalRadio streaming audio</svrinfodescription>
     <svrinfobitrate>128</svrinfobitrate>
