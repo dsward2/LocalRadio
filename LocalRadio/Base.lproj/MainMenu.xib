@@ -77,6 +77,7 @@
                 <outlet property="statusSquelchLevelTextField" destination="qpa-Zu-LaT" id="umC-6M-6Kc"/>
                 <outlet property="statusTunerAGCTextField" destination="uEF-sp-svp" id="DhU-qg-lvN"/>
                 <outlet property="statusTunerGainTextField" destination="ny3-Ix-eRt" id="T37-U1-xDG"/>
+                <outlet property="tlsManager" destination="O7M-mg-Yp2" id="Lqu-iX-i6H"/>
                 <outlet property="udpStatusListenerController" destination="KKE-68-zsV" id="C5X-7t-ytN"/>
                 <outlet property="useAutoPlayCheckbox" destination="dfu-YO-d0f" id="Op9-YW-w9d"/>
                 <outlet property="useWebViewAudioPlayerCheckbox" destination="X6N-TX-t5V" id="LaB-JM-gOh"/>
@@ -170,6 +171,11 @@
             <connections>
                 <outlet property="appDelegate" destination="Voe-Tx-rLC" id="Hy0-Ib-AnI"/>
                 <outlet property="sqliteController" destination="xfL-CU-04B" id="SSf-AW-qa4"/>
+            </connections>
+        </customObject>
+        <customObject id="O7M-mg-Yp2" userLabel="TLSManager" customClass="TLSManager">
+            <connections>
+                <outlet property="appDelegate" destination="Voe-Tx-rLC" id="wFL-ZM-UZf"/>
             </connections>
         </customObject>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">

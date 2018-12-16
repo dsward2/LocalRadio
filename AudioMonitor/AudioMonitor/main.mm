@@ -76,7 +76,7 @@ int main(int argc, const char * argv[])
         
         while (1)
         {
-            [NSThread sleepForTimeInterval:0.1f];        
+            [NSThread sleepForTimeInterval:0.1f];
         }
         
         //CFRunLoopRun();

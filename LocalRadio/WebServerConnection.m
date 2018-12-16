@@ -18,7 +18,7 @@
 #import "HTTPMessage.h"
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAPI.h"
-#import "DDKeychain.h"
+#import "DDKeychain_LocalRadio.h"
 #import "GCDAsyncSocket.h"
 
 #import <AudioToolbox/AudioServices.h>
@@ -3617,19 +3617,22 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     return YES;
 }
 
+
+
 /**
  * This method is expected to returns an array appropriate for use in kCFStreamSSLCertificates SSL Settings.
  * It should be an array of SecCertificateRefs except for the first element in the array, which is a SecIdentityRef.
 **/
 - (NSArray *)sslIdentityAndCertificates
 {
-    NSArray *result = [DDKeychain SSLIdentityAndCertificates];
+    NSArray *result = [DDKeychain_LocalRadio SSLIdentityAndCertificates];
     if([result count] == 0)
     {
         HTTPLogInfo(@"sslIdentityAndCertificates: Creating New Identity...");
-        [DDKeychain createNewIdentity];
-        return [DDKeychain SSLIdentityAndCertificates];
+        [DDKeychain_LocalRadio createNewIdentity];
+        return [DDKeychain_LocalRadio SSLIdentityAndCertificates];
     }
+
     return result;
 }
 

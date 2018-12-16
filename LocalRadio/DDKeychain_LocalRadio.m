@@ -1,7 +1,7 @@
-#import "DDKeychain.h"
+#import "DDKeychain_LocalRadio.h"
 
 
-@implementation DDKeychain
+@implementation DDKeychain_LocalRadio
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Server:
@@ -107,6 +107,8 @@
 #pragma mark Identity:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Modified for LocalRadio
+
 /**
  * This method creates a new identity, and adds it to the keychain.
  * An identity is simply a certificate (public key and public information) along with a matching private key.
@@ -120,7 +122,7 @@
 	CFArrayRef outItems = NULL;
 	
 	// Configure the paths where we'll create all of our identity files
-	NSString *basePath = [DDKeychain applicationTemporaryDirectory];
+	NSString *basePath = [DDKeychain_LocalRadio applicationTemporaryDirectory];
 	
 	NSString *privateKeyPath  = [basePath stringByAppendingPathComponent:@"private.pem"];
 	NSString *reqConfPath     = [basePath stringByAppendingPathComponent:@"req.conf"];
@@ -158,12 +160,12 @@
 	[mStr appendFormat:@"%@\n", @""];
 	[mStr appendFormat:@"%@\n", @"[ req_distinguished_name ]"];
 	[mStr appendFormat:@"%@\n", @"C                   = US"];
-	[mStr appendFormat:@"%@\n", @"ST                  = Missouri"];
-	[mStr appendFormat:@"%@\n", @"L                   = Springfield"];
-	[mStr appendFormat:@"%@\n", @"O                   = Deusty Designs, LLC"];
+	[mStr appendFormat:@"%@\n", @"ST                  = Arkansas"];
+	[mStr appendFormat:@"%@\n", @"L                   = Conway"];
+	[mStr appendFormat:@"%@\n", @"O                   = ArkPhone, LLC"];
 	[mStr appendFormat:@"%@\n", @"OU                  = Open Source"];
-	[mStr appendFormat:@"%@\n", @"CN                  = SecureHTTPServer"];
-	[mStr appendFormat:@"%@\n", @"emailAddress        = robbiehanson@deusty.com"];
+	[mStr appendFormat:@"%@\n", @"CN                  = LocalRadio"];
+	[mStr appendFormat:@"%@\n", @"emailAddress        = dsward@arkphone.com"];
 	
 	[mStr writeToFile:reqConfPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
 	
@@ -200,7 +202,7 @@
 	                                                     @"-inkey", privateKeyPath,
 	                                                     @"-passout", @"pass:password",
 	                                                     @"-out", certWrapperPath,
-	                                                     @"-name", @"SecureHTTPServer", nil];
+	                                                     @"-name", @"LocalRadioHTTPServer", nil];
 	
 	NSTask *genCertWrapperTask = [[NSTask alloc] init];
 	
@@ -349,8 +351,8 @@
 	
 	NSLog(@"OSStatus: %i", err);
 	
-	NSLog(@"SecExternalFormat: %@", [DDKeychain stringForSecExternalFormat:inputFormat]);
-	NSLog(@"SecExternalItemType: %@", [DDKeychain stringForSecExternalItemType:itemType]);
+	NSLog(@"SecExternalFormat: %@", [DDKeychain_LocalRadio stringForSecExternalFormat:inputFormat]);
+	NSLog(@"SecExternalItemType: %@", [DDKeychain_LocalRadio stringForSecExternalItemType:itemType]);
 	
 	NSLog(@"outItems: %@", (__bridge NSArray *)outItems);
 	
@@ -456,7 +458,7 @@
 				// Ugly Hack
 				// For some reason, name sometimes contains odd characters at the end of it
 				// I'm not sure why, and I don't know of a proper fix, thus the use of the hasPrefix: method
-				if([name hasPrefix:@"SecureHTTPServer"])
+				if([name hasPrefix:@"LocalRadioHTTPServer"])
 				{
 					// It's possible for there to be more than one private key with the above prefix
 					// But we're only allowed to have one identity, so we make sure to only add one to the array
@@ -495,7 +497,7 @@
 + (NSString *)applicationTemporaryDirectory
 {
 	NSString *userTempDir = NSTemporaryDirectory();
-	NSString *appTempDir = [userTempDir stringByAppendingPathComponent:@"SecureHTTPServer"];
+	NSString *appTempDir = [userTempDir stringByAppendingPathComponent:@"LocalRadioHTTPServer"];
 	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if([fileManager fileExistsAtPath:appTempDir] == NO)

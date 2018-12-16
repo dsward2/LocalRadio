@@ -116,9 +116,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         [self.httpServer setType:@"_http._tcp."];
 
 		NSString * computerName = [[NSHost currentHost] localizedName];
-        NSString * bonjourName = [NSString stringWithFormat:@"LocalRadio.%@", computerName];
+        NSString * bonjourServiceName = [NSString stringWithFormat:@"LocalRadio.%@", computerName];
 
-        [self.httpServer setName:bonjourName];
+        [self.httpServer setName:bonjourServiceName];
         
         // Normally there's no need to run our server on any specific port.
         // Technologies like Bonjour allow clients to dynamically discover the server's port at runtime.

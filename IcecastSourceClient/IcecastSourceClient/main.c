@@ -62,8 +62,8 @@ int runIcecastSource()
 
     fprintf(stderr, "IcecastSourceClient - runIcecastSource start connection to Icecast server\n");
     
-    //char * icecastServerCertificateFilePath = strcat((char *)argCertificatesPath, "icecastServer.pem");
-    //char * certificateAuthorityPath = strcat((char *)argCertificatesPath, "IcecastCA.pem");
+    //char * icecastServerCertificateFilePath = strcat((char *)argCertificatesPath, "LocalRadioServer.pem");
+    //char * certificateAuthorityPath = strcat((char *)argCertificatesPath, "LocalRadioCA.pem");
 
     shout_init();
 

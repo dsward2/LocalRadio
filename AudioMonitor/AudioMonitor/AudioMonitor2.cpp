@@ -728,7 +728,7 @@ void * runInputBufferOnThread(void * ptr)
             if (headPtr == NULL)
             {
                 // buffer is full?
-                fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - buffer is full?\n");
+                //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - buffer is full?\n");
 
                 usleep(5000);
             }
@@ -780,7 +780,7 @@ void * runInputBufferOnThread(void * ptr)
                     {
                         fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error inputBufferPtr=%llx, bytesAvailableCount=%d\n", (UInt64)headPtr, bytesAvailableCount);
                         
-                        sleep(1);
+                       sleep(1);
                     }
 
                     bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
@@ -1417,7 +1417,7 @@ void * runAudioQueueOnThread(void * ptr)
 {
     pthread_setname_np("AudioMonitor2 runAudioQueueOnThread");
 
-    sleep(3);     // allow time for startup
+    sleep(1);     // allow time for startup
 
     if (volume > 0.0f)
     {

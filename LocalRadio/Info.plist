@@ -28,16 +28,6 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		<key>NSAllowsArbitraryLoadsInWebContent</key>
-		<true/>
-		<key>NSAllowsArbitraryLoadsForMedia</key>
-		<true/>
-		<key>NSTemporaryExceptionMinimumTLSVersion</key>
-		<string>TLSv1.1</string>
-		<key>NSExceptionAllowsInsecureHTTPLoads</key>
-		<true/>
-		<key>NSExceptionRequiresForwardSecrecy</key>
-		<false/>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2017-2018 ArkPhone LLC. All rights reserved.</string>

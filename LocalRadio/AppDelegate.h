@@ -21,6 +21,7 @@
 @class FCCMapController;
 @class CustomTaskController;
 @class LocalRadioAPI;
+@class TLSManager;
 
 #define kListenModeIdle 0
 #define kListenModeFrequency 1
@@ -45,6 +46,7 @@
 @property (strong) IBOutlet FCCMapController * fccMapController;
 @property (strong) IBOutlet CustomTaskController * customTaskController;
 @property (strong) IBOutlet LocalRadioAPI * localRadioAPI;
+@property (strong) IBOutlet TLSManager * tlsManager;
 
 // Main window elements
 @property (weak) IBOutlet NSTextField * statusIcecastServerTextField;

@@ -42,6 +42,7 @@
 
 
 - (NSDictionary *)icecastStatusDictionary;
-- (NSString *)icecastWebServerURLString;
+- (NSString *)icecastWebServerHTTPSURLString;
+- (NSString *)icecastWebServerHTTPURLString;
 
 @end

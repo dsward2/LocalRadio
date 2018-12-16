@@ -201,10 +201,6 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
             {
                 usleep(1000);
             }
-
-
-            //[NSThread sleepForTimeInterval:0.1f];
-            //usleep(1000);
         }
         else
         {

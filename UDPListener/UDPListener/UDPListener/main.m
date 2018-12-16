@@ -142,7 +142,6 @@
 
         CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.025, false);
 
-        //[NSThread sleepForTimeInterval:pollingInterval];
         usleep(5000);
     }
     

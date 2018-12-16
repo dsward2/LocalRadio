@@ -21,6 +21,7 @@
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
 #import "FCCSearchController.h"
+#import "TLSManager.h"
 #import <IOKit/usb/IOUSBLib.h>
 #import <IOKit/hid/IOHIDLib.h>
 
@@ -161,6 +162,8 @@ typedef struct kinfo_proc kinfo_proc;
         
         if (conflictsFound == NO)
         {
+            [self.tlsManager configureCertificates];
+ 
             [self.sqliteController startSQLiteConnection];
 
             [self.localRadioAppSettings registerDefaultSettings];
@@ -1177,7 +1180,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 - (IBAction)openIcecastServerWebPage:(id)sender
 {
-    NSString * urlString = [self.icecastController icecastWebServerURLString];
+    NSString * urlString = [self.icecastController icecastWebServerHTTPSURLString];
 
     if (urlString != NULL)
     {

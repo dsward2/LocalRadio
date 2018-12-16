@@ -71,7 +71,6 @@
 		0E1BA16C1EC8A0C200130DB9 /* libsox.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA1281EC8A09700130DB9 /* libsox.3.dylib */; };
 		0E1BA1721EC8A0C200130DB9 /* libtwolame.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA12E1EC8A09700130DB9 /* libtwolame.0.dylib */; };
 		0E1BA1731EC8A0C200130DB9 /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E1BA12F1EC8A09700130DB9 /* libusb-1.0.0.dylib */; };
-		0E1F694821BEFF2A00A1F356 /* DDKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F694721BEFF2900A1F356 /* DDKeychain.m */; };
 		0E28BE6B1F2B6A48005999FB /* UDPStatusListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */; };
 		0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */; };
 		0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */; };
@@ -144,6 +143,8 @@
 		0EA5A9141EFF655000AAD26D /* silence.mp3 in Copy Icecast Web Files */ = {isa = PBXBuildFile; fileRef = 0EA5A9121EFF4EB100AAD26D /* silence.mp3 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA9CD4E211E70AA005B792B /* CustomTaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9CD4D211E70AA005B792B /* CustomTaskController.m */; };
 		0EA9CD5021228D93005B792B /* libao.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA9CD4F21228BDC005B792B /* libao.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0EB0470821C596C9000285EB /* TLSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0470721C596C9000285EB /* TLSManager.m */; };
+		0EB0470921C59C3E000285EB /* DDKeychain_LocalRadio.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F694721BEFF2900A1F356 /* DDKeychain_LocalRadio.m */; };
 		0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0EE1F690813008DBE9A /* BUILD.md */; };
 		0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F01F6915D3008DBE9A /* CREDITS.md */; };
 		0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */; };
@@ -1087,8 +1088,8 @@
 		0E1BA1311EC8A09700130DB9 /* libvorbisenc.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvorbisenc.2.dylib; sourceTree = "<group>"; };
 		0E1BA1321EC8A09700130DB9 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		0E1BA1331EC8A09700130DB9 /* libwavpack.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libwavpack.1.dylib; sourceTree = "<group>"; };
-		0E1F68F821BEFF2800A1F356 /* DDKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDKeychain.h; sourceTree = "<group>"; };
-		0E1F694721BEFF2900A1F356 /* DDKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDKeychain.m; sourceTree = "<group>"; };
+		0E1F68F821BEFF2800A1F356 /* DDKeychain_LocalRadio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDKeychain_LocalRadio.h; sourceTree = "<group>"; };
+		0E1F694721BEFF2900A1F356 /* DDKeychain_LocalRadio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDKeychain_LocalRadio.m; sourceTree = "<group>"; };
 		0E207E721F1DA81C001AA972 /* editcategorysettings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editcategorysettings.html; sourceTree = "<group>"; };
 		0E207E981F1DCA99001AA972 /* storecategory.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = storecategory.html; sourceTree = "<group>"; };
 		0E23B3141F1F36ED00565394 /* SoxController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoxController.h; sourceTree = "<group>"; };
@@ -1648,6 +1649,8 @@
 		0EA9CD4C211E70AA005B792B /* CustomTaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTaskController.h; sourceTree = "<group>"; };
 		0EA9CD4D211E70AA005B792B /* CustomTaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTaskController.m; sourceTree = "<group>"; };
 		0EA9CD4F21228BDC005B792B /* libao.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libao.4.dylib; sourceTree = "<group>"; };
+		0EB0470621C596C9000285EB /* TLSManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLSManager.h; sourceTree = "<group>"; };
+		0EB0470721C596C9000285EB /* TLSManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLSManager.m; sourceTree = "<group>"; };
 		0EB5B0EE1F690813008DBE9A /* BUILD.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = BUILD.md; sourceTree = "<group>"; };
 		0EB5B0F01F6915D3008DBE9A /* CREDITS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CREDITS.md; sourceTree = "<group>"; };
 		0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Documents/Images/AppIcon/Assets.xcassets; sourceTree = SOURCE_ROOT; };
@@ -3603,8 +3606,10 @@
 				0E32F8E31FEBA01600492813 /* TaskItem.m */,
 				0E027D642185A4500030B6C1 /* LocalRadioAPI.h */,
 				0E027D652185A4500030B6C1 /* LocalRadioAPI.m */,
-				0E1F68F821BEFF2800A1F356 /* DDKeychain.h */,
-				0E1F694721BEFF2900A1F356 /* DDKeychain.m */,
+				0E1F68F821BEFF2800A1F356 /* DDKeychain_LocalRadio.h */,
+				0E1F694721BEFF2900A1F356 /* DDKeychain_LocalRadio.m */,
+				0EB0470621C596C9000285EB /* TLSManager.h */,
+				0EB0470721C596C9000285EB /* TLSManager.m */,
 				0E84C9711ED8DA650065864B /* WebServerConnection.h */,
 				0E84C9721ED8DA650065864B /* WebServerConnection.m */,
 				0E4ED1AB1EAB823B00D2157B /* WebServerController.h */,
@@ -7451,10 +7456,10 @@
 				0E0FDA031EF76AF800FEEA06 /* IcecastController.m in Sources */,
 				0E4ED18F1EAB7E5400D2157B /* HTTPErrorResponse.m in Sources */,
 				0E027D662185A4500030B6C1 /* LocalRadioAPI.m in Sources */,
+				0EB0470921C59C3E000285EB /* DDKeychain_LocalRadio.m in Sources */,
 				0E4ECFC31EAB633B00D2157B /* main.m in Sources */,
 				0E4ED1901EAB7E5700D2157B /* HTTPFileResponse.m in Sources */,
 				0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */,
-				0E1F694821BEFF2A00A1F356 /* DDKeychain.m in Sources */,
 				0EC207671EDCE11A006899EB /* SDRController.m in Sources */,
 				0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */,
 				0ED06E3B215F354800430953 /* IcecastSourceController.m in Sources */,
@@ -7481,6 +7486,7 @@
 				0E4ED1841EAB7DB000D2157B /* HTTPServer.m in Sources */,
 				0E4ED1951EAB7ED400D2157B /* DDNumber.m in Sources */,
 				0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */,
+				0EB0470821C596C9000285EB /* TLSManager.m in Sources */,
 				0E4ED1831EAB7DA700D2157B /* HTTPConnection.m in Sources */,
 				0ED6CA9B20B2089700D82331 /* DDTTYLogger.m in Sources */,
 				0E4ED1AD1EAB823B00D2157B /* WebServerController.m in Sources */,

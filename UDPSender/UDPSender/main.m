@@ -132,9 +132,8 @@ pid_t originalParentProcessPID;
 
         if (bytesAvailableCount <= 0)
         {
-            //[NSThread sleepForTimeInterval:0.1f];
             usleep(1000);
-        }
+       }
         else
         {
             unsigned long bytesConsumedCount = bytesAvailableCount;

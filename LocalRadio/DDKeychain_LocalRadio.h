@@ -1,7 +1,9 @@
+// Based on DDKeychain, modified for LocalRadio
+
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
 
-@interface DDKeychain : NSObject
+@interface DDKeychain_LocalRadio : NSObject
 {
 	
 }
