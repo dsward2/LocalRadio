@@ -7,7 +7,7 @@
 //
 
 #import "LocalRadioAppSettings.h"
-#import "WebServerConnection.h"
+#import "HTTPWebServerConnection.h"
 #import "HTTPDynamicFileResponse.h"
 #import "HTTPLogging.h"
 #import "AppDelegate.h"
@@ -33,7 +33,7 @@
 // Other flags: trace
 static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
-@implementation WebServerConnection
+@implementation HTTPWebServerConnection
 
 //==================================================================================
 //	initWithAsyncSocket:configuration:

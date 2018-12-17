@@ -6,7 +6,7 @@
 //  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 //
 
-#import "WebServerController.h"
+#import "HTTPWebServerController.h"
 #import <WebKit/WebKit.h>
 
 // CocoaHTTPServer
@@ -18,7 +18,7 @@
 #import "HTTPConnection.h"
 
 #import "LocalRadioAppSettings.h"
-#import "WebServerConnection.h"
+#import "HTTPWebServerConnection.h"
 #import "AppDelegate.h"
 
 
@@ -26,11 +26,11 @@
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 
-@interface WebServerController (PrivateMethods)
+@interface HTTPWebServerController (PrivateMethods)
 @property (readonly, copy) NSString *applicationSupportFolder;
 @end
 
-@implementation WebServerController
+@implementation HTTPWebServerController
 
 //==================================================================================
 //	dealloc
@@ -52,7 +52,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     self = [super init];
     if (self) {
-        [self startProcessing];
+        //[self startProcessing];   // don't start immediately, but call startHTTPServer from AppDelegate
     }
     return self;
 }
@@ -92,12 +92,12 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     if (self.httpServer == NULL)
     {
-        NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
-        if (httpServerPortNumber.integerValue <= 0)
+        NSNumber * localRadioServerHTTPPort = [self.appDelegate.localRadioAppSettings integerForKey:@"LocalRadioServerHTTPPort"];
+        if (localRadioServerHTTPPort.integerValue <= 0)
         {
-            httpServerPortNumber = [NSNumber numberWithInteger:17002];
+            localRadioServerHTTPPort = [NSNumber numberWithInteger:17002];
         }
-        self.webServerPort = httpServerPortNumber.integerValue;;
+        self.webServerPort = localRadioServerHTTPPort.integerValue;
 
         // For CocoaHTTPServer
         // Configure our logging framework.
@@ -109,7 +109,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         
         // Tell server to use our custom HTTPConnection class.
         //[self.httpServer setConnectionClass:[HTTPConnection class]];
-        [self.httpServer setConnectionClass:[WebServerConnection class]];  // custom class for dynamic response
+        [self.httpServer setConnectionClass:[HTTPWebServerConnection class]];  // custom class for dynamic response
         
         // Tell the server to broadcast its presence via Bonjour.
         // This allows browsers such as Safari to automatically discover our service.

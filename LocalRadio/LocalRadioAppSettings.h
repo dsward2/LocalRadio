@@ -17,6 +17,7 @@
 @property (strong) IBOutlet SQLiteController * sqliteController;
 
 - (void) registerDefaultSettings;
+- (void) setDefaultSettings;
 
 - (NSNumber *) integerForKey:(NSString *)key;
 - (void) setInteger:(NSInteger)aInteger forKey:(NSString *)key;

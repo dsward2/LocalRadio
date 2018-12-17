@@ -199,7 +199,7 @@
 {
     // write a fresh copy of ezstream_mp3.xml to the (sandboxed) Application Support directory for this app, and return the path
 
-    NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"HTTPServerPort"];
+    NSNumber * httpServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"LocalRadioServerHTTPPort"];
     NSNumber * icecastServerModeNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerMode"];
     NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];

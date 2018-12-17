@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LocalRadioAppSettings.h"
-#import "WebServerController.h"
+#import "HTTPWebServerController.h"
 #import "SQLiteController.h"
 #import "SDRController.h"
 #import "IcecastController.h"
@@ -94,60 +94,11 @@ typedef struct kinfo_proc kinfo_proc;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [self performSelectorInBackground:@selector(configureServices) withObject:NULL];
-
-/*
-    BOOL conflictsFound = NO;
-
-    [self checkForRTLSDRUSBDevice];
-    
-    if (self.rtlsdrDeviceFound  == YES)
-    {
-        conflictsFound = [self checkForProcessConflicts];
-        
-        if (conflictsFound == NO)
-        {
-            [self.sqliteController startSQLiteConnection];
-
-            [self.localRadioAppSettings registerDefaultSettings];
-            
-            [self.icecastController configureIcecast];
-            
-            self.useWebViewAudioPlayerCheckbox.state = YES;
-            self.listenMode = kListenModeIdle;
-
-            NSNumber * logAllStderrMessagesNumber = [self.localRadioAppSettings integerForKey:@"CaptureStderr"];
-            self.logAllStderrMessagesCheckbox.state = logAllStderrMessagesNumber.boolValue;
-
-            [self updateCopiedSettingsValues];
-
-            [NSThread detachNewThreadSelector:@selector(startServices) toTarget:self withObject:NULL];
-            
-            [self updateViews:self];
-            
-            self.periodicUpdateTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(periodicUpdateTimerFired:) userInfo:self repeats:YES];
-
-            [[NSRunLoop mainRunLoop] addTimer:self.periodicUpdateTimer forMode:NSDefaultRunLoopMode];
-            
-            NSNumber * statusPortNumber = [self.localRadioAppSettings integerForKey:@"StatusPort"];
-            [self.udpStatusListenerController runServerOnPort:statusPortNumber.integerValue];
-            
-        }
-        else
-        {
-            // app termination in progress due to process confict
-        }
-    }
-    else
-    {
-        // app termination in progress due RTL-SDR device not found
-    }
-
-    [self updateCurrentTasksText:self];
-    
-    [self.customTaskController updateTaskNamesArray];
-*/
 }
 
+//==================================================================================
+//    configureServices
+//==================================================================================
 
 - (void)configureServices
 {
@@ -233,7 +184,7 @@ typedef struct kinfo_proc kinfo_proc;
 {
     [self.icecastController startIcecastServer];
 
-    [self.webServerController startHTTPServer];
+    [self.httpWebServerController startHTTPServer];
     
     [self.webViewDelegate loadMainPage];
 
@@ -319,9 +270,6 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (IBAction)updateCurrentTasksText:(id)sender
 {
-    //NSLog(@"updateCurrentTasksText");
-    //return;
-
     if (self.applicationIsTerminating == NO)
     {
         NSMutableString * tasksString = [NSMutableString string];
@@ -375,7 +323,6 @@ typedef struct kinfo_proc kinfo_proc;
         });
     }
 }
-
 
 //==================================================================================
 //	processIsRunning
@@ -511,16 +458,13 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 - (NSString *)localHostString
 {
-    //NSString * computerName = [[NSHost currentHost] localizedName];
-    //NSString * bonjourName = [NSString stringWithFormat:@"%@.local", computerName];
     NSString * bonjourName = [[NSHost currentHost] name];
     
     NSArray * hostNames = [[NSHost currentHost] names];
     
     for (NSString * aHostName in hostNames)
     {
-        NSRange localRange = [aHostName rangeOfString:@".local"];
-        if (localRange.location == aHostName.length - 6)
+        if ([aHostName hasSuffix:@".local"] == YES)
         {
             bonjourName = aHostName;
             break;
@@ -585,9 +529,9 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 // ================================================================
 
-- (NSString *)portString
+- (NSString *)httpWebServerPortString
 {
-    NSUInteger webHostPort = self.webServerController.webServerPort;
+    NSUInteger webHostPort = self.httpWebServerController.webServerPort;
     
     NSString * portString = [NSString stringWithFormat:@"%lu", (unsigned long)webHostPort];
     
@@ -599,7 +543,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 - (NSString *)webServerControllerURLString
 {
     NSString * hostString = [self localHostString];
-    NSString * portString = [self portString];
+    NSString * portString = [self httpWebServerPortString];
     NSInteger portInteger = portString.integerValue;
 
     NSString * urlString = [NSString stringWithFormat:@"https://%@:%ld", hostString, portInteger];
@@ -886,8 +830,8 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         NSLog(@"AppDelegate.updateViews isMainThread = NO");
     }
 
-    NSNumber * httpServerPortNumber = [self.localRadioAppSettings integerForKey:@"HTTPServerPort"];
-    //NSNumber * icecastServerModeNumber = [self.localRadioAppSettings integerForKey:@"IcecastServerMode"];
+    NSNumber * localRadioServerHTTPPortNumber = [self.localRadioAppSettings integerForKey:@"LocalRadioServerHTTPPort"];
+    NSNumber * localRadioServerHTTPSPortNumber = [self.localRadioAppSettings integerForKey:@"LocalRadioServerHTTPSPort"];
     NSString * icecastServerHost = [self.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSString * icecastServerSourcePassword = [self.localRadioAppSettings valueForKey:@"IcecastServerSourcePassword"];
     NSString * icecastServerMountName = [self.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
@@ -898,95 +842,90 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSNumber * audioPortNumber = [self.localRadioAppSettings integerForKey:@"AudioPort"];
     NSString * aacBitrateString = [self.localRadioAppSettings valueForKey:@"AACBitrate"];
 
-    NSString * httpHostName = [self localHostString];
-    
-    if (httpServerPortNumber != NULL)
+    if (localRadioServerHTTPPortNumber != NULL)
     {
-        self.httpServerPortTextField.integerValue = httpServerPortNumber.integerValue;
+        self.localRadioHTTPServerPortTextField.integerValue = localRadioServerHTTPPortNumber.integerValue;
+        self.editLocalRadioHTTPServerPortTextField.integerValue = localRadioServerHTTPPortNumber.integerValue;
     }
     else
     {
-        self.httpServerPortTextField.stringValue = @"";
+        self.localRadioHTTPServerPortTextField.stringValue = @"";
+        self.editLocalRadioHTTPServerPortTextField.stringValue = @"";
     }
     
-    if (httpServerPortNumber != NULL)
+    if (localRadioServerHTTPSPortNumber != NULL)
     {
-        self.httpServerURLTextField.stringValue = [NSString stringWithFormat:@"https://%@:%ld", httpHostName, httpServerPortNumber.integerValue];
+        self.localRadioHTTPSServerPortTextField.integerValue = localRadioServerHTTPSPortNumber.integerValue;
+        self.editLocalRadioHTTPSServerPortTextField.integerValue = localRadioServerHTTPSPortNumber.integerValue;
     }
     else
     {
-        self.httpServerURLTextField.stringValue = @"";
-    }
-    
-    if (httpServerPortNumber != NULL)
-    {
-        self.httpServerPortTextField.integerValue = httpServerPortNumber.integerValue;
-    }
-    else
-    {
-        self.httpServerPortTextField.stringValue = @"";
-    }
-    
-    if (httpServerPortNumber != NULL)
-    {
-        self.httpServerPortTextField.integerValue = httpServerPortNumber.integerValue;
-    }
-    else
-    {
-        self.httpServerPortTextField.stringValue = @"";
-    }
-    
-    if (httpServerPortNumber != NULL)
-    {
-        self.editHttpServerURLTextField.stringValue = [NSString stringWithFormat:@"https://%@:%ld", httpHostName, httpServerPortNumber.integerValue];
-    }
-    else
-    {
-        self.editHttpServerURLTextField.stringValue = @"";
+        self.localRadioHTTPSServerPortTextField.stringValue = @"";
+        self.editLocalRadioHTTPSServerPortTextField.stringValue = @"";
     }
     
     if (icecastServerHost != NULL)
     {
         self.icecastServerHostTextField.stringValue = icecastServerHost;
+        self.editIcecastServerHostTextField.stringValue = icecastServerHost;
     }
     else
     {
         self.icecastServerHostTextField.stringValue = @"";
+        self.editIcecastServerHostTextField.stringValue = @"";
     }
     
     self.icecastServerSourcePasswordTextField.stringValue = icecastServerSourcePassword;
-    
+    self.editIcecastServerSourcePasswordTextField.stringValue = icecastServerSourcePassword;
+
     self.icecastServerMountNameTextField.stringValue = icecastServerMountName;
     self.icecastServerMountName = icecastServerMountName;
+    self.editIcecastServerMountNameTextField.stringValue = icecastServerMountName;
 
     if (icecastServerHTTPSPortNumber != NULL)
     {
         self.icecastServerHTTPSPortTextField.integerValue = icecastServerHTTPSPortNumber.integerValue;
+        self.editIcecastServerHTTPSPortTextField.integerValue = icecastServerHTTPSPortNumber.integerValue;
+
         self.icecastServerWebURLTextField.stringValue = [NSString stringWithFormat:@"https://%@:%ld", icecastServerHost, icecastServerHTTPSPortNumber.integerValue];
+        self.editIcecastServerWebURLTextField.stringValue = [NSString stringWithFormat:@"https://%@:%ld", icecastServerHost, icecastServerHTTPSPortNumber.integerValue];
+
         self.statusIcecastURLTextField.stringValue = [NSString stringWithFormat:@"https://%@:%ld", icecastServerHost, icecastServerHTTPSPortNumber.integerValue];
     }
     else
     {
         self.icecastServerHTTPSPortTextField.stringValue = @"";
+        self.editIcecastServerHTTPSPortTextField.stringValue = @"";
+        
         self.icecastServerWebURLTextField.stringValue = @"";
+        self.editIcecastServerWebURLTextField.stringValue = @"";
+
         self.statusIcecastURLTextField.stringValue = @"";
     }
 
     if (icecastServerHTTPPortNumber != NULL)
     {
         self.icecastServerHTTPPortTextField.integerValue = icecastServerHTTPPortNumber.integerValue;
+        self.editIcecastServerHTTPPortTextField.integerValue = icecastServerHTTPPortNumber.integerValue;
+
         if (icecastServerHTTPSPortNumber == NULL)
         {
             self.icecastServerWebURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", icecastServerHost, icecastServerHTTPPortNumber.integerValue];  // fallback to http
+            self.editIcecastServerWebURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", icecastServerHost, icecastServerHTTPPortNumber.integerValue];  // fallback to http
+
             self.statusIcecastURLTextField.stringValue = [NSString stringWithFormat:@"http://%@:%ld", icecastServerHost, icecastServerHTTPPortNumber.integerValue];  // fallback to http
         }
     }
     else
     {
         self.icecastServerHTTPPortTextField.stringValue = @"";
+        self.editIcecastServerHTTPPortTextField.stringValue = @"";
+
         if (icecastServerHTTPSPortNumber == NULL)
         {
             self.icecastServerWebURLTextField.stringValue = @"";
+            self.editIcecastServerWebURLTextField.stringValue = @"";
+
             self.statusIcecastURLTextField.stringValue = @"";
         }
     }
@@ -998,39 +937,47 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     if (statusPortNumber != NULL)
     {
         self.statusPortTextField.stringValue = statusPortNumber.stringValue;
+        self.editStatusPortTextField.stringValue = statusPortNumber.stringValue;
     }
     else
     {
         self.statusPortTextField.stringValue = @"";
+        self.editStatusPortTextField.stringValue = @"";
     }
     
     if (controlPortNumber != NULL)
     {
         self.controlPortTextField.stringValue = controlPortNumber.stringValue;
+        self.editControlPortTextField.stringValue = controlPortNumber.stringValue;
     }
     else
     {
         self.controlPortTextField.stringValue = @"";
+        self.editControlPortTextField.stringValue = @"";
     }
     
     if (audioPortNumber != NULL)
     {
         self.audioPortTextField.stringValue = audioPortNumber.stringValue;
+        self.editAudioPortTextField.stringValue = audioPortNumber.stringValue;
     }
     else
     {
         self.audioPortTextField.stringValue = @"";
+        self.editAudioPortTextField.stringValue = @"";
     }
     
     if (aacBitrateString != NULL)
     {
         self.aacSettingsBitrateTextField.stringValue = aacBitrateString;
         self.aacBitrate = aacBitrateString;
+        [self.editAACSettingsBitratePopUpButton selectItemWithTag:aacBitrateString];
     }
     else
     {
         self.aacSettingsBitrateTextField.stringValue = @"64000";
         self.aacBitrate = aacBitrateString;
+        [self.editAACSettingsBitratePopUpButton selectItemWithTag:aacBitrateString];
     }
 }
 
@@ -1040,8 +987,8 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 - (void)updateConfiguration
 {
-    NSInteger httpServerPort = self.editHttpServerPortTextField.integerValue;
-    [self.localRadioAppSettings setInteger:httpServerPort forKey:@"HTTPServerPort"];
+    NSInteger localRadioServerHTTPPort = self.editLocalRadioHTTPServerPortTextField.integerValue;
+    [self.localRadioAppSettings setInteger:localRadioServerHTTPPort forKey:@"LocalRadioServerHTTPPort"];
     
     NSInteger icecastServerMode = 0;
     [self.localRadioAppSettings setInteger:icecastServerMode forKey:@"IcecastServerMode"];
@@ -1116,7 +1063,9 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 - (IBAction)editSetDefaultsButtonAction:(id)sender
 {
-    NSBeep();
+    [self.localRadioAppSettings setDefaultSettings];
+    
+    [self updateViews:self];
 }
 
 //==================================================================================
@@ -1130,8 +1079,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         NSLog(@"AppDelegate.changeConfigurationButtonAction isMainThread = NO");
     }
 
-    //NSNumber * httpServerPortNumber = [self.localRadioAppSettings integerForKey:@"HTTPServerPort"];
-    //NSNumber * icecastServerModeNumber = [self.localRadioAppSettings integerForKey:@"IcecastServerMode"];
     NSString * icecastServerHost = [self.localRadioAppSettings valueForKey:@"IcecastServerHost"];
     NSNumber * icecastServerHTTPPortNumber = [self.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
     NSNumber * icecastServerHTTPSPortNumber = [self.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];

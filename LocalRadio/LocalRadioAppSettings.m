@@ -16,15 +16,15 @@
 {
     // set default key-store values in local_radio_config SQLite table
     
-    [self setDefaultInteger:0 forKey:@"LocalRadioConfigVersion"];   // version 0 did not contain LocalRadioConfigVersion, version 1 does
+    [self setDefaultInteger:4 forKey:@"LocalRadioConfigVersion"];
     
-    // these are all valid for versions 0 and 1
-    [self setDefaultInteger:17002 forKey:@"HTTPServerPort"];
-    [self setDefaultInteger:17003 forKey:@"IcecastServerHTTPPort"];
-    [self setDefaultInteger:17004 forKey:@"IcecastServerHTTPSPort"];
-    [self setDefaultInteger:17005 forKey:@"StatusPort"];
-    [self setDefaultInteger:17006 forKey:@"ControlPort"];
-    [self setDefaultInteger:17007 forKey:@"AudioPort"];
+    [self setDefaultInteger:17002 forKey:@"LocalRadioServerHTTPPort"];
+    [self setDefaultInteger:17003 forKey:@"LocalRadioServerHTTPSPort"];
+    [self setDefaultInteger:17004 forKey:@"IcecastServerHTTPPort"];
+    [self setDefaultInteger:17005 forKey:@"IcecastServerHTTPSPort"];
+    [self setDefaultInteger:17006 forKey:@"StatusPort"];
+    [self setDefaultInteger:17007 forKey:@"ControlPort"];
+    [self setDefaultInteger:17008 forKey:@"AudioPort"];
 
     [self setDefaultInteger:0 forKey:@"IcecastServerMode"];
 
@@ -34,7 +34,7 @@
     NSString * localHostName = [[NSHost currentHost] name];
     [self setDefaultValue:localHostName forKey:@"IcecastServerHost"];
     
-    [self setDefaultValue:@"localradio" forKey:@"IcecastServerMountName"];
+    [self setDefaultValue:@"localradio.aac" forKey:@"IcecastServerMountName"];
     
     [self setDefaultValue:@"64000" forKey:@"AACBitrate"];
 
@@ -44,6 +44,40 @@
     NSString * randomPassword = [self generateRandomPassword];
     [self setDefaultValue:randomPassword forKey:@"IcecastServerSourcePassword"];
     [self setValue:randomPassword forKey:@"IcecastServerSourcePassword"];
+}
+
+- (void) setDefaultSettings
+{
+    // set default key-store values in local_radio_config SQLite table
+    
+    [self setInteger:4 forKey:@"LocalRadioConfigVersion"];
+    
+    [self setInteger:17002 forKey:@"LocalRadioServerHTTPPort"];
+    [self setInteger:17003 forKey:@"LocalRadioServerHTTPSPort"];
+    [self setInteger:17004 forKey:@"IcecastServerHTTPPort"];
+    [self setInteger:17005 forKey:@"IcecastServerHTTPSPort"];
+    [self setInteger:17006 forKey:@"StatusPort"];
+    [self setInteger:17007 forKey:@"ControlPort"];
+    [self setInteger:17008 forKey:@"AudioPort"];
+
+    [self setInteger:0 forKey:@"IcecastServerMode"];
+
+    [self setInteger:1 forKey:@"CaptureStderr"];
+
+    //[self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
+    NSString * localHostName = [[NSHost currentHost] name];
+    [self setValue:localHostName forKey:@"IcecastServerHost"];
+    
+    [self setValue:@"localradio.aac" forKey:@"IcecastServerMountName"];
+    
+    [self setValue:@"64000" forKey:@"AACBitrate"];
+
+    //[self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
+    
+    // Generate a fresh Icecast password each time this app launches
+    //NSString * randomPassword = [self generateRandomPassword];
+    //[self setDefaultValue:randomPassword forKey:@"IcecastServerSourcePassword"];
+    //[self setValue:randomPassword forKey:@"IcecastServerSourcePassword"];
 }
 
 

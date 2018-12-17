@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class AppDelegate;
-@class WebServerConnection;
+@class HTTPWebServerConnection;
 @class SQLiteController;
 
 @interface LocalRadioAPI : NSObject
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak) IBOutlet AppDelegate * appDelegate;
 @property (weak) IBOutlet SQLiteController * sqliteController;
 
-- (NSString *)httpResponseForMethod:(NSString *)method URI:(NSString *)path webServerConnection:(WebServerConnection *)webServerConnection;
+- (NSString *)httpResponseForMethod:(NSString *)method URI:(NSString *)path webServerConnection:(HTTPWebServerConnection *)webServerConnection;
 
 @end
 

@@ -8,14 +8,14 @@
 
 #import "LocalRadioAPI.h"
 #import "AppDelegate.h"
-#import "WebServerConnection.h"
+#import "HTTPWebServerConnection.h"
 #import "HTTPMessage.h"
 #import "UDPStatusListenerController.h"
 #import "SQLiteController.h"
 
 @implementation LocalRadioAPI
 
-- (NSString *)httpResponseForMethod:(NSString *)method URI:(NSString *)path webServerConnection:(WebServerConnection *)webServerConnection
+- (NSString *)httpResponseForMethod:(NSString *)method URI:(NSString *)path webServerConnection:(HTTPWebServerConnection *)webServerConnection
 {
     NSDictionary * responseDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
             @"error", @"result",

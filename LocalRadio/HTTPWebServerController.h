@@ -11,7 +11,7 @@
 @class HTTPServer;
 @class AppDelegate;
 
-@interface WebServerController : NSObject 
+@interface HTTPWebServerController : NSObject 
 {
 }
 

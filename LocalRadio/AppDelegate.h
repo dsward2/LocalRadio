@@ -10,7 +10,7 @@
 
 
 @class LocalRadioAppSettings;
-@class WebServerController;
+@class HTTPWebServerController;
 @class SDRController;
 @class IcecastController;
 @class IcecastSourceController;
@@ -37,7 +37,7 @@
 // These object are instantiated and inter-connected in Inteface Builder
 @property (strong) IBOutlet LocalRadioAppSettings * localRadioAppSettings;
 @property (strong) IBOutlet SQLiteController * sqliteController;
-@property (strong) IBOutlet WebServerController * webServerController;
+@property (strong) IBOutlet HTTPWebServerController * httpWebServerController;
 @property (strong) IBOutlet SDRController * sdrController;
 @property (strong) IBOutlet IcecastController * icecastController;
 @property (strong) IBOutlet IcecastSourceController * icecastSourceController;
@@ -72,8 +72,8 @@
 
 @property (weak) IBOutlet NSButton * statusOpenIcecastWebPage;
 
-@property (weak) IBOutlet NSTextField * httpServerPortTextField;
-@property (weak) IBOutlet NSTextField * httpServerURLTextField;
+@property (weak) IBOutlet NSTextField * localRadioHTTPServerPortTextField;
+@property (weak) IBOutlet NSTextField * localRadioHTTPSServerPortTextField;
 
 @property (weak) IBOutlet NSTextField * icecastServerHostTextField;
 @property (weak) IBOutlet NSTextField * icecastServerHTTPPortTextField;
@@ -94,8 +94,8 @@
 @property (weak) IBOutlet NSButton * logAllStderrMessagesCheckbox;
 
 
-@property (weak) IBOutlet NSTextField * editHttpServerPortTextField;
-@property (weak) IBOutlet NSTextField * editHttpServerURLTextField;
+@property (weak) IBOutlet NSTextField * editLocalRadioHTTPServerPortTextField;
+@property (weak) IBOutlet NSTextField * editLocalRadioHTTPSServerPortTextField;
 
 @property (weak) IBOutlet NSTextField * editIcecastServerHostTextField;
 @property (weak) IBOutlet NSTextField * editIcecastServerHTTPPortTextField;
@@ -165,7 +165,7 @@
 - (IBAction)reloadWebView:(id)sender;
 
 - (NSString *)localHostString;
-- (NSString *)portString;
+- (NSString *)httpWebServerPortString;
 
 - (int) processIDForProcessName:(NSString *)processName;
 

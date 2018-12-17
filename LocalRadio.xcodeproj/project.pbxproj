@@ -99,7 +99,7 @@
 		0E4ED1941EAB7ED000D2157B /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED05B1EAB7D5300D2157B /* DDData.m */; };
 		0E4ED1951EAB7ED400D2157B /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED05D1EAB7D5300D2157B /* DDNumber.m */; };
 		0E4ED1961EAB7ED700D2157B /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED05F1EAB7D5300D2157B /* DDRange.m */; };
-		0E4ED1AD1EAB823B00D2157B /* WebServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED1AC1EAB823B00D2157B /* WebServerController.m */; };
+		0E4ED1AD1EAB823B00D2157B /* HTTPWebServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED1AC1EAB823B00D2157B /* HTTPWebServerController.m */; };
 		0E6F9E181ED5F7EE009D469E /* liblzma.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6F9E171ED5F7EE009D469E /* liblzma.5.dylib */; };
 		0E6F9E191ED5F835009D469E /* liblzma.5.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E6F9E171ED5F7EE009D469E /* liblzma.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E706F03212FD05100631D77 /* AudioMonitor2 in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E706F02212FD05100631D77 /* AudioMonitor2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -108,7 +108,7 @@
 		0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3C1EC1B7250050BD7F /* AudioToolbox.framework */; };
 		0E7F2C401EC1B7250050BD7F /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */; };
 		0E7F2C411EC1B7250050BD7F /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3E1EC1B7250050BD7F /* CoreAudioKit.framework */; };
-		0E84C9731ED8DA650065864B /* WebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84C9721ED8DA650065864B /* WebServerConnection.m */; };
+		0E84C9731ED8DA650065864B /* HTTPWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84C9721ED8DA650065864B /* HTTPWebServerConnection.m */; };
 		0E84C9C11ED935E00065864B /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E84C9BD1ED935E00065864B /* README.md */; };
 		0E84C9C21ED935E00065864B /* SQLiteLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84C9BF1ED935E00065864B /* SQLiteLibrary.m */; };
 		0E84C9C61ED93C8C0065864B /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E84C9C51ED93C8C0065864B /* libsqlite3.0.dylib */; };
@@ -1524,8 +1524,8 @@
 		0E4ED14B1EAB7D5400D2157B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		0E4ED14C1EAB7D5400D2157B /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		0E4ED14D1EAB7D5400D2157B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		0E4ED1AB1EAB823B00D2157B /* WebServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServerController.h; sourceTree = "<group>"; };
-		0E4ED1AC1EAB823B00D2157B /* WebServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServerController.m; sourceTree = "<group>"; };
+		0E4ED1AB1EAB823B00D2157B /* HTTPWebServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPWebServerController.h; sourceTree = "<group>"; };
+		0E4ED1AC1EAB823B00D2157B /* HTTPWebServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPWebServerController.m; sourceTree = "<group>"; };
 		0E51DDC81F6CA152009B388F /* 1@2x,3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1@2x,3.jpg"; sourceTree = "<group>"; };
 		0E51DDC91F6CA152009B388F /* 620x620,1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "620x620,1.png"; sourceTree = "<group>"; };
 		0E51DDCA1F6CA152009B388F /* antenna-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "antenna-small.png"; sourceTree = "<group>"; };
@@ -1595,8 +1595,8 @@
 		0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		0E7F2C3E1EC1B7250050BD7F /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		0E84C96B1ED8CDAC0065864B /* index.html.original */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = index.html.original; sourceTree = "<group>"; };
-		0E84C9711ED8DA650065864B /* WebServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServerConnection.h; sourceTree = "<group>"; };
-		0E84C9721ED8DA650065864B /* WebServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServerConnection.m; sourceTree = "<group>"; };
+		0E84C9711ED8DA650065864B /* HTTPWebServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPWebServerConnection.h; sourceTree = "<group>"; };
+		0E84C9721ED8DA650065864B /* HTTPWebServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPWebServerConnection.m; sourceTree = "<group>"; };
 		0E84C9751ED8FD1B0065864B /* custom.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = custom.css; sourceTree = "<group>"; };
 		0E84C9761ED8FD1B0065864B /* github-prettify-theme.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = "github-prettify-theme.css"; sourceTree = "<group>"; };
 		0E84C97C1ED8FD1B0065864B /* favicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favicon.png; sourceTree = "<group>"; };
@@ -3610,10 +3610,10 @@
 				0E1F694721BEFF2900A1F356 /* DDKeychain_LocalRadio.m */,
 				0EB0470621C596C9000285EB /* TLSManager.h */,
 				0EB0470721C596C9000285EB /* TLSManager.m */,
-				0E84C9711ED8DA650065864B /* WebServerConnection.h */,
-				0E84C9721ED8DA650065864B /* WebServerConnection.m */,
-				0E4ED1AB1EAB823B00D2157B /* WebServerController.h */,
-				0E4ED1AC1EAB823B00D2157B /* WebServerController.m */,
+				0E84C9711ED8DA650065864B /* HTTPWebServerConnection.h */,
+				0E84C9721ED8DA650065864B /* HTTPWebServerConnection.m */,
+				0E4ED1AB1EAB823B00D2157B /* HTTPWebServerController.h */,
+				0E4ED1AC1EAB823B00D2157B /* HTTPWebServerController.m */,
 				0E28BE691F2B6A47005999FB /* UDPStatusListenerController.h */,
 				0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */,
 				0E28BE901F2C0DFA005999FB /* UDPStatusListener.h */,
@@ -7489,10 +7489,10 @@
 				0EB0470821C596C9000285EB /* TLSManager.m in Sources */,
 				0E4ED1831EAB7DA700D2157B /* HTTPConnection.m in Sources */,
 				0ED6CA9B20B2089700D82331 /* DDTTYLogger.m in Sources */,
-				0E4ED1AD1EAB823B00D2157B /* WebServerController.m in Sources */,
+				0E4ED1AD1EAB823B00D2157B /* HTTPWebServerController.m in Sources */,
 				0E12A4EA1F5F92D000EB28DF /* FCCSearchController.m in Sources */,
 				0E4ED18E1EAB7E5000D2157B /* HTTPDynamicFileResponse.m in Sources */,
-				0E84C9731ED8DA650065864B /* WebServerConnection.m in Sources */,
+				0E84C9731ED8DA650065864B /* HTTPWebServerConnection.m in Sources */,
 				0E4ED18C1EAB7E4700D2157B /* HTTPAsyncFileResponse.m in Sources */,
 				0E84C9C21ED935E00065864B /* SQLiteLibrary.m in Sources */,
 			);

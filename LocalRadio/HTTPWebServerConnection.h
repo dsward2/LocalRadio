@@ -14,7 +14,7 @@
 @class AppDelegate;
 @class SQLiteController;
 
-@interface WebServerConnection : HTTPConnection
+@interface HTTPWebServerConnection : HTTPConnection
 
 @property(strong) IBOutlet AppDelegate * appDelegate;
 @property(strong) IBOutlet SQLiteController * sqliteController;
