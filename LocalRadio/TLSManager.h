@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TLSManager : NSObject
 
 @property(strong) IBOutlet AppDelegate * appDelegate;
+@property(assign) BOOL modalSheetIsOpen;
 
 - (void)configureCertificates;
 - (NSString *)tlsDirectoryPath;

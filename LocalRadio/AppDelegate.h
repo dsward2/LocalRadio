@@ -11,6 +11,7 @@
 
 @class LocalRadioAppSettings;
 @class HTTPWebServerController;
+@class HTTPSWebServerController;
 @class SDRController;
 @class IcecastController;
 @class IcecastSourceController;
@@ -32,12 +33,15 @@
 
 //NS_ASSUME_NONNULL_BEGIN
 
+@property (weak) IBOutlet NSWindow *window;
+
 @property (weak) IBOutlet WebViewDelegate * webViewDelegate;
 
 // These object are instantiated and inter-connected in Inteface Builder
 @property (strong) IBOutlet LocalRadioAppSettings * localRadioAppSettings;
 @property (strong) IBOutlet SQLiteController * sqliteController;
 @property (strong) IBOutlet HTTPWebServerController * httpWebServerController;
+@property (strong) IBOutlet HTTPSWebServerController * httpsWebServerController;
 @property (strong) IBOutlet SDRController * sdrController;
 @property (strong) IBOutlet IcecastController * icecastController;
 @property (strong) IBOutlet IcecastSourceController * icecastSourceController;
@@ -118,6 +122,7 @@
 @property (weak) IBOutlet NSButton * editSetDefaultsButton;
 
 @property (weak) IBOutlet NSWindow * editConfigurationSheetWindow;
+@property (weak) IBOutlet NSWindow * generatingKeysAndCertificatesSheetWindow;
 
 @property (weak) IBOutlet NSButton * showConfigurationFilesButton;
 @property (weak) IBOutlet NSButton * changeConfigurationButton;
@@ -148,7 +153,7 @@
 
 - (void)restartServices;
 
-- (NSString *)webServerControllerURLString;
+- (NSString *)httpWebServerControllerURLString;
 
 
 - (IBAction)openLocalRadioServerWebPage:(id)sender;
@@ -166,6 +171,7 @@
 
 - (NSString *)localHostString;
 - (NSString *)httpWebServerPortString;
+- (NSString *)httpsWebServerPortString;
 
 - (int) processIDForProcessName:(NSString *)processName;
 

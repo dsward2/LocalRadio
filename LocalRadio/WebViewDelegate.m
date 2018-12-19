@@ -33,7 +33,7 @@
         
         self.webView.customUserAgent = @"LocalRadio/1.0";
 
-        NSString * urlString = [self.appDelegate webServerControllerURLString];
+        NSString * urlString = [self.appDelegate httpWebServerControllerURLString];
         NSURL * url = [NSURL URLWithString:urlString];
         NSURLRequest * urlRequest = [NSURLRequest requestWithURL:url];
         [[self.webView mainFrame] loadRequest:urlRequest];

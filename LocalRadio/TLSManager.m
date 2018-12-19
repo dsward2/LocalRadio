@@ -29,10 +29,57 @@
 //
 // ============================================================================================
 
+- (void)openModalSheet
+{
+    [self performSelectorOnMainThread:@selector(openModalSheetOnMainThread) withObject:NULL waitUntilDone:NO];
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)openModalSheetOnMainThread
+{
+    if (self.modalSheetIsOpen == NO)
+    {
+        self.modalSheetIsOpen = YES;
+        [self.appDelegate.window beginSheet:self.appDelegate.generatingKeysAndCertificatesSheetWindow  completionHandler:^(NSModalResponse returnCode) {
+        }];
+    }
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)closeModalSheet
+{
+    [self performSelectorOnMainThread:@selector(closeModalSheetOnMainThread) withObject:NULL waitUntilDone:NO];
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
+- (void)closeModalSheetOnMainThread
+{
+    if (self.modalSheetIsOpen == YES)
+    {
+        [self.appDelegate.generatingKeysAndCertificatesSheetWindow.sheetParent endSheet:self.appDelegate.generatingKeysAndCertificatesSheetWindow returnCode:NSModalResponseOK];
+        self.modalSheetIsOpen = NO;
+    }
+}
+
+// ============================================================================================
+//
+// ============================================================================================
+
 - (void)configureCertificates
 {
     // configure a Certificate Authoritory and generate self-signed certificates for Icecast server and source client
     // per https://www.adfinis-sygroup.ch/blog/en/openssl-x509-certificates/
+    
+    self.modalSheetIsOpen = NO;
     
     NSString * tlsDirectoryPath = [self tlsDirectoryPath];
     
@@ -80,6 +127,7 @@
     if (caKeyExists == NO)
     {
         // create the Certificate Authority key and certificate signing request
+        [self openModalSheet];
         [self createCAKey:caKeyFilePath];
         caCertificateExists = NO;
         serverKeyExists = NO;
@@ -90,6 +138,7 @@
     if (caCertificateExists == NO)
     {
         // create the Certificate Authority certificate
+        [self openModalSheet];
         [self createCACertificate:caCertificateFilePath key:caKeyFilePath];
         serverKeyExists = NO;
         serverCertificateSigningRequestExists = NO;
@@ -99,6 +148,7 @@
     if (serverKeyExists == NO)
     {
         // create the Icecast server key and certificate signing request
+        [self openModalSheet];
         [self createIcecastServerKey:serverKeyFilePath];
         serverCertificateExists = NO;
     }
@@ -106,8 +156,8 @@
     if (serverCertificateExists == NO)
     {
         // create the Icecast server certificate
+        [self openModalSheet];
         [self createIcecastServerCSR:serverCertificateSigningRequestFilePath serverKey:serverKeyFilePath];
-
         [self createIcecastServerCertificate:serverCertificateFilePath
          csr:serverCertificateSigningRequestFilePath caCertificate:caCertificateFilePath caKey:caKeyFilePath];
     }
@@ -115,6 +165,7 @@
     if (serverComboCertificateExists == NO)
     {
         // create the Icecast server certificate
+        [self openModalSheet];
         [self createIcecastServerComboCertificate:serverComboCertificateFilePath
          key:serverKeyFilePath certificate:serverCertificateFilePath];
     }
@@ -122,11 +173,13 @@
     if (serverCertificateWrapperExists == NO)
     {
         // create the Icecast server certificate wrapper and import into Keychain
-
+        [self openModalSheet];
         [self createIcecastServerCertificateWrapper:serverCertificateWrapperFilePath
          key:serverKeyFilePath certificate:serverCertificateFilePath
          caCertificate:caCertificateFilePath certificateChain:serverCertificateChainFilePath];
     }
+    
+    [self closeModalSheet];
 }
 
 // ============================================================================================

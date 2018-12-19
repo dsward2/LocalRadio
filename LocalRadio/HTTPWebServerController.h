@@ -17,14 +17,11 @@
 
 @property(strong) IBOutlet AppDelegate * appDelegate;
 
-
 @property(strong) HTTPServer * httpServer;
-@property(assign) NSUInteger webServerPort;
+
+- (NSNumber *)serverClassPortNumber;
 
 - (void)startHTTPServer;
 - (void)stopHTTPServer;
-
-//- (void)startProcessing;
-//- (void)stopProcessing;
 
 @end

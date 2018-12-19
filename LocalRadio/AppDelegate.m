@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LocalRadioAppSettings.h"
 #import "HTTPWebServerController.h"
+#import "HTTPSWebServerController.h"
 #import "SQLiteController.h"
 #import "SDRController.h"
 #import "IcecastController.h"
@@ -45,7 +46,6 @@ typedef struct kinfo_proc kinfo_proc;
 
 
 @interface AppDelegate ()
-@property (weak) IBOutlet NSWindow *window;
 @end
 
 @implementation AppDelegate
@@ -142,7 +142,7 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (void)finishConfigureServices
 {
-    // runs on main thread
+    // runs on main thread for AppKit UI elements
     self.useWebViewAudioPlayerCheckbox.state = YES;
     self.listenMode = kListenModeIdle;
 
@@ -182,9 +182,15 @@ typedef struct kinfo_proc kinfo_proc;
 
 - (void)startServices
 {
+    [self.httpWebServerController stopHTTPServer];
+    
+    [self.httpsWebServerController stopHTTPServer];
+
     [self.icecastController startIcecastServer];
 
     [self.httpWebServerController startHTTPServer];
+    
+    [self.httpsWebServerController startHTTPServer];
     
     [self.webViewDelegate loadMainPage];
 
@@ -531,7 +537,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 - (NSString *)httpWebServerPortString
 {
-    NSUInteger webHostPort = self.httpWebServerController.webServerPort;
+    NSUInteger webHostPort = self.httpWebServerController.serverClassPortNumber.integerValue;
     
     NSString * portString = [NSString stringWithFormat:@"%lu", (unsigned long)webHostPort];
     
@@ -540,10 +546,35 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 // ================================================================
 
-- (NSString *)webServerControllerURLString
+- (NSString *)httpsWebServerPortString
+{
+    NSUInteger webHostPort = self.httpsWebServerController.serverClassPortNumber.integerValue;
+    
+    NSString * portString = [NSString stringWithFormat:@"%lu", (unsigned long)webHostPort];
+    
+    return portString;
+}
+
+// ================================================================
+
+- (NSString *)httpWebServerControllerURLString
+{
+    //NSString * hostString = [self localHostString];
+    NSString * hostString = [self localHostIPString];
+    NSString * portString = [self httpWebServerPortString];
+    NSInteger portInteger = portString.integerValue;
+
+    NSString * urlString = [NSString stringWithFormat:@"http://%@:%ld", hostString, portInteger];
+    
+    return urlString;
+}
+
+// ================================================================
+
+- (NSString *)httpsWebServerControllerURLString
 {
     NSString * hostString = [self localHostString];
-    NSString * portString = [self httpWebServerPortString];
+    NSString * portString = [self httpsWebServerPortString];
     NSInteger portInteger = portString.integerValue;
 
     NSString * urlString = [NSString stringWithFormat:@"https://%@:%ld", hostString, portInteger];
@@ -931,7 +962,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     }
     
     
-    self.statusLocalRadioURLTextField.stringValue = [self webServerControllerURLString];
+    self.statusLocalRadioURLTextField.stringValue = [self httpsWebServerControllerURLString];
     
     
     if (statusPortNumber != NULL)
@@ -989,6 +1020,9 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 {
     NSInteger localRadioServerHTTPPort = self.editLocalRadioHTTPServerPortTextField.integerValue;
     [self.localRadioAppSettings setInteger:localRadioServerHTTPPort forKey:@"LocalRadioServerHTTPPort"];
+    
+    NSInteger localRadioServerHTTPSPort = self.editLocalRadioHTTPSServerPortTextField.integerValue;
+    [self.localRadioAppSettings setInteger:localRadioServerHTTPSPort forKey:@"LocalRadioServerHTTPSPort"];
     
     NSInteger icecastServerMode = 0;
     [self.localRadioAppSettings setInteger:icecastServerMode forKey:@"IcecastServerMode"];
@@ -1113,7 +1147,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 - (IBAction)openLocalRadioServerWebPage:(id)sender
 {
-    NSString * urlString = [self webServerControllerURLString];
+    NSString * urlString = [self httpsWebServerControllerURLString];
 
     if (urlString != NULL)
     {

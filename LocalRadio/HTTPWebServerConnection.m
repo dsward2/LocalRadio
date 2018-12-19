@@ -18,7 +18,6 @@
 #import "HTTPMessage.h"
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAPI.h"
-#import "DDKeychain_LocalRadio.h"
 #import "GCDAsyncSocket.h"
 
 #import <AudioToolbox/AudioServices.h>
@@ -50,6 +49,15 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     }
     
     return self;
+}
+
+//==================================================================================
+//    httpScheme
+//==================================================================================
+
+- (NSString *)httpScheme
+{
+    return @"http";     // override to return http or https
 }
 
 //==================================================================================
@@ -1467,10 +1475,11 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSArray * portResultArray = [rootElement nodesForXPath:portQuery error:&error];
                 if (portResultArray.count == 1)
                 {
+                    NSString * httpScheme = [self httpScheme];
                     NSXMLElement * portElement = portResultArray.firstObject;
                     NSString * portString = portElement.stringValue;
                     
-                    m3uURLString = [NSString stringWithFormat:@"https://%@:%@/%@.aac", hostname, portString, icecastServerMountName];
+                    m3uURLString = [NSString stringWithFormat:@"%@://%@:%@/%@.aac", httpScheme, hostname, portString, icecastServerMountName];
                 }
             }
 
@@ -2150,12 +2159,24 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
         NSString * icecastServerHost = [self.appDelegate localHostString];
 
+        NSString * httpScheme = [self httpScheme];
+
         //NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
-        NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
+        NSNumber * icecastServerPortNumber = [NSNumber numberWithInteger:17003];
+        
+        if ([httpScheme isEqualToString:@"http"] == YES)
+        {
+            icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
+        }
+        else if ([httpScheme isEqualToString:@"https"] == YES)
+        {
+            icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
+        }
 
         NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-        NSString * aacURLString = [NSString stringWithFormat:@"https://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPSPortNumber.integerValue, icecastServerMountName];
+
+        NSString * aacURLString = [NSString stringWithFormat:@"%@://%@:%ld/%@", httpScheme, icecastServerHost, (long)icecastServerPortNumber.integerValue, icecastServerMountName];
         //NSString * aacURLString = [NSString stringWithFormat:@"http://%@:%ld/%@", icecastServerHost, (long)icecastServerHTTPPortNumber.integerValue, icecastServerMountName];
 
         NSString * autoplayFlag = @"";
@@ -3569,11 +3590,23 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 - (NSString *)generateOpenAudioPlayerPageButtonString
 {
     NSString * hostString = self.appDelegate.localHostString;
+    
+    NSString * httpScheme = [self httpScheme];
+    
+    NSString * icecastPortKey = @"IcecastServerHTTPPort";
+    if ([httpScheme isEqualToString:@"https"] == YES)
+    {
+        icecastPortKey = @"IcecastServerHTTPSPort";
+    }
+    else
+    {
+        icecastPortKey = @"IcecastServerHTTPPort";
+    }
 
-    NSNumber * icecastServerHTTPSPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPSPort"];
+    NSNumber * icecastServerPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:icecastPortKey];
     NSString * icecastServerMountName = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerMountName"];
 
-    NSString * audioURLString = [NSString stringWithFormat:@"https://%@:%@/%@", hostString, icecastServerHTTPSPortNumber, icecastServerMountName];
+    NSString * audioURLString = [NSString stringWithFormat:@"%@://%@:%@/%@", httpScheme, hostString, icecastServerPortNumber, icecastServerMountName];
 
     NSString * listenButtonString = [NSString stringWithFormat:@"<a href='%@' target='_top'><button class='button button-primary twelve columns' type='button'>Open Audio Player Page</button></a>", audioURLString];
 
@@ -3598,42 +3631,16 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     return [request messageData];
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark HTTPS
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//==================================================================================
+//    isSecureServer
+//==================================================================================
 
-/**
- * Returns whether or not the server is configured to be a secure server.
- * In other words, all connections to this server are immediately secured, thus only secure connections are allowed.
- * This is the equivalent of having an https server, where it is assumed that all connections must be secure.
- * If this is the case, then unsecure connections will not be allowed on this server, and a separate unsecure server
- * would need to be run on a separate port in order to support unsecure connections.
- *
- * Note: In order to support secure connections, the sslIdentityAndCertificates method must be implemented.
-**/
 - (BOOL)isSecureServer
 {
-    // Create an HTTPS server (all connections will be secured via SSL/TLS)
-    return YES;
-}
+    // override for http or https
 
-
-
-/**
- * This method is expected to returns an array appropriate for use in kCFStreamSSLCertificates SSL Settings.
- * It should be an array of SecCertificateRefs except for the first element in the array, which is a SecIdentityRef.
-**/
-- (NSArray *)sslIdentityAndCertificates
-{
-    NSArray *result = [DDKeychain_LocalRadio SSLIdentityAndCertificates];
-    if([result count] == 0)
-    {
-        HTTPLogInfo(@"sslIdentityAndCertificates: Creating New Identity...");
-        [DDKeychain_LocalRadio createNewIdentity];
-        return [DDKeychain_LocalRadio SSLIdentityAndCertificates];
-    }
-
-    return result;
+    // Create a non-secure HTTP server
+    return NO;
 }
 
 @end

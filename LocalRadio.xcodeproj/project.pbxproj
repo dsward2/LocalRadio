@@ -145,6 +145,8 @@
 		0EA9CD5021228D93005B792B /* libao.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA9CD4F21228BDC005B792B /* libao.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EB0470821C596C9000285EB /* TLSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0470721C596C9000285EB /* TLSManager.m */; };
 		0EB0470921C59C3E000285EB /* DDKeychain_LocalRadio.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E1F694721BEFF2900A1F356 /* DDKeychain_LocalRadio.m */; };
+		0EB0470C21C7469F000285EB /* HTTPSWebServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0470B21C7469F000285EB /* HTTPSWebServerController.m */; };
+		0EB0470F21C75661000285EB /* HTTPSWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB0470E21C75661000285EB /* HTTPSWebServerConnection.m */; };
 		0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0EE1F690813008DBE9A /* BUILD.md */; };
 		0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F01F6915D3008DBE9A /* CREDITS.md */; };
 		0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */; };
@@ -1651,6 +1653,10 @@
 		0EA9CD4F21228BDC005B792B /* libao.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libao.4.dylib; sourceTree = "<group>"; };
 		0EB0470621C596C9000285EB /* TLSManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLSManager.h; sourceTree = "<group>"; };
 		0EB0470721C596C9000285EB /* TLSManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLSManager.m; sourceTree = "<group>"; };
+		0EB0470A21C7469F000285EB /* HTTPSWebServerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPSWebServerController.h; sourceTree = "<group>"; };
+		0EB0470B21C7469F000285EB /* HTTPSWebServerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPSWebServerController.m; sourceTree = "<group>"; };
+		0EB0470D21C75661000285EB /* HTTPSWebServerConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPSWebServerConnection.h; sourceTree = "<group>"; };
+		0EB0470E21C75661000285EB /* HTTPSWebServerConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPSWebServerConnection.m; sourceTree = "<group>"; };
 		0EB5B0EE1F690813008DBE9A /* BUILD.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = BUILD.md; sourceTree = "<group>"; };
 		0EB5B0F01F6915D3008DBE9A /* CREDITS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CREDITS.md; sourceTree = "<group>"; };
 		0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Documents/Images/AppIcon/Assets.xcassets; sourceTree = SOURCE_ROOT; };
@@ -3612,8 +3618,12 @@
 				0EB0470721C596C9000285EB /* TLSManager.m */,
 				0E84C9711ED8DA650065864B /* HTTPWebServerConnection.h */,
 				0E84C9721ED8DA650065864B /* HTTPWebServerConnection.m */,
+				0EB0470D21C75661000285EB /* HTTPSWebServerConnection.h */,
+				0EB0470E21C75661000285EB /* HTTPSWebServerConnection.m */,
 				0E4ED1AB1EAB823B00D2157B /* HTTPWebServerController.h */,
 				0E4ED1AC1EAB823B00D2157B /* HTTPWebServerController.m */,
+				0EB0470A21C7469F000285EB /* HTTPSWebServerController.h */,
+				0EB0470B21C7469F000285EB /* HTTPSWebServerController.m */,
 				0E28BE691F2B6A47005999FB /* UDPStatusListenerController.h */,
 				0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */,
 				0E28BE901F2C0DFA005999FB /* UDPStatusListener.h */,
@@ -7460,11 +7470,13 @@
 				0E4ECFC31EAB633B00D2157B /* main.m in Sources */,
 				0E4ED1901EAB7E5700D2157B /* HTTPFileResponse.m in Sources */,
 				0E32F8E41FEBA01600492813 /* TaskItem.m in Sources */,
+				0EB0470F21C75661000285EB /* HTTPSWebServerConnection.m in Sources */,
 				0EC207671EDCE11A006899EB /* SDRController.m in Sources */,
 				0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */,
 				0ED06E3B215F354800430953 /* IcecastSourceController.m in Sources */,
 				0E4ECFC01EAB633B00D2157B /* AppDelegate.m in Sources */,
 				0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */,
+				0EB0470C21C7469F000285EB /* HTTPSWebServerController.m in Sources */,
 				0ED07162215F9AF300430953 /* DDLog.m in Sources */,
 				0EA9CD4E211E70AA005B792B /* CustomTaskController.m in Sources */,
 				0E84C9C11ED935E00065864B /* README.md in Sources */,

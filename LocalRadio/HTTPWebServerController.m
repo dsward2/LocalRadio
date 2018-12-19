@@ -76,12 +76,41 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 //==================================================================================
-//	stopHTTPServer
+//    stopHTTPServer
 //==================================================================================
 
 - (void)stopHTTPServer
 {
     [self stopProcessing];
+}
+
+//==================================================================================
+//    connectionClassForScheme
+//==================================================================================
+
+- (Class)connectionClassForScheme
+{
+     return [HTTPWebServerConnection class];  // override for http/https
+}
+
+//==================================================================================
+//    serverClassPortKey
+//==================================================================================
+
+- (NSString *)serverClassPortKey
+{
+    return @"LocalRadioServerHTTPPort";
+}
+
+//==================================================================================
+//    serverClassPortNumber
+//==================================================================================
+
+- (NSNumber *)serverClassPortNumber
+{
+    NSString * serverClassPortKey = [self serverClassPortKey];
+    NSNumber * serverClassPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:serverClassPortKey];
+    return serverClassPortNumber;
 }
 
 //==================================================================================
@@ -92,12 +121,15 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     if (self.httpServer == NULL)
     {
-        NSNumber * localRadioServerHTTPPort = [self.appDelegate.localRadioAppSettings integerForKey:@"LocalRadioServerHTTPPort"];
-        if (localRadioServerHTTPPort.integerValue <= 0)
+        // port number result depends on http or https
+
+        NSNumber * serverClassPortNumber = [self serverClassPortNumber];
+        
+        if (serverClassPortNumber.integerValue <= 0)
         {
-            localRadioServerHTTPPort = [NSNumber numberWithInteger:17002];
+            NSLog(@"HTTPWebServerController - startProcessing - invalid localRadioServerHTTPPort");
+            serverClassPortNumber = [NSNumber numberWithInteger:17002];
         }
-        self.webServerPort = localRadioServerHTTPPort.integerValue;
 
         // For CocoaHTTPServer
         // Configure our logging framework.
@@ -108,9 +140,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         self.httpServer = [[HTTPServer alloc] init];
         
         // Tell server to use our custom HTTPConnection class.
-        //[self.httpServer setConnectionClass:[HTTPConnection class]];
-        [self.httpServer setConnectionClass:[HTTPWebServerConnection class]];  // custom class for dynamic response
-        
+        //[self.httpServer setConnectionClass:[HTTPWebServerConnection class]];  // custom class for dynamic response
+        [self.httpServer setConnectionClass:[self connectionClassForScheme]];  // override for http/https
+
         // Tell the server to broadcast its presence via Bonjour.
         // This allows browsers such as Safari to automatically discover our service.
         [self.httpServer setType:@"_http._tcp."];
@@ -123,8 +155,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         // Normally there's no need to run our server on any specific port.
         // Technologies like Bonjour allow clients to dynamically discover the server's port at runtime.
         // However, for easy testing you may want force a certain port so you can just hit the refresh button.
-        [self.httpServer setPort:self.webServerPort];
-        
+        [self.httpServer setPort:serverClassPortNumber.integerValue];
+
         // Serve files from our embedded Web folder
         NSString * webPath = [[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:@"Web"];
         //DDLogVerbose(@"Setting document root: %@", webPath);

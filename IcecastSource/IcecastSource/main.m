@@ -199,7 +199,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
         {
             if (readyToSend == YES)
             {
-                usleep(1000);
+                usleep(5000);
             }
         }
         else
