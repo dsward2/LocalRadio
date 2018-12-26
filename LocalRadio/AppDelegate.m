@@ -23,6 +23,7 @@
 #import "TaskItem.h"
 #import "FCCSearchController.h"
 #import "TLSManager.h"
+#import "HTTPServer.h"
 #import <IOKit/usb/IOUSBLib.h>
 #import <IOKit/hid/IOHIDLib.h>
 
@@ -66,6 +67,9 @@ typedef struct kinfo_proc kinfo_proc;
     
     [self terminateTasks];
     
+    [self.httpWebServerController.httpServer stop:NO];
+    [self.httpsWebServerController.httpServer stop:NO];
+
     BOOL result = [[NSUserDefaults standardUserDefaults] synchronize];
     #pragma unused (result)
     

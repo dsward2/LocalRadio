@@ -19,6 +19,13 @@ function resizeContentFrame(aWindow) {
 }
 */
 
+// prevent zooming while using +/- buttons in frequency tuner pages
+ document.addEventListener('touchmove', function(event) {
+    event = event.originalEvent || event;
+    if(event.scale > 1) {
+      event.preventDefault();
+    }
+  }, false);
 
 function handleEditCategoryClick(checkbox) {
     var checkboxState = checkbox.checked;
@@ -896,8 +903,15 @@ function periodicUpdate()
 // {"modulation":"fm","oversampling":4,"signal_level":19,"options":"","frequency_scan_interval":0,"tuner_gain":49.7,"station_name":"KUAR-NPR Little Rock 89.1","atan_math":"std","sampling_mode":0,"sample_rate":85000,"frequency_mode":0,"squelch_level":0,"id":4,"tuner_agc":1,"frequency_scan_end":0,"fir_size":9,"audio_output_filter":"vol 1","frequency":89100000}
 function updateStatusDisplay(statusData)
 {
-    var statusObj = JSON.parse(statusData);
-    
+    var statusObj = "";
+
+    try {
+      statusObj = JSON.parse(statusData);
+    }
+    catch(err) {
+      return;
+    }
+
     var rtlsdr_task_mode = statusObj.rtlsdr_task_mode;
     
     var audio_output_filter = statusObj.audio_output_filter;

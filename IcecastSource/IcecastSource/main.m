@@ -6,8 +6,8 @@
 //  Copyright © 2018 ArkPhone LLC. All rights reserved.
 //
 
-//  Our strategy is to configure two Icecast streaming ports for the LocalRadio.aac mount: http and https.
-//  We use the unencrypted http port to send source audio to the Icecast server on the same host, which
+//  We configure two Icecast streaming ports for the LocalRadio.aac mount: http and https.
+//  The unencrypted http port is used to send source audio to the Icecast server on the same host, which
 //  automatically provides the same audio data for http and https streaming from Icecast.
 
 //  Code sign note: use inherited entitlements
@@ -19,7 +19,7 @@
 //  Icecast source protocol docs:
 //  https://gist.github.com/ePirat/adc3b8ba00d85b7e3870
 //
-//  We are using the PUT style -
+//  We are using the PUT style for starting the Icecast source, like this header example -
 //      > PUT /stream.mp3 HTTP/1.1
 //      > Host: example.com:8000
 //      > Authorization: Basic c291cmNlOmhhY2ttZQ==
@@ -44,7 +44,7 @@
 //      < Expires: Mon, 26 Jul 1997 05:00:00 GMT
 //      < Pragma: no-cache
 //      < Access-Control-Allow-Origin: *
-//      > [ Stream data sent by cient ]
+//      > [ Stream data sent by client ]
 //      < HTTP/1.0 200 OK
 
 
@@ -166,10 +166,10 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 {
     //NSLog(@"IcecastSource starting on port %lu", (unsigned long)port);
 
-    NSString * formattedAuthorizationString = [NSString stringWithFormat:@"%@:%@", userName, password];
-    NSData * authData = [formattedAuthorizationString dataUsingEncoding:NSUTF8StringEncoding];
-    NSString * authorizationString = [self base64Data:authData];
-    NSLog(@"IcecastSource Icecast login %@ base64 %@", formattedAuthorizationString, authorizationString);
+    //NSString * formattedAuthorizationString = [NSString stringWithFormat:@"%@:%@", userName, password];
+    //NSData * authData = [formattedAuthorizationString dataUsingEncoding:NSUTF8StringEncoding];
+    //NSString * authorizationString = [self base64Data:authData];
+    //NSLog(@"IcecastSource Icecast login %@ base64 %@", formattedAuthorizationString, authorizationString);
 
     //dispatch_queue_t senderQueue = dispatch_queue_create("com.arkphone.IcecastSource.LocalRadio.SenderQueue", NULL);
     //udpInputSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:(id)self delegateQueue: senderQueue];
@@ -194,7 +194,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
             doExit = YES;
             break;
         }
-
+        
         if( bytesAvailableCount <= 0)
         {
             if (readyToSend == YES)
@@ -231,8 +231,6 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
                 {
                     NSData * bufferData = [[NSData alloc] initWithBytes:buf length:bytesAvailableCount];
                     
-                    //[self sendData:bufferData toHost:host port:port];
-                
                     [icecastSourceSocket writeData:bufferData withTimeout:0.1 tag:0];
 
                     //NSLog(@"IcecastSource sent %lu bytes\n", (unsigned long)[bufferData length]);
@@ -387,8 +385,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
 
     NSString * authorizationString = [self base64Data:authData];
 
-    //NSString * streamURLString = [NSString stringWithFormat:@"https://%@:%hu/localradio.aac", host, port];
-    NSString * streamURLString = [NSString stringWithFormat:@"https://%@:%hu/%@", host, port, icecastMountName];
+    //NSString * streamURLString = [NSString stringWithFormat:@"https://%@:%hu/%@", host, port, icecastMountName];
 
     //NSString * iceBitrate = @"64";
     NSString * iceBitrate = [NSString stringWithFormat:@"%d", bitrate / 1000]; // 32, 64 or 128
@@ -422,7 +419,6 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
             @"Connection: keep-alive\r\n"\
             @"Expect: 100-continue\r\n"\
             @"\r\n\r\n";        // end of HTTP header
-
 
     //NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, icecastMountName, host, authorizationString, formatString, streamURLString, iceBitrate, iceAudioInfo];
     NSString *requestStr = [NSString stringWithFormat:requestStrFrmt, icecastMountName, host, authorizationString, formatString, iceURLString, iceBitrate, iceAudioInfo];
@@ -481,14 +477,9 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
         //SecTrustResultType result = kSecTrustResultDeny;
         SecTrustResultType result = kSecTrustResultProceed;
 
-
-
-
-
-
         OSStatus anchorStatus = SecTrustSetAnchorCertificates(trust, (CFArrayRef)[NSArray array]); // no anchors
         OSStatus keychainsStatus = SecTrustSetKeychains(trust, (CFArrayRef)[NSArray array]); // no keychains
-
+        #pragma unused (anchorStatus, keychainsStatus)
 
         CSSM_APPLE_TP_ACTION_DATA tp_action_data;
         memset(&tp_action_data, 0, sizeof(tp_action_data));
@@ -502,10 +493,6 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
         
         OSStatus secTrustStatus = SecTrustSetParameters(trust, CSSM_TP_ACTION_DEFAULT,
                                  action_data_ref);
-
-
-
-
 
         OSStatus status = SecTrustEvaluate(trust, &result);
         

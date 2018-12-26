@@ -28,6 +28,7 @@
 @property (assign) NSTimeInterval lastSendTime;
 @property (assign) NSTimeInterval lastReceiveTime;
 @property (strong) NSData * whiteNoiseData;
+@property (strong) NSMutableData * accumulatedAudioData;
 @property (assign) BOOL doExit;
 
 - (BOOL)runServerOnPort:(NSUInteger)port;
@@ -91,6 +92,8 @@
 - (BOOL)runServerOnPort:(NSUInteger)port
 {
     NSLog(@"UDPListener starting server on port %lu", (unsigned long)port);
+    
+    self.accumulatedAudioData = [NSMutableData data];
 
     char whiteNoiseBuffer[whiteNoiseBufferLength];
     for (int i = 0; i < whiteNoiseBufferLength; i++)
@@ -154,21 +157,31 @@
 - (void)sendDataToStdout:(NSData *)streamData
 {
     @synchronized (self) {
-        NSInteger dataLength = streamData.length;
-        void * dataPtr = (void *)streamData.bytes;
+        //NSInteger dataLength = streamData.length;
+        //void * dataPtr = (void *)streamData.bytes;
+        
+        [self.accumulatedAudioData appendData:streamData];
 
-        size_t writeResult = fwrite(dataPtr, dataLength, 1, stdout);
-        
-        if (writeResult != 1)
+        NSInteger dataLength = self.accumulatedAudioData.length;
+        void * dataPtr = (void *)self.accumulatedAudioData.bytes;
+
+        if (dataLength > 2048)
         {
-            NSLog(@"UDPListener sendDataToStdout error writeResult=%zu, dataLength=%ld", writeResult, dataLength);
+            size_t writeResult = fwrite(dataPtr, dataLength, 1, stdout);
+            
+            if (writeResult != 1)
+            {
+                NSLog(@"UDPListener sendDataToStdout error writeResult=%zu, dataLength=%ld", writeResult, dataLength);
+            }
+            
+            fflush(stdout);
+            
+            self.lastSendTime = [NSDate timeIntervalSinceReferenceDate];
+            
+            //NSLog(@"UDPListener sendDataToStdout streamData.length = %lu", (unsigned long)streamData.length);
+            
+            self.accumulatedAudioData = [NSMutableData data];
         }
-        
-        fflush(stdout);
-        
-        self.lastSendTime = [NSDate timeIntervalSinceReferenceDate];
-        
-        //NSLog(@"UDPListener sendDataToStdout streamData.length = %lu", (unsigned long)streamData.length);
     }
 }
 

@@ -1271,8 +1271,8 @@ void * runAudioConverterOnThread(void * ptr)
         }
         else
         {
-            if (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0)
-            //if (bytesAvailableCount % sizeof(SInt16) == 0)
+            //if (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0)
+            if (bytesAvailableCount > 1024)
             {
                 lastReadTime = currentTime;
                 nextTimeoutReportInterval = 5;
@@ -1286,6 +1286,10 @@ void * runAudioConverterOnThread(void * ptr)
                 {
                     bytesConsumedCount = maxBytes;
                 }
+                
+                // assure packet boundaries
+                int32_t fullPackets = bytesConsumedCount / (inputChannels * sizeof(SInt16));
+                bytesConsumedCount = fullPackets * (inputChannels * sizeof(SInt16));
 
                 convertBuffer(circularBufferDataPtr, bytesConsumedCount);
 

@@ -103,6 +103,15 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 //==================================================================================
+//    serviceName
+//==================================================================================
+
+- (NSString *)serviceName
+{
+    return @"LocalRadio";
+}
+
+//==================================================================================
 //    serverClassPortNumber
 //==================================================================================
 
@@ -147,8 +156,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         // This allows browsers such as Safari to automatically discover our service.
         [self.httpServer setType:@"_http._tcp."];
 
-		NSString * computerName = [[NSHost currentHost] localizedName];
-        NSString * bonjourServiceName = [NSString stringWithFormat:@"LocalRadio.%@", computerName];
+        NSString * serviceName = [self serviceName];
+        
+        NSString * computerName = [[NSHost currentHost] localizedName];
+        NSString * bonjourServiceName = [NSString stringWithFormat:@"%@.%@", serviceName, computerName];
 
         [self.httpServer setName:bonjourServiceName];
         

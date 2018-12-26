@@ -183,5 +183,8 @@
 - (void)setStatusNameString:(NSString *)value;
 - (void)setStatusFrequencyIDString:(NSString *)value;
 
+- (NSString *)localHostString;
+- (NSString *)localHostIPString;
+
 @end
 

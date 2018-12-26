@@ -538,7 +538,7 @@ Printing description of icecastStatusDictionary:
             NSString *authValue = [NSString stringWithFormat: @"Basic %@",[authData base64EncodedStringWithOptions:0]];
             [icecastStatusURLRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
 
-            [icecastStatusURLRequest setTimeoutInterval:0.1f];
+            [icecastStatusURLRequest setTimeoutInterval:0.5f];
             
             //[[session dataTaskWithURL:[NSURL URLWithString:icecastStatusURL]
             [[session dataTaskWithRequest:icecastStatusURLRequest

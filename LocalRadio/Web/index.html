@@ -20,8 +20,8 @@
   
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="HandheldFriendly" content="true">
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="dist/css/normalize.css">
@@ -418,17 +418,25 @@
             }
             */
 
-            seekToEndForAudioElement(audioPlayer);
+            if (audioPlayer.readyState > 2)    // 2 = HAVE_CURRENT_DATA - data for the current playback position is available, but not enough data to play next frame/millisecond
+            {
+                seekToEndForAudioElement(audioPlayer);
+            }
             
             //audioPlayer.load();
 
-            audioPlayer.play();
-            
-            audioPlayer.autoplay=true;
-            
-            setTimeout(function(){periodicUpdate();}, 1000);      // a one-shot call to periodicUpdate() for "Now Playing"
+            setTimeout(function(){periodicUpdate();}, 3000);      // a one-shot call to periodicUpdate() for "Now Playing"
             setTimeout(function(){periodicUpdate();}, 5000);      // a one-shot call to periodicUpdate() for "Now Playing"
             setTimeout(function(){periodicUpdate();}, 10000);      // a one-shot call to periodicUpdate() for "Now Playing"
+
+            // we can't use setTimeout on iOS to start delayed audio play due to Apple's rules, so we use this ridiculous loop instead
+            var delay = 2000; // milliseconds
+            var before = Date.now();
+            while (Date.now() < before + delay) {};
+
+            audioPlayer.play();
+            audioPlayer.autoplay=true;
+ 
         }
     }
   

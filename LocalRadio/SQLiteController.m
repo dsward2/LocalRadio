@@ -73,7 +73,7 @@
             [self importPreviousVersionData:databaseUpgradeDictionary];
         }
 
-        NSLog(@"startSQLiteConnection sqliteIsRunning = %d", self.sqliteIsRunning);
+        //NSLog(@"startSQLiteConnection sqliteIsRunning = %d", self.sqliteIsRunning);
     }
 }
 
@@ -1015,7 +1015,7 @@
             NSString * trimmedValue = [columnDefault stringByTrimmingCharactersInSet:singleQuoteCharacterSet];
             newValue = trimmedValue;
         }
-        else if ([columnType isEqualToString:@"Boolean"] == YES)
+        else if ([columnType isEqualToString:@"BOOLEAN"] == YES)
         {
             NSInteger defaultInteger = [columnDefault integerValue];
             newValue = [NSNumber numberWithInteger:defaultInteger];

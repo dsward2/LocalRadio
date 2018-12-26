@@ -500,6 +500,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 NSInteger stereoFlagValue = [stereoFlagString integerValue];
                 NSNumber * stereoFlagNumber = [NSNumber numberWithInteger:stereoFlagValue];
 
+                
                 NSMutableDictionary * frequencyDictionary = self.constructFrequencyDictionary;
                 
                 if (frequencyDictionary == NULL)
@@ -511,6 +512,33 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
                 [frequencyDictionary setObject:sampleRateNumber forKey:@"sample_rate"];
                 [frequencyDictionary setObject:tunerGainNumber forKey:@"tuner_gain"];
                 [frequencyDictionary setObject:stereoFlagNumber forKey:@"stereo_flag"];
+
+                NSString * originalStationName = [frequencyDictionary objectForKey:@"station_name"];
+                NSRange unknownRange = [originalStationName rangeOfString:@"Untitled"];
+                if (unknownRange.location == 0)
+                {
+                    // replace "Untitled frequency" with the actual frequency
+                    NSInteger freqInteger = freqNumber.integerValue;
+                    NSInteger freqMajor = freqInteger / 1000000;
+                    NSInteger freqMinor = freqInteger % 1000000;
+                    
+                    NSString * freqMajorString = [NSString stringWithFormat:@"%ld", freqMajor];
+                    NSString * freqMinorString = [NSString stringWithFormat:@"%ld", freqMinor];
+                    
+                    while (freqMinorString.length < 6)
+                    {
+                        freqMinorString = [NSString stringWithFormat:@"0%@", freqMinorString];
+                    }
+
+                    while ([freqMinorString hasSuffix:@"0"] == YES)
+                    {
+                        freqMinorString = [freqMinorString substringToIndex:[freqMinorString length] - 1];
+                    }
+
+                    NSString * frequencyFloatString = [NSString stringWithFormat:@"%@.%@", freqMajorString, freqMinorString];
+                    NSString * stationName = [NSString stringWithFormat:@"%@ MHz", frequencyFloatString];
+                    [frequencyDictionary setObject:stationName forKey:@"station_name"];
+                }
 
                 [self listenButtonClickedForFrequency:frequencyDictionary];
             }
@@ -1200,10 +1228,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             self.constructFrequencyDictionary = [self.sqliteController makePrototypeDictionaryForTable:@"frequency"];
 
             // set custom values for fm properties not shown on the UI
-            [self.constructFrequencyDictionary setObject:@"Untitled FM Frequency" forKey:@"station_name"];
+            [self.constructFrequencyDictionary setObject:@"Untitled Frequency" forKey:@"station_name"];
             [self.constructFrequencyDictionary setObject:[NSNumber numberWithInteger:4] forKey:@"oversampling"];
             [self.constructFrequencyDictionary setObject:@"vol 1 deemph dither -s" forKey:@"audio_output_filter"];
-
 
             NSString * categorySelectString = [self generateCategorySelectOptions];
             [replacementDict setObject:categorySelectString forKey:@"CATEGORY_SELECT"];
@@ -2156,10 +2183,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     
     if (useMacSystemAudio == NO)
     {
-        //NSString * icecastServerHost = [self.appDelegate.localRadioAppSettings valueForKey:@"IcecastServerHost"];
-        NSString * icecastServerHost = [self.appDelegate localHostString];
-
         NSString * httpScheme = [self httpScheme];
+
+        NSString * icecastServerHost = [self.appDelegate localHostString];
+        if ([httpScheme isEqualToString:@"http"] == YES)
+        {
+            icecastServerHost = [self.appDelegate localHostIPString];
+        }
 
         //NSNumber * icecastServerHTTPPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"IcecastServerHTTPPort"];
         NSNumber * icecastServerPortNumber = [NSNumber numberWithInteger:17003];
@@ -3589,10 +3619,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 - (NSString *)generateOpenAudioPlayerPageButtonString
 {
-    NSString * hostString = self.appDelegate.localHostString;
-    
     NSString * httpScheme = [self httpScheme];
-    
+
+    NSString * hostString = self.appDelegate.localHostString;
+    if ([httpScheme isEqualToString:@"http"] == YES)
+    {
+        hostString = [self.appDelegate localHostIPString];
+    }
+
     NSString * icecastPortKey = @"IcecastServerHTTPPort";
     if ([httpScheme isEqualToString:@"https"] == YES)
     {

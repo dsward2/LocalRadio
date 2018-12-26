@@ -45,6 +45,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
+#include <stdio.h>  // dsward test
 
 #ifdef __cplusplus
     extern "C++" {
@@ -157,6 +158,11 @@ static __inline__ __attribute__((always_inline)) void TPCircularBufferConsume(TP
         atomicFetchAdd(&buffer->fillCount, -amount);
     } else {
         buffer->fillCount -= amount;
+    }
+    if (buffer->fillCount < 0)   // dsward - log the erroneous fillCount value
+    {
+        int debugFillCount = buffer->fillCount;
+        fprintf(stderr, "TPCircularBufferConsume buffer->fillCount < 0 (%d)\n", debugFillCount);
     }
     assert(buffer->fillCount >= 0);
 }
