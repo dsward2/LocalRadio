@@ -53,6 +53,10 @@
 @property (strong) IBOutlet TLSManager * tlsManager;
 
 // Main window elements
+
+@property (weak) IBOutlet NSTextField * localRadioHTTPSURLTextField;
+@property (weak) IBOutlet NSTextField * localRadioHTTPURLTextField;
+
 @property (weak) IBOutlet NSTextField * statusIcecastServerTextField;
 @property (weak) IBOutlet NSTextField * statusIcecastSourceTextField;
 @property (weak) IBOutlet NSTextField * statusRTLSDRTextField;
@@ -69,7 +73,6 @@
 @property (weak) IBOutlet NSTextField * statusSignalLevelTextField;
 @property (weak) IBOutlet NSTextField * statusSquelchLevelTextField;
 @property (weak) IBOutlet NSTextField * statusRtlsdrOptionsTextField;
-@property (weak) IBOutlet NSTextField * statusLocalRadioURLTextField;
 @property (weak) IBOutlet NSTextField * statusIcecastURLTextField;
 
 @property (strong) IBOutlet NSTextView * statusCurrentTasksTextView;
@@ -122,7 +125,9 @@
 @property (weak) IBOutlet NSButton * editSetDefaultsButton;
 
 @property (weak) IBOutlet NSWindow * editConfigurationSheetWindow;
+
 @property (weak) IBOutlet NSWindow * generatingKeysAndCertificatesSheetWindow;
+@property (weak) IBOutlet NSProgressIndicator * generatingKeysAndCertificatesProgressIndicator;
 
 @property (weak) IBOutlet NSButton * showConfigurationFilesButton;
 @property (weak) IBOutlet NSButton * changeConfigurationButton;
@@ -156,7 +161,8 @@
 - (NSString *)httpWebServerControllerURLString;
 
 
-- (IBAction)openLocalRadioServerWebPage:(id)sender;
+- (IBAction)openLocalRadioHTTPSServerWebPage:(id)sender;
+- (IBAction)openLocalRadioHTTPServerWebPage:(id)sender;
 - (IBAction)openIcecastServerWebPage:(id)sender;
 - (IBAction)showConfigurationFilesButtonAction:(id)sender;
 - (IBAction)changeConfigurationButtonAction:(id)sender;

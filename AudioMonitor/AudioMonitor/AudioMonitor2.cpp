@@ -699,7 +699,7 @@ void * runInputBufferOnThread(void * ptr)
     int32_t circularBufferLength = inputBufferSize;
     TPCircularBufferInit(&inputCircularBuffer, circularBufferLength);
     
-    fprintf(stderr, "AudioMonitor2 runInputBufferOnThread circularBufferLength = %d\n", circularBufferLength);
+    fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputCircularBuffer=%p, circularBufferLength = %d\n", &inputCircularBuffer, circularBufferLength);
 
     unsigned char * rtlsdrBuffer = (unsigned char *)malloc(circularBufferLength);
     
@@ -720,6 +720,7 @@ void * runInputBufferOnThread(void * ptr)
 
         // copy RTL-SDR LPCM data to a circular buffer to be used as input for AudioConverter process
         
+        /*
         int32_t availableSpace;
         void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &availableSpace);  // for fprintf to stderr below
         
@@ -733,11 +734,12 @@ void * runInputBufferOnThread(void * ptr)
                 usleep(5000);
             }
         }
+        */
 
         UInt32 bytesAvailableCount = 0;
 
         // use ioctl to determine amount of data available for reading on stdin, like the RTL-SDR USB serial device
-        int ioctl_result = ioctl( STDIN_FILENO, FIONREAD, &bytesAvailableCount);
+        int ioctl_result = ioctl(STDIN_FILENO, FIONREAD, &bytesAvailableCount);
         if (ioctl_result < 0)
         {
             fprintf(stderr, "AudioMonitor2 ioctl failed: %s\n", strerror(errno));
@@ -755,7 +757,7 @@ void * runInputBufferOnThread(void * ptr)
             {
                 memset(rtlsdrBuffer, 0, bytesAvailableCount);
                 
-                long readResult = read( STDIN_FILENO, rtlsdrBuffer, bytesAvailableCount);
+                long readResult = read(STDIN_FILENO, rtlsdrBuffer, bytesAvailableCount);
 
                 //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - read completed, bytesAvailableCount = %d\n", bytesAvailableCount);
 
@@ -774,14 +776,16 @@ void * runInputBufferOnThread(void * ptr)
                     lastReadTime = currentTime;
                     nextTimeoutReportInterval = 5;
                     
-                    //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputBufferPtr=%x, bytesAvailableCount=%d\n", headPtr, bytesAvailableCount);
+                    //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputBufferPtr=%p, bytesAvailableCount=%d\n", headPtr, bytesAvailableCount);
                     
+                    /*
                     if (bytesAvailableCount > availableSpace)
                     {
-                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error inputBufferPtr=%llx, bytesAvailableCount=%d\n", (UInt64)headPtr, bytesAvailableCount);
+                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error bytesAvailableCount=%d\n", bytesAvailableCount);
                         
                        sleep(1);
                     }
+                    */
 
                     bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
 
@@ -789,9 +793,11 @@ void * runInputBufferOnThread(void * ptr)
 
                     if (produceBytesResult == false)
                     {
-                        TPCircularBufferClear(&inputCircularBuffer);
-
                         fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - produce bytes failed, bytesAvailableCount = %d\n", bytesAvailableCount);
+
+                        sleep(1);   // test, see TPCircularBufferClear below
+
+                        TPCircularBufferClear(&inputCircularBuffer); // dTPCircularBufferProduceBytes error precedes another error in TPCircularBufferConsume, perhaps removing this call to TPCircularBufferClear migh avoid the consume error?  The error is unpredictable, it can occur after hours of error-free execution.
                     }
                 }
             }
@@ -1076,7 +1082,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 {
     // use AudioConverter to resample PCM audio data from the RTL-SDR device sampling rate to 48000 Hz
 
-    //fprintf(stderr, "AudioMonitor2 convertBuffer inputBufferPtr=%x, dataLength=%d\n", (void *)inputBufferPtr, dataLength);
+    //fprintf(stderr, "AudioMonitor2 convertBuffer inputBufferPtr=%p, dataLength=%d\n", (void *)inputBufferPtr, dataLength);
 
     //if (dataLength > 0)
     if (dataLength >= (1024 * audioConverterInputDescription.mChannelsPerFrame * sizeof(SInt16)))
@@ -1534,6 +1540,7 @@ void runAudioMonitor2(unsigned int inSampleRate, double inVolume, unsigned int i
     packetOutputIndex = 0;
 
     createInputBufferThread();
+    usleep(5000);
     createAudioConverterThread();
     createAudioQueueThread();
 }

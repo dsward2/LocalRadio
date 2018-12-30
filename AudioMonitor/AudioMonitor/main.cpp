@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  AudioMonitor
+//  AudioMonitor2
 //
 //  Created by Douglas Ward on 8/22/18.
 //  Copyright © 2018 ArkPhone LLC. All rights reserved.

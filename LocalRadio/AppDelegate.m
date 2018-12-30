@@ -966,8 +966,9 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     }
     
     
-    self.statusLocalRadioURLTextField.stringValue = [self httpsWebServerControllerURLString];
-    
+    self.localRadioHTTPSURLTextField.stringValue = [self httpsWebServerControllerURLString];
+    self.localRadioHTTPURLTextField.stringValue = [self httpWebServerControllerURLString];
+
     
     if (statusPortNumber != NULL)
     {
@@ -1146,12 +1147,26 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 }
 
 //==================================================================================
-//	openLocalRadioServerWebPage
+//    openLocalRadioHTTPSServerWebPage
 //==================================================================================
 
-- (IBAction)openLocalRadioServerWebPage:(id)sender
+- (IBAction)openLocalRadioHTTPSServerWebPage:(id)sender
 {
     NSString * urlString = [self httpsWebServerControllerURLString];
+
+    if (urlString != NULL)
+    {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlString]];
+    }
+}
+
+//==================================================================================
+//    openLocalRadioHTTPServerWebPage
+//==================================================================================
+
+- (IBAction)openLocalRadioHTTPServerWebPage:(id)sender
+{
+    NSString * urlString = [self httpWebServerControllerURLString];
 
     if (urlString != NULL)
     {

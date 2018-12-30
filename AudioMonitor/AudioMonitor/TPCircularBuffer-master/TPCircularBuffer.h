@@ -179,7 +179,13 @@ static __inline__ __attribute__((always_inline)) void TPCircularBufferConsume(TP
  */
 static __inline__ __attribute__((always_inline)) void* TPCircularBufferHead(TPCircularBuffer *buffer, int32_t* availableBytes) {
     *availableBytes = (buffer->length - buffer->fillCount);
-    if ( *availableBytes == 0 ) return NULL;
+    if ( *availableBytes == 0 )
+    {
+        int32_t length = buffer->length;
+        int32_t fillCount = buffer->fillCount;
+        fprintf(stderr, "TPCircularBuffer TPCircularBufferHead - availableBytes = 0, length=%d, fillCount=%d\n", length, fillCount);    // dsward test
+        return NULL;
+    }
     return (void*)((char*)buffer->buffer + buffer->head);
 }
     
@@ -200,6 +206,14 @@ static __inline__ __attribute__((always_inline)) void TPCircularBufferProduce(TP
     } else {
         buffer->fillCount += amount;
     }
+
+    int32_t length = buffer->length;    // dsward test
+    int32_t fillCount = buffer->fillCount;
+    if (fillCount > length)
+    {
+        fprintf(stderr, "TPCircularBuffer TPCircularBufferProduce - length=%d, fillCount=%d\n", length, fillCount);    // dsward test
+    }
+
     assert(buffer->fillCount <= buffer->length);
 }
 
@@ -216,7 +230,15 @@ static __inline__ __attribute__((always_inline)) void TPCircularBufferProduce(TP
 static __inline__ __attribute__((always_inline)) bool TPCircularBufferProduceBytes(TPCircularBuffer *buffer, const void* src, int32_t len) {
     int32_t space;
     void *ptr = TPCircularBufferHead(buffer, &space);
-    if ( space < len ) return false;
+    if (ptr == NULL)    // dsward - test
+    {
+        fprintf(stderr, "TPCircularBuffer TPCircularBufferProduceBytes - TPCircularBufferHead returned NULL\n");
+    }
+    if ( space < len )  // dsward test
+    {
+        fprintf(stderr, "TPCircularBuffer TPCircularBufferProduceBytes space < len, space=%d, len=%d\n", space, len);
+        return false;
+    }
     memcpy(ptr, src, len);
     TPCircularBufferProduce(buffer, len);
     return true;

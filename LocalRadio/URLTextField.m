@@ -19,7 +19,14 @@
 
 - (IBAction)mouseDown:(NSEvent *)event
 {
-    [self.appDelegate openLocalRadioServerWebPage:self];
+    if (self.tag == 0)
+    {
+        [self.appDelegate openLocalRadioHTTPSServerWebPage:self];
+    }
+    else
+    {
+        [self.appDelegate openLocalRadioHTTPServerWebPage:self];
+    }
 }
 
 @end

@@ -43,6 +43,7 @@
     if (self.modalSheetIsOpen == NO)
     {
         self.modalSheetIsOpen = YES;
+        [self.appDelegate.generatingKeysAndCertificatesProgressIndicator startAnimation:self];
         [self.appDelegate.window beginSheet:self.appDelegate.generatingKeysAndCertificatesSheetWindow  completionHandler:^(NSModalResponse returnCode) {
         }];
     }
@@ -65,6 +66,7 @@
 {
     if (self.modalSheetIsOpen == YES)
     {
+        [self.appDelegate.generatingKeysAndCertificatesProgressIndicator stopAnimation:self];
         [self.appDelegate.generatingKeysAndCertificatesSheetWindow.sheetParent endSheet:self.appDelegate.generatingKeysAndCertificatesSheetWindow returnCode:NSModalResponseOK];
         self.modalSheetIsOpen = NO;
     }

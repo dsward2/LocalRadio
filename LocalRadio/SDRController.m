@@ -293,9 +293,6 @@
                             intermediateChannels = 2;
                             
                             // adjust buffer sizes for 2 channels
-                            //inputBufferSize = 768;
-                            //audioConverterBufferSize = 768;
-                            //audioQueueBufferSize = 512;
                             
                             inputBufferSize = 768;
                             audioConverterBufferSize = 768;

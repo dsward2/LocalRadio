@@ -39,6 +39,7 @@
                 <outlet property="editStatusPortTextField" destination="U0j-rc-f3s" id="M1u-iA-MZd"/>
                 <outlet property="editUseWebViewAudioPlayerCheckbox" destination="X0z-yz-DCl" id="9Ql-Mi-dN8"/>
                 <outlet property="fccMapController" destination="lhb-6B-dEc" id="Kkr-ff-Ac7"/>
+                <outlet property="generatingKeysAndCertificatesProgressIndicator" destination="FbE-a0-ZQe" id="74K-2Z-G0E"/>
                 <outlet property="generatingKeysAndCertificatesSheetWindow" destination="liC-bC-ihs" id="jae-T0-26w"/>
                 <outlet property="httpWebServerController" destination="Jeu-29-C5C" id="Ijt-EQ-OxE"/>
                 <outlet property="httpsWebServerController" destination="S93-lJ-aMC" id="eqH-Vk-wnI"/>
@@ -53,7 +54,9 @@
                 <outlet property="localRadioAPI" destination="wEu-Fw-cGy" id="48g-II-JJx"/>
                 <outlet property="localRadioAppSettings" destination="e7V-Ua-sAt" id="eV1-zd-FDq"/>
                 <outlet property="localRadioHTTPSServerPortTextField" destination="XCY-vj-MgV" id="Woq-VL-dxU"/>
+                <outlet property="localRadioHTTPSURLTextField" destination="uQZ-Iv-hbS" id="mjn-RQ-Ut2"/>
                 <outlet property="localRadioHTTPServerPortTextField" destination="N8f-Fg-QUe" id="A1d-MZ-asf"/>
+                <outlet property="localRadioHTTPURLTextField" destination="rQo-Hd-2Ni" id="j97-xg-mba"/>
                 <outlet property="logAllStderrMessagesCheckbox" destination="CW5-5Q-W7U" id="929-HB-sdr"/>
                 <outlet property="openIcecastWebPageButton" destination="aJu-A8-6K2" id="EdH-e7-8yX"/>
                 <outlet property="sdrController" destination="mUT-Pc-Qgz" id="neM-8A-Pmt"/>
@@ -67,7 +70,6 @@
                 <outlet property="statusIcecastServerTextField" destination="uVs-by-sf6" id="QDM-cD-Jwr"/>
                 <outlet property="statusIcecastSourceTextField" destination="rYt-t2-3KW" id="qmO-lK-37H"/>
                 <outlet property="statusIcecastURLTextField" destination="oIQ-ul-Fiz" id="WAB-eZ-Vqa"/>
-                <outlet property="statusLocalRadioURLTextField" destination="uQZ-Iv-hbS" id="mjn-RQ-Ut2"/>
                 <outlet property="statusModulationTextField" destination="kVB-ER-iJO" id="IDK-bn-kuW"/>
                 <outlet property="statusNameTextField" destination="peU-lC-KFr" id="Arw-h1-E1n"/>
                 <outlet property="statusOpenIcecastWebPage" destination="aJu-A8-6K2" id="2YX-av-4DF"/>
@@ -1407,12 +1409,12 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="LocalRadio" identifier="" id="8Qy-d0-fpa">
-                                <view key="view" id="bIe-XZ-nnh">
+                                <view key="view" ambiguous="YES" id="bIe-XZ-nnh">
                                     <rect key="frame" x="10" y="33" width="450" height="550"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uQZ-Iv-hbS" customClass="URLTextField">
-                                            <rect key="frame" x="15" y="507" width="420" height="32"/>
+                                            <rect key="frame" x="15" y="527" width="420" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" id="x1K-dl-dH5">
                                                 <font key="font" size="16" name="CourierNewPSMT"/>
@@ -1422,6 +1424,19 @@ Gw
                                             <connections>
                                                 <outlet property="appDelegate" destination="Voe-Tx-rLC" id="7zE-oT-e9i"/>
                                                 <outlet property="delegate" destination="OjM-97-z0b" id="oQf-yW-DnJ"/>
+                                            </connections>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" tag="1" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rQo-Hd-2Ni" customClass="URLTextField">
+                                            <rect key="frame" x="15" y="503" width="420" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" id="KP5-XM-mIE">
+                                                <font key="font" size="16" name="CourierNewPSMT"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <outlet property="appDelegate" destination="Voe-Tx-rLC" id="Nfx-xK-g9w"/>
+                                                <outlet property="delegate" destination="OjM-97-z0b" id="0B8-Tv-1sz"/>
                                             </connections>
                                         </textField>
                                         <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T93-lK-wzp">
@@ -1777,7 +1792,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Configuration" identifier="" id="Amd-pe-F7E">
-                                <view key="view" ambiguous="YES" id="QdK-3V-Sdm">
+                                <view key="view" id="QdK-3V-Sdm">
                                     <rect key="frame" x="10" y="33" width="450" height="550"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
