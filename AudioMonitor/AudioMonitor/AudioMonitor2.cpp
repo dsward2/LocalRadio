@@ -690,6 +690,7 @@ void * runInputBufferOnThread(void * ptr)
     //pid_t originalParentProcessPID = getppid();
     
     int packetIndex = 0;
+    int droppedIndex = 0;
     bool doExit = false;
 
     time_t lastReadTime = time(NULL) + 20;
@@ -720,22 +721,6 @@ void * runInputBufferOnThread(void * ptr)
 
         // copy RTL-SDR LPCM data to a circular buffer to be used as input for AudioConverter process
         
-        /*
-        int32_t availableSpace;
-        void * headPtr = TPCircularBufferHead(&audioConverterCircularBuffer, &availableSpace);  // for fprintf to stderr below
-        
-        if (loopCount > 0)
-        {
-            if (headPtr == NULL)
-            {
-                // buffer is full?
-                //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - buffer is full?\n");
-
-                usleep(5000);
-            }
-        }
-        */
-
         UInt32 bytesAvailableCount = 0;
 
         // use ioctl to determine amount of data available for reading on stdin, like the RTL-SDR USB serial device
@@ -778,14 +763,16 @@ void * runInputBufferOnThread(void * ptr)
                     
                     //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputBufferPtr=%p, bytesAvailableCount=%d\n", headPtr, bytesAvailableCount);
                     
+                    
+                    
                     /*
+                    int32_t availableSpace = (inputCircularBuffer.length - inputCircularBuffer.fillCount);
                     if (bytesAvailableCount > availableSpace)
                     {
-                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error bytesAvailableCount=%d\n", bytesAvailableCount);
+                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error bytesAvailableCount=%d, availableSpace=%d\n", bytesAvailableCount, availableSpace);
                         
                        sleep(1);
                     }
-                    */
 
                     bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
 
@@ -799,6 +786,46 @@ void * runInputBufferOnThread(void * ptr)
 
                         TPCircularBufferClear(&inputCircularBuffer); // dTPCircularBufferProduceBytes error precedes another error in TPCircularBufferConsume, perhaps removing this call to TPCircularBufferClear migh avoid the consume error?  The error is unpredictable, it can occur after hours of error-free execution.
                     }
+                    */
+                    
+
+
+
+                    int32_t availableSpace = (inputCircularBuffer.length - inputCircularBuffer.fillCount);
+                    if (bytesAvailableCount > availableSpace)
+                    {
+                        // If we attempt to call TPCircularBufferProduceBytes now, it will terminate the process
+                        // due to insufficient buffer space - but it's radio, so we'll drop this block of data,
+                        // give the resampling process a chance to catch up, and continue playing.
+                        
+                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error bytesAvailableCount=%d, availableSpace=%d, packetIndex=%d, droppedIndex=%d\n", bytesAvailableCount, availableSpace, packetIndex, droppedIndex);
+                        
+                        //sleep(1);
+                        
+                        droppedIndex++;
+                    }
+                    else
+                    {
+                        bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
+
+                        packetIndex++;      // actually more than one packet
+
+                        if (produceBytesResult == false)
+                        {
+                            fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - produce bytes failed, bytesAvailableCount = %d, packetIndex = %d\n", bytesAvailableCount, packetIndex);
+
+                            sleep(1);
+
+                            TPCircularBufferClear(&inputCircularBuffer);
+                        }
+                    }
+
+
+
+
+
+                    
+                    
                 }
             }
             else
@@ -1287,7 +1314,8 @@ void * runAudioConverterOnThread(void * ptr)
                 
                 int32_t bytesConsumedCount = bytesAvailableCount;
 
-                int32_t maxBytes = 1024 * inputChannels * sizeof(SInt16);
+                //int32_t maxBytes = 1024 * inputChannels * sizeof(SInt16);
+                int32_t maxBytes = 8 * 1024 * inputChannels * sizeof(SInt16);   // increased to 32K to avoid dropped packets in first-stage buffer
                 if (bytesConsumedCount > maxBytes)
                 {
                     bytesConsumedCount = maxBytes;
