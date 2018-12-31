@@ -1201,6 +1201,8 @@ static void *output_thread_fn(void *arg)
 			fputc(0, s->file);
 		}
 		samples = samples_now;
+  
+        fflush(s->file);        // dsward - flush to stdout for LocalRadio subsequent processes - resampling, AAC encoding, etc.
 	}
 	//fprintf(stderr, "output_thread_fn exit.\n");
 	//NSLog(@"output_thread_fn exit.");

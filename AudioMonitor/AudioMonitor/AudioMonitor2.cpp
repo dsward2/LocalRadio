@@ -1249,7 +1249,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 
 void * runAudioConverterOnThread(void * ptr)
 {
-    // convert the LPCM input to 48000 sample rate
+    // the main loop for resampling - convert the LPCM input to 48000 Hz sample rate
     pthread_setname_np("runAudioConverterOnThread");
 
     //sleep(1); // allow time for input thread to startup
@@ -1300,7 +1300,7 @@ void * runAudioConverterOnThread(void * ptr)
 
         if( bytesAvailableCount <= 0)
         {
-            usleep(5000);
+            usleep(2000);
         }
         else
         {
@@ -1314,8 +1314,9 @@ void * runAudioConverterOnThread(void * ptr)
                 
                 int32_t bytesConsumedCount = bytesAvailableCount;
 
-                //int32_t maxBytes = 1024 * inputChannels * sizeof(SInt16);
-                int32_t maxBytes = 8 * 1024 * inputChannels * sizeof(SInt16);   // increased to 32K to avoid dropped packets in first-stage buffer
+                int32_t maxBytes = 1024 * inputChannels * sizeof(SInt16);
+                //int32_t maxBytes = (1024 + 512) * inputChannels * sizeof(SInt16);
+
                 if (bytesConsumedCount > maxBytes)
                 {
                     bytesConsumedCount = maxBytes;
