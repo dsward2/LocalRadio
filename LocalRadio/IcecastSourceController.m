@@ -119,7 +119,6 @@
     [aacEncoderTaskItem addArgument:self.appDelegate.aacBitrate];
 
     TaskItem * icecastSourceTaskItem = [self.icecastSourceTaskPipelineManager makeTaskItemWithExecutable:@"IcecastSource" functionName:@"IcecastSource"];
-    //TaskItem * icecastSourceTaskItem = [self.icecastSourceTaskPipelineManager makeTaskItemWithExecutable:@"IcecastSourceClient" functionName:@"IcecastSourceClient"];
 
     // Set IcecastSource arguments
     NSString * hostName = self.appDelegate.localHostString;

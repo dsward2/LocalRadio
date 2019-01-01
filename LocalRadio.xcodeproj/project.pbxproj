@@ -154,8 +154,6 @@
 		0EB8CB651F793C29004B6D05 /* HARDWARE.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB641F793C28004B6D05 /* HARDWARE.md */; };
 		0EB8CB671F793CDE004B6D05 /* APPNOTES.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB661F793CDE004B6D05 /* APPNOTES.md */; };
 		0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */ = {isa = PBXBuildFile; fileRef = 0EB8CB681F794A2B004B6D05 /* LocalRadio-animation.svg */; };
-		0EBD6CC3219E9A9200D2F9F4 /* IcecastSourceClient in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0EBD66C9219CE2C300D2F9F4 /* IcecastSourceClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0EBD6CCD219EC44400D2F9F4 /* fix_IcecastSourceClient.sh in Resources */ = {isa = PBXBuildFile; fileRef = 0EBD6CCC219EC44400D2F9F4 /* fix_IcecastSourceClient.sh */; };
 		0EC207671EDCE11A006899EB /* SDRController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC207661EDCE11A006899EB /* SDRController.m */; };
 		0ECAD5632109BBA2005F4BB1 /* libliquid.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0ECAD5602109BA46005F4BB1 /* libliquid.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0ED06DE4215F302E00430953 /* IcecastSource in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0EF56186215780B500A5C0AF /* IcecastSource */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -497,20 +495,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0E7293FB1F17D21500350F03;
 			remoteInfo = UDPSender;
-		};
-		0EBD66C8219CE2C300D2F9F4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0EBD66A7219CE2C200D2F9F4 /* IcecastSourceClient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0EBD669D219CE2C200D2F9F4;
-			remoteInfo = IcecastSourceClient;
-		};
-		0EBD6CC4219EABA100D2F9F4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0EBD66A7219CE2C200D2F9F4 /* IcecastSourceClient.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0EBD669C219CE2C200D2F9F4;
-			remoteInfo = IcecastSourceClient;
 		};
 		0ECAD57F210C57E3005F4BB1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -906,7 +890,6 @@
 				0E706F03212FD05100631D77 /* AudioMonitor2 in Copy Tools */,
 				0E7273652148C16C00C5B5DE /* AACEncoder in Copy Tools */,
 				0ED06DE4215F302E00430953 /* IcecastSource in Copy Tools */,
-				0EBD6CC3219E9A9200D2F9F4 /* IcecastSourceClient in Copy Tools */,
 			);
 			name = "Copy Tools";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1681,296 +1664,7 @@
 		0EB8CB801F797509004B6D05 /* apple-icon-72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-72x72.png"; sourceTree = "<group>"; };
 		0EB8CB811F797509004B6D05 /* apple-icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-114x114.png"; sourceTree = "<group>"; };
 		0EB8CB821F797509004B6D05 /* apple-icon-144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "apple-icon-144x144.png"; sourceTree = "<group>"; };
-		0EBD66A7219CE2C200D2F9F4 /* IcecastSourceClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IcecastSourceClient.xcodeproj; path = IcecastSourceClient/IcecastSourceClient.xcodeproj; sourceTree = "<group>"; };
-		0EBD6B7F219E894500D2F9F4 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		0EBD6B80219E894500D2F9F4 /* .gitmodules */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
-		0EBD6B81219E894500D2F9F4 /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
-		0EBD6B82219E894500D2F9F4 /* autogen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
-		0EBD6B84219E894500D2F9F4 /* output.0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = output.0; sourceTree = "<group>"; };
-		0EBD6B85219E894500D2F9F4 /* output.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = output.1; sourceTree = "<group>"; };
-		0EBD6B86219E894500D2F9F4 /* requests */ = {isa = PBXFileReference; lastKnownFileType = text; path = requests; sourceTree = "<group>"; };
-		0EBD6B87219E894500D2F9F4 /* traces.0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = traces.0; sourceTree = "<group>"; };
-		0EBD6B88219E894500D2F9F4 /* traces.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = traces.1; sourceTree = "<group>"; };
-		0EBD6B89219E894500D2F9F4 /* compile */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = compile; sourceTree = "<group>"; };
-		0EBD6B8A219E894500D2F9F4 /* config.guess */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = config.guess; sourceTree = "<group>"; };
-		0EBD6B8B219E894500D2F9F4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		0EBD6B8C219E894500D2F9F4 /* config.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.h.in; sourceTree = "<group>"; };
-		0EBD6B8D219E894500D2F9F4 /* config.log */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.log; sourceTree = "<group>"; };
-		0EBD6B8E219E894500D2F9F4 /* config.status */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = config.status; sourceTree = "<group>"; };
-		0EBD6B8F219E894500D2F9F4 /* config.sub */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = config.sub; sourceTree = "<group>"; };
-		0EBD6B90219E894500D2F9F4 /* configure */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = configure; sourceTree = "<group>"; };
-		0EBD6B91219E894500D2F9F4 /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
-		0EBD6B92219E894500D2F9F4 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		0EBD6B93219E894500D2F9F4 /* depcomp */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = depcomp; sourceTree = "<group>"; };
-		0EBD6B95219E894500D2F9F4 /* libshout.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = libshout.xml; sourceTree = "<group>"; };
-		0EBD6B96219E894500D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6B97219E894500D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6B98219E894500D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6B99219E894500D2F9F4 /* spec-html.xsl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "spec-html.xsl"; sourceTree = "<group>"; };
-		0EBD6B9C219E894500D2F9F4 /* example.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = example.Po; sourceTree = "<group>"; };
-		0EBD6B9D219E894500D2F9F4 /* nonblocking.Po */ = {isa = PBXFileReference; lastKnownFileType = text; path = nonblocking.Po; sourceTree = "<group>"; };
-		0EBD6B9F219E894500D2F9F4 /* example */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = example; sourceTree = "<group>"; };
-		0EBD6BA0219E894500D2F9F4 /* nonblocking */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = nonblocking; sourceTree = "<group>"; };
-		0EBD6BA1219E894500D2F9F4 /* example */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = example; sourceTree = "<group>"; };
-		0EBD6BA2219E894500D2F9F4 /* example.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = example.c; sourceTree = "<group>"; };
-		0EBD6BA3219E894500D2F9F4 /* example.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = example.o; sourceTree = "<group>"; };
-		0EBD6BA4219E894500D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6BA5219E894500D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6BA6219E894500D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6BA7219E894500D2F9F4 /* nonblocking */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = nonblocking; sourceTree = "<group>"; };
-		0EBD6BA8219E894500D2F9F4 /* nonblocking.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = nonblocking.c; sourceTree = "<group>"; };
-		0EBD6BA9219E894500D2F9F4 /* nonblocking.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = nonblocking.o; sourceTree = "<group>"; };
-		0EBD6BAA219E894500D2F9F4 /* HACKING */ = {isa = PBXFileReference; lastKnownFileType = text; path = HACKING; sourceTree = "<group>"; };
-		0EBD6BAE219E894600D2F9F4 /* Icecast-libshout-master.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "Icecast-libshout-master.xcodeproj"; sourceTree = "<group>"; };
-		0EBD6BB2219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6BB3219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6BB4219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6BB5219E894600D2F9F4 /* os.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = os.h; sourceTree = "<group>"; };
-		0EBD6BB7219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6BB8219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6BB9219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6BBA219E894600D2F9F4 /* shout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shout.h; sourceTree = "<group>"; };
-		0EBD6BBB219E894600D2F9F4 /* shout.h.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = shout.h.in; sourceTree = "<group>"; };
-		0EBD6BBC219E894600D2F9F4 /* INSTALL */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL; sourceTree = "<group>"; };
-		0EBD6BBD219E894600D2F9F4 /* install-sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "install-sh"; sourceTree = "<group>"; };
-		0EBD6BBE219E894600D2F9F4 /* libshout.ckport */ = {isa = PBXFileReference; lastKnownFileType = text; path = libshout.ckport; sourceTree = "<group>"; };
-		0EBD6BBF219E894600D2F9F4 /* libtool */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = libtool; sourceTree = "<group>"; };
-		0EBD6BC0219E894600D2F9F4 /* ltmain.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ltmain.sh; sourceTree = "<group>"; };
-		0EBD6BC2219E894600D2F9F4 /* ac_config_libconfig_in.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ac_config_libconfig_in.m4; sourceTree = "<group>"; };
-		0EBD6BC3219E894600D2F9F4 /* acx_pthread.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = acx_pthread.m4; sourceTree = "<group>"; };
-		0EBD6BC4219E894600D2F9F4 /* ax_append_compile_flags.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ax_append_compile_flags.m4; sourceTree = "<group>"; };
-		0EBD6BC5219E894600D2F9F4 /* ax_append_flag.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ax_append_flag.m4; sourceTree = "<group>"; };
-		0EBD6BC6219E894600D2F9F4 /* ax_check_compile_flag.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ax_check_compile_flag.m4; sourceTree = "<group>"; };
-		0EBD6BC7219E894600D2F9F4 /* ax_gcc_type_attribute.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ax_gcc_type_attribute.m4; sourceTree = "<group>"; };
-		0EBD6BC8219E894600D2F9F4 /* ax_require_defined.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ax_require_defined.m4; sourceTree = "<group>"; };
-		0EBD6BC9219E894600D2F9F4 /* libtool.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = libtool.m4; sourceTree = "<group>"; };
-		0EBD6BCA219E894600D2F9F4 /* ltoptions.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ltoptions.m4; sourceTree = "<group>"; };
-		0EBD6BCB219E894600D2F9F4 /* ltsugar.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ltsugar.m4; sourceTree = "<group>"; };
-		0EBD6BCC219E894600D2F9F4 /* ltversion.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ltversion.m4; sourceTree = "<group>"; };
-		0EBD6BCD219E894600D2F9F4 /* lt~obsolete.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "lt~obsolete.m4"; sourceTree = "<group>"; };
-		0EBD6BCE219E894600D2F9F4 /* ogg.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ogg.m4; sourceTree = "<group>"; };
-		0EBD6BCF219E894600D2F9F4 /* ogg2.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ogg2.m4; sourceTree = "<group>"; };
-		0EBD6BD0219E894600D2F9F4 /* shout.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = shout.m4; sourceTree = "<group>"; };
-		0EBD6BD1219E894600D2F9F4 /* speex.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = speex.m4; sourceTree = "<group>"; };
-		0EBD6BD2219E894600D2F9F4 /* theora.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = theora.m4; sourceTree = "<group>"; };
-		0EBD6BD3219E894600D2F9F4 /* vorbis.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = vorbis.m4; sourceTree = "<group>"; };
-		0EBD6BD4219E894600D2F9F4 /* with_pkg.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = with_pkg.m4; sourceTree = "<group>"; };
-		0EBD6BD5219E894600D2F9F4 /* xiph_compiler.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = xiph_compiler.m4; sourceTree = "<group>"; };
-		0EBD6BD6219E894600D2F9F4 /* xiph_curl.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = xiph_curl.m4; sourceTree = "<group>"; };
-		0EBD6BD7219E894600D2F9F4 /* xiph_net.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = xiph_net.m4; sourceTree = "<group>"; };
-		0EBD6BD8219E894600D2F9F4 /* xiph_openssl.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = xiph_openssl.m4; sourceTree = "<group>"; };
-		0EBD6BD9219E894600D2F9F4 /* xiph_path_python.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = xiph_path_python.m4; sourceTree = "<group>"; };
-		0EBD6BDA219E894600D2F9F4 /* xiph_types.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = xiph_types.m4; sourceTree = "<group>"; };
-		0EBD6BDB219E894600D2F9F4 /* xiph_xml2.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = xiph_xml2.m4; sourceTree = "<group>"; };
-		0EBD6BDC219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6BDD219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6BDE219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6BDF219E894600D2F9F4 /* missing */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = missing; sourceTree = "<group>"; };
-		0EBD6BE0219E894600D2F9F4 /* NEWS */ = {isa = PBXFileReference; lastKnownFileType = text; path = NEWS; sourceTree = "<group>"; };
-		0EBD6BE1219E894600D2F9F4 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		0EBD6BE2219E894600D2F9F4 /* shout.pc */ = {isa = PBXFileReference; lastKnownFileType = text; path = shout.pc; sourceTree = "<group>"; };
-		0EBD6BE3219E894600D2F9F4 /* shout.pc.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = shout.pc.in; sourceTree = "<group>"; };
-		0EBD6BE6219E894600D2F9F4 /* codec_opus.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_opus.Plo; sourceTree = "<group>"; };
-		0EBD6BE7219E894600D2F9F4 /* codec_speex.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_speex.Plo; sourceTree = "<group>"; };
-		0EBD6BE8219E894600D2F9F4 /* codec_theora.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_theora.Plo; sourceTree = "<group>"; };
-		0EBD6BE9219E894600D2F9F4 /* codec_vorbis.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_vorbis.Plo; sourceTree = "<group>"; };
-		0EBD6BEA219E894600D2F9F4 /* format_aac.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_aac.Plo; sourceTree = "<group>"; };
-		0EBD6BEB219E894600D2F9F4 /* format_mp3.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_mp3.Plo; sourceTree = "<group>"; };
-		0EBD6BEC219E894600D2F9F4 /* format_ogg.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_ogg.Plo; sourceTree = "<group>"; };
-		0EBD6BED219E894600D2F9F4 /* format_webm.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_webm.Plo; sourceTree = "<group>"; };
-		0EBD6BEE219E894600D2F9F4 /* proto_http.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_http.Plo; sourceTree = "<group>"; };
-		0EBD6BEF219E894600D2F9F4 /* proto_icy.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_icy.Plo; sourceTree = "<group>"; };
-		0EBD6BF0219E894600D2F9F4 /* proto_roaraudio.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_roaraudio.Plo; sourceTree = "<group>"; };
-		0EBD6BF1219E894600D2F9F4 /* proto_xaudiocast.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_xaudiocast.Plo; sourceTree = "<group>"; };
-		0EBD6BF2219E894600D2F9F4 /* queue.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = queue.Plo; sourceTree = "<group>"; };
-		0EBD6BF3219E894600D2F9F4 /* shout.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = shout.Plo; sourceTree = "<group>"; };
-		0EBD6BF4219E894600D2F9F4 /* tls.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = tls.Plo; sourceTree = "<group>"; };
-		0EBD6BF5219E894600D2F9F4 /* util.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = util.Plo; sourceTree = "<group>"; };
-		0EBD6BF7219E894600D2F9F4 /* codec_opus.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_opus.o; sourceTree = "<group>"; };
-		0EBD6BF8219E894600D2F9F4 /* codec_speex.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_speex.o; sourceTree = "<group>"; };
-		0EBD6BF9219E894600D2F9F4 /* codec_theora.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_theora.o; sourceTree = "<group>"; };
-		0EBD6BFA219E894600D2F9F4 /* codec_vorbis.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_vorbis.o; sourceTree = "<group>"; };
-		0EBD6BFB219E894600D2F9F4 /* format_aac.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_aac.o; sourceTree = "<group>"; };
-		0EBD6BFC219E894600D2F9F4 /* format_mp3.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_mp3.o; sourceTree = "<group>"; };
-		0EBD6BFD219E894600D2F9F4 /* format_ogg.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_ogg.o; sourceTree = "<group>"; };
-		0EBD6BFE219E894600D2F9F4 /* format_webm.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_webm.o; sourceTree = "<group>"; };
-		0EBD6BFF219E894600D2F9F4 /* libshout.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libshout.3.dylib; sourceTree = "<group>"; };
-		0EBD6C00219E894600D2F9F4 /* libshout.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libshout.a; sourceTree = "<group>"; };
-		0EBD6C01219E894600D2F9F4 /* libshout.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libshout.dylib; sourceTree = "<group>"; };
-		0EBD6C02219E894600D2F9F4 /* libshout.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libshout.la; sourceTree = "<group>"; };
-		0EBD6C03219E894600D2F9F4 /* libshout.lai */ = {isa = PBXFileReference; lastKnownFileType = text; path = libshout.lai; sourceTree = "<group>"; };
-		0EBD6C04219E894600D2F9F4 /* proto_http.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_http.o; sourceTree = "<group>"; };
-		0EBD6C05219E894600D2F9F4 /* proto_icy.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_icy.o; sourceTree = "<group>"; };
-		0EBD6C06219E894600D2F9F4 /* proto_roaraudio.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_roaraudio.o; sourceTree = "<group>"; };
-		0EBD6C07219E894600D2F9F4 /* proto_xaudiocast.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_xaudiocast.o; sourceTree = "<group>"; };
-		0EBD6C08219E894600D2F9F4 /* queue.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = queue.o; sourceTree = "<group>"; };
-		0EBD6C09219E894600D2F9F4 /* shout.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = shout.o; sourceTree = "<group>"; };
-		0EBD6C0A219E894600D2F9F4 /* tls.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = tls.o; sourceTree = "<group>"; };
-		0EBD6C0B219E894600D2F9F4 /* util.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = util.o; sourceTree = "<group>"; };
-		0EBD6C0C219E894600D2F9F4 /* codec_opus.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = codec_opus.c; sourceTree = "<group>"; };
-		0EBD6C0D219E894600D2F9F4 /* codec_opus.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_opus.lo; sourceTree = "<group>"; };
-		0EBD6C0E219E894600D2F9F4 /* codec_opus.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_opus.o; sourceTree = "<group>"; };
-		0EBD6C0F219E894600D2F9F4 /* codec_speex.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = codec_speex.c; sourceTree = "<group>"; };
-		0EBD6C10219E894600D2F9F4 /* codec_speex.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_speex.lo; sourceTree = "<group>"; };
-		0EBD6C11219E894600D2F9F4 /* codec_speex.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_speex.o; sourceTree = "<group>"; };
-		0EBD6C12219E894600D2F9F4 /* codec_theora.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = codec_theora.c; sourceTree = "<group>"; };
-		0EBD6C13219E894600D2F9F4 /* codec_theora.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_theora.lo; sourceTree = "<group>"; };
-		0EBD6C14219E894600D2F9F4 /* codec_theora.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_theora.o; sourceTree = "<group>"; };
-		0EBD6C15219E894600D2F9F4 /* codec_vorbis.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = codec_vorbis.c; sourceTree = "<group>"; };
-		0EBD6C16219E894600D2F9F4 /* codec_vorbis.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = codec_vorbis.lo; sourceTree = "<group>"; };
-		0EBD6C17219E894600D2F9F4 /* codec_vorbis.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = codec_vorbis.o; sourceTree = "<group>"; };
-		0EBD6C19219E894600D2F9F4 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		0EBD6C1C219E894600D2F9F4 /* libiceavl_la-avl.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libiceavl_la-avl.Plo"; sourceTree = "<group>"; };
-		0EBD6C1E219E894600D2F9F4 /* libiceavl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libiceavl.a; sourceTree = "<group>"; };
-		0EBD6C1F219E894600D2F9F4 /* libiceavl.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libiceavl.la; sourceTree = "<group>"; };
-		0EBD6C20219E894600D2F9F4 /* libiceavl_la-avl.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libiceavl_la-avl.o"; sourceTree = "<group>"; };
-		0EBD6C21219E894600D2F9F4 /* avl.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = avl.c; sourceTree = "<group>"; };
-		0EBD6C22219E894600D2F9F4 /* avl.dsp */ = {isa = PBXFileReference; lastKnownFileType = text; path = avl.dsp; sourceTree = "<group>"; };
-		0EBD6C23219E894600D2F9F4 /* avl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = avl.h; sourceTree = "<group>"; };
-		0EBD6C24219E894600D2F9F4 /* BUILDING */ = {isa = PBXFileReference; lastKnownFileType = text; path = BUILDING; sourceTree = "<group>"; };
-		0EBD6C25219E894600D2F9F4 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		0EBD6C26219E894600D2F9F4 /* libiceavl.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libiceavl.la; sourceTree = "<group>"; };
-		0EBD6C27219E894600D2F9F4 /* libiceavl_la-avl.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libiceavl_la-avl.lo"; sourceTree = "<group>"; };
-		0EBD6C28219E894600D2F9F4 /* libiceavl_la-avl.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libiceavl_la-avl.o"; sourceTree = "<group>"; };
-		0EBD6C29219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6C2A219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6C2B219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6C2C219E894600D2F9F4 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		0EBD6C2D219E894600D2F9F4 /* test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test.c; sourceTree = "<group>"; };
-		0EBD6C2E219E894600D2F9F4 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
-		0EBD6C31219E894600D2F9F4 /* libicehttpp_la-encoding.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicehttpp_la-encoding.Plo"; sourceTree = "<group>"; };
-		0EBD6C32219E894600D2F9F4 /* libicehttpp_la-httpp.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicehttpp_la-httpp.Plo"; sourceTree = "<group>"; };
-		0EBD6C34219E894600D2F9F4 /* libicehttpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libicehttpp.a; sourceTree = "<group>"; };
-		0EBD6C35219E894600D2F9F4 /* libicehttpp.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicehttpp.la; sourceTree = "<group>"; };
-		0EBD6C36219E894600D2F9F4 /* libicehttpp_la-encoding.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicehttpp_la-encoding.o"; sourceTree = "<group>"; };
-		0EBD6C37219E894600D2F9F4 /* libicehttpp_la-httpp.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicehttpp_la-httpp.o"; sourceTree = "<group>"; };
-		0EBD6C38219E894600D2F9F4 /* BUILDING */ = {isa = PBXFileReference; lastKnownFileType = text; path = BUILDING; sourceTree = "<group>"; };
-		0EBD6C39219E894600D2F9F4 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		0EBD6C3A219E894600D2F9F4 /* encoding.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
-		0EBD6C3B219E894600D2F9F4 /* encoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
-		0EBD6C3C219E894600D2F9F4 /* httpp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = httpp.c; sourceTree = "<group>"; };
-		0EBD6C3D219E894600D2F9F4 /* httpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = httpp.h; sourceTree = "<group>"; };
-		0EBD6C3E219E894600D2F9F4 /* libicehttpp.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicehttpp.la; sourceTree = "<group>"; };
-		0EBD6C3F219E894600D2F9F4 /* libicehttpp_la-encoding.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicehttpp_la-encoding.lo"; sourceTree = "<group>"; };
-		0EBD6C40219E894600D2F9F4 /* libicehttpp_la-encoding.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicehttpp_la-encoding.o"; sourceTree = "<group>"; };
-		0EBD6C41219E894600D2F9F4 /* libicehttpp_la-httpp.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicehttpp_la-httpp.lo"; sourceTree = "<group>"; };
-		0EBD6C42219E894600D2F9F4 /* libicehttpp_la-httpp.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicehttpp_la-httpp.o"; sourceTree = "<group>"; };
-		0EBD6C43219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6C44219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6C45219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6C46219E894600D2F9F4 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		0EBD6C47219E894600D2F9F4 /* test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test.c; sourceTree = "<group>"; };
-		0EBD6C48219E894600D2F9F4 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
-		0EBD6C4A219E894600D2F9F4 /* log.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
-		0EBD6C4B219E894600D2F9F4 /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
-		0EBD6C4C219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6C4D219E894600D2F9F4 /* test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test.c; sourceTree = "<group>"; };
-		0EBD6C50219E894600D2F9F4 /* libicenet_la-resolver.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicenet_la-resolver.Plo"; sourceTree = "<group>"; };
-		0EBD6C51219E894600D2F9F4 /* libicenet_la-sock.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicenet_la-sock.Plo"; sourceTree = "<group>"; };
-		0EBD6C53219E894600D2F9F4 /* libicenet.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libicenet.a; sourceTree = "<group>"; };
-		0EBD6C54219E894600D2F9F4 /* libicenet.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicenet.la; sourceTree = "<group>"; };
-		0EBD6C55219E894600D2F9F4 /* libicenet_la-resolver.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicenet_la-resolver.o"; sourceTree = "<group>"; };
-		0EBD6C56219E894600D2F9F4 /* libicenet_la-sock.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicenet_la-sock.o"; sourceTree = "<group>"; };
-		0EBD6C57219E894600D2F9F4 /* BUILDING */ = {isa = PBXFileReference; lastKnownFileType = text; path = BUILDING; sourceTree = "<group>"; };
-		0EBD6C58219E894600D2F9F4 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		0EBD6C59219E894600D2F9F4 /* libicenet.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicenet.la; sourceTree = "<group>"; };
-		0EBD6C5A219E894600D2F9F4 /* libicenet_la-resolver.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicenet_la-resolver.lo"; sourceTree = "<group>"; };
-		0EBD6C5B219E894600D2F9F4 /* libicenet_la-resolver.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicenet_la-resolver.o"; sourceTree = "<group>"; };
-		0EBD6C5C219E894600D2F9F4 /* libicenet_la-sock.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicenet_la-sock.lo"; sourceTree = "<group>"; };
-		0EBD6C5D219E894600D2F9F4 /* libicenet_la-sock.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicenet_la-sock.o"; sourceTree = "<group>"; };
-		0EBD6C5E219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6C5F219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6C60219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6C61219E894600D2F9F4 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		0EBD6C62219E894600D2F9F4 /* resolver.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = resolver.c; sourceTree = "<group>"; };
-		0EBD6C63219E894600D2F9F4 /* resolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = resolver.h; sourceTree = "<group>"; };
-		0EBD6C64219E894600D2F9F4 /* sock.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sock.c; sourceTree = "<group>"; };
-		0EBD6C65219E894600D2F9F4 /* sock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sock.h; sourceTree = "<group>"; };
-		0EBD6C66219E894600D2F9F4 /* test_resolver.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_resolver.c; sourceTree = "<group>"; };
-		0EBD6C67219E894600D2F9F4 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
-		0EBD6C6A219E894600D2F9F4 /* libicethread_la-thread.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicethread_la-thread.Plo"; sourceTree = "<group>"; };
-		0EBD6C6C219E894600D2F9F4 /* libicethread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libicethread.a; sourceTree = "<group>"; };
-		0EBD6C6D219E894600D2F9F4 /* libicethread.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicethread.la; sourceTree = "<group>"; };
-		0EBD6C6E219E894600D2F9F4 /* libicethread_la-thread.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicethread_la-thread.o"; sourceTree = "<group>"; };
-		0EBD6C6F219E894600D2F9F4 /* BUILDING */ = {isa = PBXFileReference; lastKnownFileType = text; path = BUILDING; sourceTree = "<group>"; };
-		0EBD6C70219E894600D2F9F4 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		0EBD6C71219E894600D2F9F4 /* libicethread.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicethread.la; sourceTree = "<group>"; };
-		0EBD6C72219E894600D2F9F4 /* libicethread_la-thread.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicethread_la-thread.lo"; sourceTree = "<group>"; };
-		0EBD6C73219E894600D2F9F4 /* libicethread_la-thread.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicethread_la-thread.o"; sourceTree = "<group>"; };
-		0EBD6C74219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6C75219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6C76219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6C77219E894600D2F9F4 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		0EBD6C78219E894600D2F9F4 /* thread.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = thread.c; sourceTree = "<group>"; };
-		0EBD6C79219E894600D2F9F4 /* thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
-		0EBD6C7A219E894600D2F9F4 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
-		0EBD6C7D219E894600D2F9F4 /* libicetiming_la-timing.Plo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicetiming_la-timing.Plo"; sourceTree = "<group>"; };
-		0EBD6C7F219E894600D2F9F4 /* libicetiming.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libicetiming.a; sourceTree = "<group>"; };
-		0EBD6C80219E894600D2F9F4 /* libicetiming.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicetiming.la; sourceTree = "<group>"; };
-		0EBD6C81219E894600D2F9F4 /* libicetiming_la-timing.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicetiming_la-timing.o"; sourceTree = "<group>"; };
-		0EBD6C82219E894600D2F9F4 /* BUILDING */ = {isa = PBXFileReference; lastKnownFileType = text; path = BUILDING; sourceTree = "<group>"; };
-		0EBD6C83219E894600D2F9F4 /* COPYING */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		0EBD6C84219E894600D2F9F4 /* libicetiming.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libicetiming.la; sourceTree = "<group>"; };
-		0EBD6C85219E894600D2F9F4 /* libicetiming_la-timing.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = "libicetiming_la-timing.lo"; sourceTree = "<group>"; };
-		0EBD6C86219E894600D2F9F4 /* libicetiming_la-timing.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = "libicetiming_la-timing.o"; sourceTree = "<group>"; };
-		0EBD6C87219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6C88219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6C89219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6C8A219E894600D2F9F4 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		0EBD6C8B219E894600D2F9F4 /* timing.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = timing.c; sourceTree = "<group>"; };
-		0EBD6C8C219E894600D2F9F4 /* timing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timing.h; sourceTree = "<group>"; };
-		0EBD6C8D219E894600D2F9F4 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
-		0EBD6C8E219E894600D2F9F4 /* format_aac.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = format_aac.c; sourceTree = "<group>"; };
-		0EBD6C8F219E894600D2F9F4 /* format_aac.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_aac.lo; sourceTree = "<group>"; };
-		0EBD6C90219E894600D2F9F4 /* format_aac.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_aac.o; sourceTree = "<group>"; };
-		0EBD6C91219E894600D2F9F4 /* format_mp3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = format_mp3.c; sourceTree = "<group>"; };
-		0EBD6C92219E894600D2F9F4 /* format_mp3.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_mp3.lo; sourceTree = "<group>"; };
-		0EBD6C93219E894600D2F9F4 /* format_mp3.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_mp3.o; sourceTree = "<group>"; };
-		0EBD6C94219E894600D2F9F4 /* format_ogg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = format_ogg.c; sourceTree = "<group>"; };
-		0EBD6C95219E894600D2F9F4 /* format_ogg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = format_ogg.h; sourceTree = "<group>"; };
-		0EBD6C96219E894600D2F9F4 /* format_ogg.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_ogg.lo; sourceTree = "<group>"; };
-		0EBD6C97219E894600D2F9F4 /* format_ogg.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_ogg.o; sourceTree = "<group>"; };
-		0EBD6C98219E894600D2F9F4 /* format_webm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = format_webm.c; sourceTree = "<group>"; };
-		0EBD6C99219E894600D2F9F4 /* format_webm.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = format_webm.lo; sourceTree = "<group>"; };
-		0EBD6C9A219E894600D2F9F4 /* format_webm.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = format_webm.o; sourceTree = "<group>"; };
-		0EBD6C9B219E894600D2F9F4 /* libshout.la */ = {isa = PBXFileReference; lastKnownFileType = text; path = libshout.la; sourceTree = "<group>"; };
-		0EBD6C9C219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6C9D219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6C9E219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
-		0EBD6C9F219E894600D2F9F4 /* proto_http.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = proto_http.c; sourceTree = "<group>"; };
-		0EBD6CA0219E894600D2F9F4 /* proto_http.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_http.lo; sourceTree = "<group>"; };
-		0EBD6CA1219E894600D2F9F4 /* proto_http.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_http.o; sourceTree = "<group>"; };
-		0EBD6CA2219E894600D2F9F4 /* proto_icy.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = proto_icy.c; sourceTree = "<group>"; };
-		0EBD6CA3219E894600D2F9F4 /* proto_icy.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_icy.lo; sourceTree = "<group>"; };
-		0EBD6CA4219E894600D2F9F4 /* proto_icy.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_icy.o; sourceTree = "<group>"; };
-		0EBD6CA5219E894600D2F9F4 /* proto_roaraudio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = proto_roaraudio.c; sourceTree = "<group>"; };
-		0EBD6CA6219E894600D2F9F4 /* proto_roaraudio.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_roaraudio.lo; sourceTree = "<group>"; };
-		0EBD6CA7219E894600D2F9F4 /* proto_roaraudio.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_roaraudio.o; sourceTree = "<group>"; };
-		0EBD6CA8219E894600D2F9F4 /* proto_xaudiocast.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = proto_xaudiocast.c; sourceTree = "<group>"; };
-		0EBD6CA9219E894600D2F9F4 /* proto_xaudiocast.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = proto_xaudiocast.lo; sourceTree = "<group>"; };
-		0EBD6CAA219E894600D2F9F4 /* proto_xaudiocast.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = proto_xaudiocast.o; sourceTree = "<group>"; };
-		0EBD6CAB219E894600D2F9F4 /* queue.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = queue.c; sourceTree = "<group>"; };
-		0EBD6CAC219E894600D2F9F4 /* queue.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = queue.lo; sourceTree = "<group>"; };
-		0EBD6CAD219E894600D2F9F4 /* queue.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = queue.o; sourceTree = "<group>"; };
-		0EBD6CAE219E894600D2F9F4 /* shout.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shout.c; sourceTree = "<group>"; };
-		0EBD6CAF219E894600D2F9F4 /* shout.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = shout.lo; sourceTree = "<group>"; };
-		0EBD6CB0219E894600D2F9F4 /* shout.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = shout.o; sourceTree = "<group>"; };
-		0EBD6CB1219E894600D2F9F4 /* shout_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shout_private.h; sourceTree = "<group>"; };
-		0EBD6CB2219E894600D2F9F4 /* tls.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tls.c; sourceTree = "<group>"; };
-		0EBD6CB3219E894600D2F9F4 /* tls.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = tls.lo; sourceTree = "<group>"; };
-		0EBD6CB4219E894600D2F9F4 /* tls.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = tls.o; sourceTree = "<group>"; };
-		0EBD6CB5219E894600D2F9F4 /* util.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
-		0EBD6CB6219E894600D2F9F4 /* util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
-		0EBD6CB7219E894600D2F9F4 /* util.lo */ = {isa = PBXFileReference; lastKnownFileType = text; path = util.lo; sourceTree = "<group>"; };
-		0EBD6CB8219E894600D2F9F4 /* util.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = util.o; sourceTree = "<group>"; };
-		0EBD6CB9219E894600D2F9F4 /* stamp-h1 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "stamp-h1"; sourceTree = "<group>"; };
-		0EBD6CBB219E894600D2F9F4 /* libshout.dsp */ = {isa = PBXFileReference; lastKnownFileType = text; path = libshout.dsp; sourceTree = "<group>"; };
-		0EBD6CBC219E894600D2F9F4 /* libshout.dsw */ = {isa = PBXFileReference; lastKnownFileType = text; path = libshout.dsw; sourceTree = "<group>"; };
-		0EBD6CBD219E894600D2F9F4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		0EBD6CBE219E894600D2F9F4 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
-		0EBD6CBF219E894600D2F9F4 /* Makefile.in */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
 		0EBD6CCA219EB3D900D2F9F4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		0EBD6CCC219EC44400D2F9F4 /* fix_IcecastSourceClient.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_IcecastSourceClient.sh; sourceTree = "<group>"; };
 		0EC2075A1EDB83DD006899EB /* listen.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = listen.html; sourceTree = "<group>"; };
 		0EC207651EDCE11A006899EB /* SDRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDRController.h; sourceTree = "<group>"; };
 		0EC207661EDCE11A006899EB /* SDRController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDRController.m; sourceTree = "<group>"; };
@@ -2581,7 +2275,6 @@
 				0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */,
 				0E0C693F1F1C9E3100A7EE5E /* fix_rtl_fm_localradio.sh */,
 				0ECAD565210C35C0005F4BB1 /* fix_stereodemux.sh */,
-				0EBD6CCC219EC44400D2F9F4 /* fix_IcecastSourceClient.sh */,
 				0E4970091F6F1FF700E41A06 /* codesign_tools.sh */,
 			);
 			path = Scripts;
@@ -3580,7 +3273,6 @@
 				0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */,
 				0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */,
 				0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */,
-				0EBD66A7219CE2C200D2F9F4 /* IcecastSourceClient.xcodeproj */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
 			);
@@ -3654,7 +3346,6 @@
 				0EB5B0F41F6B89D5008DBE9A /* Assets.xcassets */,
 				0E84C9BB1ED935E00065864B /* SQLiteLibrary-master */,
 				0EA212701ED72D17004DE453 /* icecast */,
-				0EBD6B7E219E894500D2F9F4 /* Icecast-libshout-master */,
 				0E1BA0EF1EC8929800130DB9 /* MacPorts_Tools */,
 				0E0FD9E31EF4C6D800FEEA06 /* RTL-SDR tools */,
 				0E0FD9A91EF4A43700FEEA06 /* rtl-sdr-master */,
@@ -4513,547 +4204,6 @@
 				0EB8CA7D1F77F790004B6D05 /* WP_20161221_18_05_04_Pro.jpg 825×1250 pixels.webloc */,
 			);
 			path = "Red-Radio-Icon";
-			sourceTree = "<group>";
-		};
-		0EBD66A8219CE2C200D2F9F4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD66C9219CE2C300D2F9F4 /* IcecastSourceClient */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0EBD6B7E219E894500D2F9F4 /* Icecast-libshout-master */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6B7F219E894500D2F9F4 /* .gitignore */,
-				0EBD6B80219E894500D2F9F4 /* .gitmodules */,
-				0EBD6B81219E894500D2F9F4 /* aclocal.m4 */,
-				0EBD6B82219E894500D2F9F4 /* autogen.sh */,
-				0EBD6B83219E894500D2F9F4 /* autom4te.cache */,
-				0EBD6B89219E894500D2F9F4 /* compile */,
-				0EBD6B8A219E894500D2F9F4 /* config.guess */,
-				0EBD6B8B219E894500D2F9F4 /* config.h */,
-				0EBD6B8C219E894500D2F9F4 /* config.h.in */,
-				0EBD6B8D219E894500D2F9F4 /* config.log */,
-				0EBD6B8E219E894500D2F9F4 /* config.status */,
-				0EBD6B8F219E894500D2F9F4 /* config.sub */,
-				0EBD6B90219E894500D2F9F4 /* configure */,
-				0EBD6B91219E894500D2F9F4 /* configure.ac */,
-				0EBD6B92219E894500D2F9F4 /* COPYING */,
-				0EBD6B93219E894500D2F9F4 /* depcomp */,
-				0EBD6B94219E894500D2F9F4 /* doc */,
-				0EBD6B9A219E894500D2F9F4 /* examples */,
-				0EBD6BAA219E894500D2F9F4 /* HACKING */,
-				0EBD6BAE219E894600D2F9F4 /* Icecast-libshout-master.xcodeproj */,
-				0EBD6BB1219E894600D2F9F4 /* include */,
-				0EBD6BBC219E894600D2F9F4 /* INSTALL */,
-				0EBD6BBD219E894600D2F9F4 /* install-sh */,
-				0EBD6BBE219E894600D2F9F4 /* libshout.ckport */,
-				0EBD6BBF219E894600D2F9F4 /* libtool */,
-				0EBD6BC0219E894600D2F9F4 /* ltmain.sh */,
-				0EBD6BC1219E894600D2F9F4 /* m4 */,
-				0EBD6BDC219E894600D2F9F4 /* Makefile */,
-				0EBD6BDD219E894600D2F9F4 /* Makefile.am */,
-				0EBD6BDE219E894600D2F9F4 /* Makefile.in */,
-				0EBD6BDF219E894600D2F9F4 /* missing */,
-				0EBD6BE0219E894600D2F9F4 /* NEWS */,
-				0EBD6BE1219E894600D2F9F4 /* README */,
-				0EBD6BE2219E894600D2F9F4 /* shout.pc */,
-				0EBD6BE3219E894600D2F9F4 /* shout.pc.in */,
-				0EBD6BE4219E894600D2F9F4 /* src */,
-				0EBD6CB9219E894600D2F9F4 /* stamp-h1 */,
-				0EBD6CBA219E894600D2F9F4 /* win32 */,
-			);
-			path = "Icecast-libshout-master";
-			sourceTree = "<group>";
-		};
-		0EBD6B83219E894500D2F9F4 /* autom4te.cache */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6B84219E894500D2F9F4 /* output.0 */,
-				0EBD6B85219E894500D2F9F4 /* output.1 */,
-				0EBD6B86219E894500D2F9F4 /* requests */,
-				0EBD6B87219E894500D2F9F4 /* traces.0 */,
-				0EBD6B88219E894500D2F9F4 /* traces.1 */,
-			);
-			path = autom4te.cache;
-			sourceTree = "<group>";
-		};
-		0EBD6B94219E894500D2F9F4 /* doc */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6B95219E894500D2F9F4 /* libshout.xml */,
-				0EBD6B96219E894500D2F9F4 /* Makefile */,
-				0EBD6B97219E894500D2F9F4 /* Makefile.am */,
-				0EBD6B98219E894500D2F9F4 /* Makefile.in */,
-				0EBD6B99219E894500D2F9F4 /* spec-html.xsl */,
-			);
-			path = doc;
-			sourceTree = "<group>";
-		};
-		0EBD6B9A219E894500D2F9F4 /* examples */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6B9B219E894500D2F9F4 /* .deps */,
-				0EBD6B9E219E894500D2F9F4 /* .libs */,
-				0EBD6BA1219E894500D2F9F4 /* example */,
-				0EBD6BA2219E894500D2F9F4 /* example.c */,
-				0EBD6BA3219E894500D2F9F4 /* example.o */,
-				0EBD6BA4219E894500D2F9F4 /* Makefile */,
-				0EBD6BA5219E894500D2F9F4 /* Makefile.am */,
-				0EBD6BA6219E894500D2F9F4 /* Makefile.in */,
-				0EBD6BA7219E894500D2F9F4 /* nonblocking */,
-				0EBD6BA8219E894500D2F9F4 /* nonblocking.c */,
-				0EBD6BA9219E894500D2F9F4 /* nonblocking.o */,
-			);
-			path = examples;
-			sourceTree = "<group>";
-		};
-		0EBD6B9B219E894500D2F9F4 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6B9C219E894500D2F9F4 /* example.Po */,
-				0EBD6B9D219E894500D2F9F4 /* nonblocking.Po */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
-		0EBD6B9E219E894500D2F9F4 /* .libs */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6B9F219E894500D2F9F4 /* example */,
-				0EBD6BA0219E894500D2F9F4 /* nonblocking */,
-			);
-			path = .libs;
-			sourceTree = "<group>";
-		};
-		0EBD6BAF219E894600D2F9F4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		0EBD6BB1219E894600D2F9F4 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6BB2219E894600D2F9F4 /* Makefile */,
-				0EBD6BB3219E894600D2F9F4 /* Makefile.am */,
-				0EBD6BB4219E894600D2F9F4 /* Makefile.in */,
-				0EBD6BB5219E894600D2F9F4 /* os.h */,
-				0EBD6BB6219E894600D2F9F4 /* shout */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		0EBD6BB6219E894600D2F9F4 /* shout */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6BB7219E894600D2F9F4 /* Makefile */,
-				0EBD6BB8219E894600D2F9F4 /* Makefile.am */,
-				0EBD6BB9219E894600D2F9F4 /* Makefile.in */,
-				0EBD6BBA219E894600D2F9F4 /* shout.h */,
-				0EBD6BBB219E894600D2F9F4 /* shout.h.in */,
-			);
-			path = shout;
-			sourceTree = "<group>";
-		};
-		0EBD6BC1219E894600D2F9F4 /* m4 */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6BC2219E894600D2F9F4 /* ac_config_libconfig_in.m4 */,
-				0EBD6BC3219E894600D2F9F4 /* acx_pthread.m4 */,
-				0EBD6BC4219E894600D2F9F4 /* ax_append_compile_flags.m4 */,
-				0EBD6BC5219E894600D2F9F4 /* ax_append_flag.m4 */,
-				0EBD6BC6219E894600D2F9F4 /* ax_check_compile_flag.m4 */,
-				0EBD6BC7219E894600D2F9F4 /* ax_gcc_type_attribute.m4 */,
-				0EBD6BC8219E894600D2F9F4 /* ax_require_defined.m4 */,
-				0EBD6BC9219E894600D2F9F4 /* libtool.m4 */,
-				0EBD6BCA219E894600D2F9F4 /* ltoptions.m4 */,
-				0EBD6BCB219E894600D2F9F4 /* ltsugar.m4 */,
-				0EBD6BCC219E894600D2F9F4 /* ltversion.m4 */,
-				0EBD6BCD219E894600D2F9F4 /* lt~obsolete.m4 */,
-				0EBD6BCE219E894600D2F9F4 /* ogg.m4 */,
-				0EBD6BCF219E894600D2F9F4 /* ogg2.m4 */,
-				0EBD6BD0219E894600D2F9F4 /* shout.m4 */,
-				0EBD6BD1219E894600D2F9F4 /* speex.m4 */,
-				0EBD6BD2219E894600D2F9F4 /* theora.m4 */,
-				0EBD6BD3219E894600D2F9F4 /* vorbis.m4 */,
-				0EBD6BD4219E894600D2F9F4 /* with_pkg.m4 */,
-				0EBD6BD5219E894600D2F9F4 /* xiph_compiler.m4 */,
-				0EBD6BD6219E894600D2F9F4 /* xiph_curl.m4 */,
-				0EBD6BD7219E894600D2F9F4 /* xiph_net.m4 */,
-				0EBD6BD8219E894600D2F9F4 /* xiph_openssl.m4 */,
-				0EBD6BD9219E894600D2F9F4 /* xiph_path_python.m4 */,
-				0EBD6BDA219E894600D2F9F4 /* xiph_types.m4 */,
-				0EBD6BDB219E894600D2F9F4 /* xiph_xml2.m4 */,
-			);
-			path = m4;
-			sourceTree = "<group>";
-		};
-		0EBD6BE4219E894600D2F9F4 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6BE5219E894600D2F9F4 /* .deps */,
-				0EBD6BF6219E894600D2F9F4 /* .libs */,
-				0EBD6C0C219E894600D2F9F4 /* codec_opus.c */,
-				0EBD6C0D219E894600D2F9F4 /* codec_opus.lo */,
-				0EBD6C0E219E894600D2F9F4 /* codec_opus.o */,
-				0EBD6C0F219E894600D2F9F4 /* codec_speex.c */,
-				0EBD6C10219E894600D2F9F4 /* codec_speex.lo */,
-				0EBD6C11219E894600D2F9F4 /* codec_speex.o */,
-				0EBD6C12219E894600D2F9F4 /* codec_theora.c */,
-				0EBD6C13219E894600D2F9F4 /* codec_theora.lo */,
-				0EBD6C14219E894600D2F9F4 /* codec_theora.o */,
-				0EBD6C15219E894600D2F9F4 /* codec_vorbis.c */,
-				0EBD6C16219E894600D2F9F4 /* codec_vorbis.lo */,
-				0EBD6C17219E894600D2F9F4 /* codec_vorbis.o */,
-				0EBD6C18219E894600D2F9F4 /* common */,
-				0EBD6C8E219E894600D2F9F4 /* format_aac.c */,
-				0EBD6C8F219E894600D2F9F4 /* format_aac.lo */,
-				0EBD6C90219E894600D2F9F4 /* format_aac.o */,
-				0EBD6C91219E894600D2F9F4 /* format_mp3.c */,
-				0EBD6C92219E894600D2F9F4 /* format_mp3.lo */,
-				0EBD6C93219E894600D2F9F4 /* format_mp3.o */,
-				0EBD6C94219E894600D2F9F4 /* format_ogg.c */,
-				0EBD6C95219E894600D2F9F4 /* format_ogg.h */,
-				0EBD6C96219E894600D2F9F4 /* format_ogg.lo */,
-				0EBD6C97219E894600D2F9F4 /* format_ogg.o */,
-				0EBD6C98219E894600D2F9F4 /* format_webm.c */,
-				0EBD6C99219E894600D2F9F4 /* format_webm.lo */,
-				0EBD6C9A219E894600D2F9F4 /* format_webm.o */,
-				0EBD6C9B219E894600D2F9F4 /* libshout.la */,
-				0EBD6C9C219E894600D2F9F4 /* Makefile */,
-				0EBD6C9D219E894600D2F9F4 /* Makefile.am */,
-				0EBD6C9E219E894600D2F9F4 /* Makefile.in */,
-				0EBD6C9F219E894600D2F9F4 /* proto_http.c */,
-				0EBD6CA0219E894600D2F9F4 /* proto_http.lo */,
-				0EBD6CA1219E894600D2F9F4 /* proto_http.o */,
-				0EBD6CA2219E894600D2F9F4 /* proto_icy.c */,
-				0EBD6CA3219E894600D2F9F4 /* proto_icy.lo */,
-				0EBD6CA4219E894600D2F9F4 /* proto_icy.o */,
-				0EBD6CA5219E894600D2F9F4 /* proto_roaraudio.c */,
-				0EBD6CA6219E894600D2F9F4 /* proto_roaraudio.lo */,
-				0EBD6CA7219E894600D2F9F4 /* proto_roaraudio.o */,
-				0EBD6CA8219E894600D2F9F4 /* proto_xaudiocast.c */,
-				0EBD6CA9219E894600D2F9F4 /* proto_xaudiocast.lo */,
-				0EBD6CAA219E894600D2F9F4 /* proto_xaudiocast.o */,
-				0EBD6CAB219E894600D2F9F4 /* queue.c */,
-				0EBD6CAC219E894600D2F9F4 /* queue.lo */,
-				0EBD6CAD219E894600D2F9F4 /* queue.o */,
-				0EBD6CAE219E894600D2F9F4 /* shout.c */,
-				0EBD6CAF219E894600D2F9F4 /* shout.lo */,
-				0EBD6CB0219E894600D2F9F4 /* shout.o */,
-				0EBD6CB1219E894600D2F9F4 /* shout_private.h */,
-				0EBD6CB2219E894600D2F9F4 /* tls.c */,
-				0EBD6CB3219E894600D2F9F4 /* tls.lo */,
-				0EBD6CB4219E894600D2F9F4 /* tls.o */,
-				0EBD6CB5219E894600D2F9F4 /* util.c */,
-				0EBD6CB6219E894600D2F9F4 /* util.h */,
-				0EBD6CB7219E894600D2F9F4 /* util.lo */,
-				0EBD6CB8219E894600D2F9F4 /* util.o */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		0EBD6BE5219E894600D2F9F4 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6BE6219E894600D2F9F4 /* codec_opus.Plo */,
-				0EBD6BE7219E894600D2F9F4 /* codec_speex.Plo */,
-				0EBD6BE8219E894600D2F9F4 /* codec_theora.Plo */,
-				0EBD6BE9219E894600D2F9F4 /* codec_vorbis.Plo */,
-				0EBD6BEA219E894600D2F9F4 /* format_aac.Plo */,
-				0EBD6BEB219E894600D2F9F4 /* format_mp3.Plo */,
-				0EBD6BEC219E894600D2F9F4 /* format_ogg.Plo */,
-				0EBD6BED219E894600D2F9F4 /* format_webm.Plo */,
-				0EBD6BEE219E894600D2F9F4 /* proto_http.Plo */,
-				0EBD6BEF219E894600D2F9F4 /* proto_icy.Plo */,
-				0EBD6BF0219E894600D2F9F4 /* proto_roaraudio.Plo */,
-				0EBD6BF1219E894600D2F9F4 /* proto_xaudiocast.Plo */,
-				0EBD6BF2219E894600D2F9F4 /* queue.Plo */,
-				0EBD6BF3219E894600D2F9F4 /* shout.Plo */,
-				0EBD6BF4219E894600D2F9F4 /* tls.Plo */,
-				0EBD6BF5219E894600D2F9F4 /* util.Plo */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
-		0EBD6BF6219E894600D2F9F4 /* .libs */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6BF7219E894600D2F9F4 /* codec_opus.o */,
-				0EBD6BF8219E894600D2F9F4 /* codec_speex.o */,
-				0EBD6BF9219E894600D2F9F4 /* codec_theora.o */,
-				0EBD6BFA219E894600D2F9F4 /* codec_vorbis.o */,
-				0EBD6BFB219E894600D2F9F4 /* format_aac.o */,
-				0EBD6BFC219E894600D2F9F4 /* format_mp3.o */,
-				0EBD6BFD219E894600D2F9F4 /* format_ogg.o */,
-				0EBD6BFE219E894600D2F9F4 /* format_webm.o */,
-				0EBD6BFF219E894600D2F9F4 /* libshout.3.dylib */,
-				0EBD6C00219E894600D2F9F4 /* libshout.a */,
-				0EBD6C01219E894600D2F9F4 /* libshout.dylib */,
-				0EBD6C02219E894600D2F9F4 /* libshout.la */,
-				0EBD6C03219E894600D2F9F4 /* libshout.lai */,
-				0EBD6C04219E894600D2F9F4 /* proto_http.o */,
-				0EBD6C05219E894600D2F9F4 /* proto_icy.o */,
-				0EBD6C06219E894600D2F9F4 /* proto_roaraudio.o */,
-				0EBD6C07219E894600D2F9F4 /* proto_xaudiocast.o */,
-				0EBD6C08219E894600D2F9F4 /* queue.o */,
-				0EBD6C09219E894600D2F9F4 /* shout.o */,
-				0EBD6C0A219E894600D2F9F4 /* tls.o */,
-				0EBD6C0B219E894600D2F9F4 /* util.o */,
-			);
-			path = .libs;
-			sourceTree = "<group>";
-		};
-		0EBD6C18219E894600D2F9F4 /* common */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C19219E894600D2F9F4 /* .gitignore */,
-				0EBD6C1A219E894600D2F9F4 /* avl */,
-				0EBD6C2F219E894600D2F9F4 /* httpp */,
-				0EBD6C49219E894600D2F9F4 /* log */,
-				0EBD6C4E219E894600D2F9F4 /* net */,
-				0EBD6C68219E894600D2F9F4 /* thread */,
-				0EBD6C7B219E894600D2F9F4 /* timing */,
-			);
-			path = common;
-			sourceTree = "<group>";
-		};
-		0EBD6C1A219E894600D2F9F4 /* avl */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C1B219E894600D2F9F4 /* .deps */,
-				0EBD6C1D219E894600D2F9F4 /* .libs */,
-				0EBD6C21219E894600D2F9F4 /* avl.c */,
-				0EBD6C22219E894600D2F9F4 /* avl.dsp */,
-				0EBD6C23219E894600D2F9F4 /* avl.h */,
-				0EBD6C24219E894600D2F9F4 /* BUILDING */,
-				0EBD6C25219E894600D2F9F4 /* COPYING */,
-				0EBD6C26219E894600D2F9F4 /* libiceavl.la */,
-				0EBD6C27219E894600D2F9F4 /* libiceavl_la-avl.lo */,
-				0EBD6C28219E894600D2F9F4 /* libiceavl_la-avl.o */,
-				0EBD6C29219E894600D2F9F4 /* Makefile */,
-				0EBD6C2A219E894600D2F9F4 /* Makefile.am */,
-				0EBD6C2B219E894600D2F9F4 /* Makefile.in */,
-				0EBD6C2C219E894600D2F9F4 /* README */,
-				0EBD6C2D219E894600D2F9F4 /* test.c */,
-				0EBD6C2E219E894600D2F9F4 /* TODO */,
-			);
-			path = avl;
-			sourceTree = "<group>";
-		};
-		0EBD6C1B219E894600D2F9F4 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C1C219E894600D2F9F4 /* libiceavl_la-avl.Plo */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
-		0EBD6C1D219E894600D2F9F4 /* .libs */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C1E219E894600D2F9F4 /* libiceavl.a */,
-				0EBD6C1F219E894600D2F9F4 /* libiceavl.la */,
-				0EBD6C20219E894600D2F9F4 /* libiceavl_la-avl.o */,
-			);
-			path = .libs;
-			sourceTree = "<group>";
-		};
-		0EBD6C2F219E894600D2F9F4 /* httpp */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C30219E894600D2F9F4 /* .deps */,
-				0EBD6C33219E894600D2F9F4 /* .libs */,
-				0EBD6C38219E894600D2F9F4 /* BUILDING */,
-				0EBD6C39219E894600D2F9F4 /* COPYING */,
-				0EBD6C3A219E894600D2F9F4 /* encoding.c */,
-				0EBD6C3B219E894600D2F9F4 /* encoding.h */,
-				0EBD6C3C219E894600D2F9F4 /* httpp.c */,
-				0EBD6C3D219E894600D2F9F4 /* httpp.h */,
-				0EBD6C3E219E894600D2F9F4 /* libicehttpp.la */,
-				0EBD6C3F219E894600D2F9F4 /* libicehttpp_la-encoding.lo */,
-				0EBD6C40219E894600D2F9F4 /* libicehttpp_la-encoding.o */,
-				0EBD6C41219E894600D2F9F4 /* libicehttpp_la-httpp.lo */,
-				0EBD6C42219E894600D2F9F4 /* libicehttpp_la-httpp.o */,
-				0EBD6C43219E894600D2F9F4 /* Makefile */,
-				0EBD6C44219E894600D2F9F4 /* Makefile.am */,
-				0EBD6C45219E894600D2F9F4 /* Makefile.in */,
-				0EBD6C46219E894600D2F9F4 /* README */,
-				0EBD6C47219E894600D2F9F4 /* test.c */,
-				0EBD6C48219E894600D2F9F4 /* TODO */,
-			);
-			path = httpp;
-			sourceTree = "<group>";
-		};
-		0EBD6C30219E894600D2F9F4 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C31219E894600D2F9F4 /* libicehttpp_la-encoding.Plo */,
-				0EBD6C32219E894600D2F9F4 /* libicehttpp_la-httpp.Plo */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
-		0EBD6C33219E894600D2F9F4 /* .libs */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C34219E894600D2F9F4 /* libicehttpp.a */,
-				0EBD6C35219E894600D2F9F4 /* libicehttpp.la */,
-				0EBD6C36219E894600D2F9F4 /* libicehttpp_la-encoding.o */,
-				0EBD6C37219E894600D2F9F4 /* libicehttpp_la-httpp.o */,
-			);
-			path = .libs;
-			sourceTree = "<group>";
-		};
-		0EBD6C49219E894600D2F9F4 /* log */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C4A219E894600D2F9F4 /* log.c */,
-				0EBD6C4B219E894600D2F9F4 /* log.h */,
-				0EBD6C4C219E894600D2F9F4 /* Makefile.am */,
-				0EBD6C4D219E894600D2F9F4 /* test.c */,
-			);
-			path = log;
-			sourceTree = "<group>";
-		};
-		0EBD6C4E219E894600D2F9F4 /* net */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C4F219E894600D2F9F4 /* .deps */,
-				0EBD6C52219E894600D2F9F4 /* .libs */,
-				0EBD6C57219E894600D2F9F4 /* BUILDING */,
-				0EBD6C58219E894600D2F9F4 /* COPYING */,
-				0EBD6C59219E894600D2F9F4 /* libicenet.la */,
-				0EBD6C5A219E894600D2F9F4 /* libicenet_la-resolver.lo */,
-				0EBD6C5B219E894600D2F9F4 /* libicenet_la-resolver.o */,
-				0EBD6C5C219E894600D2F9F4 /* libicenet_la-sock.lo */,
-				0EBD6C5D219E894600D2F9F4 /* libicenet_la-sock.o */,
-				0EBD6C5E219E894600D2F9F4 /* Makefile */,
-				0EBD6C5F219E894600D2F9F4 /* Makefile.am */,
-				0EBD6C60219E894600D2F9F4 /* Makefile.in */,
-				0EBD6C61219E894600D2F9F4 /* README */,
-				0EBD6C62219E894600D2F9F4 /* resolver.c */,
-				0EBD6C63219E894600D2F9F4 /* resolver.h */,
-				0EBD6C64219E894600D2F9F4 /* sock.c */,
-				0EBD6C65219E894600D2F9F4 /* sock.h */,
-				0EBD6C66219E894600D2F9F4 /* test_resolver.c */,
-				0EBD6C67219E894600D2F9F4 /* TODO */,
-			);
-			path = net;
-			sourceTree = "<group>";
-		};
-		0EBD6C4F219E894600D2F9F4 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C50219E894600D2F9F4 /* libicenet_la-resolver.Plo */,
-				0EBD6C51219E894600D2F9F4 /* libicenet_la-sock.Plo */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
-		0EBD6C52219E894600D2F9F4 /* .libs */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C53219E894600D2F9F4 /* libicenet.a */,
-				0EBD6C54219E894600D2F9F4 /* libicenet.la */,
-				0EBD6C55219E894600D2F9F4 /* libicenet_la-resolver.o */,
-				0EBD6C56219E894600D2F9F4 /* libicenet_la-sock.o */,
-			);
-			path = .libs;
-			sourceTree = "<group>";
-		};
-		0EBD6C68219E894600D2F9F4 /* thread */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C69219E894600D2F9F4 /* .deps */,
-				0EBD6C6B219E894600D2F9F4 /* .libs */,
-				0EBD6C6F219E894600D2F9F4 /* BUILDING */,
-				0EBD6C70219E894600D2F9F4 /* COPYING */,
-				0EBD6C71219E894600D2F9F4 /* libicethread.la */,
-				0EBD6C72219E894600D2F9F4 /* libicethread_la-thread.lo */,
-				0EBD6C73219E894600D2F9F4 /* libicethread_la-thread.o */,
-				0EBD6C74219E894600D2F9F4 /* Makefile */,
-				0EBD6C75219E894600D2F9F4 /* Makefile.am */,
-				0EBD6C76219E894600D2F9F4 /* Makefile.in */,
-				0EBD6C77219E894600D2F9F4 /* README */,
-				0EBD6C78219E894600D2F9F4 /* thread.c */,
-				0EBD6C79219E894600D2F9F4 /* thread.h */,
-				0EBD6C7A219E894600D2F9F4 /* TODO */,
-			);
-			path = thread;
-			sourceTree = "<group>";
-		};
-		0EBD6C69219E894600D2F9F4 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C6A219E894600D2F9F4 /* libicethread_la-thread.Plo */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
-		0EBD6C6B219E894600D2F9F4 /* .libs */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C6C219E894600D2F9F4 /* libicethread.a */,
-				0EBD6C6D219E894600D2F9F4 /* libicethread.la */,
-				0EBD6C6E219E894600D2F9F4 /* libicethread_la-thread.o */,
-			);
-			path = .libs;
-			sourceTree = "<group>";
-		};
-		0EBD6C7B219E894600D2F9F4 /* timing */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C7C219E894600D2F9F4 /* .deps */,
-				0EBD6C7E219E894600D2F9F4 /* .libs */,
-				0EBD6C82219E894600D2F9F4 /* BUILDING */,
-				0EBD6C83219E894600D2F9F4 /* COPYING */,
-				0EBD6C84219E894600D2F9F4 /* libicetiming.la */,
-				0EBD6C85219E894600D2F9F4 /* libicetiming_la-timing.lo */,
-				0EBD6C86219E894600D2F9F4 /* libicetiming_la-timing.o */,
-				0EBD6C87219E894600D2F9F4 /* Makefile */,
-				0EBD6C88219E894600D2F9F4 /* Makefile.am */,
-				0EBD6C89219E894600D2F9F4 /* Makefile.in */,
-				0EBD6C8A219E894600D2F9F4 /* README */,
-				0EBD6C8B219E894600D2F9F4 /* timing.c */,
-				0EBD6C8C219E894600D2F9F4 /* timing.h */,
-				0EBD6C8D219E894600D2F9F4 /* TODO */,
-			);
-			path = timing;
-			sourceTree = "<group>";
-		};
-		0EBD6C7C219E894600D2F9F4 /* .deps */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C7D219E894600D2F9F4 /* libicetiming_la-timing.Plo */,
-			);
-			path = .deps;
-			sourceTree = "<group>";
-		};
-		0EBD6C7E219E894600D2F9F4 /* .libs */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6C7F219E894600D2F9F4 /* libicetiming.a */,
-				0EBD6C80219E894600D2F9F4 /* libicetiming.la */,
-				0EBD6C81219E894600D2F9F4 /* libicetiming_la-timing.o */,
-			);
-			path = .libs;
-			sourceTree = "<group>";
-		};
-		0EBD6CBA219E894600D2F9F4 /* win32 */ = {
-			isa = PBXGroup;
-			children = (
-				0EBD6CBB219E894600D2F9F4 /* libshout.dsp */,
-				0EBD6CBC219E894600D2F9F4 /* libshout.dsw */,
-				0EBD6CBD219E894600D2F9F4 /* Makefile */,
-				0EBD6CBE219E894600D2F9F4 /* Makefile.am */,
-				0EBD6CBF219E894600D2F9F4 /* Makefile.in */,
-			);
-			path = win32;
 			sourceTree = "<group>";
 		};
 		0ECAD57C210C57E1005F4BB1 /* Products */ = {
@@ -6399,7 +5549,6 @@
 				0E4ECFB91EAB633B00D2157B /* Resources */,
 				0E4ED21E1EABDC6900D2157B /* Copy Tools */,
 				0E0C693D1F1C9D4800A7EE5E /* Run Fix stereodemux Script */,
-				0EBD6CCE219EC4F800D2F9F4 /* Run Fix IcecastSourceClient Script */,
 				0EA2128A1ED72D4D004DE453 /* Copy Icecast Admin Files */,
 				0EA212941ED72D7A004DE453 /* Copy Icecast Web Files */,
 				0EA2129E1ED72DAB004DE453 /* Copy Icecast Doc Files */,
@@ -6411,7 +5560,6 @@
 			);
 			dependencies = (
 				0ED0715C215F938A00430953 /* PBXTargetDependency */,
-				0EBD6CC5219EABA100D2F9F4 /* PBXTargetDependency */,
 				0ED07158215F938A00430953 /* PBXTargetDependency */,
 				0ED0715A215F938A00430953 /* PBXTargetDependency */,
 				0E6551A3210D911B000565AF /* PBXTargetDependency */,
@@ -6495,12 +5643,12 @@
 					ProjectRef = 0ED6C81520B2083300D82331 /* CLI.xcodeproj */;
 				},
 				{
-					ProductGroup = 0E35F43E20AA392B00154E4E /* Products */;
-					ProjectRef = 0E35F43D20AA392B00154E4E /* CocoaAsyncSocket.xcodeproj */;
-				},
-				{
 					ProductGroup = 0E35F44620AA392B00154E4E /* Products */;
 					ProjectRef = 0E35F44520AA392B00154E4E /* CocoaAsyncSocket.xcodeproj */;
+				},
+				{
+					ProductGroup = 0E35F43E20AA392B00154E4E /* Products */;
+					ProjectRef = 0E35F43D20AA392B00154E4E /* CocoaAsyncSocket.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E35F2E020AA392A00154E4E /* Products */;
@@ -6551,12 +5699,12 @@
 					ProjectRef = 0E4ED08F1EAB7D5300D2157B /* DynamicServer.xcodeproj */;
 				},
 				{
-					ProductGroup = 0E35F3DA20AA392B00154E4E /* Products */;
-					ProjectRef = 0E35F3D920AA392B00154E4E /* EchoServer.xcodeproj */;
-				},
-				{
 					ProductGroup = 0E35F33B20AA392A00154E4E /* Products */;
 					ProjectRef = 0E35F33A20AA392A00154E4E /* EchoServer.xcodeproj */;
+				},
+				{
+					ProductGroup = 0E35F3DA20AA392B00154E4E /* Products */;
+					ProjectRef = 0E35F3D920AA392B00154E4E /* EchoServer.xcodeproj */;
 				},
 				{
 					ProductGroup = 0ED6C87D20B2083400D82331 /* Products */;
@@ -6567,16 +5715,8 @@
 					ProjectRef = 0ED6C89020B2083400D82331 /* GlobalLogLevel.xcodeproj */;
 				},
 				{
-					ProductGroup = 0EBD6BAF219E894600D2F9F4 /* Products */;
-					ProjectRef = 0EBD6BAE219E894600D2F9F4 /* Icecast-libshout-master.xcodeproj */;
-				},
-				{
 					ProductGroup = 0EF56163215780B400A5C0AF /* Products */;
 					ProjectRef = 0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */;
-				},
-				{
-					ProductGroup = 0EBD66A8219CE2C200D2F9F4 /* Products */;
-					ProjectRef = 0EBD66A7219CE2C200D2F9F4 /* IcecastSourceClient.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E35F3ED20AA392B00154E4E /* Products */;
@@ -6615,12 +5755,12 @@
 					ProjectRef = 0E4ED0CE1EAB7D5300D2157B /* PostHTTPServer.xcodeproj */;
 				},
 				{
-					ProductGroup = 0ED6C90D20B2083400D82331 /* Products */;
-					ProjectRef = 0ED6C90C20B2083400D82331 /* RegisteredLoggingTest.xcodeproj */;
-				},
-				{
 					ProductGroup = 0ED6C8F520B2083400D82331 /* Products */;
 					ProjectRef = 0ED6C8F420B2083400D82331 /* RegisteredLoggingTest.xcodeproj */;
+				},
+				{
+					ProductGroup = 0ED6C90D20B2083400D82331 /* Products */;
+					ProjectRef = 0ED6C90C20B2083400D82331 /* RegisteredLoggingTest.xcodeproj */;
 				},
 				{
 					ProductGroup = 0ED6C91920B2083400D82331 /* Products */;
@@ -6643,12 +5783,12 @@
 					ProjectRef = 0E4ED1161EAB7D5400D2157B /* SimpleFileUploadServer.xcodeproj */;
 				},
 				{
-					ProductGroup = 0E35F35420AA392A00154E4E /* Products */;
-					ProjectRef = 0E35F35320AA392A00154E4E /* SimpleHTTPClient.xcodeproj */;
-				},
-				{
 					ProductGroup = 0E35F36720AA392A00154E4E /* Products */;
 					ProjectRef = 0E35F36620AA392A00154E4E /* SimpleHTTPClient.xcodeproj */;
+				},
+				{
+					ProductGroup = 0E35F35420AA392A00154E4E /* Products */;
+					ProjectRef = 0E35F35320AA392A00154E4E /* SimpleHTTPClient.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E4ED1241EAB7D5400D2157B /* Products */;
@@ -6663,12 +5803,12 @@
 					ProjectRef = 0ED6C93520B2083400D82331 /* SQLiteLogger.xcodeproj */;
 				},
 				{
-					ProductGroup = 0E35F38C20AA392A00154E4E /* Products */;
-					ProjectRef = 0E35F38B20AA392A00154E4E /* TestPreBuffer.xcodeproj */;
-				},
-				{
 					ProductGroup = 0E35F37920AA392A00154E4E /* Products */;
 					ProjectRef = 0E35F37820AA392A00154E4E /* TestPreBuffer.xcodeproj */;
+				},
+				{
+					ProductGroup = 0E35F38C20AA392A00154E4E /* Products */;
+					ProjectRef = 0E35F38B20AA392A00154E4E /* TestPreBuffer.xcodeproj */;
 				},
 				{
 					ProductGroup = 0ED6C94820B2083400D82331 /* Products */;
@@ -6679,16 +5819,16 @@
 					ProjectRef = 0ED6C95920B2083400D82331 /* TextXcodeColors.xcodeproj */;
 				},
 				{
-					ProductGroup = 0E35F3B120AA392A00154E4E /* Products */;
-					ProjectRef = 0E35F3B020AA392A00154E4E /* UdpEchoClient.xcodeproj */;
-				},
-				{
 					ProductGroup = 0E35F3A020AA392A00154E4E /* Products */;
 					ProjectRef = 0E35F39F20AA392A00154E4E /* UdpEchoClient.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E35F40220AA392B00154E4E /* Products */;
 					ProjectRef = 0E35F40120AA392B00154E4E /* UdpEchoClient.xcodeproj */;
+				},
+				{
+					ProductGroup = 0E35F3B120AA392A00154E4E /* Products */;
+					ProjectRef = 0E35F3B020AA392A00154E4E /* UdpEchoClient.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E35F3C220AA392A00154E4E /* Products */;
@@ -7029,13 +6169,6 @@
 			remoteRef = 0E7294091F17D21700350F03 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0EBD66C9219CE2C300D2F9F4 /* IcecastSourceClient */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = IcecastSourceClient;
-			remoteRef = 0EBD66C8219CE2C300D2F9F4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		0ECAD580210C57E3005F4BB1 /* stereodemux */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -7354,7 +6487,6 @@
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
 				0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */,
 				0EB5B0F51F6B89D5008DBE9A /* Assets.xcassets in Resources */,
-				0EBD6CCD219EC44400D2F9F4 /* fix_IcecastSourceClient.sh in Resources */,
 				0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */,
 				0E35F50A20AA392B00154E4E /* Info.plist in Resources */,
 			);
@@ -7432,24 +6564,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "#!/bin/sh\n# currently not used\nexit\n\n#  import_dylibs.sh\n#  SDR_Server\n#\n#  Created by Douglas Ward on 5/14/17.\n#  Copyright © 2017 ArkPhone LLC. All rights reserved.\n\n# Modify MacPorts libraries for embed in application bundle\n\n#https://github.com/auriamg/macdylibbundler\n#dylibbundler -b -x ./LocalRadio.app/Contents/MacOS/LocalRadio -d ./MacPorts_Libraries/ -p @executable_path/../Frameworks/\n\nEXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\n#EXECFILE=/Users/dsward/Library/Developer/Xcode/DerivedData/LocalRadio-fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/LocalRadio.app/Contents/MacOS/LocalRadio\n\nLIBPATH=${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\n#LIBPATH=/Users/dsward/Library/Developer/Xcode/DerivedData/LocalRadio-fypfuqvcbqkwibconllscqvxdnhj/Build/Products/Debug/LocalRadio.app/Contents/Frameworks\n\nNEWLIBPATH=\"@executable_path/../Frameworks\"\n\necho \"Run dylibbundler against main app executable\"\necho /opt/local/bin/dylibbundler -of -b -x \"${EXECFILE}\" -d \"${LIBPATH}\" -p \"${NEWLIBPATH}\"\n\n/opt/local/bin/dylibbundler -of -b -x \"${EXECFILE}\" -d \"${LIBPATH}\" -p \"${NEWLIBPATH}\"";
-		};
-		0EBD6CCE219EC4F800D2F9F4 /* Run Fix IcecastSourceClient Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run Fix IcecastSourceClient Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_IcecastSourceClient.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -7537,11 +6651,6 @@
 			isa = PBXTargetDependency;
 			name = "wfm-tools";
 			targetProxy = 0E6551A2210D911B000565AF /* PBXContainerItemProxy */;
-		};
-		0EBD6CC5219EABA100D2F9F4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = IcecastSourceClient;
-			targetProxy = 0EBD6CC4219EABA100D2F9F4 /* PBXContainerItemProxy */;
 		};
 		0ED07158215F938A00430953 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
