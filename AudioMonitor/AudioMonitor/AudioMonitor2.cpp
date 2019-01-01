@@ -734,7 +734,7 @@ void * runInputBufferOnThread(void * ptr)
 
         if (bytesAvailableCount <= 0)
         {
-            usleep(50000);
+            usleep(2000);
         }
         else
         {
@@ -936,63 +936,6 @@ void startAudioConverter()
     See AudioConverter.h in AudioToolbox.framework for more details regarding the use of the AudioConverter.
 */
 
-/*
-OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
-        UInt32 * ioNumberDataPackets,
-        AudioBufferList * ioData,
-        AudioStreamPacketDescription ** ioDataPacketDescription,
-        void * inUserData)
-{
-    // This is the AudioConverterComplexInputDataProc for resampling the radio audio data from a specified sampling rate to 48000 Hz
-    
-    OSStatus result = noErr;
-
-    // this can get called multiple times from AudioConverterFillComplexBuffer, and needs to manage short blocks.
-    if (ioDataPacketDescription != NULL)
-    {
-        fprintf(stderr, "AudioMonitor2 - audioConverterComplexInputDataProc ioDataPacketDescription not available\n");
-        *ioDataPacketDescription = NULL;
-        *ioNumberDataPackets = 0;
-        ioData->mNumberBuffers = 0;
-        return 501;
-    }
-    
-    UInt32 ioNumberDataPacketsRequested = *ioNumberDataPackets;
-
-    UInt32 ioNumberDataPacketsProduced = ioNumberDataPacketsRequested;
-    if (ioNumberDataPacketsProduced > audioConverterInputPacketsRemain)
-    {
-        ioNumberDataPacketsProduced = audioConverterInputPacketsRemain;
-    }
-
-    void * offsetPtr = (char *)audioConverterInputAudioBuffer.mData + audioConverterInputBufferOffset;
-    
-    ioData->mNumberBuffers = 1;
-    ioData->mBuffers[0].mNumberChannels =  inputChannels;
-    ioData->mBuffers[0].mDataByteSize = ioNumberDataPacketsProduced * sizeof(SInt16) * inputChannels;
-    ioData->mBuffers[0].mData = offsetPtr;
-
-    *ioNumberDataPackets = ioNumberDataPacketsProduced;
-    
-    if (ioNumberDataPacketsProduced == 0)
-    {
-        result = 'zero';
-    }
-    else
-    {
-        // for testing breakpoint here
-    }
-    
-    audioConverterInputBufferOffset += (ioNumberDataPacketsProduced * sizeof(SInt16) * inputChannels);
-    audioConverterInputPacketsRemain -= ioNumberDataPacketsProduced;
-    
-    //fprintf(stderr, "AudioMonitor2 - audioConverterComplexInputDataProc ioNumberDataPacketsRequested=%u, ioNumberDataPacketsProduced=%u,  result=%d\n", ioNumberDataPacketsRequested, ioNumberDataPacketsProduced, result);
-
-    return result;
-}
-*/
-
-
 OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
         UInt32 * ioNumberDataPackets,
         AudioBufferList * ioData,
@@ -1029,16 +972,12 @@ OSStatus audioConverterComplexInputDataProc(AudioConverterRef inAudioConverter,
 
     ioData->mNumberBuffers = 1;
     ioData->mBuffers[0].mData = fillComplexInputParam->inputBufferPtr;
-    //ioData->mBuffers[0].mDataByteSize = fillComplexInputParam->inputBufferDataLength;
     ioData->mBuffers[0].mDataByteSize = producedPacketBytes;
     ioData->mBuffers[0].mNumberChannels =  fillComplexInputParam->inputChannels;
 
     fillComplexInputParam->inputBufferPtr = (void *)((UInt64)fillComplexInputParam->inputBufferPtr + producedPacketBytes);
     fillComplexInputParam->inputBufferDataLength = fillComplexInputParam->inputBufferDataLength - (UInt32)producedPacketBytes;
     
-    //fillComplexInputParam->inputChannels = 0;
-    //fillComplexInputParam->packetDescription = NULL;
-
     //fprintf(stderr, "AudioMonitor2 - audioConverterComplexInputDataProc ioNumberDataPacketsRequested=%u, ioNumberDataPacketsProduced=%u,  result=%d\n", ioNumberDataPacketsRequested, ioNumberDataPacketsProduced, result);
 
     return result;
@@ -1081,7 +1020,6 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 
     //fprintf(stderr, "AudioMonitor2 convertBuffer inputBufferPtr=%p, dataLength=%d\n", (void *)inputBufferPtr, dataLength);
 
-    //if (dataLength > 0)
     if (dataLength >= (1024 * audioConverterInputDescription.mChannelsPerFrame * sizeof(SInt16)))
     {
         const UInt32 numFrames = dataLength / (sizeof(SInt16) * audioConverterInputDescription.mChannelsPerFrame);
@@ -1166,17 +1104,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
 
                             if (produceBytesResult == false)
                             {
-                                // TODO: We are here to avoid buffer overrun, is TPCircularBufferConsume for audioConverterCircularBuffer getting missed somewhere?
-                                
-                                // clear buffer and try again (not the recommended practice)
-
-                                //fprintf(stderr, "AudioMonitor2 convertBuffer error TPCircularBufferProduceBytes failed\n");
-
-                                //TPCircularBufferClear(&audioConverterCircularBuffer);
-
-                                //fprintf(stderr, "AudioMonitor2 convertBuffer TPCircularBufferClear and try again, convertedDataLength = %d, space = %d, head = %p\n", convertedDataLength, space, headPtr);
-
-                                produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);
+                                produceBytesResult = TPCircularBufferProduceBytes(&audioConverterCircularBuffer, convertedDataPtr, convertedDataLength);    // why not try again?
 
                                 if (produceBytesResult == false)
                                 {
@@ -1231,7 +1159,6 @@ void * runAudioConverterOnThread(void * ptr)
     time_t lastReadTime = time(NULL) + 20;
     int nextTimeoutReportInterval = 5;
 
-    //int32_t circularBufferLength = inputChannels * bufferKBPerChannel * 1024;
     int32_t circularBufferLength = audioConverterBufferSize;
     TPCircularBufferInit(&audioConverterCircularBuffer, circularBufferLength);
 
@@ -1270,12 +1197,11 @@ void * runAudioConverterOnThread(void * ptr)
 
         if( bytesAvailableCount <= 0)
         {
-            usleep(2000);
+            usleep(1000);
         }
         else
         {
-            //if (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0)
-            if (bytesAvailableCount > 1024)
+            if ((bytesAvailableCount > 1024) && (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0))
             {
                 lastReadTime = currentTime;
                 nextTimeoutReportInterval = 5;
@@ -1285,7 +1211,6 @@ void * runAudioConverterOnThread(void * ptr)
                 int32_t bytesConsumedCount = bytesAvailableCount;
 
                 int32_t maxBytes = 1024 * inputChannels * sizeof(SInt16);
-                //int32_t maxBytes = (1024 + 512) * inputChannels * sizeof(SInt16);
 
                 if (bytesConsumedCount > maxBytes)
                 {

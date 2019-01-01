@@ -321,7 +321,11 @@
     }
     */
     
-    TaskItem * soxTaskItem = [self makeSoxTaskItem];    // this should be optional, based on self.audioOutputFilterString, but use always for now
+    TaskItem * soxTaskItem = NULL;
+    if (self.audioOutputFilterString.length > 0)
+    {
+        soxTaskItem = [self makeSoxTaskItem];
+    }
 
     // Get lpcm data from stdin, output to UDP port
     TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];

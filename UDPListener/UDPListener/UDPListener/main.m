@@ -145,7 +145,7 @@
 
         CFRunLoopRunInMode (kCFRunLoopDefaultMode, 0.025, false);
 
-        usleep(5000);
+        usleep(2000);
     }
     
     return YES;

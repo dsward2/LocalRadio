@@ -138,9 +138,9 @@ pid_t originalParentProcessPID;
         {
             unsigned long bytesConsumedCount = bytesAvailableCount;
         
-            if (bytesConsumedCount > 4096)
+            if (bytesConsumedCount > 2048)
             {
-                bytesConsumedCount = 4096;
+                bytesConsumedCount = 2048;
             }
         
             char * buf = malloc(bytesConsumedCount);
