@@ -763,35 +763,10 @@ void * runInputBufferOnThread(void * ptr)
                     
                     //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputBufferPtr=%p, bytesAvailableCount=%d\n", headPtr, bytesAvailableCount);
                     
-                    
-                    
-                    /*
                     int32_t availableSpace = (inputCircularBuffer.length - inputCircularBuffer.fillCount);
-                    if (bytesAvailableCount > availableSpace)
-                    {
-                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error bytesAvailableCount=%d, availableSpace=%d\n", bytesAvailableCount, availableSpace);
-                        
-                       sleep(1);
-                    }
-
-                    bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, rtlsdrBuffer, bytesAvailableCount);
-
-                    packetIndex++;
-
-                    if (produceBytesResult == false)
-                    {
-                        fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - produce bytes failed, bytesAvailableCount = %d\n", bytesAvailableCount);
-
-                        sleep(1);   // test, see TPCircularBufferClear below
-
-                        TPCircularBufferClear(&inputCircularBuffer); // dTPCircularBufferProduceBytes error precedes another error in TPCircularBufferConsume, perhaps removing this call to TPCircularBufferClear migh avoid the consume error?  The error is unpredictable, it can occur after hours of error-free execution.
-                    }
-                    */
                     
-
-
-
-                    int32_t availableSpace = (inputCircularBuffer.length - inputCircularBuffer.fillCount);
+                    //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread test, bytesAvailableCount = %d, availableSpace = %d\n", bytesAvailableCount, availableSpace);
+                    
                     if (bytesAvailableCount > availableSpace)
                     {
                         // If we attempt to call TPCircularBufferProduceBytes now, it will terminate the process
@@ -801,6 +776,8 @@ void * runInputBufferOnThread(void * ptr)
                         fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error bytesAvailableCount=%d, availableSpace=%d, packetIndex=%d, droppedIndex=%d\n", bytesAvailableCount, availableSpace, packetIndex, droppedIndex);
                         
                         //sleep(1);
+
+                        //TPCircularBufferClear(&inputCircularBuffer);      // this doesn't work
                         
                         droppedIndex++;
                     }
@@ -819,13 +796,6 @@ void * runInputBufferOnThread(void * ptr)
                             TPCircularBufferClear(&inputCircularBuffer);
                         }
                     }
-
-
-
-
-
-                    
-                    
                 }
             }
             else
@@ -1218,7 +1188,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                         }
                         else
                         {
-                            usleep(5000);
+                            usleep(2000);
                         }
                     }
                 }
