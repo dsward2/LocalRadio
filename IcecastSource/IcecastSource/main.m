@@ -199,14 +199,14 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
         {
             if (readyToSend == YES)
             {
-                usleep(5000);
+                usleep(2000);
             }
         }
         else
         {
-            if (bytesAvailableCount > 4096)
+            if (bytesAvailableCount > 2048)
             {
-                bytesAvailableCount = 4096;
+                bytesAvailableCount = 2048;
             }
         
             char * buf = malloc(bytesAvailableCount);

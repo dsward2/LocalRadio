@@ -132,8 +132,8 @@ pid_t originalParentProcessPID;
 
         if (bytesAvailableCount <= 0)
         {
-            usleep(1000);
-       }
+            usleep(2000);
+        }
         else
         {
             unsigned long bytesConsumedCount = bytesAvailableCount;
@@ -172,6 +172,8 @@ pid_t originalParentProcessPID;
                 */
                 
                 self.sentDataIndex++;
+
+                usleep(1000);
             }
             free(buf);
         }
