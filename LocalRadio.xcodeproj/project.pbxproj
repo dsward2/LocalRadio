@@ -29,7 +29,6 @@
 		0E12A4EA1F5F92D000EB28DF /* FCCSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */; };
 		0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E12A5141F5FC65B00EB28DF /* CoreLocation.framework */; };
 		0E1BA1091EC892FA00130DB9 /* icecast in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0F11EC8929800130DB9 /* icecast */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0E1BA10A1EC892FA00130DB9 /* lame in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0F21EC8929800130DB9 /* lame */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E1BA1121EC892FA00130DB9 /* socat in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0FA1EC8929800130DB9 /* socat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E1BA1131EC892FA00130DB9 /* sox in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0FB1EC8929800130DB9 /* sox */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E1BA1381EC8A0B500130DB9 /* libev.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E1BA1161EC8A09700130DB9 /* libev.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -872,7 +871,6 @@
 			dstSubfolderSpec = 6;
 			files = (
 				0E1BA1091EC892FA00130DB9 /* icecast in Copy Tools */,
-				0E1BA10A1EC892FA00130DB9 /* lame in Copy Tools */,
 				0E1BA1121EC892FA00130DB9 /* socat in Copy Tools */,
 				0E1BA1131EC892FA00130DB9 /* sox in Copy Tools */,
 				0E0FD9F71EF4C7B900FEEA06 /* rtl_adsb in Copy Tools */,
@@ -961,8 +959,6 @@
 		0E0563181F1A3C0D0093B473 /* WebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewDelegate.m; sourceTree = "<group>"; };
 		0E05631B1F1A44510093B473 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		0E0936C81F42E3E400BF2B46 /* nowplayingstatus.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = nowplayingstatus.html; sourceTree = "<group>"; };
-		0E0A94FE1F109104002E2E5B /* EZStreamController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EZStreamController.h; sourceTree = "<group>"; };
-		0E0A94FF1F109104002E2E5B /* EZStreamController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EZStreamController.m; sourceTree = "<group>"; };
 		0E0A95381F129400002E2E5B /* UDPListener.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UDPListener.xcodeproj; path = UDPListener/UDPListener/UDPListener.xcodeproj; sourceTree = "<group>"; };
 		0E0C69201F1C8C8E00A7EE5E /* rtl_fm_localradio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = rtl_fm_localradio.xcodeproj; path = rtl_fm_localradio/rtl_fm_localradio.xcodeproj; sourceTree = "<group>"; };
 		0E0C693F1F1C9E3100A7EE5E /* fix_rtl_fm_localradio.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_rtl_fm_localradio.sh; sourceTree = "<group>"; };
@@ -1042,7 +1038,6 @@
 		0E1BA0AA1EC885CA00130DB9 /* import_dylibs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = import_dylibs.sh; sourceTree = "<group>"; };
 		0E1BA0EE1EC88EF500130DB9 /* import_dylibs2.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = import_dylibs2.sh; sourceTree = "<group>"; };
 		0E1BA0F11EC8929800130DB9 /* icecast */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = icecast; sourceTree = "<group>"; };
-		0E1BA0F21EC8929800130DB9 /* lame */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = lame; sourceTree = "<group>"; };
 		0E1BA0FA1EC8929800130DB9 /* socat */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = socat; sourceTree = "<group>"; };
 		0E1BA0FB1EC8929800130DB9 /* sox */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sox; sourceTree = "<group>"; };
 		0E1BA1161EC8A09700130DB9 /* libev.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libev.4.dylib; sourceTree = "<group>"; };
@@ -2210,7 +2205,6 @@
 		0EF598F620FF4C5100BD2C76 /* info.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = info.svg; sourceTree = "<group>"; };
 		0EF746541F4ECE920008546F /* tuner_advanced.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_advanced.html; sourceTree = "<group>"; };
 		0EFFD1201EAE08A60041D2F5 /* icecast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = icecast.xml; sourceTree = "<group>"; };
-		0EFFD1221EAE33190041D2F5 /* ezstream_mp3.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ezstream_mp3.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2454,7 +2448,6 @@
 			children = (
 				0EA2124A1ED679B7004DE453 /* MacPorts_Tools note */,
 				0E1BA0F11EC8929800130DB9 /* icecast */,
-				0E1BA0F21EC8929800130DB9 /* lame */,
 				0E1BA0FA1EC8929800130DB9 /* socat */,
 				0E1BA0FB1EC8929800130DB9 /* sox */,
 			);
@@ -3324,8 +3317,6 @@
 				0E0FDA021EF76AF800FEEA06 /* IcecastController.m */,
 				0ED06E39215F354800430953 /* IcecastSourceController.h */,
 				0ED06E3A215F354800430953 /* IcecastSourceController.m */,
-				0E0A94FE1F109104002E2E5B /* EZStreamController.h */,
-				0E0A94FF1F109104002E2E5B /* EZStreamController.m */,
 				0E23B3141F1F36ED00565394 /* SoxController.h */,
 				0E23B3151F1F36ED00565394 /* SoxController.m */,
 				0E0FDA041EF786BE00FEEA06 /* SQLiteController.h */,
@@ -3339,7 +3330,6 @@
 				0EA9CD4C211E70AA005B792B /* CustomTaskController.h */,
 				0EA9CD4D211E70AA005B792B /* CustomTaskController.m */,
 				0EFFD1201EAE08A60041D2F5 /* icecast.xml */,
-				0EFFD1221EAE33190041D2F5 /* ezstream_mp3.xml */,
 				0E84C9C81ED945E90065864B /* data_skeleton.sqlite3 */,
 				0EF173251F60C25E0067E8C0 /* zip_lat_long.txt */,
 				0E9ABD3421A09AB900DC43CD /* x509.ext */,

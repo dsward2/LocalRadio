@@ -79,18 +79,6 @@ Project pages:
 [https://icecast.org]()
 [https://git.xiph.org/?p=icecast-server.git;a=summary]()
 
-## EZStream
-
-ezstream - source client for Icecast with external en-/decoder support
-
-Copyright (C) 2003, 2004, 2005, 2006  Ed Zaleski <oddsock@oddsock.org>
-Copyright (C) 2007, 2009, 2015 Moritz Grimm <mgrimm@mrsserver.net>
-   
-GPL 2 Licensed, see below.
-
-Project pages:
-[https://https://icecast.org/ezstream/]()
-[https://git.xiph.org/?p=ezstream.git;a=summary]()
 
 ## TPCircularBuffer
 

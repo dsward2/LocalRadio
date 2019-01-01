@@ -5,7 +5,7 @@ LocalRadio does not provide features like FFT waterfalls, panadapters, or signal
 
 Currently, LocalRadio does not play FM stereo audio.  LocalRadio can receive FM stereo stations, but they will be played as monophonic audio.  A future release of LocalRadio may support stereo, either by modifying the rtl_fm_localradio source, or by using a different tool.
 
-LocalRadio supports multiple devices by using a built-in LAME MP3 encoder, EZStream and Icecast server.  Due to the buffering required to process the audio through compression and streaming, there is typically a delay of ten seconds between the radio signal and the audio output.  On the Mac running LocalRadio, that delay can be removed temporarily by removing the checkmark for "Use Web View Player".
+LocalRadio supports multiple devices by using the macOS AAC encoder and Icecast audio server.  Due to the buffering required to process the audio through compression and streaming, there is typically a delay of ten seconds between the radio signal and the audio output.  On the Mac running LocalRadio, that delay can be removed temporarily by removing the checkmark for "Use Web View Player".
 
 If you like LocalRadio, please click the "Star" button on this GitHub project, and check out my other app on GitHub, macSVG.
 
