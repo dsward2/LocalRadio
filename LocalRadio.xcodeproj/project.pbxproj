@@ -68,6 +68,7 @@
 		0E274F2021DDCCE600337560 /* libvorbisenc.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E274E9D21DDCCC200337560 /* libvorbisenc.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E274F2121DDCCE600337560 /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E274E9E21DDCCC200337560 /* libvorbisfile.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E274F2221DDCCE600337560 /* libwavpack.1.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E274E9F21DDCCC200337560 /* libwavpack.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E274FCE21DF2D3300337560 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E274FCD21DF2D3300337560 /* Assets.xcassets */; };
 		0E28BE6B1F2B6A48005999FB /* UDPStatusListenerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */; };
 		0E28BE921F2C0DFA005999FB /* UDPStatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E28BE911F2C0DFA005999FB /* UDPStatusListener.m */; };
 		0E32F8BD1FEB9FC500492813 /* TaskPipelineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E32F8BC1FEB9FC500492813 /* TaskPipelineManager.m */; };
@@ -109,7 +110,6 @@
 		0E84C9C91ED945E90065864B /* data_skeleton.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E84C9C81ED945E90065864B /* data_skeleton.sqlite3 */; };
 		0E9A64EA1EC290C000F12613 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9A64E91EC290C000F12613 /* CoreAudio.framework */; };
 		0E9ABD3521A09AB900DC43CD /* x509.ext in Resources */ = {isa = PBXBuildFile; fileRef = 0E9ABD3421A09AB900DC43CD /* x509.ext */; };
-		0E9B3CB221DC0F8A004A91E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E9B3CB121DC0F8A004A91E6 /* Assets.xcassets */; };
 		0EA2125B1ED68139004DE453 /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2125A1ED68139004DE453 /* NSFileManager+DirectoryLocations.m */; };
 		0EA2128B1ED72D73004DE453 /* listclients.xsl in Copy Icecast Admin Files */ = {isa = PBXBuildFile; fileRef = 0EA212721ED72D17004DE453 /* listclients.xsl */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA2128C1ED72D73004DE453 /* listmounts.xsl in Copy Icecast Admin Files */ = {isa = PBXBuildFile; fileRef = 0EA212731ED72D17004DE453 /* listmounts.xsl */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1042,6 +1042,8 @@
 		0E274E9D21DDCCC200337560 /* libvorbisenc.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisenc.2.dylib; path = Libraries_Modified/libvorbisenc.2.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E274E9E21DDCCC200337560 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = Libraries_Modified/libvorbisfile.3.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E274E9F21DDCCC200337560 /* libwavpack.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libwavpack.1.dylib; path = Libraries_Modified/libwavpack.1.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E274FCB21DF2CE400337560 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0E274FCD21DF2D3300337560 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E28BE691F2B6A47005999FB /* UDPStatusListenerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPStatusListenerController.h; sourceTree = "<group>"; };
 		0E28BE6A1F2B6A47005999FB /* UDPStatusListenerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UDPStatusListenerController.m; sourceTree = "<group>"; };
 		0E28BE901F2C0DFA005999FB /* UDPStatusListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UDPStatusListener.h; sourceTree = "<group>"; };
@@ -1564,8 +1566,6 @@
 		0E880CF51EDA606E007BEB99 /* viewfavorite.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = viewfavorite.html; sourceTree = "<group>"; };
 		0E9A64E91EC290C000F12613 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		0E9ABD3421A09AB900DC43CD /* x509.ext */ = {isa = PBXFileReference; lastKnownFileType = text; path = x509.ext; sourceTree = "<group>"; };
-		0E9B3CB121DC0F8A004A91E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0E9B3CB321DC101E004A91E6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0EA04ED72175A91200E9804A /* Monitor_Beacon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Monitor_Beacon.wav; sourceTree = "<group>"; };
 		0EA2124A1ED679B7004DE453 /* MacPorts_Tools note */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "MacPorts_Tools note"; sourceTree = "<group>"; };
 		0EA212591ED68139004DE453 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
@@ -3228,6 +3228,8 @@
 				0EB8CB661F793CDE004B6D05 /* APPNOTES.md */,
 				0E3FE8921ECE20D7003BE837 /* LocalRadio.entitlements */,
 				0E4ED0511EAB73B000D2157B /* LocalRadio Notes.rtf */,
+				0E274FCB21DF2CE400337560 /* Info.plist */,
+				0E274FCD21DF2D3300337560 /* Assets.xcassets */,
 				0E7309181F3EBB6300004907 /* Automator Scripts */,
 				0E4ECFBD1EAB633B00D2157B /* LocalRadio */,
 				0E0C69201F1C8C8E00A7EE5E /* rtl_fm_localradio.xcodeproj */,
@@ -3253,9 +3255,7 @@
 		0E4ECFBD1EAB633B00D2157B /* LocalRadio */ = {
 			isa = PBXGroup;
 			children = (
-				0E9B3CB321DC101E004A91E6 /* Info.plist */,
 				0E9B3CB021DC0C17004A91E6 /* LocalRadio-Source */,
-				0E9B3CB121DC0F8A004A91E6 /* Assets.xcassets */,
 				0E84C9BB1ED935E00065864B /* SQLiteLibrary-master */,
 				0EA212701ED72D17004DE453 /* icecast */,
 				0E1BA0EF1EC8929800130DB9 /* MacPorts_Tools */,
@@ -6455,7 +6455,7 @@
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
 				0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */,
 				0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */,
-				0E9B3CB221DC0F8A004A91E6 /* Assets.xcassets in Resources */,
+				0E274FCE21DF2D3300337560 /* Assets.xcassets in Resources */,
 				0E35F50A20AA392B00154E4E /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
