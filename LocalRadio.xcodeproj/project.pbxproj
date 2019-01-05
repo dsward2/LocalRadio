@@ -19,9 +19,6 @@
 		0E106895211019DE000EF74A /* stereodemux in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0ECAD580210C57E3005F4BB1 /* stereodemux */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E12A4EA1F5F92D000EB28DF /* FCCSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E12A4E91F5F92D000EB28DF /* FCCSearchController.m */; };
 		0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E12A5141F5FC65B00EB28DF /* CoreLocation.framework */; };
-		0E1BA1091EC892FA00130DB9 /* icecast in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0F11EC8929800130DB9 /* icecast */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0E1BA1121EC892FA00130DB9 /* socat in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0FA1EC8929800130DB9 /* socat */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0E1BA1131EC892FA00130DB9 /* sox in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E1BA0FB1EC8929800130DB9 /* sox */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E274EEE21DDCCC300337560 /* libao.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E274E8621DDCCC200337560 /* libao.4.dylib */; };
 		0E274EEF21DDCCC300337560 /* libev.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E274E8721DDCCC200337560 /* libev.4.dylib */; };
 		0E274EF021DDCCC300337560 /* libfftw3f.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E274E8821DDCCC200337560 /* libfftw3f.3.dylib */; };
@@ -853,9 +850,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				0E1BA1091EC892FA00130DB9 /* icecast in Copy Tools */,
-				0E1BA1121EC892FA00130DB9 /* socat in Copy Tools */,
-				0E1BA1131EC892FA00130DB9 /* sox in Copy Tools */,
 				0E0A95641F129E01002E2E5B /* UDPListener in Copy Tools */,
 				0E0562F01F19A0090093B473 /* UDPSender in Copy Tools */,
 				0E0C69391F1C913200A7EE5E /* rtl_fm_localradio in Copy Tools */,
@@ -1011,9 +1005,6 @@
 		0E170F591EF24C0800B5489E /* editcategoryitem.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editcategoryitem.html; sourceTree = "<group>"; };
 		0E1BA0AA1EC885CA00130DB9 /* import_dylibs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = import_dylibs.sh; sourceTree = "<group>"; };
 		0E1BA0EE1EC88EF500130DB9 /* import_dylibs2.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = import_dylibs2.sh; sourceTree = "<group>"; };
-		0E1BA0F11EC8929800130DB9 /* icecast */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = icecast; sourceTree = "<group>"; };
-		0E1BA0FA1EC8929800130DB9 /* socat */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = socat; sourceTree = "<group>"; };
-		0E1BA0FB1EC8929800130DB9 /* sox */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = sox; sourceTree = "<group>"; };
 		0E1F68F821BEFF2800A1F356 /* DDKeychain_LocalRadio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDKeychain_LocalRadio.h; sourceTree = "<group>"; };
 		0E1F694721BEFF2900A1F356 /* DDKeychain_LocalRadio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDKeychain_LocalRadio.m; sourceTree = "<group>"; };
 		0E207E721F1DA81C001AA972 /* editcategorysettings.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editcategorysettings.html; sourceTree = "<group>"; };
@@ -2388,9 +2379,6 @@
 			isa = PBXGroup;
 			children = (
 				0EA2124A1ED679B7004DE453 /* MacPorts_Tools note */,
-				0E1BA0F11EC8929800130DB9 /* icecast */,
-				0E1BA0FA1EC8929800130DB9 /* socat */,
-				0E1BA0FB1EC8929800130DB9 /* sox */,
 			);
 			path = MacPorts_Tools;
 			sourceTree = "<group>";
