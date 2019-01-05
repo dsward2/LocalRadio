@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Currently, this script is not used in the build process
+
 #  import_dylibs.sh
 #  LocalRadio
 #
