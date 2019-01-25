@@ -1,0 +1,26 @@
+
+
+cd /path/to/LocalRadio/
+
+mkdir Icecast-Server
+cd Icecast-Server
+mkdir externals
+cd externals
+
+
+git clone --recursive --branch "release-2.4.2" https://github.com/dsward2/Icecast-Server.git
+
+cd /path/to/LocalRadio/
+
+git submodule add ./Icecast-Server/externals/Icecast-Server/ ./Icecast-Server/externals/Icecast-Server/
+
+Add Icecast-Server folder to main project (do not add external build system or add to target)
+
+cd Icecast-Server/externals/Icecast-Server
+
+./autogen.sh LDFLAGS=-L/opt/local/lib
+
+./configure --without-speex --without-curl LDFLAGS=-L/opt/local/lib
+
+make
+

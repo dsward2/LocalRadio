@@ -51,7 +51,7 @@ ICECASTPATH=${BUILT_PRODUCTS_DIR}/icecast
 echo SOXPATH = ${SOXPATH}
 
 cp /opt/local/bin/sox ${SOXPATH}
-cp /opt/local/bin/icecast ${ICECASTPATH}
+cp ${SRCROOT}/Icecast-Server/externals/Icecast-Server/src/icecast ${ICECASTPATH}
 
 #####################################################################
 
