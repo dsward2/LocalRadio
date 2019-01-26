@@ -1,3 +1,6 @@
 [submodule "Icecast-Server/externals/Icecast-Server"]
 	path = Icecast-Server/externals/Icecast-Server
 	url = ./Icecast-Server/externals/Icecast-Server/
+[submodule "sox/externals/sox"]
+	path = sox/externals/sox
+	url = ./sox/externals/sox/

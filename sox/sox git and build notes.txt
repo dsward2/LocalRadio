@@ -1,0 +1,28 @@
+
+
+cd /path/to/LocalRadio/
+
+mkdir Icecast-Server
+cd Icecast-Server
+mkdir externals
+cd externals
+
+
+git clone --recursive https://github.com/dsward2/sox.git
+
+cd /path/to/LocalRadio/
+
+git submodule add ./sox/externals/sox/ ./sox/externals/sox/
+
+Add Icecast-Server folder to main project (do not create external build system or add to target)
+
+cd sox/externals/sox
+
+# MacPorts pkgconfig, autotools and autoconf should be installed
+
+autoreconf -i
+
+./configure --with-coreaudio --without-magic --without-png --without-ladspa --without-mad --without-id3tag --without-lame --without-twolame --without-oggvorbis --without-opus --without-flac --without-amrwb --without-amrnb --without-wavpack --without-sndfile --without-mp3 --without-gsm --without-lpc10 --without-sndio --without-alsa --without-ao --without-pulseaudio --without-waveaudio --without-oss --without-sunaudio CFLAGS="-arch i386" LDFLAGS="-arch i386"
+
+make -s
+
