@@ -2,8 +2,8 @@
 
 cd /path/to/LocalRadio/
 
-mkdir Icecast-Server
-cd Icecast-Server
+mkdir sox
+cd sox
 mkdir externals
 cd externals
 

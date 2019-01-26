@@ -24,3 +24,13 @@ cd Icecast-Server/externals/Icecast-Server
 
 make
 
+--------------
+
+Note: older version of Mac OS X may produce this error message: "configure: error: must have Ogg Vorbis v1.0 or above installed"
+
+If that error occurs, substitute these commands:
+
+CPPFLAGS=-I/opt/local/include LDFLAGS=-L/opt/local/lib ./autogen.sh
+
+CPPFLAGS=-I/opt/local/include LDFLAGS=-L/opt/local/lib ./configure --without-speex --without-curl
+
