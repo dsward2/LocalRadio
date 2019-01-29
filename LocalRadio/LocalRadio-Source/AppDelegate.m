@@ -41,6 +41,8 @@ typedef struct kinfo_proc kinfo_proc;
 #import <arpa/inet.h>
 #import <ifaddrs.h>
 
+#import <SystemConfiguration/SCDynamicStore.h>
+#import <SystemConfiguration/SCDynamicStoreCopySpecific.h>
 
 
 
@@ -70,8 +72,9 @@ typedef struct kinfo_proc kinfo_proc;
     [self.httpWebServerController.httpServer stop:NO];
     [self.httpsWebServerController.httpServer stop:NO];
 
-    BOOL result = [[NSUserDefaults standardUserDefaults] synchronize];
-    #pragma unused (result)
+    // We use SQLLite for storing user preferences
+    //BOOL result = [[NSUserDefaults standardUserDefaults] synchronize];
+    //#pragma unused (result)
     
     NSLog(@"AppDelegate applicationWillTerminate exit");
 }
@@ -107,6 +110,27 @@ typedef struct kinfo_proc kinfo_proc;
 - (void)configureServices
 {
     // runs on background thread
+    NSLog(@"Getting Bonjour host name");
+    NSHost * currentHost = [NSHost currentHost];
+    
+    self.bonjourName = [currentHost name];
+    
+    if ([self.bonjourName hasSuffix:@".local"] == NO)
+    {
+        NSArray * hostNames = [currentHost names];
+        
+        for (NSString * aHostName in hostNames)
+        {
+            if ([aHostName hasSuffix:@".local"] == YES)
+            {
+                self.bonjourName = aHostName;
+                break;
+            }
+        }
+    }
+    
+    NSLog(@"Bonjour host name is %@", self.bonjourName);
+
     BOOL conflictsFound = NO;
 
     [self checkForRTLSDRUSBDevice];
@@ -466,6 +490,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 }
 
 
+/*
 - (NSString *)localHostString
 {
     NSString * bonjourName = [[NSHost currentHost] name];
@@ -482,6 +507,23 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     }
     
     return bonjourName;
+}
+*/
+
+- (NSString *)localHostString
+{
+    NSString * resultString = @"localhost";
+    
+    if (self.bonjourName != NULL)
+    {
+        resultString = _bonjourName;
+    }
+    else
+    {
+        [self localHostIPString];
+    }
+    
+    return resultString;
 }
 
 

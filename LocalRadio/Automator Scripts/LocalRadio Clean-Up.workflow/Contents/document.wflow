@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>444.7</string>
+	<string>444.39</string>
 	<key>AMApplicationVersion</key>
-	<string>2.8</string>
+	<string>2.9</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -173,9 +173,9 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>357.500000:199.000000</string>
+				<string>347.750000:198.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<true/>
@@ -259,10 +259,10 @@ else
 		pkill icecast
 	fi
 
-	if pgrep -x "ezstream" &gt; /dev/null
+	if pgrep -x "AACEncoder" &gt; /dev/null
 	then
-    	echo "pkill ezstream"
-		pkill ezstream
+    	echo "pkill AACEncoder"
+		pkill AACEncoder
 	fi
 
 	if pgrep -x "sox" &gt; /dev/null
@@ -271,10 +271,10 @@ else
 		pkill sox
 	fi
 
-	if pgrep -x "AudioMonitor" &gt; /dev/null
+	if pgrep -x "IcecastSource" &gt; /dev/null
 	then
-    	echo "pkill AudioMonitor"
-		pkill AudioMonitor
+    	echo "pkill IcecastSource"
+		pkill IcecastSource
 	fi
 
 	if pgrep -x "AudioMonitor2" &gt; /dev/null
@@ -402,9 +402,9 @@ fi
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>357.500000:382.000000</string>
+				<string>347.750000:597.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<true/>
@@ -537,7 +537,7 @@ fi
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>357.500000:572.000000</string>
+				<string>347.750000:786.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Display Notification.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -547,14 +547,14 @@ fi
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>4361561E-A401-4361-93CD-145C9057762B</key>
+		<key>71F7884A-C034-4911-BE57-46C294D86EC0</key>
 		<dict>
 			<key>from</key>
 			<string>F71504F6-88ED-4F28-9945-F7A987CB8965 - F71504F6-88ED-4F28-9945-F7A987CB8965</string>
 			<key>to</key>
 			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>
 		</dict>
-		<key>7657EA24-5DB6-4FCB-8B52-A1C8BE6624C4</key>
+		<key>B28E5BC0-320F-4DFF-94B0-4FC7F4EECE47</key>
 		<dict>
 			<key>from</key>
 			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>

@@ -62,8 +62,11 @@ echo SOXPATH = ${SOXPATH}
 echo cp ${SRCROOT}/sox/externals/sox/src/.libs/sox ${SOXPATH}
 cp ${SRCROOT}/sox/externals/sox/src/.libs/sox ${SOXPATH}
 
-echo cp ${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Copy/libsox.3.dylib
-cp ${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Copy/libsox.3.dylib
+echo cp ${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
+cp ${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
+
+echo install_name_tool -id @executable_path/../Frameworks/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
+install_name_tool -id @executable_path/../Frameworks/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
 
 #####################################################################
 
@@ -87,6 +90,20 @@ install_name_tool -change /opt/local/lib/libogg.0.dylib @executable_path/../Fram
 #####################################################################
 
 # fix icecast library loading paths
+
+# Older versions of Mac OS X may need to fix the i18n libraries
+
+#echo install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
+#install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
+
+#echo install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
+#install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
+
+#echo install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
+#install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
+
+echo install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
 
 echo install_name_tool -change /opt/local/lib/libtheora.0.dylib @executable_path/../Frameworks/libtheora.0.dylib ${ICECASTPATH}
 install_name_tool -change /opt/local/lib/libtheora.0.dylib @executable_path/../Frameworks/libtheora.0.dylib ${ICECASTPATH}
@@ -129,6 +146,11 @@ echo /opt/local/bin/dylibbundler -b -x "${EXECFILE}" -d "${MODIFIEDLIBPATH}" -p 
 
 # list of dylibs in application bundle
 #TARGETS=(`ls "${BUNDLELIBPATH}" | grep dylib`)
+
+# TARGETS should match the files in Project Navigator in the Libraries_Modified folder, except for libsox
+
+# Older versions of Mac OS X may need the MacPorts version of libiconv, which also needs to be added to Libraries_Modified folder in Project Navigator, and Copy Libraries build phase
+#TARGETS="libfftw3f.3.dylib libFLAC.8.dylib libiconv.2.dylib libliquid.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 
 TARGETS="libfftw3f.3.dylib libFLAC.8.dylib libliquid.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 

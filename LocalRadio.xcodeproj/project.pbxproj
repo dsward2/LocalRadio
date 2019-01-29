@@ -51,7 +51,6 @@
 		0E4ED1AD1EAB823B00D2157B /* HTTPWebServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED1AC1EAB823B00D2157B /* HTTPWebServerController.m */; };
 		0E560FAA21FB04E4007C6DB3 /* sox git and build notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E560FA921FB04E4007C6DB3 /* sox git and build notes.txt */; };
 		0E56117321FBD899007C6DB3 /* libliquid.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117121FBD26E007C6DB3 /* libliquid.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0E56117421FBD8A0007C6DB3 /* libsox.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117221FBD529007C6DB3 /* libsox.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117621FBDC77007C6DB3 /* libsndfile.1.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117821FBDD6A007C6DB3 /* libfftw3f.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117721FBDD3D007C6DB3 /* libfftw3f.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117A21FBDD81007C6DB3 /* libFLAC.8.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -90,6 +89,8 @@
 		0EA212A01ED72DE4004DE453 /* icecast_minimal.xml.dist in Copy Icecast Doc Files */ = {isa = PBXBuildFile; fileRef = 0EA2127D1ED72D17004DE453 /* icecast_minimal.xml.dist */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA212A11ED72DE4004DE453 /* icecast_shoutcast_compat.xml.dist in Copy Icecast Doc Files */ = {isa = PBXBuildFile; fileRef = 0EA2127E1ED72D17004DE453 /* icecast_shoutcast_compat.xml.dist */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA212A21ED72DE4004DE453 /* icecast_urlauth.xml.dist in Copy Icecast Doc Files */ = {isa = PBXBuildFile; fileRef = 0EA2127F1ED72D17004DE453 /* icecast_urlauth.xml.dist */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0EA3EB6C21FD25EB00DF4099 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA3EB6A21FD25CE00DF4099 /* libsqlite3.dylib */; };
+		0EA3EB7221FD848200DF4099 /* libsox.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA3EB7121FD846300DF4099 /* libsox.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA5A9131EFF4EB100AAD26D /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0EA5A9121EFF4EB100AAD26D /* silence.mp3 */; };
 		0EA5A9141EFF655000AAD26D /* silence.mp3 in Copy Icecast Web Files */ = {isa = PBXBuildFile; fileRef = 0EA5A9121EFF4EB100AAD26D /* silence.mp3 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA9CD4E211E70AA005B792B /* CustomTaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9CD4D211E70AA005B792B /* CustomTaskController.m */; };
@@ -785,8 +786,8 @@
 				0E56117A21FBDD81007C6DB3 /* libFLAC.8.dylib in Copy Libraries */,
 				0E56117321FBD899007C6DB3 /* libliquid.dylib in Copy Libraries */,
 				0EF88F0D21F06E65008720D5 /* libogg.0.dylib in Copy Libraries */,
+				0EA3EB7221FD848200DF4099 /* libsox.3.dylib in Copy Libraries */,
 				0E56117621FBDC77007C6DB3 /* libsndfile.1.dylib in Copy Libraries */,
-				0E56117421FBD8A0007C6DB3 /* libsox.3.dylib in Copy Libraries */,
 				0EF88F1521F06E65008720D5 /* libtheora.0.dylib in Copy Libraries */,
 				0EF88F1821F06E65008720D5 /* libusb-1.0.0.dylib in Copy Libraries */,
 				0EF88F1921F06E65008720D5 /* libvorbis.0.dylib in Copy Libraries */,
@@ -2130,11 +2131,10 @@
 		0E56116E21FB05A3007C6DB3 /* responseAB */ = {isa = PBXFileReference; lastKnownFileType = text; path = responseAB; sourceTree = "<group>"; };
 		0E56116F21FB05A3007C6DB3 /* wtest.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = wtest.pl; sourceTree = "<group>"; };
 		0E56117021FB05A3007C6DB3 /* update_debian_version.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = update_debian_version.pl; sourceTree = "<group>"; };
-		0E56117121FBD26E007C6DB3 /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libliquid.dylib; path = Libraries_Copy/libliquid.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E56117221FBD529007C6DB3 /* libsox.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsox.3.dylib; path = Libraries_Copy/libsox.3.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E56117121FBD26E007C6DB3 /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libliquid.dylib; path = Libraries_Modified/libliquid.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsndfile.1.dylib; path = Libraries_Modified/libsndfile.1.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E56117721FBDD3D007C6DB3 /* libfftw3f.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfftw3f.3.dylib; path = Libraries_Modified/libfftw3f.3.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libFLAC.8.dylib; sourceTree = "<group>"; };
+		0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = Libraries_Modified/libFLAC.8.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E5C52451F09B65A005CA515 /* rtl_fm_stereo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rtl_fm_stereo.c; sourceTree = "<group>"; };
 		0E5C52461F09B65A005CA515 /* rtl_fm_stereo.patch */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_fm_stereo.patch; sourceTree = "<group>"; };
 		0E688FFD1F3C460D00F34AE4 /* insertnewfrequency.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = insertnewfrequency.html; sourceTree = "<group>"; };
@@ -2201,6 +2201,8 @@
 		0EA212871ED72D17004DE453 /* style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
 		0EA212881ED72D17004DE453 /* tunein.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tunein.png; sourceTree = "<group>"; };
 		0EA212891ED72D17004DE453 /* xml2json.xslt */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = xml2json.xslt; sourceTree = "<group>"; };
+		0EA3EB6A21FD25CE00DF4099 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
+		0EA3EB7121FD846300DF4099 /* libsox.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsox.3.dylib; path = Libraries_Modified/libsox.3.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EA5A9121EFF4EB100AAD26D /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
 		0EA9CD4C211E70AA005B792B /* CustomTaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTaskController.h; sourceTree = "<group>"; };
 		0EA9CD4D211E70AA005B792B /* CustomTaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTaskController.m; sourceTree = "<group>"; };
@@ -2785,6 +2787,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EA3EB6C21FD25EB00DF4099 /* libsqlite3.dylib in Frameworks */,
 				0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */,
 				0E05631C1F1A44510093B473 /* WebKit.framework in Frameworks */,
 				0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */,
@@ -2971,17 +2974,16 @@
 				0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */,
 				0E56117121FBD26E007C6DB3 /* libliquid.dylib */,
 				0E274E9121DDCCC200337560 /* libogg.0.dylib */,
+				0EA3EB7121FD846300DF4099 /* libsox.3.dylib */,
 				0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */,
-				0E56117221FBD529007C6DB3 /* libsox.3.dylib */,
 				0E274E9921DDCCC200337560 /* libtheora.0.dylib */,
 				0E274E9B21DDCCC200337560 /* libusb-1.0.0.dylib */,
 				0E274E9C21DDCCC200337560 /* libvorbis.0.dylib */,
 				0E274E9D21DDCCC200337560 /* libvorbisenc.2.dylib */,
 				0E274E9E21DDCCC200337560 /* libvorbisfile.3.dylib */,
 			);
-			name = Libraries_Modified;
-			path = "../../../../Library/Developer/Xcode/DerivedData/LocalRadio-gghwrzgshzwaivajdytguswtccdt/Build/Products/Debug/Libraries_Modified";
-			sourceTree = "<group>";
+			path = Libraries_Modified;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0E35F2DB20AA392A00154E4E /* CocoaAsyncSocket-7.6.3 */ = {
 			isa = PBXGroup;
@@ -3799,6 +3801,7 @@
 				0E560FA721FB045B007C6DB3 /* sox */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
+				0EA3EB6B21FD25EB00DF4099 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -4320,6 +4323,7 @@
 		0E4ED21A1EABAE3900D2157B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EA3EB6A21FD25CE00DF4099 /* libsqlite3.dylib */,
 				0E4970041F6E180F00E41A06 /* IOKit.framework */,
 				0E7F2C3C1EC1B7250050BD7F /* AudioToolbox.framework */,
 				0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */,
@@ -5807,6 +5811,13 @@
 				0EA212891ED72D17004DE453 /* xml2json.xslt */,
 			);
 			path = web;
+			sourceTree = "<group>";
+		};
+		0EA3EB6B21FD25EB00DF4099 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0EB8CA701F77F790004B6D05 /* Red-Radio-Icon */ = {
@@ -9371,6 +9382,7 @@
 					"$(PROJECT_DIR)/LocalRadio/MacPorts_Libraries",
 					/opt/local/lib,
 					"$(PROJECT_DIR)/LocalRadio/rtl-sdr-master/build/src",
+					"$(PROJECT_DIR)/LocalRadio",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = "";
@@ -9405,6 +9417,7 @@
 					"$(PROJECT_DIR)/LocalRadio/MacPorts_Libraries",
 					/opt/local/lib,
 					"$(PROJECT_DIR)/LocalRadio/rtl-sdr-master/build/src",
+					"$(PROJECT_DIR)/LocalRadio",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = "";

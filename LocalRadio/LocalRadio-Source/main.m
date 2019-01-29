@@ -352,12 +352,13 @@ Public License instead of this License.
 
 int main(int argc, const char * argv[])
 {
-    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"WebKitDeveloperExtras"];
-    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"WebKitScriptDebugger"];
-    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"IncludeInternalDebugMenu"];
-    [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"IncludeDebugMenu"];
+    // enable these for temporary webkit debugging only
+    //[[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"WebKitDeveloperExtras"];
+    //[[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"WebKitScriptDebugger"];
+    //[[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"IncludeInternalDebugMenu"];
+    //[[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:@"IncludeDebugMenu"];
 
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    //[[NSUserDefaults standardUserDefaults] synchronize];
 
     return NSApplicationMain(argc, argv);
 }

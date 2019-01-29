@@ -154,6 +154,8 @@
 @property (assign) BOOL rtlsdrDeviceFound;
 @property (assign) BOOL applicationIsTerminating;
 
+@property (strong) NSString * bonjourName;
+
 //NS_ASSUME_NONNULL_END
 
 - (void)restartServices;

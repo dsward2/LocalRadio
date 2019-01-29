@@ -14,7 +14,7 @@ cd /path/to/LocalRadio/
 
 git submodule add ./sox/externals/sox/ ./sox/externals/sox/
 
-Add Icecast-Server folder to main project (do not create external build system or add to target)
+Add sox folder to main project (do not create external build system or add to target)
 
 cd sox/externals/sox
 
