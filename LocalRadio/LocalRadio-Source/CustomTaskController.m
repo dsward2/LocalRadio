@@ -1159,6 +1159,7 @@
             else
             {
                 NSString * executablesPath = [[NSBundle mainBundle] executablePath];
+                executablesPath = [executablesPath stringByDeletingLastPathComponent];
                 NSString * soxExecutablePath = [executablesPath stringByAppendingPathComponent:@"sox"];
 
                 [newTaskDictionary setObject:soxExecutablePath forKey:@"path"];

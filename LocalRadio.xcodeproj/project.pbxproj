@@ -60,6 +60,18 @@
 		0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3C1EC1B7250050BD7F /* AudioToolbox.framework */; };
 		0E7F2C401EC1B7250050BD7F /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */; };
 		0E7F2C411EC1B7250050BD7F /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7F2C3E1EC1B7250050BD7F /* CoreAudioKit.framework */; };
+		0E82BE9E220104920042D275 /* libao.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E82BE4C220102D60042D275 /* libao.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BE9F220104A50042D275 /* libicudata.58.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E82BE9B220103B50042D275 /* libicudata.58.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEA0220104A90042D275 /* libicui18n.58.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E82BE9C220103FF0042D275 /* libicui18n.58.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEA1220104AC0042D275 /* libicuuc.58.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E82BE9D220104350042D275 /* libicuuc.58.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEA3220108680042D275 /* librtlsdr.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E82BEA22201084A0042D275 /* librtlsdr.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEB522012AAD0042D275 /* rtl_adsb in Copy RTL-SDR Tools */ = {isa = PBXBuildFile; fileRef = 0E82BEAF220128990042D275 /* rtl_adsb */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEB622012AAD0042D275 /* rtl_eeprom in Copy RTL-SDR Tools */ = {isa = PBXBuildFile; fileRef = 0E82BEAD220128990042D275 /* rtl_eeprom */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEB722012AAD0042D275 /* rtl_fm in Copy RTL-SDR Tools */ = {isa = PBXBuildFile; fileRef = 0E82BEAC220128980042D275 /* rtl_fm */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEB922012AAD0042D275 /* rtl_power in Copy RTL-SDR Tools */ = {isa = PBXBuildFile; fileRef = 0E82BEB3220128990042D275 /* rtl_power */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEBA22012AAD0042D275 /* rtl_sdr in Copy RTL-SDR Tools */ = {isa = PBXBuildFile; fileRef = 0E82BEB2220128990042D275 /* rtl_sdr */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEBB22012AAD0042D275 /* rtl_tcp in Copy RTL-SDR Tools */ = {isa = PBXBuildFile; fileRef = 0E82BEB0220128990042D275 /* rtl_tcp */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E82BEBC22012AAD0042D275 /* rtl_test in Copy RTL-SDR Tools */ = {isa = PBXBuildFile; fileRef = 0E82BEAE220128990042D275 /* rtl_test */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E84C9731ED8DA650065864B /* HTTPWebServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84C9721ED8DA650065864B /* HTTPWebServerConnection.m */; };
 		0E84C9C11ED935E00065864B /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E84C9BD1ED935E00065864B /* README.md */; };
 		0E84C9C21ED935E00065864B /* SQLiteLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E84C9BF1ED935E00065864B /* SQLiteLibrary.m */; };
@@ -782,10 +794,15 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0E82BE9E220104920042D275 /* libao.4.dylib in Copy Libraries */,
 				0E56117821FBDD6A007C6DB3 /* libfftw3f.3.dylib in Copy Libraries */,
 				0E56117A21FBDD81007C6DB3 /* libFLAC.8.dylib in Copy Libraries */,
+				0E82BE9F220104A50042D275 /* libicudata.58.2.dylib in Copy Libraries */,
+				0E82BEA0220104A90042D275 /* libicui18n.58.2.dylib in Copy Libraries */,
+				0E82BEA1220104AC0042D275 /* libicuuc.58.2.dylib in Copy Libraries */,
 				0E56117321FBD899007C6DB3 /* libliquid.dylib in Copy Libraries */,
 				0EF88F0D21F06E65008720D5 /* libogg.0.dylib in Copy Libraries */,
+				0E82BEA3220108680042D275 /* librtlsdr.0.dylib in Copy Libraries */,
 				0EA3EB7221FD848200DF4099 /* libsox.3.dylib in Copy Libraries */,
 				0E56117621FBDC77007C6DB3 /* libsndfile.1.dylib in Copy Libraries */,
 				0EF88F1521F06E65008720D5 /* libtheora.0.dylib in Copy Libraries */,
@@ -815,6 +832,23 @@
 				0ED06DE4215F302E00430953 /* IcecastSource in Copy Tools */,
 			);
 			name = "Copy Tools";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E82BEB422012A850042D275 /* Copy RTL-SDR Tools */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				0E82BEB522012AAD0042D275 /* rtl_adsb in Copy RTL-SDR Tools */,
+				0E82BEB622012AAD0042D275 /* rtl_eeprom in Copy RTL-SDR Tools */,
+				0E82BEB722012AAD0042D275 /* rtl_fm in Copy RTL-SDR Tools */,
+				0E82BEB922012AAD0042D275 /* rtl_power in Copy RTL-SDR Tools */,
+				0E82BEBA22012AAD0042D275 /* rtl_sdr in Copy RTL-SDR Tools */,
+				0E82BEBB22012AAD0042D275 /* rtl_tcp in Copy RTL-SDR Tools */,
+				0E82BEBC22012AAD0042D275 /* rtl_test in Copy RTL-SDR Tools */,
+			);
+			name = "Copy RTL-SDR Tools";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0EA2128A1ED72D4D004DE453 /* Copy Icecast Admin Files */ = {
@@ -950,7 +984,6 @@
 		0E14BE9A217B3520005DFA6F /* customtasklistenbuttonclicked.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = customtasklistenbuttonclicked.html; sourceTree = "<group>"; };
 		0E170F4D1EF23B2C00B5489E /* editcategory.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = editcategory.html; sourceTree = "<group>"; };
 		0E170F591EF24C0800B5489E /* editcategoryitem.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = editcategoryitem.html; sourceTree = "<group>"; };
-		0E1BA0AA1EC885CA00130DB9 /* import_dylibs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = import_dylibs.sh; sourceTree = "<group>"; };
 		0E1BA0EE1EC88EF500130DB9 /* import_dylibs2.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = import_dylibs2.sh; sourceTree = "<group>"; };
 		0E1F68F821BEFF2800A1F356 /* DDKeychain_LocalRadio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDKeychain_LocalRadio.h; sourceTree = "<group>"; };
 		0E1F694721BEFF2900A1F356 /* DDKeychain_LocalRadio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDKeychain_LocalRadio.m; sourceTree = "<group>"; };
@@ -1209,8 +1242,7 @@
 		0E4461951F472370003C7851 /* frequencylistenbuttonclicked.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = frequencylistenbuttonclicked.html; sourceTree = "<group>"; };
 		0E496FEC1F6DBFE700E41A06 /* credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		0E4970041F6E180F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		0E4970091F6F1FF700E41A06 /* codesign_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = codesign_tools.sh; sourceTree = "<group>"; };
-		0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build_standard_rtl_sdr_tools.sh; sourceTree = "<group>"; };
+		0E49700B1F70C8B900E41A06 /* fix_rtl_sdr_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = fix_rtl_sdr_tools.sh; sourceTree = "<group>"; };
 		0E4ECFBB1EAB633B00D2157B /* LocalRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4ECFBE1EAB633B00D2157B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -2151,6 +2183,18 @@
 		0E7F2C3C1EC1B7250050BD7F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0E7F2C3D1EC1B7250050BD7F /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		0E7F2C3E1EC1B7250050BD7F /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
+		0E82BE4C220102D60042D275 /* libao.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libao.4.dylib; path = Libraries_Modified/libao.4.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BE9B220103B50042D275 /* libicudata.58.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.58.2.dylib; path = Libraries_Modified/libicudata.58.2.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BE9C220103FF0042D275 /* libicui18n.58.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.58.2.dylib; path = Libraries_Modified/libicui18n.58.2.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BE9D220104350042D275 /* libicuuc.58.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.58.2.dylib; path = Libraries_Modified/libicuuc.58.2.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEA22201084A0042D275 /* librtlsdr.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = librtlsdr.0.dylib; path = Libraries_Modified/librtlsdr.0.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEAC220128980042D275 /* rtl_fm */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_fm; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEAD220128990042D275 /* rtl_eeprom */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_eeprom; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEAE220128990042D275 /* rtl_test */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_test; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEAF220128990042D275 /* rtl_adsb */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_adsb; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEB0220128990042D275 /* rtl_tcp */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_tcp; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEB2220128990042D275 /* rtl_sdr */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_sdr; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E82BEB3220128990042D275 /* rtl_power */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_power; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E84C96B1ED8CDAC0065864B /* index.html.original */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = index.html.original; sourceTree = "<group>"; };
 		0E84C9711ED8DA650065864B /* HTTPWebServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPWebServerConnection.h; sourceTree = "<group>"; };
 		0E84C9721ED8DA650065864B /* HTTPWebServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPWebServerConnection.m; sourceTree = "<group>"; };
@@ -2828,11 +2872,10 @@
 		0E0C693E1F1C9DA900A7EE5E /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				0E49700B1F70C8B900E41A06 /* build_standard_rtl_sdr_tools.sh */,
 				0E0C693F1F1C9E3100A7EE5E /* fix_rtl_fm_localradio.sh */,
 				0ECAD565210C35C0005F4BB1 /* fix_stereodemux.sh */,
-				0E4970091F6F1FF700E41A06 /* codesign_tools.sh */,
-				0E1BA0A91EC885CA00130DB9 /* MacPorts_Libraries */,
+				0E1BA0EE1EC88EF500130DB9 /* import_dylibs2.sh */,
+				0E49700B1F70C8B900E41A06 /* fix_rtl_sdr_tools.sh */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
@@ -2948,15 +2991,6 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		0E1BA0A91EC885CA00130DB9 /* MacPorts_Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				0E1BA0AA1EC885CA00130DB9 /* import_dylibs.sh */,
-				0E1BA0EE1EC88EF500130DB9 /* import_dylibs2.sh */,
-			);
-			path = MacPorts_Libraries;
-			sourceTree = "<group>";
-		};
 		0E1BA0EF1EC8929800130DB9 /* MacPorts_Tools */ = {
 			isa = PBXGroup;
 			children = (
@@ -2970,10 +3004,15 @@
 		0E274E8521DDCCC200337560 /* Libraries_Modified */ = {
 			isa = PBXGroup;
 			children = (
+				0E82BE4C220102D60042D275 /* libao.4.dylib */,
 				0E56117721FBDD3D007C6DB3 /* libfftw3f.3.dylib */,
 				0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */,
+				0E82BE9B220103B50042D275 /* libicudata.58.2.dylib */,
+				0E82BE9C220103FF0042D275 /* libicui18n.58.2.dylib */,
+				0E82BE9D220104350042D275 /* libicuuc.58.2.dylib */,
 				0E56117121FBD26E007C6DB3 /* libliquid.dylib */,
 				0E274E9121DDCCC200337560 /* libogg.0.dylib */,
+				0E82BEA22201084A0042D275 /* librtlsdr.0.dylib */,
 				0EA3EB7121FD846300DF4099 /* libsox.3.dylib */,
 				0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */,
 				0E274E9921DDCCC200337560 /* libtheora.0.dylib */,
@@ -3799,9 +3838,9 @@
 				0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */,
 				0E560E4321FA99BC007C6DB3 /* Icecast-Server */,
 				0E560FA721FB045B007C6DB3 /* sox */,
+				0E82BEA4220123BD0042D275 /* RTL-SDR tools */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
-				0EA3EB6B21FD25EB00DF4099 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -5555,6 +5594,20 @@
 			path = "LocalRadio/Automator Scripts";
 			sourceTree = "<group>";
 		};
+		0E82BEA4220123BD0042D275 /* RTL-SDR tools */ = {
+			isa = PBXGroup;
+			children = (
+				0E82BEAF220128990042D275 /* rtl_adsb */,
+				0E82BEAD220128990042D275 /* rtl_eeprom */,
+				0E82BEAC220128980042D275 /* rtl_fm */,
+				0E82BEB3220128990042D275 /* rtl_power */,
+				0E82BEB2220128990042D275 /* rtl_sdr */,
+				0E82BEB0220128990042D275 /* rtl_tcp */,
+				0E82BEAE220128990042D275 /* rtl_test */,
+			);
+			path = "RTL-SDR tools";
+			sourceTree = "<group>";
+		};
 		0E84C96A1ED8CD2D0065864B /* Web */ = {
 			isa = PBXGroup;
 			children = (
@@ -5811,13 +5864,6 @@
 				0EA212891ED72D17004DE453 /* xml2json.xslt */,
 			);
 			path = web;
-			sourceTree = "<group>";
-		};
-		0EA3EB6B21FD25EB00DF4099 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0EB8CA701F77F790004B6D05 /* Red-Radio-Icon */ = {
@@ -7187,7 +7233,8 @@
 				0EA212941ED72D7A004DE453 /* Copy Icecast Web Files */,
 				0EA2129E1ED72DAB004DE453 /* Copy Icecast Doc Files */,
 				0E84C9A31ED8FFC90065864B /* Run Copy HTTP Files Script */,
-				0E4970081F6F1F1F00E41A06 /* Code-sign Tools */,
+				0E82BEBD2201586B0042D275 /* Run fix_rtl_sdr_tools.sh Script */,
+				0E82BEB422012A850042D275 /* Copy RTL-SDR Tools */,
 			);
 			buildRules = (
 			);
@@ -8142,19 +8189,23 @@
 			shellPath = /bin/sh;
 			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_stereodemux.sh\n";
 		};
-		0E4970081F6F1F1F00E41A06 /* Code-sign Tools */ = {
+		0E82BEBD2201586B0042D275 /* Run fix_rtl_sdr_tools.sh Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
 			);
-			name = "Code-sign Tools";
+			name = "Run fix_rtl_sdr_tools.sh Script";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/codesign_tools.sh\n";
+			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_rtl_sdr_tools.sh\n";
 		};
 		0E84C9A31ED8FFC90065864B /* Run Copy HTTP Files Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -8186,7 +8237,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/MacPorts_Libraries/import_dylibs2.sh\n\n";
+			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/import_dylibs2.sh\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -147,12 +147,9 @@ echo /opt/local/bin/dylibbundler -b -x "${EXECFILE}" -d "${MODIFIEDLIBPATH}" -p 
 # list of dylibs in application bundle
 #TARGETS=(`ls "${BUNDLELIBPATH}" | grep dylib`)
 
-# TARGETS should match the files in Project Navigator in the Libraries_Modified folder, except for libsox
+# TARGETS should list the same files in Project Navigator in the Libraries_Modified folder, except for libsox
 
-# Older versions of Mac OS X may need the MacPorts version of libiconv, which also needs to be added to Libraries_Modified folder in Project Navigator, and Copy Libraries build phase
-#TARGETS="libfftw3f.3.dylib libFLAC.8.dylib libiconv.2.dylib libliquid.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
-
-TARGETS="libfftw3f.3.dylib libFLAC.8.dylib libliquid.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
+TARGETS="libao.4.dylib libfftw3f.3.dylib libFLAC.8.dylib libicudata.58.2.dylib libicui18n.58.2.dylib libicuuc.58.2.dylib libliquid.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 
 for TARGET in ${TARGETS[*]} ; do
 
@@ -232,5 +229,13 @@ for TARGET in ${TARGETS[*]} ; do
     fi
 done
 
+#####################################################################
 
+# rename librtlsdr.0.6git.dylib to librtlsdr.0.dylib
+
+echo mv ${MODIFIEDLIBPATH}/librtlsdr.0.6git.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
+mv ${MODIFIEDLIBPATH}/librtlsdr.0.6git.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
+
+echo install_name_tool -id @executable_path/../Frameworks/librtlsdr.0.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
+install_name_tool -id @executable_path/../Frameworks/librtlsdr.0.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
 
