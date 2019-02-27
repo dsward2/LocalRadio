@@ -77,7 +77,7 @@
     
     if (interval >= 1.12f) // 28 ms * 4
     {
-        // audio input was not received recently, send some white noise to stdout to keep Icecast connection alive
+        // audio input was not received recently, instead of silence, send some white noise to stdout to keep Icecast connection alive
 
         //NSLog(@"UDPListener sending binary zeros to stdout");
         

@@ -341,6 +341,10 @@ static NSString * DisplayErrorFromError(NSError *error)
             if ([itemName isEqualToString:@"Frequency"] == YES)
             {
                 [self updateStatusViewsForFrequencyID:itemValue];
+                
+                NSInteger frequency = [itemValue integerValue];
+                NSNumber * frequencyNumber = [NSNumber numberWithInteger:frequency];
+                [self.nowPlayingDictionary setObject:frequencyNumber forKey:@"frequency"];
             }
             else if ([itemName isEqualToString:@"RMS Power"] == YES)
             {

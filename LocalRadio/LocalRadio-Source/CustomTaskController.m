@@ -960,7 +960,7 @@
 
     NSString * timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     NSString * customTaskName = [NSString stringWithFormat:@"Custom Task %@", timestamp];
-    NSString * customTaskJSON = [NSString stringWithFormat:@"{\"tasks\":[{\"path\": \"%@\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17004\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}", pathToLocalRadio];;
+    NSString * customTaskJSON = [NSString stringWithFormat:@"{\"tasks\":[{\"path\": \"%@\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17006\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}", pathToLocalRadio];;
     NSInteger sampleRate = 170000;
     NSInteger channels = 1;
     NSInteger inputBufferSize = 256;
@@ -1132,7 +1132,7 @@
             NSString * customTaskJSON = [[customTaskDictionary objectForKey:@"task_json"] mutableCopy];
             if (customTaskJSON == NULL)
             {
-                customTaskJSON = [NSString stringWithFormat:@"{\"tasks\":[{\"path\": \"%@\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17004\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}", pathToExecutables];
+                customTaskJSON = [NSString stringWithFormat:@"{\"tasks\":[{\"path\": \"%@\",\"arguments\" : [\"-M\", \"fm\", \"-l\", \"0\", \"-t\", \"0\", \"-F\", \"9\", \"-g\", \"49.6\", \"-s\", \"170000\", \"-o\", \"2\", \"-A\", \"std\", \"-p\", \"0\", \"-c\", \"17006\", \"-E\", \"pad\", \"-f\", \"89100000\"]}],}", pathToExecutables];
             }
             
             NSData * jsonData = [customTaskJSON dataUsingEncoding:NSUTF8StringEncoding];
@@ -1153,7 +1153,7 @@
             {
                 [newTaskDictionary setObject:pathToLocalRadio forKey:@"path"];
                 
-                NSMutableArray * newTaskArgumentsArray = [NSMutableArray arrayWithObjects:@"-M", @"fm", @"-l", @"0", @"-t", @"0", @"-F", @"9", @"-g", @"49.6", @"-s", @"170000", @"-o", @"2", @"-A", @"std", @"-p", @"0", @"-c", @"17004", @"-E", @"pad", @"-f", @"89100000", NULL];
+                NSMutableArray * newTaskArgumentsArray = [NSMutableArray arrayWithObjects:@"-M", @"fm", @"-l", @"0", @"-t", @"0", @"-F", @"9", @"-g", @"49.6", @"-s", @"170000", @"-o", @"2", @"-A", @"std", @"-p", @"0", @"-c", @"17006", @"-E", @"pad", @"-f", @"89100000", NULL];
                 [newTaskDictionary setObject:newTaskArgumentsArray forKey:@"arguments"];
             }
             else
@@ -1639,6 +1639,7 @@
 - (NSString *)pathToExecutables
 {
     NSString * executablesPath = [[NSBundle mainBundle] executablePath];
+    executablesPath = [executablesPath stringByDeletingLastPathComponent];
     return executablesPath;
 }
 

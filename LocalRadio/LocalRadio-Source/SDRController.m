@@ -390,17 +390,45 @@
                 extendedModulationString = @"fm stereo";
             }
         }
+        if (extendedModulationString == NULL)
+        {
+            extendedModulationString = @"Unknown";
+        }
         self.appDelegate.statusModulationTextField.stringValue = extendedModulationString;
         self.appDelegate.statusModulation = extendedModulationString;
         
         self.appDelegate.statusSamplingRateTextField.stringValue = self.tunerSampleRateNumber.stringValue;
         self.appDelegate.statusSamplingRate = self.tunerSampleRateNumber.stringValue;
 
-        self.appDelegate.statusSquelchLevelTextField.stringValue = self.squelchLevelNumber.stringValue;
-        self.appDelegate.statusTunerGainTextField.stringValue = [NSString stringWithFormat:@"%@", self.tunerGainNumber];
-        self.appDelegate.statusRtlsdrOptionsTextField.stringValue = self.optionsString;
+        NSNumber * squelchLevelNumber = self.squelchLevelNumber;
+        if (squelchLevelNumber == NULL)
+        {
+            squelchLevelNumber = [NSNumber numberWithInteger:0];
+        }
+        self.appDelegate.statusSquelchLevelTextField.stringValue = squelchLevelNumber.stringValue;
+        
+        NSNumber * tunerGainNumber = self.tunerGainNumber;
+        if (tunerGainNumber == NULL)
+        {
+            tunerGainNumber = [NSNumber numberWithInteger:0];
+        }
+        self.appDelegate.statusTunerGainTextField.stringValue = [NSString stringWithFormat:@"%@", tunerGainNumber];
+        
+        NSString * optionsString = self.optionsString;
+        if (optionsString == NULL)
+        {
+            optionsString = @"";
+        }
+        self.appDelegate.statusRtlsdrOptionsTextField.stringValue = optionsString;
+        
         self.appDelegate.statusSignalLevelTextField.stringValue = @"0";
-        self.appDelegate.statusAudioOutputFilterTextField.stringValue = self.audioOutputFilterString;
+        
+        NSString * audioOutputFilterString = self.audioOutputFilterString;
+        if (audioOutputFilterString == NULL)
+        {
+            audioOutputFilterString = @"";
+        }
+        self.appDelegate.statusAudioOutputFilterTextField.stringValue = audioOutputFilterString;
         
         if (self.enableTunerAGC == YES)
         {

@@ -34,7 +34,7 @@
     
     if (postData.length > 0)
     {
-        // extract POST data from HTTP request, get api-request-name and json
+        // for LocalRadioAPI, extract POST data from HTTP request, get api-request-name and json
         postString = [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding];
 
         NSURLComponents * urlComponents = [[NSURLComponents alloc] init];
@@ -59,7 +59,12 @@
             postJSONString = [NSString string];
         }
         NSString * decodedJSONString = [postJSONString stringByRemovingPercentEncoding];
-        NSData * jsonData = [decodedJSONString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        NSData * decodedBase64Data = [[NSData alloc] initWithBase64EncodedString:decodedJSONString options:0];
+        NSString * decodedBase64String = [[NSString alloc] initWithData:decodedBase64Data encoding:NSUTF8StringEncoding];
+        
+        //NSData * jsonData = [decodedJSONString dataUsingEncoding:NSUTF8StringEncoding];
+        NSData * jsonData = [decodedBase64String dataUsingEncoding:NSUTF8StringEncoding];
 
         NSDictionary * jsonDictionary = NULL;
 
@@ -73,7 +78,6 @@
         
         if ([postRequestName isEqualToString:@"get-audio-url"] == YES)
         {
-            //NSString * audioURLString = [NSString stringWithFormat:@"https://%@:%lu/%@", self.appDelegate.localHostString, self.appDelegate.icecastServerHTTPSPort, self.appDelegate.icecastServerMountName];
             NSString * audioURLString = [NSString stringWithFormat:@"http://%@:%lu/%@", self.appDelegate.localHostIPString, self.appDelegate.icecastServerHTTPPort, self.appDelegate.icecastServerMountName];
             responseDictionary = [NSDictionary dictionaryWithObjectsAndKeys:audioURLString, @"audio-url", nil];
         }
@@ -83,7 +87,7 @@
             
             if (responseDictionary == NULL)
             {
-                responseDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Not Playing", @"station_name", nil];
+                responseDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"now-playing", @"station_name", nil];
             }
         }
         else if ([postRequestName isEqualToString:@"get-all-categories"] == YES)
@@ -98,13 +102,54 @@
         }
         else if ([postRequestName isEqualToString:@"get-all-freq-cat"] == YES)
         {
-            NSArray * allFreqCatArray = self.sqliteController.allFreqCatRecords;
+            //NSArray * allFreqCatArray = self.sqliteController.allFreqCatRecords;
+            NSArray * allCategoriesArray = self.sqliteController.allCategoryRecords;
+            NSArray * allFrequenciesArray = self.sqliteController.allFrequencyRecords;
+            NSArray * allFreqCatArray = [self.sqliteController sortedFreqCatRecordsWithCategoriesArray:allCategoriesArray frequenciesArray:allFrequenciesArray];
             responseDictionary = [NSDictionary dictionaryWithObjectsAndKeys:allFreqCatArray, @"all-freq-cat", nil];
         }
         else if ([postRequestName isEqualToString:@"get-all-custom-tasks"] == YES)
         {
-            NSArray * allFreqCatArray = self.sqliteController.allFreqCatRecords;
-            responseDictionary = [NSDictionary dictionaryWithObjectsAndKeys:allFreqCatArray, @"all-custom-tasks", nil];
+            NSArray * allkCustomTasksArray = self.sqliteController.allCustomTaskRecords;
+            responseDictionary = [NSDictionary dictionaryWithObjectsAndKeys:allkCustomTasksArray, @"all-custom-tasks", nil];
+        }
+        else if ([postRequestName isEqualToString:@"set-new-frequency"] == YES)
+        {        
+            NSNumber * frequencyIDNumber = [jsonDictionary objectForKey:@"frequency_id"];
+            
+            NSString * frequencyIDString = [NSString stringWithFormat:@"%@", frequencyIDNumber];
+            
+            if (frequencyIDString != NULL)
+            {
+                NSMutableDictionary * frequencyDictionary = [[self.sqliteController frequencyRecordForID:frequencyIDString] mutableCopy];
+                
+                [self.sdrController startRtlsdrTasksForFrequency:frequencyDictionary];
+            }
+            
+            NSDictionary * nowPlayingDictionary = self.appDelegate.udpStatusListenerController.nowPlayingDictionary;
+
+            if (nowPlayingDictionary == NULL)
+            {
+                responseDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:nowPlayingDictionary, @"set-new-frequency-result", nil];
+            }
+        }
+        else if ([postRequestName isEqualToString:@"set-new-custom-task"] == YES)
+        {
+            NSNumber * customTaskIDNumber = [jsonDictionary objectForKey:@"custom_task_id"];
+            
+            NSString * customTaskIDString = [NSString stringWithFormat:@"%@", customTaskIDNumber];
+
+            if (customTaskIDString != NULL)
+            {
+                [self.sdrController startTasksForCustomTaskID: customTaskIDString];
+            }
+            
+            NSDictionary * nowPlayingDictionary = self.appDelegate.udpStatusListenerController.nowPlayingDictionary;
+
+            if (nowPlayingDictionary == NULL)
+            {
+                responseDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:nowPlayingDictionary, @"set-new-frequency-result", nil];
+            }
         }
     }
 

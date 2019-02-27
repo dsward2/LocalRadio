@@ -560,6 +560,47 @@
 }
 
 //==================================================================================
+//    sortedFreqCatRecordsWithCategoriesArray:frequenciesArray:
+//==================================================================================
+
+- (NSArray *)sortedFreqCatRecordsWithCategoriesArray:(NSArray *)categoriesArray frequenciesArray:(NSArray *) frequenciesArray
+{
+    NSString * queryString = @"SELECT id, freq_id, cat_id FROM freq_cat ORDER BY id;";
+    
+    NSArray * freqCatResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
+    
+    NSMutableDictionary * freqCatSortDictionary = [NSMutableDictionary dictionary];
+    for (NSDictionary * freqCatDictionary in freqCatResultArray)
+    {
+        NSNumber * catIDNumber = [freqCatDictionary objectForKey:@"cat_id"];
+        NSNumber * freqIDNumber = [freqCatDictionary objectForKey:@"freq_id"];
+        NSString * catFreqKey = [NSString stringWithFormat:@"%@:%@", catIDNumber, freqIDNumber];
+        [freqCatSortDictionary setObject:freqCatDictionary forKey:catFreqKey];
+    }
+    
+    NSMutableArray * queryResultArray = [NSMutableArray array];
+    
+    for (NSDictionary * categoryDictionary in categoriesArray)
+    {
+        NSNumber * catIDNumber = [categoryDictionary objectForKey:@"id"];
+        for (NSDictionary * frequencyDictionary in frequenciesArray)
+        {
+            NSNumber * freqIDNumber = [frequencyDictionary objectForKey:@"id"];
+            
+            NSString * catFreqKey = [NSString stringWithFormat:@"%@:%@", catIDNumber, freqIDNumber];
+            
+            NSDictionary * matchFreqCatDictionary = [freqCatSortDictionary objectForKey:catFreqKey];
+            if (matchFreqCatDictionary != NULL)
+            {
+                [queryResultArray addObject:matchFreqCatDictionary];
+            }
+        }
+    }
+
+    return queryResultArray;
+}
+
+//==================================================================================
 //	freqCatRecordsForCategoryID:
 //==================================================================================
 
@@ -669,6 +710,7 @@
 
     return queryResultArray;
 }
+
 
 //==================================================================================
 //    allLocalRadioConfigRecords

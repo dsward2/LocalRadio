@@ -15,12 +15,12 @@
 		0E0C69331F1C8F9100A7EE5E /* tuner_fc0013.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C692E1F1C8F9100A7EE5E /* tuner_fc0013.c */; };
 		0E0C69341F1C8F9100A7EE5E /* tuner_fc2580.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C692F1F1C8F9100A7EE5E /* tuner_fc2580.c */; };
 		0E0C69351F1C8F9100A7EE5E /* tuner_r82xx.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E0C69301F1C8F9100A7EE5E /* tuner_r82xx.c */; };
-		0E0C693B1F1C926100A7EE5E /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0C693A1F1C926100A7EE5E /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		0E28BEA91F2DC830005999FB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E28BEA81F2DC830005999FB /* AudioToolbox.framework */; };
 		0E29A2821F3061C50099854B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E29A27E1F3061C50099854B /* CoreAudio.framework */; };
 		0E29A2831F3061C50099854B /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E29A27F1F3061C50099854B /* CoreAudioKit.framework */; };
 		0E29A2841F3061C50099854B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E29A2801F3061C50099854B /* CoreFoundation.framework */; };
 		0E29A2851F3061C50099854B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E29A2811F3061C50099854B /* Foundation.framework */; };
+		0E518B9C220FC16D00265A5C /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E518B9B220FC15200265A5C /* libusb-1.0.0.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,12 +34,12 @@
 		0E0C692F1F1C8F9100A7EE5E /* tuner_fc2580.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tuner_fc2580.c; path = "../../LocalRadio/rtl-sdr-master/src/tuner_fc2580.c"; sourceTree = "<group>"; };
 		0E0C69301F1C8F9100A7EE5E /* tuner_r82xx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tuner_r82xx.c; path = "../../LocalRadio/rtl-sdr-master/src/tuner_r82xx.c"; sourceTree = "<group>"; };
 		0E0C69381F1C903F00A7EE5E /* rtl_fm_localradio.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = rtl_fm_localradio.entitlements; sourceTree = SOURCE_ROOT; };
-		0E0C693A1F1C926100A7EE5E /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libusb-1.0.0.dylib"; path = "../../LocalRadio/MacPorts_Libraries/libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		0E28BEA81F2DC830005999FB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0E29A27E1F3061C50099854B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		0E29A27F1F3061C50099854B /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		0E29A2801F3061C50099854B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		0E29A2811F3061C50099854B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0E518B9B220FC15200265A5C /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libusb-1.0.0.dylib"; path = "../../../../../../../../../opt/local/lib/libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +52,7 @@
 				0E29A2841F3061C50099854B /* CoreFoundation.framework in Frameworks */,
 				0E29A2851F3061C50099854B /* Foundation.framework in Frameworks */,
 				0E28BEA91F2DC830005999FB /* AudioToolbox.framework in Frameworks */,
-				0E0C693B1F1C926100A7EE5E /* libusb-1.0.0.dylib in Frameworks */,
+				0E518B9C220FC16D00265A5C /* libusb-1.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +87,7 @@
 				0E0C692E1F1C8F9100A7EE5E /* tuner_fc0013.c */,
 				0E0C692F1F1C8F9100A7EE5E /* tuner_fc2580.c */,
 				0E0C69301F1C8F9100A7EE5E /* tuner_r82xx.c */,
-				0E0C693A1F1C926100A7EE5E /* libusb-1.0.0.dylib */,
+				0E518B9B220FC15200265A5C /* libusb-1.0.0.dylib */,
 				0E0C69381F1C903F00A7EE5E /* rtl_fm_localradio.entitlements */,
 			);
 			path = rtl_fm_localradio;

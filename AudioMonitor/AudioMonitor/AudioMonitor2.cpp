@@ -45,6 +45,7 @@
 
 // AudioQueue values
 #define kAudioQueueBuffersCount 3
+#define maxWhiteNoiseBufferLength 32000
 
 AudioConverterRef inAudioConverter;     // AudioConverter for resampling PCM data to 48000 Hz
 
@@ -72,6 +73,7 @@ unsigned int audioConverterBufferSize;
 unsigned int audioQueueBufferSize;
 
 unsigned int packetOutputIndex;
+CFAbsoluteTime lastValidPacketAbsoluteTime;
 
 AudioBuffer audioConverterInputAudioBuffer;
 
@@ -688,15 +690,44 @@ void * runInputBufferOnThread(void * ptr)
     pthread_setname_np("runInputBufferOnThread");
 
     //pid_t originalParentProcessPID = getppid();
+
+    // instead of silence, send some white noise when needed
+    char whiteNoiseBuffer[maxWhiteNoiseBufferLength];
+    for (int i = 0; i < maxWhiteNoiseBufferLength; i++)
+    {
+        // signed 16-bit white noise ---- 0, 1, 0, -1 ---- 0000 0001 0000 FFFF
+        unsigned char whiteNoiseChar = 0;
+        if (i % 8 == 3)
+        {
+            whiteNoiseChar = 1;
+        }
+        else if (i % 8 == 6)
+        {
+            whiteNoiseChar = 255;
+        }
+        else if (i % 8 == 7)
+        {
+            whiteNoiseChar = 255;
+        }
+        whiteNoiseBuffer[i] = whiteNoiseChar;
+    }
+
+    //CFTimeInterval inputTimeoutInterval = 0.025f;
+    //CFTimeInterval inputTimeoutInterval = 20000.0f / sampleRate;
+    CFTimeInterval inputTimeoutInterval = 6.0f;
+    float whiteNoiseBufferLengthFloat = (float)sampleRate * (float)inputChannels * inputTimeoutInterval;
+    int whiteNoiseBufferLength = whiteNoiseBufferLengthFloat;
+    if (whiteNoiseBufferLength > maxWhiteNoiseBufferLength)
+    {
+        whiteNoiseBufferLength = maxWhiteNoiseBufferLength;
+    }
     
+    fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputTimeoutInterval=%f, whiteNoiseBufferLength=%d\n", inputTimeoutInterval, whiteNoiseBufferLength);
+
     int packetIndex = 0;
     int droppedIndex = 0;
     bool doExit = false;
 
-    time_t lastReadTime = time(NULL) + 20;
-    int nextTimeoutReportInterval = 5;
-
-    //int32_t circularBufferLength = inputChannels * bufferKBPerChannel * 1024;
     int32_t circularBufferLength = inputBufferSize;
     TPCircularBufferInit(&inputCircularBuffer, circularBufferLength);
     
@@ -717,12 +748,12 @@ void * runInputBufferOnThread(void * ptr)
         CFRunLoopRunResult runLoopResult = CFRunLoopRunInMode(runLoopMode, runLoopTimeInterval, returnAfterSourceHandled);
         #pragma unused(runLoopResult)
 
-        time_t currentTime = time(NULL);
+        //time_t currentTime = time(NULL);
 
         // copy RTL-SDR LPCM data to a circular buffer to be used as input for AudioConverter process
         
         UInt32 bytesAvailableCount = 0;
-
+        
         // use ioctl to determine amount of data available for reading on stdin, like the RTL-SDR USB serial device
         int ioctl_result = ioctl(STDIN_FILENO, FIONREAD, &bytesAvailableCount);
         if (ioctl_result < 0)
@@ -732,11 +763,9 @@ void * runInputBufferOnThread(void * ptr)
             break;
         }
 
-        if (bytesAvailableCount <= 0)
-        {
-            usleep(2000);
-        }
-        else
+        CFAbsoluteTime currentAbsoluteTime = CFAbsoluteTimeGetCurrent();
+
+        if (bytesAvailableCount > 0)
         {
             if (bytesAvailableCount % (inputChannels * sizeof(SInt16)) == 0)    // check frame/packet size
             {
@@ -758,9 +787,6 @@ void * runInputBufferOnThread(void * ptr)
                         fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - bytesAvailableCount=%d, readResult =%ld\n", bytesAvailableCount, readResult);
                     }
                 
-                    lastReadTime = currentTime;
-                    nextTimeoutReportInterval = 5;
-                    
                     //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputBufferPtr=%p, bytesAvailableCount=%d\n", headPtr, bytesAvailableCount);
                     
                     int32_t availableSpace = (inputCircularBuffer.length - inputCircularBuffer.fillCount);
@@ -787,6 +813,10 @@ void * runInputBufferOnThread(void * ptr)
 
                         packetIndex++;      // actually more than one packet
 
+                        lastValidPacketAbsoluteTime = CFAbsoluteTimeGetCurrent();
+
+                        //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread input received bytesAvailableCount=%d, currentAbsoluteTime=%f\n", bytesAvailableCount, currentAbsoluteTime);
+
                         if (produceBytesResult == false)
                         {
                             fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - produce bytes failed, bytesAvailableCount = %d, packetIndex = %d\n", bytesAvailableCount, packetIndex);
@@ -800,17 +830,21 @@ void * runInputBufferOnThread(void * ptr)
             }
             else
             {
-                //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - bytesAvailableCount %d misaligned for packet size\n", bytesAvailableCount);
             }
         }
 
-        time_t intervalSinceLastRead = currentTime - lastReadTime;
-        if (intervalSinceLastRead >= nextTimeoutReportInterval)
+        // In scanning mode with squelch, we might not get continuous audio data,
+        // so send some white noise periodically during long periods of silence
+        if (currentAbsoluteTime - lastValidPacketAbsoluteTime >= inputTimeoutInterval)
         {
-            fprintf(stderr, "AudioMonitor2 runInputBufferOnThread error - intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
+            bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, &whiteNoiseBuffer, whiteNoiseBufferLength);
 
-            nextTimeoutReportInterval += 5;
+            fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - write white noise - interval=%f, inputTimeoutInterval=%f, length=%d\n", currentAbsoluteTime - lastValidPacketAbsoluteTime, inputTimeoutInterval, whiteNoiseBufferLength);
+
+            lastValidPacketAbsoluteTime = currentAbsoluteTime;
         }
+        
+        usleep(1000);
         
         loopCount++;
     }
@@ -1122,7 +1156,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
                 }
                 else
                 {
-                    fprintf(stderr, "AudioMonitor2 convertBuffer outputDataPacketSize=%d\n", outputDataPacketSize);
+                    usleep(2000);
                 }
             }
             else
@@ -1236,9 +1270,9 @@ void * runAudioConverterOnThread(void * ptr)
         time_t intervalSinceLastRead = currentTime - lastReadTime;
         if (intervalSinceLastRead >= nextTimeoutReportInterval)
         {
-            fprintf(stderr, "AudioMonitor2 intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
+            fprintf(stderr, "AudioMonitor2 runAudioConverterOnThread intervalSinceLastRead >= %d\n", nextTimeoutReportInterval);
 
-            nextTimeoutReportInterval += 5;
+            nextTimeoutReportInterval += 30;
         }
     }
     //pthread_exit(NULL);
@@ -1462,6 +1496,7 @@ void runAudioMonitor2(unsigned int inSampleRate, double inVolume, unsigned int i
     audioQueueThreadID = 0;
     
     packetOutputIndex = 0;
+    lastValidPacketAbsoluteTime = CFAbsoluteTimeGetCurrent();
 
     createInputBufferThread();
     usleep(5000);

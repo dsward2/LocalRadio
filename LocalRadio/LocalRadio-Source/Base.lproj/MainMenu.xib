@@ -179,6 +179,7 @@
         <customObject id="wEu-Fw-cGy" userLabel="LocalRadioAPI" customClass="LocalRadioAPI">
             <connections>
                 <outlet property="appDelegate" destination="Voe-Tx-rLC" id="Hy0-Ib-AnI"/>
+                <outlet property="sdrController" destination="mUT-Pc-Qgz" id="8NS-Tf-5KD"/>
                 <outlet property="sqliteController" destination="xfL-CU-04B" id="SSf-AW-qa4"/>
             </connections>
         </customObject>
@@ -1028,7 +1029,7 @@ Gw
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" ambiguous="YES" id="pWY-8B-R8i">
                             <rect key="frame" x="1" y="0.0" width="673" height="315"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="20" rowSizeStyle="automatic" headerView="xpx-kQ-Qcl" viewBased="YES" floatsGroupRows="NO" id="3dz-1S-5uR">
                                     <rect key="frame" x="0.0" y="0.0" width="673" height="292"/>
@@ -1051,7 +1052,7 @@ Gw
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="9wx-Q2-Z9P">
-                                                    <rect key="frame" x="1" y="1" width="91" height="20"/>
+                                                    <rect key="frame" x="1" y="1" width="90.5" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rp3-MX-bm1">
@@ -1125,11 +1126,11 @@ Gw
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="hOu-Kx-HVz">
-                                                    <rect key="frame" x="172.5" y="1" width="267" height="20"/>
+                                                    <rect key="frame" x="172.5" y="1" width="267.5" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D7l-Q6-1RL">
-                                                            <rect key="frame" x="0.0" y="3" width="267" height="17"/>
+                                                            <rect key="frame" x="0.0" y="3" width="268" height="17"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="gvV-wl-Hs6">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1162,7 +1163,7 @@ Gw
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="StJ-5h-sib">
-                                                    <rect key="frame" x="443" y="1" width="63" height="20"/>
+                                                    <rect key="frame" x="443" y="1" width="62.5" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4LG-Gm-5Xe">
@@ -2204,7 +2205,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" ambiguous="YES" id="aFL-0Q-zBm">
                                                     <rect key="frame" x="1" y="0.0" width="165" height="145"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="TBE-l0-bdo" viewBased="YES" id="hbf-Oj-gly">
                                                             <rect key="frame" x="0.0" y="0.0" width="165" height="122"/>
@@ -2464,7 +2465,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" ambiguous="YES" id="QV0-ek-CJh">
                                                     <rect key="frame" x="1" y="0.0" width="164" height="363"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="CB4-k0-f8U" viewBased="YES" id="Go3-wO-jgJ">
                                                             <rect key="frame" x="0.0" y="0.0" width="164" height="340"/>
@@ -2570,7 +2571,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" ambiguous="YES" id="caH-Rk-BaD">
                                                     <rect key="frame" x="1" y="0.0" width="165" height="363"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="spe-AD-2de" viewBased="YES" id="2yw-Em-uZv">
                                                             <rect key="frame" x="0.0" y="0.0" width="165" height="340"/>
@@ -2672,7 +2673,7 @@ Gw
                                         <autoresizingMask key="autoresizingMask"/>
                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="qZz-7e-yFC">
                                             <rect key="frame" x="0.0" y="0.0" width="166" height="340"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1tw-0p-xoZ">
                                                     <rect key="frame" x="0.0" y="0.0" width="166" height="340"/>

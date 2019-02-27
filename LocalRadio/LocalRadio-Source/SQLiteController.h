@@ -30,6 +30,7 @@
 
 - (NSArray *)allFreqCatRecords;
 - (NSArray *)freqCatRecordsForCategoryID:(NSString *)categoryIDString;
+- (NSArray *)sortedFreqCatRecordsWithCategoriesArray:(NSArray *)categoriesArray frequenciesArray:(NSArray *) frequenciesArray;
 - (BOOL)freqCatRecordExistsForFrequencyID:(NSInteger)frequencyID categoryID:(NSInteger)categoryID;
 - (NSDictionary *)freqCatRecordForFrequencyID:(NSInteger)frequencyID categoryID:(NSInteger)categoryID;
 
