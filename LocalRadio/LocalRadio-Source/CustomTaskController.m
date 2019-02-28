@@ -23,6 +23,8 @@
 
 #import "CustomTaskController.h"
 #import "SQLiteController.h"
+#import "SDRController.h"
+#import "AppDelegate.h"
 
 @implementation CustomTaskController
 
@@ -1642,6 +1644,25 @@
     executablesPath = [executablesPath stringByDeletingLastPathComponent];
     return executablesPath;
 }
+
+- (IBAction)listenButtonAction:(id)sender
+{
+    NSInteger selectedRow = self.nameTableView.selectedRow;
+    
+    if (selectedRow >= 0)
+    {
+        NSInteger numberOfItems = self.allCustomTasksArray.count;
+        if (selectedRow < numberOfItems)
+        {
+            NSDictionary * aCustomTaskDictionary = [self.allCustomTasksArray objectAtIndex:selectedRow];
+            NSNumber * customTaskIDNumber = [aCustomTaskDictionary objectForKey:@"id"];
+            NSString * customTaskIDString = [NSString stringWithFormat:@"%@", customTaskIDNumber];
+
+            [self.appDelegate.sdrController startTasksForCustomTaskID:customTaskIDString];
+        }
+    }
+}
+
 
 
 @end
