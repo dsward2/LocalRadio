@@ -45,7 +45,6 @@
 
 // AudioQueue values
 #define kAudioQueueBuffersCount 3
-#define maxWhiteNoiseBufferLength 32000
 
 AudioConverterRef inAudioConverter;     // AudioConverter for resampling PCM data to 48000 Hz
 
@@ -690,6 +689,12 @@ void * runInputBufferOnThread(void * ptr)
     pthread_setname_np("runInputBufferOnThread");
 
     //pid_t originalParentProcessPID = getppid();
+    
+    // rtl_fm sends a steady stream of data, but custom input processes may not,
+    // so it's difficult to get a white noise generator to fill in the gaps that
+    // works in all cases.
+
+    const int maxWhiteNoiseBufferLength = 24000;
 
     // instead of silence, send some white noise when needed
     char whiteNoiseBuffer[maxWhiteNoiseBufferLength];
@@ -715,6 +720,7 @@ void * runInputBufferOnThread(void * ptr)
     //CFTimeInterval inputTimeoutInterval = 0.025f;
     //CFTimeInterval inputTimeoutInterval = 20000.0f / sampleRate;
     CFTimeInterval inputTimeoutInterval = 6.0f;
+    
     float whiteNoiseBufferLengthFloat = (float)sampleRate * (float)inputChannels * inputTimeoutInterval;
     int whiteNoiseBufferLength = whiteNoiseBufferLengthFloat;
     if (whiteNoiseBufferLength > maxWhiteNoiseBufferLength)

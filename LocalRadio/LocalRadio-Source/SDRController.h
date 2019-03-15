@@ -38,6 +38,8 @@
 @property (assign) BOOL enableDirectSamplingQBranchMode;
 @property (assign) BOOL enableTunerAGC;
 @property (assign) BOOL stereoFlag;
+@property (assign) BOOL biasTFlag;
+@property (strong) NSString * usbDeviceString;  // device index or 8-digit serial number to match RTL-SDR USB
 
 @property (strong) NSArray * rtlsdrTaskFrequenciesArray;
 @property (assign) NSInteger udpTag;

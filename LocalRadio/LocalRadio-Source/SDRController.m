@@ -676,6 +676,8 @@
     self.enableDirectSamplingQBranchMode = NO;
     self.enableTunerAGC = NO;
     self.stereoFlag = NO;
+    self.biasTFlag = NO;
+    self.usbDeviceString = @"0";
 
     NSString * nameString = @"";
     NSNumber * categoryScanningEnabledNumber = [NSNumber numberWithInteger:0];
@@ -715,6 +717,14 @@
             {
                 self.stereoFlag = YES;
             }
+
+            NSNumber * biasTFlagNumber = [firstFrequencyDictionary objectForKey:@"bias_t_flag"];
+            if (biasTFlagNumber.boolValue == YES)
+            {
+                self.biasTFlag = YES;
+            }
+
+            self.usbDeviceString = [firstFrequencyDictionary objectForKey:@"usb_device_string"];
 
             NSNumber * frequencyModeNumber = [firstFrequencyDictionary objectForKey:@"frequency_mode"]; // 0 = single frequency, 1 = frequency range
             NSInteger frequencyMode = [frequencyModeNumber integerValue];
@@ -763,6 +773,7 @@
         self.tunerSampleRateNumber = [categoryDictionary objectForKey:@"scan_sample_rate"];
         self.optionsString = [categoryDictionary objectForKey:@"scan_options"];
         self.audioOutputFilterString = [categoryDictionary objectForKey:@"scan_audio_output_filter"];
+        self.usbDeviceString = [categoryDictionary objectForKey:@"scan_usb_device_string"];
 
         nameString = [categoryDictionary objectForKey:@"category_name"];
         categoryScanningEnabledNumber = [categoryDictionary objectForKey:@"category_scanning_enabled"];
@@ -772,6 +783,12 @@
         squelchDelayNumber = [categoryDictionary objectForKey:@"scan_squelch_delay"];
         firSizeNumber = [categoryDictionary objectForKey:@"scan_fir_size"];
         atanMathString = [categoryDictionary objectForKey:@"scan_atan_math"];
+
+        NSNumber * biasTFlagNumber = [categoryDictionary objectForKey:@"scan_bias_t_flag"];
+        if (biasTFlagNumber.integerValue == 1)
+        {
+            self.biasTFlag = YES;
+        }
 
         [self.frequencyString setString:@""];
         
@@ -839,7 +856,15 @@
     [audioSourceTaskItem addArgument:self.tunerGainNumber.stringValue];
     [audioSourceTaskItem addArgument:@"-s"];
     [audioSourceTaskItem addArgument:self.tunerSampleRateNumber.stringValue];
+    [audioSourceTaskItem addArgument:@"-d"];
+    [audioSourceTaskItem addArgument:self.usbDeviceString];
     
+    if (self.biasTFlag == YES)
+    {
+        [audioSourceTaskItem addArgument:@"-T"];
+    }
+
+
     if ([oversamplingNumber integerValue] > 0)
     {
         [audioSourceTaskItem addArgument:@"-o"];

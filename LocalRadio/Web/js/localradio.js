@@ -916,6 +916,7 @@ function updateStatusDisplay(statusData)
     
     var audio_output_filter = statusObj.audio_output_filter;
     var atan_math = statusObj.atan_math;
+    var bias_t_flag = statusObj.bias_t_flag;
     var fir_size = statusObj.fir_size;
     var frequency = statusObj.frequency;
     var frequency_mode = statusObj.frequency_mode;
@@ -929,9 +930,11 @@ function updateStatusDisplay(statusData)
     var short_frequency = statusObj.short_frequency;
     var signal_level = statusObj.signal_level;
     var squelch_level = statusObj.squelch_level;
+    var stereo_flag = statusObj.stereo_flag;
     var station_name = statusObj.station_name;
     var tuner_agc = statusObj.tuner_agc;
     var tuner_gain = statusObj.tuner_gain;
+    var usb_device_string = statusObj.usb_device_string;
     
     if (rtlsdr_task_mode == "frequency")
     {
@@ -946,6 +949,7 @@ function updateStatusDisplay(statusData)
     {
         audio_output_filter = statusObj.scan_audio_output_filter;
         atan_math = statusObj.scan_atan_math;
+        bias_t_flag = statusObj.scan_bias_t_flag;
         fir_size = statusObj.scan_fir_size;
         frequency_mode = statusObj.scan_frequency_mode;
         modulation = statusObj.scan_modulation;
@@ -956,6 +960,7 @@ function updateStatusDisplay(statusData)
         squelch_level = statusObj.scan_squelch_level;
         tuner_agc = statusObj.scan_tuner_agc;
         tuner_gain = statusObj.scan_tuner_gain;
+        usb_device_string - statusObj.scan_usb_device_string;
     }
     
     var nowPlayingDetails = document.getElementById("now-playing-details");
@@ -1020,6 +1025,12 @@ function updateStatusDisplay(statusData)
         statusHtml += "<br>";
         statusHtml += "audio output filter: rate 48000 ";
         statusHtml += audio_output_filter;
+        statusHtml += "<br>";
+        statusHtml += "bias-t: ";
+        statusHtml += bias_t_flag;
+        statusHtml += "<br>";
+        statusHtml += "usb device: ";
+        statusHtml += usb_device_string;
         statusHtml += "<br>";
         statusHtml += "<div>";
 

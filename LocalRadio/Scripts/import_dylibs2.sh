@@ -91,16 +91,14 @@ install_name_tool -change /opt/local/lib/libogg.0.dylib @executable_path/../Fram
 
 # fix icecast library loading paths
 
-# Older versions of Mac OS X may need to fix the i18n libraries
+echo install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
 
-#echo install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
-#install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
+echo install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
 
-#echo install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
-#install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
-
-#echo install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
-#install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
+echo install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
 
 echo install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
 install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}

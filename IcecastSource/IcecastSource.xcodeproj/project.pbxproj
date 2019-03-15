@@ -791,6 +791,7 @@
 		0EF561BC21596BAC00A5C0AF /* GCDAsyncSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = "../../LocalRadio/CocoaAsyncSocket-7.6.3/Source/GCD/GCDAsyncSocket.h"; sourceTree = "<group>"; };
 		0EF561BD21596BBB00A5C0AF /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GCDAsyncUdpSocket.h; path = "../../LocalRadio/CocoaAsyncSocket-7.6.3/Source/GCD/GCDAsyncUdpSocket.h"; sourceTree = "<group>"; };
 		0EF561BE2159794C00A5C0AF /* spec.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = spec.md; sourceTree = "<group>"; };
+		0EFE8AE62239BC6C00886D8A /* libssl.35.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.35.dylib; path = ../../../../../../../../usr/lib/libssl.35.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -809,6 +810,7 @@
 		0ED06E34215F313100430953 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EFE8AE62239BC6C00886D8A /* libssl.35.dylib */,
 				0ED06E37215F313900430953 /* AudioToolbox.framework */,
 				0ED06E35215F313100430953 /* CoreFoundation.framework */,
 			);
@@ -3122,6 +3124,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = IcecastSource.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (
@@ -3138,6 +3141,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = IcecastSource.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = (

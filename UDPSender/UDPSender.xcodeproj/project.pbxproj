@@ -240,7 +240,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -252,7 +252,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;

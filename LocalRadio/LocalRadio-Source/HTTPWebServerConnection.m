@@ -1680,6 +1680,35 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSNumber * firSizeNumber = [NSNumber numberWithInteger:firSizeInteger];
         [frequencyDictionary setObject:firSizeNumber forKey:@"fir_size"];
     }
+
+    id stereoFlagObject = [frequencyDictionary objectForKey:@"stereo_flag"];
+    if ([stereoFlagObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * stereoFlagString = stereoFlagObject;
+        NSInteger stereoFlagInteger = stereoFlagString.boolValue;
+        NSNumber * stereoFlagNumber = [NSNumber numberWithInteger:stereoFlagInteger];
+        [frequencyDictionary setObject:stereoFlagNumber forKey:@"stereo_flag"];
+    }
+
+    id biasTFlagObject = [frequencyDictionary objectForKey:@"bias_t_flag"];
+    if ([biasTFlagObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * biasTFlagString = biasTFlagObject;
+        NSInteger biasTFlagInteger = biasTFlagString.boolValue;
+        NSNumber * biasTFlagNumber = [NSNumber numberWithInteger:biasTFlagInteger];
+        [frequencyDictionary setObject:biasTFlagNumber forKey:@"bias_t_flag"];
+    }
+
+    /*
+    id usbDeviceIndexObject = [frequencyDictionary objectForKey:@"usb_device_index"];
+    if ([usbDeviceIndexObject isKindOfClass:[NSString class]] == YES)
+    {
+        NSString * usbDeviceIndexString = usbDeviceIndexObject;
+        NSInteger usbDeviceIndexInteger = usbDeviceIndexString.integerValue;
+        NSNumber * usbDeviceIndexNumber = [NSNumber numberWithInteger:usbDeviceIndexInteger];
+        [frequencyDictionary setObject:usbDeviceIndexNumber forKey:@"usb_device_index"];
+    }
+    */
 }
 
 
@@ -2513,6 +2542,14 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * scanAtanMathString = [categoryDictionary objectForKey:@"scan_atan_math"];
 
         NSString * scanAudioOutputFilterString = [categoryDictionary objectForKey:@"scan_audio_output_filter"];
+        
+        NSNumber * scanBiasTFlagNumber = [categoryDictionary objectForKey:@"scan_bias_t_flag"];
+        //NSString * scanBiasTFlagString = [scanBiasTFlagNumber stringValue];
+
+        NSString * scanUSBDeviceString = [categoryDictionary objectForKey:@"scan_usb_device_string"];
+        //NSString * scanUSBDeviceIndexString = [scanUSBDeviceIndexNumber stringValue];
+
+        // Values are acquired, now construct the html form
 
         NSMutableString * formString = [NSMutableString string];
         [formString appendString:@"<form class='editcategorysettings' id='editcategorysettings' onsubmit='event.preventDefault(); return storeCategoryRecord(this);' method='POST'>"];
@@ -2541,6 +2578,27 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 
 
+
+        [formString appendString:@"<label for='scan_usb_device_string'>USB Device:</label>"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='scan_usb_device_string'>"];
+        NSInteger usbDeviceIndex = [scanUSBDeviceString integerValue];
+        for (NSInteger aDeviceIndex = 0; aDeviceIndex < 8; aDeviceIndex++)
+        {
+            NSString * isSelectedString = @"";
+            if (aDeviceIndex == usbDeviceIndex)
+            {
+                isSelectedString = @"selected=\"\"";
+            }
+
+            [formString appendFormat:@"<option value='%ld' %@>%ld</option>", aDeviceIndex, isSelectedString, aDeviceIndex];
+        }
+        [formString appendString:@"</select>"];
+
+
+
+
+
+
         
         NSArray * tunerGainsArray = [self tunerGainsArray];
         NSString * closestTunerGain = @"49.6";
@@ -2551,6 +2609,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             if (selectedTunerGainFloat <= aTunerGainFloat)
             {
                 closestTunerGain = aTunerGain;
+            }
+            else
+            {
                 break;
             }
         }
@@ -2722,7 +2783,29 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='frequency'>Sox Audio Output Filter:</label><input class='twelve columns value-prop' type='text' id='scan_audio_output_filter' name='scan_audio_output_filter' value='%@'>", scanAudioOutputFilterString];
         [formString appendString:formAudioOutputFilterString];
-        
+
+
+
+        [formString appendString:@"<label for='scan_bias_t_flag'>Bias-T Power:</label>"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='scan_bias_t_flag' title='This option allows Bias-T power to be sent from the USB radio to the antenna cable.  The default value is off. If the antenna cable is connected to a device like a LNA signal amplifier, Bias-T power can be used to provide power to the device. If the antenna cable is connected directly to the antenna, Bias-T should be switched to the Off setting to avoid antenna damage.'>"];
+        NSString * biasTModeOffSelectedString = @"";
+        NSInteger biasTMode = [scanBiasTFlagNumber integerValue];
+        if (biasTMode == 0)
+        {
+            biasTModeOffSelectedString = @"selected";
+        }
+        NSString * biasTModeOnSelectedString = @"";
+        if (biasTMode == 1)
+        {
+            biasTModeOnSelectedString = @"selected";
+        }
+        [formString appendFormat:@"<option value='0' %@>Off</option>", biasTModeOffSelectedString];
+        [formString appendFormat:@"<option value='1' %@>On</option>", biasTModeOnSelectedString];
+        [formString appendString:@"</select>"];
+
+
+
+
         NSString * idInputString = [NSString stringWithFormat:@"<input type='hidden' name='id' value='%@'>", idString];
         [formString appendString:idInputString];
 
@@ -2806,9 +2889,6 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
     return resultString;
 }
-
-
-
 
 //==================================================================================
 //    generateCustomTasksFormString
@@ -2919,6 +2999,23 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             stereoFlagString = stereoFlagNumber.stringValue;
         }
 
+        NSNumber * biasTFlagNumber = NULL;
+        NSString * biasTFlagString = NULL;
+        id biasTFlagValue = [favoriteDictionary objectForKey:@"bias_t_flag"];
+        if ([biasTFlagValue isKindOfClass:[NSString class]] == YES)
+        {
+            biasTFlagString = biasTFlagValue;
+            biasTFlagNumber = [NSNumber numberWithInteger:biasTFlagString.integerValue];
+        }
+        else if ([biasTFlagValue isKindOfClass:[NSNumber class]] == YES)
+        {
+            biasTFlagNumber = biasTFlagValue; // the correct type
+            biasTFlagString = biasTFlagNumber.stringValue;
+        }
+
+        NSString * usbDeviceString = [favoriteDictionary objectForKey:@"usb_device_string"];
+        //NSString * usbDeviceIndexString = [usbDeviceIndexNumber stringValue];
+
         NSMutableString * formString = [NSMutableString string];
         
         NSString * formAction = @"storeFrequencyRecord";
@@ -2932,7 +3029,25 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         NSString * formNameString = [NSString stringWithFormat:@"<label for='station_name'>Name:</label>\n<input class='twelve columns value-prop' type='text' id='station_name' name='station_name' value='%@' title='The Name field is used to save the name of the radio frequency in the database.  The Name could be the callsign of a radio station, for example.'>\n", stationNameString];
         [formString appendString:formNameString];
         
+        /*
+        NSString * formUSBDeviceIndexString = [NSString stringWithFormat:@"<label for='usb_device_index'>USB Device Index:</label>\n<input class='twelve columns value-prop' type='text' id='usb_device_index' name='usb_device_index' value='%@' title='The USB Device Index field is used to select the RTL-SDR USB radio device.  The default value is 0.  If multiple RTL-SDR devices are installed, the second device would have a value of 1, etc.'>\n", stationNameString];
+        [formString appendString:formUSBDeviceIndexString];
+        */
 
+        [formString appendString:@"<label for='usb_device_string'>USB Device Index:</label>"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='usb_device_string' title='The USB Device field is select the RTL-SDR USB radio device.  The default value is 0.  If multiple USB radios are installed, the second device would have a value of 1, etc.'>"];
+        NSInteger usbDeviceIndex = [usbDeviceString integerValue];
+        for (NSInteger aDeviceIndex = 0; aDeviceIndex < 8; aDeviceIndex++)
+        {
+            NSString * isSelectedString = @"";
+            if (aDeviceIndex == usbDeviceIndex)
+            {
+                isSelectedString = @"selected=\"\"";
+            }
+
+            [formString appendFormat:@"<option value='%ld' %@>%ld</option>", aDeviceIndex, isSelectedString, aDeviceIndex];
+        }
+        [formString appendString:@"</select>"];
 
 
 
@@ -2985,6 +3100,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             if (selectedTunerGainFloat <= aTunerGainFloat)
             {
                 closestTunerGain = aTunerGain;
+            }
+            else
+            {
                 break;
             }
         }
@@ -3122,6 +3240,28 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [formString appendFormat:@"<option value='0' %@>Off</option>\n", stereoFlagOffSelectedString];
         [formString appendFormat:@"<option value='1' %@>On</option>\n", stereoFlagOnSelectedString];
         [formString appendString:@"</select>\n"];
+
+
+
+        [formString appendString:@"<label for='bias_t_flag'>Bias-T Power (for LNA Amp):</label>\n"];
+        [formString appendString:@"<select class='twelve columns value-prop' name='bias_t_flag' title='This option allows Bias-T power to be sent from the USB radio to the antenna cable.  The default value is off. If the antenna cable is connected to a device like a LNA signal amplifier, Bias-T power can be used to provide power to the device. If the antenna cable is connected directly to the antenna, Bias-T should be switched to the Off setting to avoid antenna damage.'>\n"];
+        NSString * biasTFlagOffSelectedString = @"";
+        NSInteger biasTFlag = [biasTFlagNumber integerValue];
+        if (biasTFlag == 0)
+        {
+            biasTFlagOffSelectedString = @"selected";
+        }
+        NSString * biasTFlagOnSelectedString = @"";
+        if (biasTFlag == 1)
+        {
+            biasTFlagOnSelectedString = @"selected";
+        }
+        [formString appendFormat:@"<option value='0' %@>Off</option>\n", biasTFlagOffSelectedString];
+        [formString appendFormat:@"<option value='1' %@>On</option>\n", biasTFlagOnSelectedString];
+        [formString appendString:@"</select>\n"];
+
+
+
 
         NSString * formSquelchLevelString = [NSString stringWithFormat:@"<label for='squelch_level'>Squelch Level:</label>\n<input class='twelve columns value-prop' type='number' id='squelch_level' name='squelch_level' value='%@' title='The Squelch setting is used to silence radio static when a signal is too weak or not present to receive.  The static will be automatically silenced when the radio's Signal Level value is less that the Squelch value.  If the radio is not in scanning mode, the Squelch Level can be set to 0 to disable squelch.  In scanning modes, the Squelch Level must be greater than zero.'>\n", squelchLevelString];
         [formString appendString:formSquelchLevelString];

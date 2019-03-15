@@ -31,7 +31,7 @@
     {
         NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
         
-        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V4.sqlite3"];
+        NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V5.sqlite3"];
         
         BOOL localRadioV4Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
         
@@ -40,6 +40,11 @@
         if (localRadioV4Found == NO)
         {
             //check for earlier database versions, and migrate data if found
+            if ([databaseUpgradeDictionary count] == 0)
+            {
+                databaseUpgradeDictionary = [self getDatabaseV4Data];
+            }
+
             if ([databaseUpgradeDictionary count] == 0)
             {
                 databaseUpgradeDictionary = [self getDatabaseV3Data];
@@ -87,6 +92,8 @@
     
     for (NSString * tableName in allKeys)
     {
+        NSArray * tableInfoArray = [self getTableInfo:tableName];
+
         NSArray * recordsArray = [databaseUpgradeDictionary objectForKey:tableName];
         
         // first update existing records
@@ -96,7 +103,7 @@
             NSInteger recordID = recordIDNumber.integerValue;
             if (recordID != 0)
             {
-                [self importRecord:aRecordDictionary table:tableName];
+                tableInfoArray = [self importRecord:aRecordDictionary table:tableName tableInfoArray:tableInfoArray];
             }
         }
         
@@ -107,7 +114,7 @@
             NSInteger recordID = recordIDNumber.integerValue;
             if (recordID == 0)
             {
-                [self importRecord:aRecordDictionary table:tableName];
+                tableInfoArray = [self importRecord:aRecordDictionary table:tableName tableInfoArray:tableInfoArray];
             }
         }
     }
@@ -133,7 +140,7 @@
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
         #pragma unused(sqliteIsRunning)
 
-        NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter FROM frequency ORDER BY id;";
+        NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag, usb_device_string, bias_t_flag FROM frequency ORDER BY id;";
         NSArray * allFrequencyRecords = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
         NSArray * allCategoryRecords = [self allCategoryRecords];
@@ -326,6 +333,91 @@
     return databaseUpgradeDictionary;
 }
 
+//==================================================================================
+//    getDatabaseV4Data
+//==================================================================================
+
+- (NSMutableDictionary *)getDatabaseV4Data
+{
+    // If current version database is missing, attempt to access a V2 database and copy the data for deferred import.
+    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+
+    NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
+    NSString * databaseV4PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V4.sqlite3"];
+    BOOL localRadioV4Found = [[NSFileManager defaultManager] fileExistsAtPath:databaseV4PathString];
+    
+    if (localRadioV4Found == YES)
+    {
+        [SQLiteLibrary setDatabaseFile:databaseV4PathString];
+        [SQLiteLibrary setupDatabaseAndForceReset:NO];
+        BOOL sqliteIsRunning = [SQLiteLibrary begin];
+        #pragma unused(sqliteIsRunning)
+
+        // Add "bias_t_flag" and "usb_device_string" columns to frequency table
+
+        //NSArray * oldAllFrequencyRecords = [self allFrequencyRecords];
+        NSString * allFrequenciesQueryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency ORDER BY frequency;";
+        NSArray * oldAllFrequencyRecords = [SQLiteLibrary performQueryAndGetResultList:allFrequenciesQueryString];
+
+        NSMutableArray * allFrequencyRecords = [NSMutableArray array];
+        for (NSDictionary * frequencyDictionary in oldAllFrequencyRecords)
+        {
+            NSMutableDictionary * mutableFrequencyDictionary = [frequencyDictionary mutableCopy];
+            [mutableFrequencyDictionary setObject:[NSNumber numberWithBool:NO] forKey:@"bias_t_flag"];
+            [mutableFrequencyDictionary setObject:@"0" forKey:@"usb_device_string"];
+            [allFrequencyRecords addObject:mutableFrequencyDictionary];
+        }
+
+        // Add "scan_bias_t_flag" and "scan_usb_device_string" columns to category table
+        
+        //NSArray * oldAllCategoryRecords = [self allCategoryRecords];
+        NSString * allCategoriesQueryString = @"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category ORDER BY category_name;";
+        NSArray * oldAllCategoryRecords = [SQLiteLibrary performQueryAndGetResultList:allCategoriesQueryString];
+
+        NSMutableArray * allCategoryRecords = [NSMutableArray array];
+        for (NSDictionary * categoryDictionary in oldAllCategoryRecords)
+        {
+            NSMutableDictionary * mutableCategoryDictionary = [categoryDictionary mutableCopy];
+            [mutableCategoryDictionary setObject:[NSNumber numberWithBool:NO] forKey:@"scan_bias_t_flag"];
+            [mutableCategoryDictionary setObject:@"0"  forKey:@"scan_usb_device_string"];
+            [allCategoryRecords addObject:mutableCategoryDictionary];
+        }
+        
+        NSArray * allFreqCatRecords = [self allFreqCatRecords];         // no changes to this table
+        NSArray * allCustomTaskRecords = [self allCustomTaskRecords];   // no changes to this table
+        
+        NSMutableArray * allLocalRadioConfigRecords = [[self allLocalRadioConfigRecords] mutableCopy];
+        
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:5 forKey:@"LocalRadioConfigVersion"];
+
+        if (allFrequencyRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFrequencyRecords forKey:@"frequency"];
+        }
+        
+        if (allCategoryRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allCategoryRecords forKey:@"category"];
+        }
+        
+        if (allFreqCatRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allFreqCatRecords forKey:@"freq_cat"];
+        }
+        
+        if (allCustomTaskRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allCustomTaskRecords forKey:@"custom_task"];
+        }
+        
+        if (allLocalRadioConfigRecords != NULL)
+        {
+            [databaseUpgradeDictionary setObject:allLocalRadioConfigRecords forKey:@"local_radio_config"];
+        }
+    }
+    
+    return databaseUpgradeDictionary;
+}
 
 //==================================================================================
 //    localRadioAppSettingsValueForKey:
@@ -404,7 +496,7 @@
 
     NSInteger frequencyID = [frequencyIDString integerValue];
 
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency WHERE id='%ld';", frequencyID];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag, usb_device_string, bias_t_flag FROM frequency WHERE id='%ld';", frequencyID];
     
     //NSLog(@"frequencyRecordForID queryString = %@", queryString);
     
@@ -430,7 +522,7 @@
     
     NSInteger frequency = [frequencyString integerValue];
 
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency WHERE frequency='%ld';", frequency];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag, usb_device_string, bias_t_flag FROM frequency WHERE frequency='%ld';", frequency];
     
     //NSLog(@"frequencyRecordForID queryString = %@", queryString);
     
@@ -453,7 +545,7 @@
 
 - (NSArray *)allFrequencyRecords
 {
-    NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency ORDER BY frequency;";
+    NSString * queryString = @"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag, usb_device_string, bias_t_flag FROM frequency ORDER BY frequency;";
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
     return queryResultArray;
@@ -484,7 +576,7 @@
         //NSNumber * catIDNumber = [freqCatDictionary objectForKey:@"cat_id"];
         //NSString * catIDString = [catIDNumber stringValue];
 
-        NSString * freqQueryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag FROM frequency WHERE id='%@';", freqIDNumber];
+        NSString * freqQueryString = [NSString stringWithFormat:@"SELECT id, station_name, frequency_mode, frequency, frequency_scan_end, frequency_scan_interval, tuner_gain, tuner_agc, sampling_mode, sample_rate, oversampling, modulation, squelch_level, options, fir_size, atan_math, audio_output_filter, stereo_flag, usb_device_string, bias_t_flag FROM frequency WHERE id='%@';", freqIDNumber];
         NSArray * frequencyResultArray = [SQLiteLibrary performQueryAndGetResultList:freqQueryString];
         if (frequencyResultArray.count > 0)
         {
@@ -509,7 +601,7 @@
 
 - (NSArray *)allCategoryRecords
 {
-    NSString * queryString = @"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category ORDER BY category_name;";
+    NSString * queryString = @"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter, scan_bias_t_flag, scan_usb_device_string FROM category ORDER BY category_name;";
     
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
 
@@ -524,7 +616,7 @@
 {
     NSInteger categoryID = [categoryIDString integerValue];
     
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sample_rate, scan_oversampling, scan_sampling_mode, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category WHERE id='%ld' LIMIT 1;", categoryID];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sample_rate, scan_oversampling, scan_sampling_mode, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter, scan_bias_t_flag, scan_usb_device_string FROM category WHERE id='%ld' LIMIT 1;", categoryID];
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
     
     NSDictionary * categoryDictionary = queryResultArray.firstObject;
@@ -538,7 +630,7 @@
 
 - (NSDictionary *)categoryRecordForName:(NSString *)categoryNameString
 {
-    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter FROM category WHERE category_name='%@' LIMIT 1;", categoryNameString];
+    NSString * queryString = [NSString stringWithFormat:@"SELECT id, category_name, category_scanning_enabled, scan_tuner_gain, scan_tuner_agc, scan_sampling_mode, scan_sample_rate, scan_oversampling, scan_modulation, scan_squelch_level, scan_squelch_delay, scan_options, scan_fir_size, scan_atan_math, scan_audio_output_filter, scan_bias_t_flag, scan_usb_device_string FROM category WHERE category_name='%@' LIMIT 1;", categoryNameString];
     NSArray * queryResultArray = [SQLiteLibrary performQueryAndGetResultList:queryString];
     
     NSDictionary * categoryDictionary = queryResultArray.firstObject;
@@ -900,8 +992,10 @@
 //    importRecord:table:
 //==================================================================================
 
-- (int64_t)importRecord:(NSDictionary *)recordDictionary table:(NSString *)tableName
+- (NSArray *)importRecord:(NSDictionary *)recordDictionary table:(NSString *)tableName tableInfoArray:(NSArray *)tableInfoArray
 {
+    NSArray * currentTableInfoArray = tableInfoArray;
+
     NSString * idString = [recordDictionary objectForKey:@"id"];
     NSInteger idInteger = idString.integerValue;
     
@@ -916,7 +1010,7 @@
         if (existingQueryResultArray.count == 0)
         {
             // insert new record
-
+            
             NSMutableString * columnsString = [NSMutableString string];
             NSMutableString * valuesString = [NSMutableString string];
 
@@ -925,6 +1019,48 @@
             for (NSString * aRecordKey in allRecordKeys)
             {
                 id valueObject = [recordDictionary objectForKey:aRecordKey];
+
+                NSString * valueKind = @"STRING";
+                NSString * defaultValue = @"";
+                if ([valueObject isKindOfClass:[NSString class]] == YES)
+                {
+                    valueKind = @"STRING";
+                    defaultValue = @"''";
+                }
+                else if ([valueObject isKindOfClass:[NSNumber class]] == YES)
+                {
+                    valueKind = @"INTEGER";
+                    defaultValue = @"0";
+                }
+                else
+                {
+                    valueKind = @"STRING";
+                    defaultValue = @"''";
+                }
+
+                // if column does not exist, create it
+                BOOL columnFound = NO;
+                for (NSDictionary * columnDictionary in currentTableInfoArray)
+                {
+                    NSString * existingColumnName = [columnDictionary objectForKey:@"name"];
+                    if ([aRecordKey isEqualToString:existingColumnName] == YES)
+                    {
+                        columnFound = YES;
+                        break;
+                    }
+                }
+                
+                if (columnFound == NO)
+                {
+                    NSLog(@"SQLiteController - importRecord:table:tableInfoArray add column: %@", aRecordKey);
+                    NSString * addColumnString = [NSString stringWithFormat:@"ALTER TABLE '%@' ADD COLUMN '%@' %@ NOT NULL DEFAULT(%@)", tableName, aRecordKey, valueKind, defaultValue];
+                    queryResult = [SQLiteLibrary performQuery:addColumnString block:nil];
+
+                    BOOL commitResult = [SQLiteLibrary commit];
+                    
+                    currentTableInfoArray = [self getTableInfo:tableName];
+                }
+            
                 
                 if (columnsString.length > 0)
                 {
@@ -982,7 +1118,7 @@
         }
     }
     
-    return queryResult;
+    return currentTableInfoArray;   // return tableInfoArray to caller, modified if columns added
 }
 
 //==================================================================================
