@@ -2601,12 +2601,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
         
         NSArray * tunerGainsArray = [self tunerGainsArray];
-        NSString * closestTunerGain = @"49.6";
+        //NSString * closestTunerGain = @"49.6";
+        NSString * closestTunerGain = @"0.0";
         CGFloat selectedTunerGainFloat = scanTunerGainString.floatValue;
         for (NSString * aTunerGain in tunerGainsArray)
         {
             CGFloat aTunerGainFloat = aTunerGain.floatValue;
-            if (selectedTunerGainFloat <= aTunerGainFloat)
+            if (aTunerGainFloat <= selectedTunerGainFloat)
             {
                 closestTunerGain = aTunerGain;
             }
@@ -3092,12 +3093,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
 
         NSArray * tunerGainsArray = [self tunerGainsArray];
-        NSString * closestTunerGain = @"49.6";
+        //NSString * closestTunerGain = @"49.6";
+        NSString * closestTunerGain = @"0.0";
         CGFloat selectedTunerGainFloat = tunerGainString.floatValue;
         for (NSString * aTunerGain in tunerGainsArray)
         {
             CGFloat aTunerGainFloat = aTunerGain.floatValue;
-            if (selectedTunerGainFloat <= aTunerGainFloat)
+            if (aTunerGainFloat <= selectedTunerGainFloat)
             {
                 closestTunerGain = aTunerGain;
             }
