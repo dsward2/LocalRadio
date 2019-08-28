@@ -6,18 +6,11 @@
 	objectVersion = 50;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		0E6551A4210D9B49000565AF /* stereodemux.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0EA3897E210D7CD900DFC46F /* stereodemux.cc */; };
-		0E6551A9210D9BBD000565AF /* libliquid.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6551A7210D9BBD000565AF /* libliquid.dylib */; };
-		0E6551AA210D9BBD000565AF /* libsndfile.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6551A8210D9BBD000565AF /* libsndfile.1.dylib */; };
-		0E6551AB210DA4BD000565AF /* liquid_wrappers.cc in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAD584210C5AD1005F4BB1 /* liquid_wrappers.cc */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		0E65519A210D85C4000565AF /* build_stereodemux.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_stereodemux.sh; sourceTree = "<group>"; };
 		0E6551A1210D9069000565AF /* stereodemux.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = stereodemux.entitlements; sourceTree = "<group>"; };
-		0E6551A7210D9BBD000565AF /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libliquid.dylib; path = ../../../../../../../../opt/local/lib/libliquid.dylib; sourceTree = "<group>"; };
-		0E6551A8210D9BBD000565AF /* libsndfile.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsndfile.1.dylib; path = ../../../../../../../../opt/local/lib/libsndfile.1.dylib; sourceTree = "<group>"; };
+		0E6551A7210D9BBD000565AF /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libliquid.dylib; path = "/Volumes/Mercury/Users/dsward/Documents/ArkPhone_LLC_Projects/LocalRadio/wfm-tools/../../../../../../../../opt/local/lib/libliquid.dylib"; sourceTree = "<absolute>"; };
+		0E6551A8210D9BBD000565AF /* libsndfile.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsndfile.1.dylib; path = "/Volumes/Mercury/Users/dsward/Documents/ArkPhone_LLC_Projects/LocalRadio/wfm-tools/../../../../../../../../opt/local/lib/libsndfile.1.dylib"; sourceTree = "<absolute>"; };
 		0EA3897C210D7CD800DFC46F /* autogen.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
 		0EA3897D210D7CD800DFC46F /* configure.ac */ = {isa = PBXFileReference; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
 		0EA3897E210D7CD900DFC46F /* stereodemux.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; path = stereodemux.cc; sourceTree = "<group>"; };
@@ -34,8 +27,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E6551A9210D9BBD000565AF /* libliquid.dylib in Frameworks */,
-				0E6551AA210D9BBD000565AF /* libsndfile.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +93,7 @@
 			buildPhases = (
 				0ECAD56D210C57E1005F4BB1 /* Sources */,
 				0ECAD56E210C57E1005F4BB1 /* Frameworks */,
+				0E2A1E262315047E009B8C51 /* ShellScript */,
 				0E1068E72111398F000EF74A /* ShellScript */,
 			);
 			buildRules = (
@@ -158,6 +150,23 @@
 			shellPath = /bin/sh;
 			shellScript = "install_name_tool -change \"/opt/local/lib/libliquid.dylib\" \"@executable_path/../Frameworks/libliquid.dylib\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}/stereodemux\"\ninstall_name_tool -change \"/opt/local/lib/libsndfile.1.dylib\" \"@executable_path/../Frameworks/libsndfile.1.dylib\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}/stereodemux\"\n";
 		};
+		0E2A1E262315047E009B8C51 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo bash ${SRCROOT}/build_stereodemux.sh\n\nbash ${SRCROOT}/build_stereodemux.sh\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -165,8 +174,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E6551A4210D9B49000565AF /* stereodemux.cc in Sources */,
-				0E6551AB210DA4BD000565AF /* liquid_wrappers.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +297,7 @@
 				CODE_SIGN_ENTITLEMENTS = stereodemux.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = MMFBWVS455;
+				DEVELOPMENT_TEAM = AM3K5RX83D;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/\"",
 					/opt/local/include,
@@ -299,6 +306,7 @@
 					"$(inherited)",
 					"/opt/local/lib/**",
 					"\"$(SRCROOT)/\"",
+					"$(PROJECT_DIR)/../../../../../../../../opt/local/lib",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -329,7 +337,7 @@
 				CODE_SIGN_ENTITLEMENTS = stereodemux.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = MMFBWVS455;
+				DEVELOPMENT_TEAM = AM3K5RX83D;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/\"",
 					/opt/local/include,
@@ -338,6 +346,7 @@
 					"$(inherited)",
 					"/opt/local/lib/**",
 					"\"$(SRCROOT)/\"",
+					"$(PROJECT_DIR)/../../../../../../../../opt/local/lib",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",

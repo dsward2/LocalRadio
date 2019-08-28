@@ -28,3 +28,5 @@ export PATH=/opt/local/sbin:$PATH
 cd ${SRCROOT}/stereodemux
 
 ./autogen.sh && ./configure && make
+
+cp stereodemux ${BUILT_PRODUCTS_DIR}

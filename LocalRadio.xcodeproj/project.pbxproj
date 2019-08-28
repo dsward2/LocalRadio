@@ -31,6 +31,7 @@
 		0E3CB0E71F65FAD50088B498 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E61F65FAD50088B498 /* README.md */; };
 		0E3CB0E91F679AB40088B498 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0E3CB0E81F679AB40088B498 /* LICENSE */; };
 		0E49700F1F70F74D00E41A06 /* AudioMonitor in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E02EC441F494F7E008BAC27 /* AudioMonitor */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E4D1393231641B10064D172 /* libliquid.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E4D13922316413D0064D172 /* libliquid.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E4ECFC01EAB633B00D2157B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */; };
 		0E4ECFC31EAB633B00D2157B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ECFC21EAB633B00D2157B /* main.m */; };
 		0E4ECFC81EAB633B00D2157B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E4ECFC61EAB633B00D2157B /* MainMenu.xib */; };
@@ -50,7 +51,7 @@
 		0E4ED1961EAB7ED700D2157B /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED05F1EAB7D5300D2157B /* DDRange.m */; };
 		0E4ED1AD1EAB823B00D2157B /* HTTPWebServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4ED1AC1EAB823B00D2157B /* HTTPWebServerController.m */; };
 		0E560FAA21FB04E4007C6DB3 /* sox git and build notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0E560FA921FB04E4007C6DB3 /* sox git and build notes.txt */; };
-		0E56117321FBD899007C6DB3 /* libliquid.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117121FBD26E007C6DB3 /* libliquid.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E56117321FBD899007C6DB3 /* libltdl.7.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117121FBD26E007C6DB3 /* libltdl.7.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117621FBDC77007C6DB3 /* libsndfile.1.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117821FBDD6A007C6DB3 /* libfftw3f.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117721FBDD3D007C6DB3 /* libfftw3f.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117A21FBDD81007C6DB3 /* libFLAC.8.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -800,8 +801,9 @@
 				0E82BE9F220104A50042D275 /* libicudata.58.2.dylib in Copy Libraries */,
 				0E82BEA0220104A90042D275 /* libicui18n.58.2.dylib in Copy Libraries */,
 				0E82BEA1220104AC0042D275 /* libicuuc.58.2.dylib in Copy Libraries */,
-				0E56117321FBD899007C6DB3 /* libliquid.dylib in Copy Libraries */,
+				0E56117321FBD899007C6DB3 /* libltdl.7.dylib in Copy Libraries */,
 				0EF88F0D21F06E65008720D5 /* libogg.0.dylib in Copy Libraries */,
+				0E4D1393231641B10064D172 /* libliquid.dylib in Copy Libraries */,
 				0E82BEA3220108680042D275 /* librtlsdr.0.dylib in Copy Libraries */,
 				0EA3EB7221FD848200DF4099 /* libsox.3.dylib in Copy Libraries */,
 				0E56117621FBDC77007C6DB3 /* libsndfile.1.dylib in Copy Libraries */,
@@ -1243,6 +1245,7 @@
 		0E496FEC1F6DBFE700E41A06 /* credits.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = credits.html; sourceTree = "<group>"; };
 		0E4970041F6E180F00E41A06 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		0E49700B1F70C8B900E41A06 /* fix_rtl_sdr_tools.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = fix_rtl_sdr_tools.sh; sourceTree = "<group>"; };
+		0E4D13922316413D0064D172 /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libliquid.dylib; path = Libraries_Modified/libliquid.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4ECFBB1EAB633B00D2157B /* LocalRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocalRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E4ECFBE1EAB633B00D2157B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0E4ECFBF1EAB633B00D2157B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -2163,7 +2166,7 @@
 		0E56116E21FB05A3007C6DB3 /* responseAB */ = {isa = PBXFileReference; lastKnownFileType = text; path = responseAB; sourceTree = "<group>"; };
 		0E56116F21FB05A3007C6DB3 /* wtest.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = wtest.pl; sourceTree = "<group>"; };
 		0E56117021FB05A3007C6DB3 /* update_debian_version.pl */ = {isa = PBXFileReference; lastKnownFileType = text.script.perl; path = update_debian_version.pl; sourceTree = "<group>"; };
-		0E56117121FBD26E007C6DB3 /* libliquid.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libliquid.dylib; path = Libraries_Modified/libliquid.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E56117121FBD26E007C6DB3 /* libltdl.7.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libltdl.7.dylib; path = Libraries_Modified/libltdl.7.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsndfile.1.dylib; path = Libraries_Modified/libsndfile.1.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E56117721FBDD3D007C6DB3 /* libfftw3f.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfftw3f.3.dylib; path = Libraries_Modified/libfftw3f.3.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = Libraries_Modified/libFLAC.8.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3010,7 +3013,8 @@
 				0E82BE9B220103B50042D275 /* libicudata.58.2.dylib */,
 				0E82BE9C220103FF0042D275 /* libicui18n.58.2.dylib */,
 				0E82BE9D220104350042D275 /* libicuuc.58.2.dylib */,
-				0E56117121FBD26E007C6DB3 /* libliquid.dylib */,
+				0E4D13922316413D0064D172 /* libliquid.dylib */,
+				0E56117121FBD26E007C6DB3 /* libltdl.7.dylib */,
 				0E274E9121DDCCC200337560 /* libogg.0.dylib */,
 				0E82BEA22201084A0042D275 /* librtlsdr.0.dylib */,
 				0EA3EB7121FD846300DF4099 /* libsox.3.dylib */,

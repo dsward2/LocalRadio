@@ -22,7 +22,7 @@ cd sox/externals/sox
 
 autoreconf -i
 
-./configure --with-coreaudio --without-magic --without-png --without-ladspa --without-mad --without-id3tag --without-lame --without-twolame --without-oggvorbis --without-opus --without-flac --without-amrwb --without-amrnb --without-wavpack --without-sndfile --without-mp3 --without-gsm --without-lpc10 --without-sndio --without-alsa --without-ao --without-pulseaudio --without-waveaudio --without-oss --without-sunaudio CFLAGS="-arch i386" LDFLAGS="-arch i386"
+./configure --with-coreaudio --without-magic --without-png --without-ladspa --without-mad --without-id3tag --without-lame --without-twolame --without-oggvorbis --without-opus --without-flac --without-amrwb --without-amrnb --without-wavpack --without-sndfile --without-mp3 --without-gsm --without-lpc10 --without-sndio --without-alsa --without-ao --without-pulseaudio --without-waveaudio --without-oss --without-sunaudio CFLAGS="-arch x86_64" LDFLAGS="-arch x86_64"
 
 make -s
 

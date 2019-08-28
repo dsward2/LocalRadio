@@ -146,6 +146,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 0E0C690D1F1C8C8E00A7EE5E;
@@ -171,7 +172,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo bash ${SRCROOT}/../LocalRadio/Scripts/fix_rtl_fm_localradio.sh\n\nbash ${SRCROOT}/../LocalRadio/Scripts/fix_rtl_fm_localradio.sh";
+			shellScript = "echo bash ${SRCROOT}/../LocalRadio/Scripts/fix_rtl_fm_localradio.sh\n\nbash ${SRCROOT}/../LocalRadio/Scripts/fix_rtl_fm_localradio.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

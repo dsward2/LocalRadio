@@ -181,7 +181,7 @@
 				TargetAttributes = {
 					0E02EC341F494F7C008BAC27 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MMFBWVS455;
+						DevelopmentTeam = AM3K5RX83D;
 						ProvisioningStyle = Manual;
 					};
 					0EB51DED212D3E2F0059D84C = {
@@ -195,6 +195,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 0E02EC2C1F494F7C008BAC27;
@@ -342,7 +343,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "-";
-				DEVELOPMENT_TEAM = MMFBWVS455;
+				DEVELOPMENT_TEAM = AM3K5RX83D;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -353,7 +354,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "-";
-				DEVELOPMENT_TEAM = MMFBWVS455;
+				DEVELOPMENT_TEAM = AM3K5RX83D;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
