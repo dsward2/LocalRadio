@@ -20,6 +20,9 @@ echo install_name_tool -change /opt/local/lib/libusb-1.0.0.dylib @executable_pat
 
 install_name_tool -change /opt/local/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_fm_localradio
 
+exit
+
+# moved to import_dylibs2.sh
 echo "Modify executable_path to libltdl in sox and libsox.3.dylib"
 
 echo install_name_tool -change /usr/local/opt/libtool/lib/libltdl.7.dylib @executable_path/../Frameworks/libltdl.7.dylib ${BUILT_PRODUCTS_DIR}/sox

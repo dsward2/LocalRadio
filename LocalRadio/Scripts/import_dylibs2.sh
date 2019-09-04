@@ -72,8 +72,20 @@ install_name_tool -id @executable_path/../Frameworks/libsox.3.dylib ${BUILT_PROD
 
 # fix sox library loading paths
 
+echo "fix sox library loading paths"
+
+echo install_name_tool -change /usr/local/opt/libtool/lib/libltdl.7.dylib @executable_path/../Frameworks/libltdl.7.dylib ${SOXPATH}
+
+install_name_tool -change /usr/local/opt/libtool/lib/libltdl.7.dylib @executable_path/../Frameworks/libltdl.7.dylib ${SOXPATH}
+
+echo install_name_tool -change /usr/local/opt/libtool/lib/libltdl.7.dylib @executable_path/../Frameworks/libltdl.7.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
+
+install_name_tool -change /usr/local/opt/libtool/lib/libltdl.7.dylib @executable_path/../Frameworks/libltdl.7.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
+
 echo install_name_tool -change /usr/local/lib/libsox.3.dylib @executable_path/../Frameworks/libsox.3.dylib ${SOXPATH}
 install_name_tool -change /usr/local/lib/libsox.3.dylib @executable_path/../Frameworks/libsox.3.dylib ${SOXPATH}
+
+
 
 echo install_name_tool -change /opt/local/lib/libvorbisenc.2.dylib @executable_path/../Frameworks/libvorbisenc.2.dylib ${SOXPATH}
 install_name_tool -change /opt/local/lib/libvorbisenc.2.dylib @executable_path/../Frameworks/libvorbisenc.2.dylib ${SOXPATH}
@@ -134,6 +146,8 @@ install_name_tool -change /opt/local/lib/liblzma.5.dylib /usr/lib/liblzma.dylib 
 
 #####################################################################
 
+echo Copy libraries to Libraries_Modified folder
+
 # Now fix the libraries copied from MacPorts to load other interdependent libraries from the app bundle instead
 
 cd ${BUILT_PRODUCTS_DIR}
@@ -147,7 +161,7 @@ echo /opt/local/bin/dylibbundler -b -x "${EXECFILE}" -d "${MODIFIEDLIBPATH}" -p 
 
 # TARGETS should list the same files in Project Navigator in the Libraries_Modified folder, except for libsox
 
-TARGETS="libao.4.dylib libfftw3f.3.dylib libFLAC.8.dylib libicudata.58.2.dylib libicui18n.58.2.dylib libicuuc.58.2.dylib libliquid.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
+TARGETS="libao.4.dylib libfftw3f.3.dylib libFLAC.8.dylib libicudata.58.2.dylib libicui18n.58.2.dylib libicuuc.58.2.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 
 for TARGET in ${TARGETS[*]} ; do
 

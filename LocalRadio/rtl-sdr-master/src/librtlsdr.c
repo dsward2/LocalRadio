@@ -1634,6 +1634,10 @@ found:
 	return 0;
 err:
 	if (dev) {
+        // dsward https://github.com/osmocom/rtl-sdr/commit/be1d1206bfb6e6c41f7d91b20b77e20f929fa6a7
+        if (dev->devh)                  // dsward avoid memory leak
+             libusb_close(dev->devh);   // dsward
+
 		if (dev->ctx)
 			libusb_exit(dev->ctx);
 

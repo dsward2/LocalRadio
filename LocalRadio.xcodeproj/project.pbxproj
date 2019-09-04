@@ -7228,8 +7228,8 @@
 			buildPhases = (
 				0E4ECFB71EAB633B00D2157B /* Sources */,
 				0E9B3CB521DC4BEE004A91E6 /* Run import_dylibs2.sh Script */,
-				0E4ECFB81EAB633B00D2157B /* Frameworks */,
 				0E4ED0121EAB65E900D2157B /* Copy Libraries */,
+				0E4ECFB81EAB633B00D2157B /* Frameworks */,
 				0E4ECFB91EAB633B00D2157B /* Resources */,
 				0E4ED21E1EABDC6900D2157B /* Copy Tools */,
 				0E0C693D1F1C9D4800A7EE5E /* Run Fix stereodemux Script */,
