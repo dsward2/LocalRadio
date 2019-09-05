@@ -3127,6 +3127,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/IcecastSource/CocoaLumberjack-master/Classes\"/**",
 					"\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**",
@@ -3134,6 +3135,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -3144,6 +3146,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/IcecastSource/CocoaLumberjack-master/Classes\"/**",
 					"\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**",
@@ -3151,6 +3154,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

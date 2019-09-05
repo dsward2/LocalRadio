@@ -304,6 +304,7 @@
 				CODE_SIGN_ENTITLEMENTS = rtl_fm_localradio.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../LocalRadio/rtl-sdr-master\"/**",
 					"/opt/local/include/libusb-1.0",
@@ -315,6 +316,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -324,6 +326,7 @@
 				CODE_SIGN_ENTITLEMENTS = rtl_fm_localradio.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../LocalRadio/rtl-sdr-master\"/**",
 					"/opt/local/include/libusb-1.0",
@@ -335,6 +338,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

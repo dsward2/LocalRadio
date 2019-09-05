@@ -203,8 +203,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0E02EC341F494F7C008BAC27 /* AudioMonitor */,
 				0EB51DED212D3E2F0059D84C /* AudioMonitor2 */,
+				0E02EC341F494F7C008BAC27 /* AudioMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -344,8 +344,10 @@
 				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = AM3K5RX83D;
+				ENABLE_HARDENED_RUNTIME = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -355,8 +357,10 @@
 				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = AM3K5RX83D;
+				ENABLE_HARDENED_RUNTIME = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -370,6 +374,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -383,6 +388,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

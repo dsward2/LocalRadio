@@ -55,6 +55,7 @@
 		0E56117621FBDC77007C6DB3 /* libsndfile.1.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117821FBDD6A007C6DB3 /* libfftw3f.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117721FBDD3D007C6DB3 /* libfftw3f.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E56117A21FBDD81007C6DB3 /* libFLAC.8.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0E5E01682320DC9600BF00CE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5E01672320DC9600BF00CE /* libsqlite3.tbd */; };
 		0E706F03212FD05100631D77 /* AudioMonitor2 in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E706F02212FD05100631D77 /* AudioMonitor2 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E7273652148C16C00C5B5DE /* AACEncoder in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E727350214892CA00C5B5DE /* AACEncoder */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E7309401F4027EC00004907 /* URLTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E73093F1F4027EC00004907 /* URLTextField.m */; };
@@ -102,7 +103,6 @@
 		0EA212A01ED72DE4004DE453 /* icecast_minimal.xml.dist in Copy Icecast Doc Files */ = {isa = PBXBuildFile; fileRef = 0EA2127D1ED72D17004DE453 /* icecast_minimal.xml.dist */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA212A11ED72DE4004DE453 /* icecast_shoutcast_compat.xml.dist in Copy Icecast Doc Files */ = {isa = PBXBuildFile; fileRef = 0EA2127E1ED72D17004DE453 /* icecast_shoutcast_compat.xml.dist */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA212A21ED72DE4004DE453 /* icecast_urlauth.xml.dist in Copy Icecast Doc Files */ = {isa = PBXBuildFile; fileRef = 0EA2127F1ED72D17004DE453 /* icecast_urlauth.xml.dist */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0EA3EB6C21FD25EB00DF4099 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EA3EB6A21FD25CE00DF4099 /* libsqlite3.dylib */; };
 		0EA3EB7221FD848200DF4099 /* libsox.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA3EB7121FD846300DF4099 /* libsox.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA5A9131EFF4EB100AAD26D /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0EA5A9121EFF4EB100AAD26D /* silence.mp3 */; };
 		0EA5A9141EFF655000AAD26D /* silence.mp3 in Copy Icecast Web Files */ = {isa = PBXBuildFile; fileRef = 0EA5A9121EFF4EB100AAD26D /* silence.mp3 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -142,20 +142,6 @@
 			remoteGlobalIDString = 0E02EC351F494F7C008BAC27;
 			remoteInfo = AudioMonitor;
 		};
-		0E02EC691F494FB0008BAC27 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0E02EC341F494F7C008BAC27;
-			remoteInfo = AudioMonitor;
-		};
-		0E0563151F19D5D20093B473 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E7294051F17D21500350F03 /* UDPSender.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0E7293FA1F17D21500350F03;
-			remoteInfo = UDPSender;
-		};
 		0E0A953C1F129401002E2E5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E0A95381F129400002E2E5B /* UDPListener.xcodeproj */;
@@ -163,25 +149,11 @@
 			remoteGlobalIDString = 0E0A952E1F129400002E2E5B;
 			remoteInfo = UDPListener;
 		};
-		0E0A959D1F12E4E9002E2E5B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E0A95381F129400002E2E5B /* UDPListener.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0E0A952D1F129400002E2E5B;
-			remoteInfo = UDPListener;
-		};
 		0E0C69241F1C8C9000A7EE5E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E0C69201F1C8C8E00A7EE5E /* rtl_fm_localradio.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 0E0C69161F1C8C8E00A7EE5E;
-			remoteInfo = rtl_fm_localradio;
-		};
-		0E0C69401F1CC5A300A7EE5E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E0C69201F1C8C8E00A7EE5E /* rtl_fm_localradio.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0E0C69151F1C8C8E00A7EE5E;
 			remoteInfo = rtl_fm_localradio;
 		};
 		0E35F45820AA392B00154E4E /* PBXContainerItemProxy */ = {
@@ -436,12 +408,54 @@
 			remoteGlobalIDString = 8D1107320486CEB800E47090;
 			remoteInfo = WebDAVServer;
 		};
-		0E6551A2210D911B000565AF /* PBXContainerItemProxy */ = {
+		0E5E00D92320C49900BF00CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EF56157215780B400A5C0AF;
+			remoteInfo = IcecastSource;
+		};
+		0E5E01302320C4A300BF00CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0EB51DED212D3E2F0059D84C;
+			remoteInfo = AudioMonitor2;
+		};
+		0E5E01322320C4A900BF00CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E727340214892C800C5B5DE;
+			remoteInfo = AACEncoder;
+		};
+		0E5E01342320C4BD00BF00CE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0ECAD57B210C57E1005F4BB1 /* wfm-tools.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 0ECAD570210C57E1005F4BB1;
-			remoteInfo = "wfm-tools";
+			remoteInfo = stereodemux;
+		};
+		0E5E01362320C4C600BF00CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E0C69201F1C8C8E00A7EE5E /* rtl_fm_localradio.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E0C69151F1C8C8E00A7EE5E;
+			remoteInfo = rtl_fm_localradio;
+		};
+		0E5E01382320C4D200BF00CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E7294051F17D21500350F03 /* UDPSender.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E7293FA1F17D21500350F03;
+			remoteInfo = UDPSender;
+		};
+		0E5E013A2320C4D200BF00CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E0A95381F129400002E2E5B /* UDPListener.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E0A952D1F129400002E2E5B;
+			remoteInfo = UDPListener;
 		};
 		0E706F01212FD05100631D77 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -470,27 +484,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0ECAD571210C57E1005F4BB1;
 			remoteInfo = "wfm-tools";
-		};
-		0ED07157215F938A00430953 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E02EC3F1F494F7C008BAC27 /* AudioMonitor.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0EB51DED212D3E2F0059D84C;
-			remoteInfo = AudioMonitor2;
-		};
-		0ED07159215F938A00430953 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E72734B214892C800C5B5DE /* AACEncoder.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0E727340214892C800C5B5DE;
-			remoteInfo = AACEncoder;
-		};
-		0ED0715B215F938A00430953 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0EF56162215780B400A5C0AF /* IcecastSource.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0EF56157215780B400A5C0AF;
-			remoteInfo = IcecastSource;
 		};
 		0ED6CA2020B2083500D82331 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2172,6 +2165,7 @@
 		0E56117921FBDD7D007C6DB3 /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = Libraries_Modified/libFLAC.8.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E5C52451F09B65A005CA515 /* rtl_fm_stereo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rtl_fm_stereo.c; sourceTree = "<group>"; };
 		0E5C52461F09B65A005CA515 /* rtl_fm_stereo.patch */ = {isa = PBXFileReference; lastKnownFileType = text; path = rtl_fm_stereo.patch; sourceTree = "<group>"; };
+		0E5E01672320DC9600BF00CE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		0E688FFD1F3C460D00F34AE4 /* insertnewfrequency.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = insertnewfrequency.html; sourceTree = "<group>"; };
 		0E6890231F3D6A7F00F34AE4 /* deletefrequency.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = deletefrequency.html; sourceTree = "<group>"; };
 		0E6890241F3D836D00F34AE4 /* addcategoryform.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = addcategoryform.html; sourceTree = "<group>"; };
@@ -2834,7 +2828,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EA3EB6C21FD25EB00DF4099 /* libsqlite3.dylib in Frameworks */,
+				0E5E01682320DC9600BF00CE /* libsqlite3.tbd in Frameworks */,
 				0E12A5151F5FC65B00EB28DF /* CoreLocation.framework in Frameworks */,
 				0E05631C1F1A44510093B473 /* WebKit.framework in Frameworks */,
 				0E7F2C3F1EC1B7250050BD7F /* AudioToolbox.framework in Frameworks */,
@@ -3845,6 +3839,7 @@
 				0E82BEA4220123BD0042D275 /* RTL-SDR tools */,
 				0E51DDC61F6CA152009B388F /* Documents */,
 				0E4ECFBC1EAB633B00D2157B /* Products */,
+				0E5E01662320DC9600BF00CE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -5573,6 +5568,14 @@
 			path = stereo;
 			sourceTree = "<group>";
 		};
+		0E5E01662320DC9600BF00CE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E5E01672320DC9600BF00CE /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		0E72734C214892C800C5B5DE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -7243,14 +7246,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				0ED0715C215F938A00430953 /* PBXTargetDependency */,
-				0ED07158215F938A00430953 /* PBXTargetDependency */,
-				0ED0715A215F938A00430953 /* PBXTargetDependency */,
-				0E6551A3210D911B000565AF /* PBXTargetDependency */,
-				0E0C69411F1CC5A300A7EE5E /* PBXTargetDependency */,
-				0E0563161F19D5D20093B473 /* PBXTargetDependency */,
-				0E0A959E1F12E4E9002E2E5B /* PBXTargetDependency */,
-				0E02EC6A1F494FB0008BAC27 /* PBXTargetDependency */,
+				0E5E00DA2320C49900BF00CE /* PBXTargetDependency */,
+				0E5E01312320C4A300BF00CE /* PBXTargetDependency */,
+				0E5E01332320C4A900BF00CE /* PBXTargetDependency */,
+				0E5E01352320C4BD00BF00CE /* PBXTargetDependency */,
+				0E5E01372320C4C600BF00CE /* PBXTargetDependency */,
+				0E5E013B2320C4D200BF00CE /* PBXTargetDependency */,
+				0E5E01392320C4D200BF00CE /* PBXTargetDependency */,
 			);
 			name = LocalRadio;
 			productName = "SDR Server";
@@ -7271,6 +7273,9 @@
 						DevelopmentTeam = MMFBWVS455;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
 							com.apple.Maps.Mac = {
 								enabled = 0;
 							};
@@ -8305,45 +8310,40 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0E02EC6A1F494FB0008BAC27 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AudioMonitor;
-			targetProxy = 0E02EC691F494FB0008BAC27 /* PBXContainerItemProxy */;
-		};
-		0E0563161F19D5D20093B473 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UDPSender;
-			targetProxy = 0E0563151F19D5D20093B473 /* PBXContainerItemProxy */;
-		};
-		0E0A959E1F12E4E9002E2E5B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UDPListener;
-			targetProxy = 0E0A959D1F12E4E9002E2E5B /* PBXContainerItemProxy */;
-		};
-		0E0C69411F1CC5A300A7EE5E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = rtl_fm_localradio;
-			targetProxy = 0E0C69401F1CC5A300A7EE5E /* PBXContainerItemProxy */;
-		};
-		0E6551A3210D911B000565AF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "wfm-tools";
-			targetProxy = 0E6551A2210D911B000565AF /* PBXContainerItemProxy */;
-		};
-		0ED07158215F938A00430953 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AudioMonitor2;
-			targetProxy = 0ED07157215F938A00430953 /* PBXContainerItemProxy */;
-		};
-		0ED0715A215F938A00430953 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AACEncoder;
-			targetProxy = 0ED07159215F938A00430953 /* PBXContainerItemProxy */;
-		};
-		0ED0715C215F938A00430953 /* PBXTargetDependency */ = {
+		0E5E00DA2320C49900BF00CE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = IcecastSource;
-			targetProxy = 0ED0715B215F938A00430953 /* PBXContainerItemProxy */;
+			targetProxy = 0E5E00D92320C49900BF00CE /* PBXContainerItemProxy */;
+		};
+		0E5E01312320C4A300BF00CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AudioMonitor2;
+			targetProxy = 0E5E01302320C4A300BF00CE /* PBXContainerItemProxy */;
+		};
+		0E5E01332320C4A900BF00CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AACEncoder;
+			targetProxy = 0E5E01322320C4A900BF00CE /* PBXContainerItemProxy */;
+		};
+		0E5E01352320C4BD00BF00CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = stereodemux;
+			targetProxy = 0E5E01342320C4BD00BF00CE /* PBXContainerItemProxy */;
+		};
+		0E5E01372320C4C600BF00CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = rtl_fm_localradio;
+			targetProxy = 0E5E01362320C4C600BF00CE /* PBXContainerItemProxy */;
+		};
+		0E5E01392320C4D200BF00CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UDPSender;
+			targetProxy = 0E5E01382320C4D200BF00CE /* PBXContainerItemProxy */;
+		};
+		0E5E013B2320C4D200BF00CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UDPListener;
+			targetProxy = 0E5E013A2320C4D200BF00CE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -9364,6 +9364,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -9413,6 +9414,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -9424,6 +9426,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/LocalRadio/CocoaLumberjack-3.4.2/Classes\"/**",
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
@@ -9435,16 +9438,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LocalRadio/MacPorts_Libraries",
-					/opt/local/lib,
 					"$(PROJECT_DIR)/LocalRadio/rtl-sdr-master/build/src",
 					"$(PROJECT_DIR)/LocalRadio",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arkphone.LocalRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
 				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
+				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
 				VALID_ARCHS = x86_64;
@@ -9459,6 +9462,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/LocalRadio/CocoaLumberjack-3.4.2/Classes\"/**",
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
@@ -9470,16 +9474,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LocalRadio/MacPorts_Libraries",
-					/opt/local/lib,
 					"$(PROJECT_DIR)/LocalRadio/rtl-sdr-master/build/src",
 					"$(PROJECT_DIR)/LocalRadio",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arkphone.LocalRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
 				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
+				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
 				VALID_ARCHS = x86_64;

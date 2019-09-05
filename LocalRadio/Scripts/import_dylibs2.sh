@@ -112,8 +112,13 @@ install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/..
 echo install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
 install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
 
-echo install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
-install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
+# older versions of macOS need libiconv in the app bundle
+#echo install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
+#install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
+
+# newer versions of macOS can use the system libiconv
+echo install_name_tool -change /opt/local/lib/libiconv.2.dylib /usr/lib/libiconv.2.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libiconv.2.dylib /usr/lib/libiconv.2.dylib ${ICECASTPATH}
 
 echo install_name_tool -change /opt/local/lib/libtheora.0.dylib @executable_path/../Frameworks/libtheora.0.dylib ${ICECASTPATH}
 install_name_tool -change /opt/local/lib/libtheora.0.dylib @executable_path/../Frameworks/libtheora.0.dylib ${ICECASTPATH}

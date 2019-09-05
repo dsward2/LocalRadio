@@ -108,6 +108,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 0E7293F21F17D21500350F03;
@@ -242,9 +243,11 @@
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -254,9 +257,11 @@
 				CODE_SIGN_ENTITLEMENTS = UDPSender.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
