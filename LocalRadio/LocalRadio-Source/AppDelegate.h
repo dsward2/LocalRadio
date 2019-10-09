@@ -29,7 +29,7 @@
 #define kListenModeScan 2
 #define kListenModeDevice 3
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSStreamDelegate, NSTabViewDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSStreamDelegate, NSTabViewDelegate, NSSharingServiceDelegate>
 
 //NS_ASSUME_NONNULL_BEGIN
 
@@ -56,6 +56,9 @@
 
 @property (weak) IBOutlet NSTextField * localRadioHTTPSURLTextField;
 @property (weak) IBOutlet NSTextField * localRadioHTTPURLTextField;
+
+@property (weak) IBOutlet NSButton * shareHTTPURLButton;
+@property (weak) IBOutlet NSButton * shareHTTPSURLButton;
 
 @property (weak) IBOutlet NSTextField * statusIcecastServerTextField;
 @property (weak) IBOutlet NSTextField * statusIcecastSourceTextField;
@@ -193,6 +196,8 @@
 
 - (NSString *)localHostString;
 - (NSString *)localHostIPString;
+
+- (IBAction)shareWebPreviewURL:(id)sender;
 
 @end
 

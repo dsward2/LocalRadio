@@ -128,7 +128,22 @@
             [taskItem.task setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
         }
 
-        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+        //AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+
+        __block AppDelegate * appDelegate = NULL;
+        
+        if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
+        {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                appDelegate = (AppDelegate *)[NSApp delegate];
+            });
+        }
+        else
+        {
+            appDelegate = (AppDelegate *)[NSApp delegate];
+        }
+
+
         NSNumber * captureStderrNumber = [appDelegate.localRadioAppSettings integerForKey:@"CaptureStderr"];
         BOOL captureStderr = captureStderrNumber.boolValue;
         
@@ -215,7 +230,21 @@
 
         self.taskPipelineStatus = kTaskPipelineStatusRunning;
 
-        AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+        //AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+
+        __block AppDelegate * appDelegate = NULL;
+        
+        if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
+        {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                appDelegate = (AppDelegate *)[NSApp delegate];
+            });
+        }
+        else
+        {
+            appDelegate = (AppDelegate *)[NSApp delegate];
+        }
+
         [appDelegate updateCurrentTasksText:self];
     }
 }

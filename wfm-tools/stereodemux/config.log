@@ -30,8 +30,8 @@ Kernel configured for up to 12 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1 2 3 4 5 6 7 8 9 10 11
 Primary memory available: 16.00 gigabytes
-Default processor set: 627 tasks, 2082 threads, 12 processors
-Load average: 6.62, Mach factor: 5.46
+Default processor set: 603 tasks, 1985 threads, 12 processors
+Load average: 2.58, Mach factor: 9.41
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -88,21 +88,21 @@ configure:2642: found /Applications/Xcode.app/Contents/Developer/usr/bin/gcc
 configure:2653: result: gcc
 configure:2882: checking for C compiler version
 configure:2891: gcc --version >&5
-Apple LLVM version 10.0.1 (clang-1001.0.46.4)
+Apple clang version 11.0.0 (clang-1100.0.33.8)
 Target: x86_64-apple-darwin18.7.0
 Thread model: posix
 InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/c++/4.2.1
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/include/c++/4.2.1
 configure:2902: $? = 0
 configure:2891: gcc -v >&5
-Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/c++/4.2.1
-Apple LLVM version 10.0.1 (clang-1001.0.46.4)
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/include/c++/4.2.1
+Apple clang version 11.0.0 (clang-1100.0.33.8)
 Target: x86_64-apple-darwin18.7.0
 Thread model: posix
 InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 configure:2902: $? = 0
 configure:2891: gcc -V >&5
-clang: error: unsupported option '-V -Wno-atomic-implicit-seq-cst'
+clang: error: unsupported option '-V -Wno-framework-include-private-from-public'
 clang: error: no input files
 configure:2902: $? = 1
 configure:2891: gcc -qversion >&5
@@ -166,21 +166,21 @@ configure:3773: found /Applications/Xcode.app/Contents/Developer/usr/bin/g++
 configure:3784: result: g++
 configure:3811: checking for C++ compiler version
 configure:3820: g++ --version >&5
-Apple LLVM version 10.0.1 (clang-1001.0.46.4)
+Apple clang version 11.0.0 (clang-1100.0.33.8)
 Target: x86_64-apple-darwin18.7.0
 Thread model: posix
 InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/c++/4.2.1
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/include/c++/4.2.1
 configure:3831: $? = 0
 configure:3820: g++ -v >&5
-Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/c++/4.2.1
-Apple LLVM version 10.0.1 (clang-1001.0.46.4)
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/include/c++/4.2.1
+Apple clang version 11.0.0 (clang-1100.0.33.8)
 Target: x86_64-apple-darwin18.7.0
 Thread model: posix
 InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
 configure:3831: $? = 0
 configure:3820: g++ -V >&5
-clang: error: unsupported option '-V -Wno-atomic-implicit-seq-cst'
+clang: error: unsupported option '-V -Wno-framework-include-private-from-public'
 clang: error: no input files
 configure:3831: $? = 1
 configure:3820: g++ -qversion >&5

@@ -42,7 +42,19 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
 	if ((self = [super initWithAsyncSocket:newSocket configuration:aConfig]))
 	{
-        self.appDelegate = (AppDelegate *)[NSApp delegate];
+        //self.appDelegate = (AppDelegate *)[NSApp delegate];
+
+        if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
+        {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                self.appDelegate = (AppDelegate *)[NSApp delegate];
+            });
+        }
+        else
+        {
+            self.appDelegate = (AppDelegate *)[NSApp delegate];
+        }
+
         self.sqliteController = self.appDelegate.sqliteController;
         self.icecastController = self.appDelegate.icecastController;
         self.sdrController = self.appDelegate.sdrController;

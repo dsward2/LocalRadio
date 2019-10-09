@@ -101,6 +101,9 @@ typedef struct kinfo_proc kinfo_proc;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     [self performSelectorInBackground:@selector(configureServices) withObject:NULL];
+    
+    [self.shareHTTPSURLButton sendActionOn:NSEventMaskLeftMouseDown];
+    [self.shareHTTPURLButton sendActionOn:NSEventMaskLeftMouseDown];
 }
 
 //==================================================================================
@@ -318,7 +321,23 @@ typedef struct kinfo_proc kinfo_proc;
             [tasksString appendFormat:@"%@ %@\n\n",
                 self.icecastController.quotedIcecastPath, self.icecastController.icecastTaskArgsString];
 
-            AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+            //AppDelegate * appDelegate = (AppDelegate *)[NSApp delegate];
+            
+            __block AppDelegate * appDelegate = NULL;
+
+            if ([(NSThread*)[NSThread currentThread] isMainThread] == NO)
+            {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    appDelegate = (AppDelegate *)[NSApp delegate];
+                });
+            }
+            else
+            {
+                appDelegate = (AppDelegate *)[NSApp delegate];
+            }
+
+
+
             IcecastController * icecastController = appDelegate.icecastController;
             NSDictionary * icecastStatusDictionary = [icecastController icecastStatusDictionary];
 
@@ -1497,6 +1516,68 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 - (IBAction)reloadWebView:(id)sender
 {
     [self.webViewDelegate.webView reload:self];
+}
+
+// AirDrop methods
+
+- (IBAction)shareWebPreviewURL:(id)sender
+{
+    NSString * urlString = self.localRadioHTTPURLTextField.stringValue;
+    NSRect frameRect = self.localRadioHTTPURLTextField.frame;
+    NSButton * senderButton = sender;
+    
+    if (sender == self.shareHTTPURLButton)
+    {
+        urlString = self.localRadioHTTPURLTextField.stringValue;
+        frameRect = self.localRadioHTTPURLTextField.bounds;
+    }
+    else if (sender == self.shareHTTPSURLButton)
+    {
+        urlString = self.localRadioHTTPSURLTextField.stringValue;
+        frameRect = self.localRadioHTTPSURLTextField.bounds;
+    }
+
+    NSURL* url = [NSURL URLWithString:urlString];
+
+    NSSharingServicePicker *sharingServicePicker = [[NSSharingServicePicker alloc] initWithItems:[NSArray arrayWithObjects:url, nil]];
+    
+    __weak id weakSelf = self;
+    sharingServicePicker.delegate = weakSelf;
+
+    [sharingServicePicker showRelativeToRect:frameRect
+                                      ofView:senderButton
+                               preferredEdge:NSMinYEdge];
+}
+
+
+- (NSRect) sharingService: (NSSharingService *) sharingService
+sourceFrameOnScreenForShareItem: (id<NSPasteboardWriting>) item
+{
+    if([item isKindOfClass: [NSURL class]])
+    {
+        //return a rect from where the image will fly
+        return NSZeroRect;
+    }
+
+    return NSZeroRect;
+}
+
+- (NSImage *) sharingService: (NSSharingService *) sharingService
+ transitionImageForShareItem: (id <NSPasteboardWriting>) item
+                 contentRect: (NSRect *) contentRect
+{
+    if([item isKindOfClass: [NSURL class]])
+    {
+
+        return [NSImage imageNamed:@"svg-logo.png"];
+    }
+
+    return nil;
+}
+
+- (id < NSSharingServiceDelegate >)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker delegateForSharingService:(NSSharingService *)sharingService
+{
+    return self;
 }
 
 
