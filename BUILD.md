@@ -4,6 +4,15 @@ See README.md for general information about the LocalRadio app for macOS, or vis
 
 [https://github.com/dsward2/LocalRadio]()
 
+Clone the LocalRadio project with this procedure -
+
+Launch Xcode and click on the "Clone an existing project" command in the Welcome to Xcode window.
+Enter this URL for the repository: https://github.com/dsward/LocalRadio
+Save the project to your disk drive.
+Inspect the downloaded project folder and verify that the ".git" file was included.  If the project was downloaded as a ZIP file, it was not cloned and the .git file will be missing.
+
+Open the LocalRadio.xcodeproj file to view the entire project, which contains several subprojects.
+
 For best results, please read this BUILD.md document with a markdown viewer application like MacDown or Xcode 9, instead of a plain text viewer.
 
 LocalRadio combines several open-source tools into a self-contained application bundle for easy installation and use. Here are some of the major components -
@@ -29,6 +38,7 @@ The following list of MacPorts packages must be installed to build LocalRadio in
 === new list
 * automake
 * autoconf
+* dylibbundler
 * liquid-dsp
 * fftw-3
 * fftw-3-single
@@ -39,8 +49,11 @@ The following list of MacPorts packages must be installed to build LocalRadio in
 * libogg
 * libvorbis
 * libsndfile
+• libtool
 • libusb
 * ncurses
+• pkgconfig
+• rtl-sdr
 
 
 === old list
@@ -64,9 +77,9 @@ The following list of MacPorts packages must be installed to build LocalRadio in
 * zlib
 
 
+Before using the XCode Build command for the LocalRadio scheme, the sox tool must be built by using Terminal.app.  See the file named "sox git and build notes.txt" for instructions.
 
-
-Note: If a build fails due to missing MacPorts tools or libraries, after adding the missing files, it is recommend to use the XCode command to "Clean Build Folder..." before attempting to build again.
+Note: If a build fails due to missing MacPorts tools or libraries, after adding the missing files with the "port" commands, it is recommend to use the XCode command to "Clean Build Folder..." before attempting to build again.
 
 Note: if install_name_tool fails because there is not enough room to write the library paths in tools from MacPorts, this MacPorts configuration option can help:
 configure.ldflags-append -headerpad\_max\_install\_names
