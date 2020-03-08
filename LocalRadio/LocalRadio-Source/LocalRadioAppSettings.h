@@ -19,7 +19,7 @@
 - (void) registerDefaultSettings;
 - (void) setDefaultSettings;
 
-- (NSNumber *) integerForKey:(NSString *)key;
+- (NSNumber *) integerNumberForKey:(NSString *)key;
 - (void) setInteger:(NSInteger)aInteger forKey:(NSString *)key;
 
 - (NSString *) valueForKey:(NSString *)key;

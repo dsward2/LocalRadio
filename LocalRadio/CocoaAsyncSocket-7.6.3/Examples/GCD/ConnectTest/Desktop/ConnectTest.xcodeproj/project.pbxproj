@@ -23,7 +23,6 @@
 		DC90AB71147743110022DF52 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90AB64147743110022DF52 /* DDFileLogger.m */; };
 		DC90AB72147743110022DF52 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90AB66147743110022DF52 /* DDLog.m */; };
 		DC90AB73147743110022DF52 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90AB68147743110022DF52 /* DDTTYLogger.m */; };
-		DC90AB76147743110022DF52 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC90AB6E147743110022DF52 /* README.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -215,6 +214,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DC5778A013DBBF2E007881FC;
@@ -235,7 +235,6 @@
 				DC5778BA13DBBF2E007881FC /* InfoPlist.strings in Resources */,
 				DC5778C013DBBF2E007881FC /* Credits.rtf in Resources */,
 				DC5778C613DBBF2E007881FC /* MainMenu.xib in Resources */,
-				DC90AB76147743110022DF52 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,7 +17,6 @@ LocalRadio combines several open-source tools into a self-contained application 
 * SQLiteLibrary is an Objective-C interface for using SQLite.
 * WebKit for the Mac application's user interface.
 * The Sox and LAME tools for audio resampling, filtering, MP3 encoding and output.
-* Icecast for AAC streaming.
 * TPCircularBuffer is used for audio output with the direct audio option on the Mac, which bypasses the standard MP3 encoding and streaming buffers.
 * An interface to the FCC database of U.S. FM radio stations, searchable by location and radius for easily finding local stations.
 

@@ -78,7 +78,7 @@
         
         if ([postRequestName isEqualToString:@"get-audio-url"] == YES)
         {
-            NSString * audioURLString = [NSString stringWithFormat:@"http://%@:%lu/%@", self.appDelegate.localHostIPString, self.appDelegate.icecastServerHTTPPort, self.appDelegate.icecastServerMountName];
+            NSString * audioURLString = [NSString stringWithFormat:@"http://%@:%lu", self.appDelegate.localHostIPString, self.appDelegate.streamingServerHTTPPort];
             responseDictionary = [NSDictionary dictionaryWithObjectsAndKeys:audioURLString, @"audio-url", nil];
         }
         else if ([postRequestName isEqualToString:@"get-now-playing"] == YES)

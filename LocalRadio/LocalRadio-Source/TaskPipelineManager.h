@@ -20,6 +20,11 @@
 @property (strong) NSMutableArray * taskItemsArray;
 @property (assign) NSInteger taskPipelineStatus;
 
+@property (strong) NSObject * taskInfoStringSyncObject;
+@property (strong) NSObject * startTasksSyncObject;
+@property (strong) NSObject * terminateTasksSyncObject;
+@property (strong) NSObject * periodicSyncObject;
+
 @property (strong) NSTimer * periodicTaskPipelineCheckTimer;
 
 - (TaskItem *) makeTaskItemWithExecutable:(NSString *)executableName functionName:(NSString *)functionName;

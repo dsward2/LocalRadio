@@ -19,31 +19,14 @@
     [self setDefaultInteger:4 forKey:@"LocalRadioConfigVersion"];
     
     [self setDefaultInteger:17002 forKey:@"LocalRadioServerHTTPPort"];
-    [self setDefaultInteger:17003 forKey:@"LocalRadioServerHTTPSPort"];
-    [self setDefaultInteger:17004 forKey:@"IcecastServerHTTPPort"];
-    [self setDefaultInteger:17005 forKey:@"IcecastServerHTTPSPort"];
+    [self setDefaultInteger:17004 forKey:@"StreamingServerHTTPPort"];
     [self setDefaultInteger:17006 forKey:@"StatusPort"];
     [self setDefaultInteger:17007 forKey:@"ControlPort"];
     [self setDefaultInteger:17008 forKey:@"AudioPort"];
 
-    [self setDefaultInteger:0 forKey:@"IcecastServerMode"];
-
     [self setDefaultInteger:1 forKey:@"CaptureStderr"];
 
-    //[self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
-    NSString * localHostName = [[NSHost currentHost] name];
-    [self setDefaultValue:localHostName forKey:@"IcecastServerHost"];
-    
-    [self setDefaultValue:@"localradio.aac" forKey:@"IcecastServerMountName"];
-    
     [self setDefaultValue:@"64000" forKey:@"AACBitrate"];
-
-    //[self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
-    
-    // Generate a fresh Icecast password each time this app launches
-    NSString * randomPassword = [self generateRandomPassword];
-    [self setDefaultValue:randomPassword forKey:@"IcecastServerSourcePassword"];
-    [self setValue:randomPassword forKey:@"IcecastServerSourcePassword"];
 }
 
 - (void) setDefaultSettings
@@ -53,31 +36,14 @@
     [self setInteger:4 forKey:@"LocalRadioConfigVersion"];
     
     [self setInteger:17002 forKey:@"LocalRadioServerHTTPPort"];
-    [self setInteger:17003 forKey:@"LocalRadioServerHTTPSPort"];
-    [self setInteger:17004 forKey:@"IcecastServerHTTPPort"];
-    [self setInteger:17005 forKey:@"IcecastServerHTTPSPort"];
+    [self setInteger:17004 forKey:@"StreamingServerHTTPPort"];
     [self setInteger:17006 forKey:@"StatusPort"];
     [self setInteger:17007 forKey:@"ControlPort"];
     [self setInteger:17008 forKey:@"AudioPort"];
 
-    [self setInteger:0 forKey:@"IcecastServerMode"];
-
     [self setInteger:1 forKey:@"CaptureStderr"];
-
-    //[self setDefaultValue:@"127.0.0.1" forKey:@"IcecastServerHost"];
-    NSString * localHostName = [[NSHost currentHost] name];
-    [self setValue:localHostName forKey:@"IcecastServerHost"];
-    
-    [self setValue:@"localradio.aac" forKey:@"IcecastServerMountName"];
     
     [self setValue:@"64000" forKey:@"AACBitrate"];
-
-    //[self setDefaultValue:@"myPassword123" forKey:@"IcecastServerSourcePassword"];
-    
-    // Generate a fresh Icecast password each time this app launches
-    //NSString * randomPassword = [self generateRandomPassword];
-    //[self setDefaultValue:randomPassword forKey:@"IcecastServerSourcePassword"];
-    //[self setValue:randomPassword forKey:@"IcecastServerSourcePassword"];
 }
 
 
@@ -114,7 +80,7 @@
 
 
 
-- (NSNumber *) integerForKey:(NSString *)key
+- (NSNumber *) integerNumberForKey:(NSString *)key
 {
     NSNumber * result = NULL;
 

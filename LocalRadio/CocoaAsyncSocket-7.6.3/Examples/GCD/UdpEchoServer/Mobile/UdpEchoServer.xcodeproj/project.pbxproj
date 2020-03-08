@@ -24,7 +24,6 @@
 		DC88557715325C8B00514FD7 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC88556A15325C8B00514FD7 /* DDFileLogger.m */; };
 		DC88557815325C8B00514FD7 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DC88556C15325C8B00514FD7 /* DDLog.m */; };
 		DC88557915325C8B00514FD7 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC88556E15325C8B00514FD7 /* DDTTYLogger.m */; };
-		DC88557C15325C8B00514FD7 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC88557415325C8B00514FD7 /* README.txt */; };
 		DC88558115325CAC00514FD7 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DC88558015325CAC00514FD7 /* GCDAsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
@@ -203,12 +202,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					DC88553E15325C5A00514FD7 = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = DC88553915325C5A00514FD7 /* Build configuration list for PBXProject "UdpEchoServer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DC88553415325C5A00514FD7;
@@ -229,7 +234,6 @@
 				DC88554E15325C5A00514FD7 /* InfoPlist.strings in Resources */,
 				0E13D6B920A98B75006A6A59 /* Default-568h@2x.png in Resources */,
 				DC88555A15325C5B00514FD7 /* ViewController.xib in Resources */,
-				DC88557C15325C8B00514FD7 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,11 +372,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UdpEchoServer/UdpEchoServer-Prefix.pch";
 				INFOPLIST_FILE = "UdpEchoServer/UdpEchoServer-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.deusty.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -381,11 +388,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UdpEchoServer/UdpEchoServer-Prefix.pch";
 				INFOPLIST_FILE = "UdpEchoServer/UdpEchoServer-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.deusty.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

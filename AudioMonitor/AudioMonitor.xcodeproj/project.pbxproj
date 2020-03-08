@@ -7,28 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E02EC391F494F7C008BAC27 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E02EC381F494F7C008BAC27 /* main.mm */; };
-		0E213DB31F566BFB00BCE3CB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */; };
-		0EA8B2D61FA9B593005C3A02 /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8B2CF1FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.c */; };
-		0EA8B2D71FA9B59E005C3A02 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8B2D11FA9B568005C3A02 /* TPCircularBuffer.c */; };
 		0EB51DEF212D3E2F0059D84C /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8B2D11FA9B568005C3A02 /* TPCircularBuffer.c */; };
 		0EB51DF2212D3E2F0059D84C /* TPCircularBuffer+AudioBufferList.c in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8B2CF1FA9B568005C3A02 /* TPCircularBuffer+AudioBufferList.c */; };
 		0EB51DF4212D3E2F0059D84C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */; };
 		0EB51DFA212D3E420059D84C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB51DEC212D3CD10059D84C /* main.cpp */; };
 		0EB51DFE212D63D50059D84C /* AudioMonitor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EB51DFB212D63890059D84C /* AudioMonitor2.cpp */; };
-		0EB51DFF212FBF3A0059D84C /* AudioMonitor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0ED9ED6D1F540F9800898460 /* AudioMonitor.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0E02EC331F494F7C008BAC27 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		0EB51DF5212D3E2F0059D84C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -41,7 +27,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0E02EC351F494F7C008BAC27 /* AudioMonitor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AudioMonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E02EC381F494F7C008BAC27 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		0E213DB21F566BFA00BCE3CB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0E72735C21489AA900C5B5DE /* AudioMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AudioMonitor.entitlements; sourceTree = SOURCE_ROOT; };
@@ -60,14 +45,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0E02EC321F494F7C008BAC27 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0E213DB31F566BFB00BCE3CB /* AudioToolbox.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0EB51DF3212D3E2F0059D84C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,7 +68,6 @@
 		0E02EC361F494F7C008BAC27 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0E02EC351F494F7C008BAC27 /* AudioMonitor */,
 				0EB51DF9212D3E2F0059D84C /* AudioMonitor2 */,
 			);
 			name = Products;
@@ -136,23 +112,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0E02EC341F494F7C008BAC27 /* AudioMonitor */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0E02EC3C1F494F7C008BAC27 /* Build configuration list for PBXNativeTarget "AudioMonitor" */;
-			buildPhases = (
-				0E02EC311F494F7C008BAC27 /* Sources */,
-				0E02EC321F494F7C008BAC27 /* Frameworks */,
-				0E02EC331F494F7C008BAC27 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AudioMonitor;
-			productName = AudioMonitor;
-			productReference = 0E02EC351F494F7C008BAC27 /* AudioMonitor */;
-			productType = "com.apple.product-type.tool";
-		};
 		0EB51DED212D3E2F0059D84C /* AudioMonitor2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0EB51DF6212D3E2F0059D84C /* Build configuration list for PBXNativeTarget "AudioMonitor2" */;
@@ -179,11 +138,6 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "ArkPhone LLC";
 				TargetAttributes = {
-					0E02EC341F494F7C008BAC27 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = AM3K5RX83D;
-						ProvisioningStyle = Manual;
-					};
 					0EB51DED212D3E2F0059D84C = {
 						DevelopmentTeam = MMFBWVS455;
 						ProvisioningStyle = Manual;
@@ -204,23 +158,11 @@
 			projectRoot = "";
 			targets = (
 				0EB51DED212D3E2F0059D84C /* AudioMonitor2 */,
-				0E02EC341F494F7C008BAC27 /* AudioMonitor */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0E02EC311F494F7C008BAC27 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0EA8B2D71FA9B59E005C3A02 /* TPCircularBuffer.c in Sources */,
-				0EB51DFF212FBF3A0059D84C /* AudioMonitor.mm in Sources */,
-				0E02EC391F494F7C008BAC27 /* main.mm in Sources */,
-				0EA8B2D61FA9B593005C3A02 /* TPCircularBuffer+AudioBufferList.c in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0EB51DEE212D3E2F0059D84C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -338,37 +280,11 @@
 			};
 			name = Release;
 		};
-		0E02EC3D1F494F7C008BAC27 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				DEVELOPMENT_TEAM = AM3K5RX83D;
-				ENABLE_HARDENED_RUNTIME = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		0E02EC3E1F494F7C008BAC27 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				DEVELOPMENT_TEAM = AM3K5RX83D;
-				ENABLE_HARDENED_RUNTIME = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		0EB51DF7212D3E2F0059D84C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -382,7 +298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = AudioMonitor.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = MMFBWVS455;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -400,15 +316,6 @@
 			buildConfigurations = (
 				0E02EC3A1F494F7C008BAC27 /* Debug */,
 				0E02EC3B1F494F7C008BAC27 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0E02EC3C1F494F7C008BAC27 /* Build configuration list for PBXNativeTarget "AudioMonitor" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0E02EC3D1F494F7C008BAC27 /* Debug */,
-				0E02EC3E1F494F7C008BAC27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

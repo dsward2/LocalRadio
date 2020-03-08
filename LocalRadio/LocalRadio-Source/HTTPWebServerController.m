@@ -16,10 +16,22 @@
 #import "HTTPDynamicFileResponse.h"
 #import "HTTPLogging.h"
 #import "HTTPConnection.h"
+#import "HTTPLogging.h"
 
 #import "LocalRadioAppSettings.h"
 #import "HTTPWebServerConnection.h"
 #import "AppDelegate.h"
+
+#define LOG_FLAG_ERROR    (1 << 0)  // 0...0001
+#define LOG_FLAG_WARN     (1 << 1)  // 0...0010
+#define LOG_FLAG_INFO     (1 << 2)  // 0...0100
+#define LOG_FLAG_VERBOSE  (1 << 3)  // 0...1000
+
+#define LOG_LEVEL_OFF     0
+#define LOG_LEVEL_ERROR   (LOG_FLAG_ERROR)                                                    // 0...0001
+#define LOG_LEVEL_WARN    (LOG_FLAG_ERROR | LOG_FLAG_WARN)                                    // 0...0011
+#define LOG_LEVEL_INFO    (LOG_FLAG_ERROR | LOG_FLAG_WARN | LOG_FLAG_INFO)                    // 0...0111
+#define LOG_LEVEL_VERBOSE (LOG_FLAG_ERROR | LOG_FLAG_WARN | LOG_FLAG_INFO | LOG_FLAG_VERBOSE) // 0...1111
 
 
 // Log levels: off, error, warn, info, verbose
@@ -118,7 +130,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (NSNumber *)serverClassPortNumber
 {
     NSString * serverClassPortKey = [self serverClassPortKey];
-    NSNumber * serverClassPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:serverClassPortKey];
+    NSNumber * serverClassPortNumber = [self.appDelegate.localRadioAppSettings integerNumberForKey:serverClassPortKey];
     return serverClassPortNumber;
 }
 

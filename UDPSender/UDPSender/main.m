@@ -158,7 +158,7 @@ pid_t originalParentProcessPID;
 
                 NSData * bufferData = [[NSData alloc] initWithBytes:buf length:bytesConsumedCount];
                 
-                [self sendData:bufferData port:port];       // send to UDPListener > AACEncoder > IcecastSource
+                [self sendData:bufferData port:port];       // send to UDPListener > AACEncoder > StreamingServer
                 
                 fwrite(buf, bytesConsumedCount, 1, stdout);    // also write a copy to stdout
                 

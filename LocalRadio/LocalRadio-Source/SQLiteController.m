@@ -298,8 +298,7 @@
 
         [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17002 forKey:@"LocalRadioServerHTTPPort"];
         [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17003 forKey:@"LocalRadioServerHTTPSPort"];
-        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17004 forKey:@"IcecastServerHTTPPort"];
-        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17005 forKey:@"IcecastServerHTTPSPort"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17004 forKey:@"StreamingServerHTTPPort"];
         [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17006 forKey:@"StatusPort"];
         [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17007 forKey:@"ControlPort"];
         [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17008 forKey:@"AudioPort"];

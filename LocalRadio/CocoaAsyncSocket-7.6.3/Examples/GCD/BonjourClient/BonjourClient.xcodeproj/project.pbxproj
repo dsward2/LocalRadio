@@ -22,7 +22,6 @@
 		DC90ABAC147743C90022DF52 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90AB9F147743C90022DF52 /* DDFileLogger.m */; };
 		DC90ABAD147743C90022DF52 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90ABA1147743C90022DF52 /* DDLog.m */; };
 		DC90ABAE147743C90022DF52 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90ABA3147743C90022DF52 /* DDTTYLogger.m */; };
-		DC90ABB1147743C90022DF52 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC90ABA9147743C90022DF52 /* README.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -250,7 +249,6 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				DC90ABB1147743C90022DF52 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

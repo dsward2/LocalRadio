@@ -9,7 +9,6 @@
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
 #import "AppDelegate.h"
-#import "IcecastController.h"
 #import "LocalRadioAppSettings.h"
 
 @implementation TaskPipelineManager
@@ -37,6 +36,11 @@
         self.taskItemsArray = [NSMutableArray array];
     
         self.taskPipelineStatus = kTaskPipelineStatusIdle;
+        
+        self.taskInfoStringSyncObject = [[NSObject alloc] init];
+        self.startTasksSyncObject = [[NSObject alloc] init];
+        self.terminateTasksSyncObject = [[NSObject alloc] init];
+        self.periodicSyncObject = [[NSObject alloc] init];
 
         self.periodicTaskPipelineCheckTimer = [NSTimer timerWithTimeInterval:5.0f target:self selector:@selector(periodicTaskPipelineCheckTimerFired:) userInfo:self repeats:YES];
 
@@ -144,7 +148,7 @@
         }
 
 
-        NSNumber * captureStderrNumber = [appDelegate.localRadioAppSettings integerForKey:@"CaptureStderr"];
+        NSNumber * captureStderrNumber = [appDelegate.localRadioAppSettings integerNumberForKey:@"CaptureStderr"];
         BOOL captureStderr = captureStderrNumber.boolValue;
         
         if (captureStderr == YES)
@@ -202,7 +206,7 @@
 
 - (void) startTasks
 {
-    @synchronized (self)
+    @synchronized (self.startTasksSyncObject)
     {
         for (TaskItem * taskItem in self.taskItemsArray)
         {
@@ -255,7 +259,7 @@
 
 - (void) terminateTasks
 {
-    @synchronized (self)
+    @synchronized (self.terminateTasksSyncObject)
     {
         self.taskPipelineStatus = kTaskPipelineStatusTerminating;
 
@@ -292,7 +296,7 @@
     BOOL failedTaskFound = NO;
     TaskItem * failedTaskItem = NULL;
     
-    @synchronized (self)
+    @synchronized (self.periodicSyncObject)
     {
         for (TaskItem * taskItem in self.taskItemsArray)
         {
@@ -329,7 +333,7 @@
     
     if (self.taskItemsArray.count > 0)
     {
-        @synchronized (self)
+        @synchronized (self.taskInfoStringSyncObject)
         {
             for (TaskItem * taskItem in self.taskItemsArray)
             {

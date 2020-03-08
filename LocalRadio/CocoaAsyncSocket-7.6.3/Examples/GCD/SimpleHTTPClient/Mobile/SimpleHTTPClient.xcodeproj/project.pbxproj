@@ -15,7 +15,6 @@
 		DC4B0BB4151D48DE000985E5 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4B0BA7151D48DE000985E5 /* DDFileLogger.m */; };
 		DC4B0BB5151D48DE000985E5 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4B0BA9151D48DE000985E5 /* DDLog.m */; };
 		DC4B0BB6151D48DE000985E5 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4B0BAB151D48DE000985E5 /* DDTTYLogger.m */; };
-		DC4B0BB9151D48DE000985E5 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC4B0BB1151D48DE000985E5 /* README.txt */; };
 		DC80CA3913C3B43F00D29D06 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80CA3813C3B43F00D29D06 /* UIKit.framework */; };
 		DC80CA3B13C3B43F00D29D06 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80CA3A13C3B43F00D29D06 /* Foundation.framework */; };
 		DC80CA3D13C3B43F00D29D06 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80CA3C13C3B43F00D29D06 /* CoreGraphics.framework */; };
@@ -214,12 +213,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					DC80CA3313C3B43F00D29D06 = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = DC80CA2E13C3B43F00D29D06 /* Build configuration list for PBXProject "SimpleHTTPClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DC80CA2913C3B43F00D29D06;
@@ -240,7 +245,6 @@
 				DC80CA4313C3B43F00D29D06 /* InfoPlist.strings in Resources */,
 				DC80CA4C13C3B43F00D29D06 /* MainWindow.xib in Resources */,
 				DC80CA5213C3B43F00D29D06 /* SimpleHTTPClientViewController.xib in Resources */,
-				DC4B0BB9151D48DE000985E5 /* README.txt in Resources */,
 				DC825153163AFEC100D95D37 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,7 +392,9 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleHTTPClient/SimpleHTTPClient-Prefix.pch";
@@ -396,6 +402,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.deusty.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -405,13 +412,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleHTTPClient/SimpleHTTPClient-Prefix.pch";
 				INFOPLIST_FILE = "SimpleHTTPClient/SimpleHTTPClient-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.deusty.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

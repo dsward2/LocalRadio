@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "HTTPConnection.h"
-#import "IcecastController.h"
 #import "SDRController.h"
 
 @class AppDelegate;
@@ -18,7 +17,6 @@
 
 @property(strong) IBOutlet AppDelegate * appDelegate;
 @property(strong) IBOutlet SQLiteController * sqliteController;
-@property(strong) IBOutlet IcecastController * icecastController;
 @property(strong) IBOutlet SDRController * sdrController;
 
 @property(strong) NSMutableData * bodyData;

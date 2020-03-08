@@ -9,13 +9,11 @@
 #import "SDRController.h"
 #import "NSFileManager+DirectoryLocations.h"
 #import "AppDelegate.h"
-//#import "SoxController.h"
 #import "UDPStatusListenerController.h"
 #import "LocalRadioAppSettings.h"
-#import "IcecastSourceController.h"
+#import "StreamingServerController.h"
 #import "TaskPipelineManager.h"
 #import "TaskItem.h"
-#import "IcecastController.h"
 #import "SQLiteController.h"
 
 @implementation SDRController
@@ -214,8 +212,6 @@
     NSInteger audioConverterBufferSize = 256;   // AudioConverter buffer size in kilobytes
     NSInteger audioQueueBufferSize = 256;   // AudioQueue buffer size in kilobytes
 
-    [self checkIcecastSource];
-    
     NSInteger sourceChannels = 0;
 
     // Create TaskItem for the audio source, send lpcm data to stdout at specified sample rate
@@ -330,10 +326,10 @@
     // Get lpcm data from stdin, output to UDP port
     TaskItem * udpSenderTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"UDPSender" functionName:@"UDPSender"];
 
-    // configure UDPSender task for sending to IcecastSource
+    // configure UDPSender task for sending to StreamingServer
 
     [udpSenderTaskItem addArgument:@"-p"];
-    NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"AudioPort"];
+    NSNumber * audioPortNumber = [self.appDelegate.localRadioAppSettings integerNumberForKey:@"AudioPort"];
     [udpSenderTaskItem addArgument:audioPortNumber.stringValue];
 
     // TODO: BUG: For an undetermined reason, AudioMonitor fails to launch as an NSTask in a sandboxed app extracted from an Xcode Archive
@@ -360,7 +356,7 @@
             [self.radioTaskPipelineManager addTaskItem:soxTaskItem];    // perform user-specified SoX processing
         }
         
-        // send audio to IcecastSource
+        // send audio to StreamingServer
         [self.radioTaskPipelineManager addTaskItem:udpSenderTaskItem];
     }
 
@@ -688,7 +684,7 @@
     NSNumber * firSizeNumber = [NSNumber numberWithInteger:9];
     NSString * atanMathString = @"std";
 
-    NSNumber * statusPortNumber = [self.appDelegate.localRadioAppSettings integerForKey:@"StatusPort"];
+    NSNumber * statusPortNumber = [self.appDelegate.localRadioAppSettings integerNumberForKey:@"StatusPort"];
 
     if (categoryDictionary == NULL)
     {
@@ -987,19 +983,14 @@
 */
 
 //==================================================================================
-//    checkIcecastSource
+//    checkStreamingServer
 //==================================================================================
 
-- (void)checkIcecastSource
+- (void)checkStreamingServer
 {
     BOOL restartServices = NO;
 
-    if (self.appDelegate.icecastController.icecastTask == NULL)
-    {
-        restartServices = YES;
-    }
-
-    if (self.appDelegate.icecastSourceController.icecastSourceTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
+    if (self.appDelegate.streamingServerController.streamingServerTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
     {
         restartServices = YES;
     }

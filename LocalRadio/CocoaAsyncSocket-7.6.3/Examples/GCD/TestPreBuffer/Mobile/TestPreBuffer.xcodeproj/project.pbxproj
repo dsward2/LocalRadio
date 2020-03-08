@@ -24,7 +24,6 @@
 		DC71D36D15816BFC00A8A249 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC71D36015816BFC00A8A249 /* DDFileLogger.m */; };
 		DC71D36E15816BFC00A8A249 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DC71D36215816BFC00A8A249 /* DDLog.m */; };
 		DC71D36F15816BFC00A8A249 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC71D36415816BFC00A8A249 /* DDTTYLogger.m */; };
-		DC71D37215816BFC00A8A249 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC71D36A15816BFC00A8A249 /* README.txt */; };
 		DC71D37715816C0E00A8A249 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DC71D37615816C0E00A8A249 /* GCDAsyncSocket.m */; };
 		DC71D37A15816C2000A8A249 /* TestPreBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = DC71D37915816C2000A8A249 /* TestPreBuffer.m */; };
 		DC71D37C15816C3700A8A249 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC71D37B15816C3700A8A249 /* Security.framework */; };
@@ -225,6 +224,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DC71D32715816B5300A8A249;
@@ -245,7 +245,6 @@
 				DC71D34115816B5300A8A249 /* InfoPlist.strings in Resources */,
 				DC71D34D15816B5300A8A249 /* ViewController_iPhone.xib in Resources */,
 				DC71D35015816B5300A8A249 /* ViewController_iPad.xib in Resources */,
-				DC71D37215816BFC00A8A249 /* README.txt in Resources */,
 				DCCE5060163B6A0D0000C729 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

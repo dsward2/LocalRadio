@@ -21,7 +21,6 @@
 		DCC96B23152E12970064C500 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96B16152E12970064C500 /* DDFileLogger.m */; };
 		DCC96B24152E12970064C500 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96B18152E12970064C500 /* DDLog.m */; };
 		DCC96B25152E12970064C500 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96B1A152E12970064C500 /* DDTTYLogger.m */; };
-		DCC96B28152E12970064C500 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DCC96B20152E12970064C500 /* README.txt */; };
 		DCC96B2B152E12A60064C500 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96B2A152E12A60064C500 /* GCDAsyncUdpSocket.m */; };
 /* End PBXBuildFile section */
 
@@ -210,6 +209,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DC34A1EE1484363D004F0A03;
@@ -230,7 +230,6 @@
 				DC34A2081484363D004F0A03 /* InfoPlist.strings in Resources */,
 				DC34A20E1484363D004F0A03 /* Credits.rtf in Resources */,
 				DC34A2141484363D004F0A03 /* MainMenu.xib in Resources */,
-				DCC96B28152E12970064C500 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

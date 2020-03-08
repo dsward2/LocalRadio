@@ -1201,7 +1201,7 @@ void convertBuffer(void * inputBufferPtr, unsigned int dataLength)
              * number of raw data blocks */
             adtsHeader[6] = 0xFC;
 
-            // write encoded audio to stdout, can be piped to IcecastSource
+            // write encoded audio to stdout, can be piped to StreamingServer
             //fwrite(&adtsHeader[0], adtsHeaderLength, 1, stdout);    // write ADTS header
             //fwrite(convertedDataPtr, convertedDataLength, 1, stdout);   // write raw AAC data
             

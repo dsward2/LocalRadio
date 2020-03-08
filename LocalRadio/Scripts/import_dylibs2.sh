@@ -47,6 +47,7 @@ fi
 
 #####################################################################
 
+# Next four lines no longer operative, but kept for future reference
 # Important: In MacPorts, be sure in install icecast2, not icecast.
 # Both icecast2 and icecast executables will be at /opt/local/bin/icecast.
 # Due to the naming conflict, only one version of icecast can be installed,
@@ -54,6 +55,8 @@ fi
 
 ICECASTPATH=${BUILT_PRODUCTS_DIR}/icecast
 
+echo Copy built icecast server to built products
+echo cp ${SRCROOT}/Icecast-Server/externals/Icecast-Server/src/icecast ${ICECASTPATH}
 cp ${SRCROOT}/Icecast-Server/externals/Icecast-Server/src/icecast ${ICECASTPATH}
 
 SOXPATH=${BUILT_PRODUCTS_DIR}/sox
@@ -103,14 +106,14 @@ install_name_tool -change /opt/local/lib/libogg.0.dylib @executable_path/../Fram
 
 # fix icecast library loading paths
 
-echo install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
-install_name_tool -change /opt/local/lib/libicudata.58.dylib @executable_path/../Frameworks/libicudata.58.2.dylib ${ICECASTPATH}
+echo install_name_tool -change /opt/local/lib/libicudata.65.dylib @executable_path/../Frameworks/libicudata.65.1.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libicudata.65.dylib @executable_path/../Frameworks/libicudata.65.1.dylib ${ICECASTPATH}
 
-echo install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
-install_name_tool -change /opt/local/lib/libicui18n.58.dylib @executable_path/../Frameworks/libicui18n.58.2.dylib ${ICECASTPATH}
+echo install_name_tool -change /opt/local/lib/libicui18n.65.dylib @executable_path/../Frameworks/libicui18n.65.1.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libicui18n.65.dylib @executable_path/../Frameworks/libicui18n.65.1.dylib ${ICECASTPATH}
 
-echo install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
-install_name_tool -change /opt/local/lib/libicuuc.58.dylib @executable_path/../Frameworks/libicuuc.58.2.dylib ${ICECASTPATH}
+echo install_name_tool -change /opt/local/lib/libicuuc.65.dylib @executable_path/../Frameworks/libicuuc.65.1.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libicuuc.65.dylib @executable_path/../Frameworks/libicuuc.65.1.dylib ${ICECASTPATH}
 
 # older versions of macOS need libiconv in the app bundle
 #echo install_name_tool -change /opt/local/lib/libiconv.2.dylib @executable_path/../Frameworks/libiconv.2.dylib ${ICECASTPATH}
@@ -131,11 +134,11 @@ install_name_tool -change /opt/local/lib/libogg.0.dylib @executable_path/../Fram
 
 # here, we change from MacPorts libraries to the macOS standard libraries
 
-echo install_name_tool -change /opt/local/lib/libssl.1.0.0.dylib /usr/lib/libssl.dylib ${ICECASTPATH}
-install_name_tool -change /opt/local/lib/libssl.1.0.0.dylib /usr/lib/libssl.dylib ${ICECASTPATH}
+echo install_name_tool -change /opt/local/lib/libssl.1.1.dylib /usr/lib/libssl.46.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libssl.1.1.dylib /usr/lib/libssl.46.dylib ${ICECASTPATH}
 
-echo install_name_tool -change /opt/local/lib/libcrypto.1.0.0.dylib /usr/lib/libcrypto.dylib ${ICECASTPATH}
-install_name_tool -change /opt/local/lib/libcrypto.1.0.0.dylib /usr/lib/libcrypto.dylib ${ICECASTPATH}
+echo install_name_tool -change /opt/local/lib/libcrypto.1.1.dylib /usr/lib/libcrypto.44.dylib ${ICECASTPATH}
+install_name_tool -change /opt/local/lib/libcrypto.1.1.dylib /usr/lib/libcrypto.44.dylib ${ICECASTPATH}
 
 echo install_name_tool -change /opt/local/lib/libxslt.1.dylib /usr/lib/libxslt.dylib ${ICECASTPATH}
 install_name_tool -change /opt/local/lib/libxslt.1.dylib /usr/lib/libxslt.dylib ${ICECASTPATH}
@@ -166,7 +169,7 @@ echo /opt/local/bin/dylibbundler -b -x "${EXECFILE}" -d "${MODIFIEDLIBPATH}" -p 
 
 # TARGETS should list the same files in Project Navigator in the Libraries_Modified folder, except for libsox
 
-TARGETS="libao.4.dylib libfftw3f.3.dylib libFLAC.8.dylib libicudata.58.2.dylib libicui18n.58.2.dylib libicuuc.58.2.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
+TARGETS="libao.4.dylib libfftw3f.3.dylib libFLAC.8.dylib libicudata.65.1.dylib libicui18n.65.1.dylib libicuuc.65.1.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib libopus.0.dylib libopusfile.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libtheora.0.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 
 for TARGET in ${TARGETS[*]} ; do
 

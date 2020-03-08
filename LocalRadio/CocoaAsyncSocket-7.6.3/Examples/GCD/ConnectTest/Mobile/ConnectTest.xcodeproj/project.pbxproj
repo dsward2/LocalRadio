@@ -17,7 +17,6 @@
 		DC90AB8E1477436C0022DF52 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90AB811477436C0022DF52 /* DDFileLogger.m */; };
 		DC90AB8F1477436C0022DF52 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90AB831477436C0022DF52 /* DDLog.m */; };
 		DC90AB901477436C0022DF52 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90AB851477436C0022DF52 /* DDTTYLogger.m */; };
-		DC90AB931477436C0022DF52 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC90AB8B1477436C0022DF52 /* README.txt */; };
 		DCCE5078163B6B560000C729 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCCE5077163B6B560000C729 /* Default-568h@2x.png */; };
 		DCDE285D13DDEC74006BFCC0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDE285C13DDEC74006BFCC0 /* UIKit.framework */; };
 		DCDE285F13DDEC74006BFCC0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCDE285E13DDEC74006BFCC0 /* Foundation.framework */; };
@@ -214,12 +213,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					DCDE285713DDEC74006BFCC0 = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = DCDE285213DDEC74006BFCC0 /* Build configuration list for PBXProject "ConnectTest" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = DCDE284D13DDEC74006BFCC0;
@@ -240,7 +245,6 @@
 				DCDE286713DDEC74006BFCC0 /* InfoPlist.strings in Resources */,
 				DCDE287013DDEC74006BFCC0 /* MainWindow.xib in Resources */,
 				DCDE287613DDEC74006BFCC0 /* ConnectTestViewController.xib in Resources */,
-				DC90AB931477436C0022DF52 /* README.txt in Resources */,
 				DCCE5078163B6B560000C729 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,7 +341,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ConnectTest/ConnectTest-Prefix.pch";
@@ -345,6 +351,7 @@
 				INFOPLIST_FILE = "ConnectTest/ConnectTest-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.deusty.oss.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -353,13 +360,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ConnectTest/ConnectTest-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "ConnectTest/ConnectTest-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.deusty.oss.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

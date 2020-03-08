@@ -6,7 +6,7 @@
 #  Created by Douglas Ward on 7/28/18.
 #  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
 
-#  Fix libliquid to load properly for stereodemux
+#  Fix libliquid and libsndfile dylibs to load properly for stereodemux
 
 EXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}
 
