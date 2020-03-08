@@ -44,8 +44,6 @@
 #include <fcntl.h>
 #include <pthread.h>
 
-@class GCDWebServer;
-
 @interface Main : NSObject
 {
 }
@@ -278,33 +276,6 @@ NSMutableDictionary * responsesDictionary;
     }
 
     //NSLog(@"StreamingServer polling loop exited");
-}
-
-
-// GCDWebServer delegate calls
-
-- (void)webServerDidStart:(GCDWebServer*)server {
-  //
-}
-
-- (void)webServerDidCompleteBonjourRegistration:(GCDWebServer*)server {
-  //
-}
-
-- (void)webServerDidUpdateNATPortMapping:(GCDWebServer*)server {
-  //
-}
-
-- (void)webServerDidConnect:(GCDWebServer*)server {
-  //
-}
-
-- (void)webServerDidDisconnect:(GCDWebServer*)server {
-  //
-}
-
-- (void)webServerDidStop:(GCDWebServer*)server {
-  //
 }
 
 

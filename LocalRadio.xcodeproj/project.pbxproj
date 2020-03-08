@@ -1401,7 +1401,6 @@
 		0E96D56623FB80B5002F8968 /* StreamingServerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StreamingServerController.h; sourceTree = "<group>"; };
 		0E96D56723FB80B5002F8968 /* StreamingServerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StreamingServerController.m; sourceTree = "<group>"; };
 		0E96D56A23FC84A2002F8968 /* fix_sox.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_sox.sh; sourceTree = "<group>"; };
-		0E96D56F23FC9080002F8968 /* fix_StreamingServer.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_StreamingServer.sh; sourceTree = "<group>"; };
 		0E9A64E91EC290C000F12613 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		0EA04ED72175A91200E9804A /* Monitor_Beacon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Monitor_Beacon.wav; sourceTree = "<group>"; };
 		0EA2124A1ED679B7004DE453 /* sox note */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "sox note"; sourceTree = "<group>"; };
@@ -1771,7 +1770,6 @@
 				0ECAD565210C35C0005F4BB1 /* fix_stereodemux.sh */,
 				0E49700B1F70C8B900E41A06 /* fix_rtl_sdr_tools.sh */,
 				0E96D56A23FC84A2002F8968 /* fix_sox.sh */,
-				0E96D56F23FC9080002F8968 /* fix_StreamingServer.sh */,
 				0E1BA0EE1EC88EF500130DB9 /* import_dylibs2.sh */,
 			);
 			path = Scripts;
@@ -4414,7 +4412,6 @@
 				0E4ECFB91EAB633B00D2157B /* Resources */,
 				0E4ED21E1EABDC6900D2157B /* Copy Tools */,
 				0E0C693D1F1C9D4800A7EE5E /* Run Fix stereodemux Script */,
-				0E96D57023FC91F8002F8968 /* Run Fix StreamingServer Script */,
 				0EA2128A1ED72D4D004DE453 /* Copy Icecast Admin Files */,
 				0EA212941ED72D7A004DE453 /* Copy Icecast Web Files */,
 				0EA2129E1ED72DAB004DE453 /* Copy Icecast Doc Files */,
@@ -5015,24 +5012,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# - copy macSVG.help Help Book bundle to application\necho rsync -av ${SRCROOT}/LocalRadio/Web \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\nrsync -av ${SRCROOT}/LocalRadio/Web \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\n";
-		};
-		0E96D57023FC91F8002F8968 /* Run Fix StreamingServer Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run Fix StreamingServer Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_StreamingServer.sh\n";
 		};
 		0E9B3CB521DC4BEE004A91E6 /* Run fix_sox.sh Script */ = {
 			isa = PBXShellScriptBuildPhase;
