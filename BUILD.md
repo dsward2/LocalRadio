@@ -26,6 +26,24 @@ Most of the open-source tools and libraries - with the notable exception of rtl\
 
 The following list of MacPorts packages must be installed to build LocalRadio in Xcode.  Use the MacPorts "sudo port install" command, which may also require automatic installation of some other package dependencies.
 
+=== new list
+* automake
+* autoconf
+* liquid-dsp
+* fftw-3
+* fftw-3-single
+• gettext
+* libiconv
+* flac
+• libfec
+* libogg
+* libvorbis
+* libsndfile
+• libusb
+* ncurses
+
+
+=== old list
 * automake
 * autoconf
 * pkgconfig
@@ -48,9 +66,9 @@ The following list of MacPorts packages must be installed to build LocalRadio in
 
 
 
+Note: If a build fails due to missing MacPorts tools or libraries, after adding the missing files, it is recommend to use the XCode command to "Clean Build Folder..." before attempting to build again.
 
-
-
+Note: if install_name_tool fails because there is not enough room to write the library paths in tools from MacPorts, this MacPorts configuration option can help:
 configure.ldflags-append -headerpad\_max\_install\_names
 
 <hr>
