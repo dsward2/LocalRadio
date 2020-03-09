@@ -29,3 +29,4 @@ echo install_name_tool -change /opt/local/lib/libsndfile.1.dylib @executable_pat
 
 install_name_tool -change /opt/local/lib/libsndfile.1.dylib @executable_path/../Frameworks/libsndfile.1.dylib ${EXECFOLDER}/stereodemux
 
+

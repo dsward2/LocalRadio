@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E027D662185A4500030B6C1 /* LocalRadioAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E027D652185A4500030B6C1 /* LocalRadioAPI.m */; };
+		0E053F9B24160B8000B320E2 /* libfec.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E053F9A24160B3F00B320E2 /* libfec.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0562F01F19A0090093B473 /* UDPSender in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E72940A1F17D21700350F03 /* UDPSender */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E0563191F1A3C0D0093B473 /* WebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E0563181F1A3C0D0093B473 /* WebViewDelegate.m */; };
 		0E05631C1F1A44510093B473 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E05631B1F1A44510093B473 /* WebKit.framework */; };
@@ -453,6 +454,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0E053F9B24160B8000B320E2 /* libfec.dylib in Copy Libraries */,
 				0EA82F9724000CD900B04F5E /* libfftw3f.3.dylib in Copy Libraries */,
 				0EA82F9924000F6000B04F5E /* libFLAC.8.dylib in Copy Libraries */,
 				0E87443E23ECEDCD00D34F1B /* libliquid.dylib in Copy Libraries */,
@@ -543,6 +545,7 @@
 		0E02EC741F4984B5008BAC27 /* tuner_am.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = tuner_am.html; sourceTree = "<group>"; };
 		0E02EC751F4B958E008BAC27 /* deletecategory.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = deletecategory.html; sourceTree = "<group>"; };
 		0E02EC761F4D8446008BAC27 /* tuner_aviation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = tuner_aviation.html; sourceTree = "<group>"; };
+		0E053F9A24160B3F00B320E2 /* libfec.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfec.dylib; path = Libraries_Modified/libfec.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E0563171F1A3C0D0093B473 /* WebViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewDelegate.h; sourceTree = "<group>"; };
 		0E0563181F1A3C0D0093B473 /* WebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewDelegate.m; sourceTree = "<group>"; };
 		0E05631B1F1A44510093B473 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -1898,6 +1901,7 @@
 		0E274E8521DDCCC200337560 /* Libraries_Modified */ = {
 			isa = PBXGroup;
 			children = (
+				0E053F9A24160B3F00B320E2 /* libfec.dylib */,
 				0EA82F4824000BC400B04F5E /* libfftw3f.3.dylib */,
 				0EA82F9824000F3B00B04F5E /* libFLAC.8.dylib */,
 				0E4D13922316413D0064D172 /* libliquid.dylib */,
@@ -4405,7 +4409,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0E4ECFCC1EAB633B00D2157B /* Build configuration list for PBXNativeTarget "LocalRadio" */;
 			buildPhases = (
-				0E9B3CB521DC4BEE004A91E6 /* Run fix_sox.sh Script */,
+				0E9B3CB521DC4BEE004A91E6 /* Run fix_sox.sh Script (and import libraries for other tools too) */,
 				0E4ED0121EAB65E900D2157B /* Copy Libraries */,
 				0E4ECFB71EAB633B00D2157B /* Sources */,
 				0E4ECFB81EAB633B00D2157B /* Frameworks */,
@@ -5013,7 +5017,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# - copy macSVG.help Help Book bundle to application\necho rsync -av ${SRCROOT}/LocalRadio/Web \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\nrsync -av ${SRCROOT}/LocalRadio/Web \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\n";
 		};
-		0E9B3CB521DC4BEE004A91E6 /* Run fix_sox.sh Script */ = {
+		0E9B3CB521DC4BEE004A91E6 /* Run fix_sox.sh Script (and import libraries for other tools too) */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5022,7 +5026,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Run fix_sox.sh Script";
+			name = "Run fix_sox.sh Script (and import libraries for other tools too)";
 			outputFileListPaths = (
 			);
 			outputPaths = (

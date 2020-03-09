@@ -104,7 +104,7 @@ echo /opt/local/bin/dylibbundler -b -x "${EXECFILE}" -d "${MODIFIEDLIBPATH}" -p 
 
 # TARGETS should list the same files in Project Navigator in the Libraries_Modified folder, except for libsox
 
-TARGETS="libfftw3f.3.dylib libFLAC.8.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
+TARGETS="libfec.dylib libfftw3f.3.dylib libFLAC.8.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 
 for TARGET in ${TARGETS[*]} ; do
 
