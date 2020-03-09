@@ -3,7 +3,7 @@
 //  LocalRadio
 //
 //  Created by Douglas Ward on 8/13/17.
-//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2020 ArkPhone LLC. All rights reserved.
 //
 
 #import "URLTextField.h"

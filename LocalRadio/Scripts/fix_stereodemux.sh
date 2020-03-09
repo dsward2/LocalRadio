@@ -4,7 +4,7 @@
 #  LocalRadio
 #
 #  Created by Douglas Ward on 7/28/18.
-#  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
+#  Copyright © 2017-2020 ArkPhone LLC. All rights reserved.
 
 #  Fix libliquid and libsndfile dylibs to load properly for stereodemux
 

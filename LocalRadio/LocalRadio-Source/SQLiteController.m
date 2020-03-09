@@ -3,7 +3,7 @@
 //  LocalRadio
 //
 //  Created by Douglas Ward on 6/18/17.
-//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2020 ArkPhone LLC. All rights reserved.
 //
 
 #import "SQLiteController.h"
@@ -27,17 +27,20 @@
 
 - (void)startSQLiteConnection
 {
+    // IMPORTANT: When the LocalRadio  database schema is changed,
+    // the "data_skeleton.sqlite3" file should be updated to reflect the change.
+
     if (self.sqliteIsRunning == NO)
     {
         NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
         
         NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V5.sqlite3"];
         
-        BOOL localRadioV4Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
+        BOOL localRadioV5Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
         
         NSMutableDictionary * databaseUpgradeDictionary = NULL;
         
-        if (localRadioV4Found == NO)
+        if (localRadioV5Found == NO)
         {
             //check for earlier database versions, and migrate data if found
             if ([databaseUpgradeDictionary count] == 0)
