@@ -22,7 +22,7 @@
 }
 
 //==================================================================================
-//	startSQLiteConnection
+//    startSQLiteConnection
 //==================================================================================
 
 - (void)startSQLiteConnection
@@ -36,11 +36,11 @@
         
         NSString * databasePathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V5.sqlite3"];
         
-        BOOL localRadioV5Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
+        BOOL existingLocalRadioV5Found = [[NSFileManager defaultManager] fileExistsAtPath:databasePathString];
         
         NSMutableDictionary * databaseUpgradeDictionary = NULL;
         
-        if (localRadioV5Found == NO)
+        if (existingLocalRadioV5Found == NO)
         {
             //check for earlier database versions, and migrate data if found
             if ([databaseUpgradeDictionary count] == 0)
@@ -66,7 +66,7 @@
 
         //NSLog(@"databasePathString = %@", databasePathString);
 
-        [SQLiteLibrary setDatabaseFile:databasePathString]; // open LocalRadio-V3.sqlite3
+        [SQLiteLibrary setDatabaseFile:databasePathString]; // open LocalRadio-V5.sqlite3
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         self.sqliteIsRunning = [SQLiteLibrary begin];
 
