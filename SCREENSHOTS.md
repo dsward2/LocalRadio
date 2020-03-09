@@ -61,6 +61,6 @@
 
 <hr>
 
-Copyright (c) 2017-2018 by ArkPhone, LLC.
+Copyright (c) 2017-2020 by ArkPhone, LLC.
 
 All trademarks are the property of their respective holders.

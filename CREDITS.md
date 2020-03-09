@@ -3,7 +3,7 @@
 ## LocalRadio for macOS
 
 LocalRadio.app for macOS
-Copyright ©2017-2018 by ArkPhone,LLC
+Copyright ©2017-2020 by ArkPhone,LLC
 Developed by Douglas Ward <dsward@arkphone.com>
 
 GPL 2 Licensed - see LICENSE.md, or see below
@@ -724,6 +724,6 @@ If your document contains nontrivial examples of program code, we recommend rele
 
 <hr>
 
-Copyright (c) 2017-2018 by ArkPhone, LLC.
+Copyright (c) 2017-2020 by ArkPhone, LLC.
 
 All trademarks are the property of their respective holders.

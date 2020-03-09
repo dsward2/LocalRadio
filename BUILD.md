@@ -33,9 +33,8 @@ The LocalRadio application bundle is sandboxed and code-signed according to Appl
 
 Most of the open-source tools and libraries - with the notable exception of rtl\_fm\_localradio - were built with MacPorts, then the executables were copied into the Xcode project, and the install\_name\_tool was used to change the install names and rpaths to "@executable_path/../Frameworks/".
 
-The following list of MacPorts packages must be installed to build LocalRadio in Xcode.  Use the MacPorts "sudo port install" command, which may also require automatic installation of some other package dependencies.
+The following list of MacPorts packages must be installed to build LocalRadio in Xcode.  Use the MacPorts "sudo port install" command, which may also trigger the automatic installation of some other package dependencies.
 
-=== new list
 * automake
 * autoconf
 * dylibbundler
@@ -55,27 +54,7 @@ The following list of MacPorts packages must be installed to build LocalRadio in
 • pkgconfig
 • rtl-sdr
 
-
-=== old list
-* automake
-* autoconf
-* pkgconfig
-* dylibbundler
-* libusb
-* libiconv
-* liquid-dsp
-* fftw-3-single
-* fftw-3
-* libsndfile
-* flac
-* libogg
-* libvorbis
-* libtheora
-* libopus
-* opusfile
-* openssl
-* zlib
-
+Since MacPorts packages are constantly changing, it is possible that other files may be required that are not included in this list.
 
 Before using the XCode Build command for the LocalRadio scheme, the sox tool must be built by using Terminal.app.  See the file named "sox git and build notes.txt" for instructions.
 
@@ -86,6 +65,6 @@ configure.ldflags-append -headerpad\_max\_install\_names
 
 <hr>
 
-Copyright (c) 2017-2019 by ArkPhone, LLC.
+Copyright (c) 2017-2020 by ArkPhone, LLC.
 
 All trademarks are the property of their respective holders.

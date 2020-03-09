@@ -3,7 +3,7 @@
 //  AudioMonitor
 //
 //  Created by Douglas Ward on 8/28/17.
-//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2020 ArkPhone LLC. All rights reserved.
 //
 
 //  Receive input 1-or-2 channel LPCM audio data at stdin, store in first TPCircularBuffer

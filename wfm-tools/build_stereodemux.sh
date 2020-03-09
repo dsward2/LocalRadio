@@ -4,7 +4,7 @@
 #  LocalRadio
 #
 #  Created by Douglas Ward on 7/29/18.
-#  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
+#  Copyright © 2017-2020 ArkPhone LLC. All rights reserved.
 
 #  Build stereodemux with MacPorts libraries libliquid and libsndfile
 

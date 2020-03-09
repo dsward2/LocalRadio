@@ -3,7 +3,7 @@
 //  UDPListener
 //
 //  Created by Douglas Ward on 7/9/17.
-//  Copyright © 2017-2018 ArkPhone LLC. All rights reserved.
+//  Copyright © 2017-2020 ArkPhone LLC. All rights reserved.
 //
 
 //  Code sign note: use inherited entitlements
