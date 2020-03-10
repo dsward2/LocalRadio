@@ -27,8 +27,11 @@
 
 - (void)startSQLiteConnection
 {
+    //
     // IMPORTANT: When the LocalRadio  database schema is changed,
     // the "data_skeleton.sqlite3" file should be updated to reflect the change.
+    // Also, test LocalRadio for new users where the SQLite database is created for first time.
+    //
 
     if (self.sqliteIsRunning == NO)
     {

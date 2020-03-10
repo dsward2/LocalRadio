@@ -6,11 +6,12 @@
 #  Created by Douglas Ward on 2/18/20.
 #  Copyright © 2020 ArkPhone LLC. All rights reserved.
 
-# This script is called from a build phase for LocalRadio.app
+# This script is called from a build phase for LocalRadio.app.
+# Run Xcode's 'Clean Build Folder' if this list is changed.
 
 # Modify MacPorts tools and libraries for embed in application bundle
 
-# install mackylibbundler from https://github.com/auriamg/macdylibbundler
+# install macdylibbundler from https://github.com/auriamg/macdylibbundler
 
 echo BUILT_PRODUCTS_DIR = ${BUILT_PRODUCTS_DIR}
 
@@ -74,19 +75,6 @@ install_name_tool -change /usr/local/opt/libtool/lib/libltdl.7.dylib @executable
 echo install_name_tool -change /usr/local/lib/libsox.3.dylib @executable_path/../Frameworks/libsox.3.dylib ${SOXPATH}
 install_name_tool -change /usr/local/lib/libsox.3.dylib @executable_path/../Frameworks/libsox.3.dylib ${SOXPATH}
 
-#echo install_name_tool -change /opt/local/lib/libvorbisenc.2.dylib @executable_path/../Frameworks/libvorbisenc.2.dylib ${SOXPATH}
-#install_name_tool -change /opt/local/lib/libvorbisenc.2.dylib @executable_path/../Frameworks/libvorbisenc.2.dylib ${SOXPATH}
-
-#echo install_name_tool -change /opt/local/lib/libvorbisfile.3.dylib @executable_path/../Frameworks/libvorbisfile.3.dylib ${SOXPATH}
-#install_name_tool -change /opt/local/lib/libvorbisfile.3.dylib @executable_path/../Frameworks/libvorbisfile.3.dylib ${SOXPATH}
-
-#echo install_name_tool -change /opt/local/lib/libvorbis.0.dylib @executable_path/../Frameworks/libvorbis.0.dylib ${SOXPATH}
-#install_name_tool -change /opt/local/lib/libvorbis.0.dylib @executable_path/../Frameworks/libvorbis.0.dylib ${SOXPATH}
-
-#echo install_name_tool -change /opt/local/lib/libogg.0.dylib @executable_path/../Frameworks/libogg.0.dylib ${SOXPATH}
-#install_name_tool -change /opt/local/lib/libogg.0.dylib @executable_path/../Frameworks/libogg.0.dylib ${SOXPATH}
-
-
 #####################################################################
 
 echo Copy libraries to Libraries_Modified folder
@@ -104,7 +92,7 @@ echo /opt/local/bin/dylibbundler -b -x "${EXECFILE}" -d "${MODIFIEDLIBPATH}" -p 
 
 # TARGETS should list the same files in Project Navigator in the Libraries_Modified folder, except for libsox
 
-TARGETS="libfec.dylib libfftw3f.3.dylib libFLAC.8.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
+TARGETS="libao.4.dylib libfec.dylib libfftw3f.3.dylib libFLAC.8.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 
 for TARGET in ${TARGETS[*]} ; do
 

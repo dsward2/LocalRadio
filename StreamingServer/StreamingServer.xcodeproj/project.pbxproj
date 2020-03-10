@@ -2188,16 +2188,16 @@
 					ProjectRef = 0E1745212405886D00E4D719 /* BonjourServer.xcodeproj */;
 				},
 				{
+					ProductGroup = 0E17450E2405886D00E4D719 /* Products */;
+					ProjectRef = 0E17450D2405886D00E4D719 /* CocoaAsyncSocket.xcodeproj */;
+				},
+				{
 					ProductGroup = 0E1746562405886E00E4D719 /* Products */;
 					ProjectRef = 0E1746552405886E00E4D719 /* CocoaAsyncSocket.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E17465E2405886E00E4D719 /* Products */;
 					ProjectRef = 0E17465D2405886E00E4D719 /* CocoaAsyncSocket.xcodeproj */;
-				},
-				{
-					ProductGroup = 0E17450E2405886D00E4D719 /* Products */;
-					ProjectRef = 0E17450D2405886D00E4D719 /* CocoaAsyncSocket.xcodeproj */;
 				},
 				{
 					ProductGroup = 0E1746502405886E00E4D719 /* Products */;
@@ -3234,6 +3234,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -3246,6 +3247,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

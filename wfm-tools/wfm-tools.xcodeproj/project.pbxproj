@@ -309,6 +309,7 @@
 					"\"$(SRCROOT)/\"",
 					"$(PROJECT_DIR)/../../../../../../../../opt/local/lib",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-std=c++11",
@@ -351,6 +352,7 @@
 					"\"$(SRCROOT)/\"",
 					"$(PROJECT_DIR)/../../../../../../../../opt/local/lib",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-std=c++11",
