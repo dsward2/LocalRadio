@@ -173,5 +173,7 @@
 
 - (IBAction)shareWebPreviewURL:(id)sender;
 
+- (void)restartStreamingServerIfNeeded;
+
 @end
 

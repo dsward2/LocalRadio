@@ -2258,6 +2258,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
     if (favoriteDictionary != NULL)
     {
+        [self startStreamingServer];
+
         [self.sdrController startRtlsdrTasksForFrequency:favoriteDictionary];
     }
 }
@@ -2270,6 +2272,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
     if (deviceName != NULL)
     {
+        [self startStreamingServer];
+
         [self.sdrController startTasksForDevice:deviceName];
     }
 }
@@ -2282,6 +2286,8 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 {
     if (customTaskID != NULL)
     {
+        [self startStreamingServer];
+
         [self.sdrController startTasksForCustomTaskID:customTaskID];
     }
 }
@@ -2330,12 +2336,23 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
     [self performSelectorInBackground:@selector(startRtlsdrTaskForFrequenciesWithDictionary:) withObject:freqCatDictionary];
 }
 
+
+
 //==================================================================================
-//	tunerGainsArray
+//    startStreamingServer
 //==================================================================================
 
-- (NSArray *)tunerGainsArray
+- (void)startStreamingServer
 {
+    [self.appDelegate restartStreamingServerIfNeeded];
+}
+
+//==================================================================================
+//    tunerGainsArray
+//==================================================================================
+
+    - (NSArray *)tunerGainsArray
+    {
     NSArray * tunerGainsArray = [NSArray arrayWithObjects:
         @"0.0",
         @"0.9",

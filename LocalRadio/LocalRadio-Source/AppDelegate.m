@@ -1360,5 +1360,9 @@ sourceFrameOnScreenForShareItem: (id<NSPasteboardWriting>) item
 }
 
 
+- (void)restartStreamingServerIfNeeded
+{
+    [self.streamingServerController restartStreamingServerIfNeeded];
+}
 
 @end

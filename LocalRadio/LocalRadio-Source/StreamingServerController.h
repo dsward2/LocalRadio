@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)startStreamingServer;
 
+- (void)restartStreamingServerIfNeeded;
+
 @end
 
 NS_ASSUME_NONNULL_END

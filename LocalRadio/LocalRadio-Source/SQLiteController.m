@@ -1203,6 +1203,10 @@
             NSInteger defaultInteger = [columnDefault integerValue];
             newValue = [NSNumber numberWithInteger:defaultInteger];
         }
+        else if ([columnType isEqualToString:@"STRING"] == YES)
+        {
+            newValue = columnDefault;
+        }
         else
         {
             NSLog(@"SQLiteController - makePrototypeDictionaryForTable - using unknown type for table %@ column %@ type %@", tableName, columnName, columnType);

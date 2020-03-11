@@ -63,6 +63,22 @@
     }
 }
 
+//==================================================================================
+//    restartStreamingServerIfNeeded
+//==================================================================================
+
+- (void)restartStreamingServerIfNeeded
+{
+    //if (self.streamingServerTaskPipelineManager.taskPipelineStatus != kTaskPipelineStatusRunning)
+    if ([self.appDelegate processIDForProcessName:@"StreamingServer"] == 0)
+    {
+        //[self.streamingServerTaskPipelineManager terminateTasks];   // TEST
+
+        //[self performSelector:@selector(startStreamingServer) withObject:NULL afterDelay:5.0f];
+        
+        [self performSelectorOnMainThread:@selector(startStreamingServer) withObject:NULL waitUntilDone:YES];
+    }
+}
 
 //==================================================================================
 //    poseStreamingServerProcessAlert:
