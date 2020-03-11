@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1235,7 +1234,7 @@ Gw
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="LocalRadio" identifier="" id="8Qy-d0-fpa">
-                                <view key="view" id="bIe-XZ-nnh">
+                                <view key="view" ambiguous="YES" id="bIe-XZ-nnh">
                                     <rect key="frame" x="10" y="33" width="450" height="550"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1271,7 +1270,7 @@ Gw
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Status" identifier="" id="GvX-g5-9UV">
-                                <view key="view" ambiguous="YES" id="qnk-kF-EPU">
+                                <view key="view" id="qnk-kF-EPU">
                                     <rect key="frame" x="10" y="33" width="450" height="550"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1287,7 +1286,7 @@ Gw
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="XFC-hX-hWd">
                                                             <rect key="frame" x="1" y="1" width="432" height="275"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="ydX-HH-DPt">
                                                                     <rect key="frame" x="0.0" y="0.0" width="432" height="275"/>
@@ -1588,7 +1587,7 @@ Gw
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="push" title="Update" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1do-GF-fAa">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="miniSystem"/>
+                                                <font key="font" metaFont="label" size="9"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="updateCurrentTasksText:" target="Voe-Tx-rLC" id="9So-Bh-vgM"/>
@@ -1837,7 +1836,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" id="aFL-0Q-zBm">
                                                     <rect key="frame" x="1" y="0.0" width="165" height="145"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="TBE-l0-bdo" viewBased="YES" id="hbf-Oj-gly">
                                                             <rect key="frame" x="0.0" y="0.0" width="165" height="122"/>
@@ -1930,6 +1929,7 @@ Gw
                                                 <rect key="frame" x="32" y="177" width="96" height="19"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="1qy-0R-rOj">
+                                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" usesGroupingSeparator="NO" formatWidth="-1" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="42" id="KPL-04-Bxp"/>
                                                     <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1953,6 +1953,7 @@ Gw
                                                 <rect key="frame" x="32" y="136" width="96" height="19"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="vgO-rv-nYP">
+                                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" usesGroupingSeparator="NO" formatWidth="-1" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="42" id="oNB-Mi-RHD"/>
                                                     <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1967,6 +1968,7 @@ Gw
                                                 <rect key="frame" x="30" y="94" width="76" height="19"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Y9y-44-ljn">
+                                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" usesGroupingSeparator="NO" formatWidth="-1" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="42" id="qTQ-UZ-BOD"/>
                                                     <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2008,6 +2010,7 @@ Gw
                                                 <rect key="frame" x="30" y="53" width="76" height="19"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Xcx-Ut-mw9">
+                                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" usesGroupingSeparator="NO" formatWidth="-1" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="42" id="OkU-Sv-XFW"/>
                                                     <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2052,6 +2055,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <string key="toolTip">Third stage buffer for optional direct output to Core Audio device using Apple's AudioQueue, typically 256 for single channel wide-band FM.</string>
                                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="gOH-9w-Xh6">
+                                                    <numberFormatter key="formatter" formatterBehavior="custom10_4" allowsFloats="NO" usesGroupingSeparator="NO" formatWidth="-1" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="42" id="OO1-Oq-jAP"/>
                                                     <font key="font" metaFont="message" size="11"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2097,7 +2101,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" id="QV0-ek-CJh">
                                                     <rect key="frame" x="1" y="0.0" width="164" height="363"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="CB4-k0-f8U" viewBased="YES" id="Go3-wO-jgJ">
                                                             <rect key="frame" x="0.0" y="0.0" width="164" height="340"/>
@@ -2203,7 +2207,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" id="caH-Rk-BaD">
                                                     <rect key="frame" x="1" y="0.0" width="165" height="363"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="spe-AD-2de" viewBased="YES" id="2yw-Em-uZv">
                                                             <rect key="frame" x="0.0" y="0.0" width="165" height="340"/>
@@ -2305,7 +2309,7 @@ Gw
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="qZz-7e-yFC">
                                             <rect key="frame" x="0.0" y="0.0" width="166" height="340"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1tw-0p-xoZ">
                                                     <rect key="frame" x="0.0" y="0.0" width="166" height="340"/>

@@ -691,35 +691,40 @@
             NSDictionary * itemDictionary = [self.allCustomTasksArray objectAtIndex:selectedNameIndex];
             if (itemDictionary != NULL)
             {
-                NSString * sampleRateString = [itemDictionary objectForKey:@"sample_rate"];
+                NSNumber * sampleRateNumber = [itemDictionary objectForKey:@"sample_rate"];
+                NSString * sampleRateString = [NSString stringWithFormat:@"%ld", sampleRateNumber.integerValue];
                 if (sampleRateString == NULL)
                 {
                     sampleRateString = @"";
                 }
                 self.sampleRateTextField.stringValue = sampleRateString;
 
-                NSString * channelsString = [itemDictionary objectForKey:@"channels"];
+                NSNumber * channelsNumber = [itemDictionary objectForKey:@"channels"];
+                NSString * channelsString = [NSString stringWithFormat:@"%ld", channelsNumber.integerValue];
                 if (channelsString == NULL)
                 {
                     channelsString = @"";
                 }
                 self.channelsTextField.stringValue = channelsString;
                 
-                NSString * inputBufferSizeString = [itemDictionary objectForKey:@"input_buffer_size"];
+                NSNumber * inputBufferSizeNumber = [itemDictionary objectForKey:@"input_buffer_size"];
+                NSString * inputBufferSizeString = [NSString stringWithFormat:@"%ld", inputBufferSizeNumber.integerValue];
                 if (inputBufferSizeString == NULL)
                 {
                     inputBufferSizeString = @"256";
                 }
                 self.inputBufferSizeTextField.stringValue = inputBufferSizeString;
                 
-                NSString * audioConverterBufferSizeString = [itemDictionary objectForKey:@"audioconverter_buffer_size"];
+                NSNumber * audioConverterBufferSizeNumber = [itemDictionary objectForKey:@"audioconverter_buffer_size"];
+                NSString * audioConverterBufferSizeString = [NSString stringWithFormat:@"%ld", audioConverterBufferSizeNumber.integerValue];
                 if (audioConverterBufferSizeString == NULL)
                 {
                     audioConverterBufferSizeString = @"256";
                 }
                 self.audioConverterBufferSizeTextField.stringValue = audioConverterBufferSizeString;
                 
-                NSString * audioQueueBufferSizeString = [itemDictionary objectForKey:@"audioqueue_buffer_size"];
+                NSNumber * audioQueueBufferSizeNumber = [itemDictionary objectForKey:@"audioqueue_buffer_size"];
+                NSString * audioQueueBufferSizeString = [NSString stringWithFormat:@"%ld", audioQueueBufferSizeNumber.integerValue];
                 if (audioQueueBufferSizeString == NULL)
                 {
                     audioQueueBufferSizeString = @"256";
