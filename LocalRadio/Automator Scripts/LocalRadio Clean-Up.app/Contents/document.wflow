@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>419</string>
+	<string>492</string>
 	<key>AMApplicationVersion</key>
-	<string>2.6</string>
+	<string>2.10</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -64,14 +64,14 @@
 					<key>displayWarning</key>
 					<false/>
 					<key>explanationText</key>
-					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: sox, UDPSender, UDPListener, rtl_fm_localradio, icecast, ezstream, AudioMonitor.</string>
+					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: UDPSender, UDPListener, rtl_fm_localradio, AACEncoder, AudioMonitor2, stereodemux and StreamingServer.</string>
 					<key>negativeTitle</key>
 					<string>Cancel</string>
 					<key>questionText</key>
 					<string>Run LocalRadio Clean-up?</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.Ask for Confirmation</string>
+				<string>com.apple.Automator.AskforConfirmation</string>
 				<key>CFBundleVersion</key>
 				<string>1.0.2</string>
 				<key>CanShowSelectedItemsWhenRun</key>
@@ -107,9 +107,9 @@
 					<key>0</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<string>Cancel</string>
 						<key>name</key>
-						<string>questionText</string>
+						<string>negativeTitle</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -159,9 +159,9 @@
 					<key>4</key>
 					<dict>
 						<key>default value</key>
-						<string>Cancel</string>
+						<string></string>
 						<key>name</key>
-						<string>negativeTitle</string>
+						<string>questionText</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -173,9 +173,9 @@
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>318.000000:267.000000</string>
+				<string>347.750000:266.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Ask for Confirmation.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<true/>
@@ -253,28 +253,28 @@ else
 		pkill rtl_fm_localradio
 	fi
 
-	if pgrep -x "icecast" &gt; /dev/null
+	if pgrep -x "AACEncoder" &gt; /dev/null
 	then
-    	echo "pkill icecast"
-		pkill icecast
+    	echo "pkill AACEncoder"
+		pkill AACEncoder
 	fi
 
-	if pgrep -x "ezstream" &gt; /dev/null
+	if pgrep -x "AudioMonitor2" &gt; /dev/null
 	then
-    	echo "pkill ezstream"
-		pkill ezstream
+    	echo "pkill AudioMonitor2"
+		pkill AudioMonitor2
 	fi
 
-	if pgrep -x "sox" &gt; /dev/null
+	if pgrep -x "stereodemux" &gt; /dev/null
 	then
-    	echo "pkill sox"
-		pkill sox
+    	echo "pkill stereodemux"
+		pkill stereodemux
 	fi
 
-	if pgrep -x "AudioMonitor" &gt; /dev/null
+	if pgrep -x "StreamingServer" &gt; /dev/null
 	then
-    	echo "pkill AudioMonitor"
-		pkill AudioMonitor
+    	echo "pkill StreamingServer"
+		pkill StreamingServer
 	fi
 fi
 </string>
@@ -337,9 +337,9 @@ fi
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -350,9 +350,9 @@ fi
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -390,9 +390,144 @@ fi
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>318.000000:450.000000</string>
+				<string>347.750000:448.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array/>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>message</key>
+					<dict>
+						<key>tokenizedValue</key>
+						<array>
+							<string>The LocalRadio Clean-up is completed.  Please try launching LocalRadio.app again.</string>
+						</array>
+					</dict>
+					<key>subtitle</key>
+					<dict/>
+					<key>title</key>
+					<dict>
+						<key>tokenizedValue</key>
+						<array>
+							<string>LocalRadio Clean-up Completed.</string>
+						</array>
+					</dict>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array/>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Display Notification.action</string>
+				<key>ActionName</key>
+				<string>Display Notification</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>message</key>
+					<string></string>
+					<key>subtitle</key>
+					<string></string>
+					<key>title</key>
+					<string>LocalRadio Clean-up Completed.</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.Display-Notification</string>
+				<key>CFBundleVersion</key>
+				<string>1.0</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<true/>
+				<key>CanShowWhenRun</key>
+				<false/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>AMDisplayNotificationAction</string>
+				<key>InputUUID</key>
+				<string>8ECB5EFE-BD53-425D-B984-A5F4AB54AB0F</string>
+				<key>Keywords</key>
+				<array/>
+				<key>OutputUUID</key>
+				<string>E7C2DA0B-2E87-4E7E-9292-7EDE1B58AD4F</string>
+				<key>UUID</key>
+				<string>17810AEA-E10E-4539-A179-27F66A9F6362</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>message</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>subtitle</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>title</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>347.750000:637.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Display Notification.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<true/>
@@ -400,7 +535,14 @@ fi
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>AD54E98C-BB8C-49BA-876D-21EA6FED9CA5</key>
+		<key>18BEA4AE-5A2E-4A6F-AC60-B1D18E27AEC1</key>
+		<dict>
+			<key>from</key>
+			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>
+			<key>to</key>
+			<string>17810AEA-E10E-4539-A179-27F66A9F6362 - 17810AEA-E10E-4539-A179-27F66A9F6362</string>
+		</dict>
+		<key>E5EB7901-90AD-42F7-ACD1-D3AE576CD513</key>
 		<dict>
 			<key>from</key>
 			<string>F71504F6-88ED-4F28-9945-F7A987CB8965 - F71504F6-88ED-4F28-9945-F7A987CB8965</string>

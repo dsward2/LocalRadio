@@ -135,6 +135,8 @@
 
 @property (strong) NSString * bonjourName;
 
+@property (strong) NSMutableArray * processConflictArray;
+
 //NS_ASSUME_NONNULL_END
 
 - (void)restartServices;

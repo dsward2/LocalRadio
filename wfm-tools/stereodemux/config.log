@@ -30,8 +30,8 @@ Kernel configured for up to 12 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1 2 3 4 5 6 7 8 9 10 11
 Primary memory available: 16.00 gigabytes
-Default processor set: 399 tasks, 1591 threads, 12 processors
-Load average: 2.82, Mach factor: 9.17
+Default processor set: 453 tasks, 2093 threads, 12 processors
+Load average: 2.18, Mach factor: 9.81
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -198,7 +198,7 @@ configure:3933: result: yes
 configure:3958: checking dependency style of g++
 configure:4069: result: gcc3
 configure:4127: checking for ranlib
-configure:4143: found /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib
+configure:4143: found /opt/local/bin/ranlib
 configure:4154: result: ranlib
 configure:4292: checking that generated files are newer than configure
 configure:4298: result: done

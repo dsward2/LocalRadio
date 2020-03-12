@@ -430,7 +430,7 @@
             setTimeout(function(){periodicUpdate();}, 10000);      // a one-shot call to periodicUpdate() for "Now Playing"
 
             // we can't use setTimeout on iOS to start delayed audio play due to Apple's rules, so we use this ridiculous loop instead
-            var delay = 2000; // milliseconds
+            var delay = 3000; // milliseconds
             var before = Date.now();
             while (Date.now() < before + delay) {};
 

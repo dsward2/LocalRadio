@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>444.39</string>
+	<string>492</string>
 	<key>AMApplicationVersion</key>
-	<string>2.9</string>
+	<string>2.10</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -64,7 +64,7 @@
 					<key>displayWarning</key>
 					<false/>
 					<key>explanationText</key>
-					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: sox, UDPSender, UDPListener, rtl_fm_localradio, icecast, ezstream, AudioMonitor, AudioMonitor2 and stereodemux.</string>
+					<string>If LocalRadio crashes and fail to terminate the subprocesses correctly, use this script to kill the following processes: UDPSender, UDPListener, rtl_fm_localradio, AACEncoder, AudioMonitor2, stereodemux and StreamingServer.</string>
 					<key>negativeTitle</key>
 					<string>Cancel</string>
 					<key>questionText</key>
@@ -107,9 +107,9 @@
 					<key>0</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<string>Cancel</string>
 						<key>name</key>
-						<string>questionText</string>
+						<string>negativeTitle</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -159,9 +159,9 @@
 					<key>4</key>
 					<dict>
 						<key>default value</key>
-						<string>Cancel</string>
+						<string></string>
 						<key>name</key>
-						<string>negativeTitle</string>
+						<string>questionText</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -253,28 +253,10 @@ else
 		pkill rtl_fm_localradio
 	fi
 
-	if pgrep -x "icecast" &gt; /dev/null
-	then
-    	echo "pkill icecast"
-		pkill icecast
-	fi
-
 	if pgrep -x "AACEncoder" &gt; /dev/null
 	then
     	echo "pkill AACEncoder"
 		pkill AACEncoder
-	fi
-
-	if pgrep -x "sox" &gt; /dev/null
-	then
-    	echo "pkill sox"
-		pkill sox
-	fi
-
-	if pgrep -x "IcecastSource" &gt; /dev/null
-	then
-    	echo "pkill IcecastSource"
-		pkill IcecastSource
 	fi
 
 	if pgrep -x "AudioMonitor2" &gt; /dev/null
@@ -287,6 +269,12 @@ else
 	then
     	echo "pkill stereodemux"
 		pkill stereodemux
+	fi
+
+	if pgrep -x "StreamingServer" &gt; /dev/null
+	then
+    	echo "pkill StreamingServer"
+		pkill StreamingServer
 	fi
 fi
 </string>
@@ -349,9 +337,9 @@ fi
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -362,9 +350,9 @@ fi
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -402,7 +390,7 @@ fi
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>347.750000:597.000000</string>
+				<string>347.750000:380.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -499,7 +487,7 @@ fi
 						<key>default value</key>
 						<string></string>
 						<key>name</key>
-						<string>subtitle</string>
+						<string>message</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -512,7 +500,7 @@ fi
 						<key>default value</key>
 						<string></string>
 						<key>name</key>
-						<string>title</string>
+						<string>subtitle</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -525,7 +513,7 @@ fi
 						<key>default value</key>
 						<string></string>
 						<key>name</key>
-						<string>message</string>
+						<string>title</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -537,7 +525,7 @@ fi
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>347.750000:786.000000</string>
+				<string>347.750000:569.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Display Notification.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -547,14 +535,14 @@ fi
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>71F7884A-C034-4911-BE57-46C294D86EC0</key>
+		<key>F4A16456-7C57-4D2C-9CCD-F3E4720FEEED</key>
 		<dict>
 			<key>from</key>
 			<string>F71504F6-88ED-4F28-9945-F7A987CB8965 - F71504F6-88ED-4F28-9945-F7A987CB8965</string>
 			<key>to</key>
 			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>
 		</dict>
-		<key>B28E5BC0-320F-4DFF-94B0-4FC7F4EECE47</key>
+		<key>F74807A8-6227-48BD-A603-34497CEC8EC3</key>
 		<dict>
 			<key>from</key>
 			<string>1F543706-C4DE-4D1F-8710-5966E55254C7 - 1F543706-C4DE-4D1F-8710-5966E55254C7</string>

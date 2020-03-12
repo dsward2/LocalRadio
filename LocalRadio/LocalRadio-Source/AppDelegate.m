@@ -561,48 +561,60 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
 
 - (BOOL)checkForProcessConflicts
 {
+    self.processConflictArray = [NSMutableArray array];
     NSMutableString * processConflictReportString = [NSMutableString string];
     
-    int audioMonitorID = [self processIDForProcessName:@"AudioMonitor"];
+    int audioMonitorID = [self processIDForProcessName:@"AudioMonitor2"];
     if (audioMonitorID != 0)
     {
-        [processConflictReportString appendFormat:@"AudioMonitor (Process Identifier = %d)\r", audioMonitorID];
+        [processConflictReportString appendFormat:@"AudioMonitor2 (Process Identifier = %d)\r", audioMonitorID];
+        [self.processConflictArray addObject:@"AudioMonitor2"];
     }
 
+    // don't count sox as a conflicting process, it is a third party tool
+    // that can be used without LocalRadio, and it shouldn't interfere with LocalRadio in any case
+    /*
     int soxProcessID = [self processIDForProcessName:@"sox"];
     if (soxProcessID != 0)
     {
         [processConflictReportString appendFormat:@"sox (Process Identifier = %d)\r", soxProcessID];
+        [UDPSender addObject:@"sox"];
     }
+    */
 
     int udpSenderProcessID = [self processIDForProcessName:@"UDPSender"];
     if (udpSenderProcessID != 0)
     {
         [processConflictReportString appendFormat:@"UDPSender (Process Identifier = %d)\r", udpSenderProcessID];
+        [self.processConflictArray addObject:@"UDPSender"];
     }
 
     int udpListenerProcessID = [self processIDForProcessName:@"UDPListener"];
     if (udpListenerProcessID != 0)
     {
         [processConflictReportString appendFormat:@"UDPListener (Process Identifier = %d)\r", udpListenerProcessID];
+        [self.processConflictArray addObject:@"UDPListener"];
     }
 
     int rtlFMProcessID = [self processIDForProcessName:@"rtl_fm_localradio"];
     if (rtlFMProcessID != 0)
     {
         [processConflictReportString appendFormat:@"rtl_fm_localradio (Process Identifier = %d)\r", rtlFMProcessID];
+        [self.processConflictArray addObject:@"rtl_fm_localradio"];
     }
 
     int aacEncoderProcessID = [self processIDForProcessName:@"AACEncoder"];
     if (aacEncoderProcessID != 0)
     {
         [processConflictReportString appendFormat:@"AACEncoder (Process Identifier = %d)\r", aacEncoderProcessID];
+        [self.processConflictArray addObject:@"AACEncoder"];
     }
 
     int streamingServerProcessID = [self processIDForProcessName:@"StreamingServer"];
     if (streamingServerProcessID != 0)
     {
         [processConflictReportString appendFormat:@"StreamingServer (Process Identifier = %d)\r", streamingServerProcessID];
+        [self.processConflictArray addObject:@"StreamingServer"];
     }
 
     BOOL conflictFound = NO;
@@ -639,16 +651,22 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     [alert addButtonWithTitle:@"Quit"];
     [alert addButtonWithTitle:@"Show LocalRadio Clean-Up Workflow"];
+    [alert addButtonWithTitle:@"Run LocalRadio Clean-Up App"];
     
     [alert setMessageText:@"Some conflicting processes must be terminated"];
     
-    NSString * informativeText = [NSString stringWithFormat:@"One or more conflicting processes should be terminated before launching LocalRadio.\n\nRun the \"LocalRadio Clean-up\" workflow in Apple's Automator utility to automatically terminate the conflicting processes, or use Activity Monitor to terminate these processes: \n\n%@\n\nAfter the conflicting processes are terminated, try launching the LocalRadio app again.", processConflictReportString];
+    NSString * informativeText = [NSString stringWithFormat:@"LocalRadio must quit due to a process conflict, probably due to a previous crash.  One or more conflicting processes should be terminated before launching LocalRadio.\n\nRun the \"LocalRadio Clean-up\" app or workflow to automatically terminate the conflicting processes, or use Activity Monitor to terminate these processes: \n\n%@\n\nAfter the conflicting processes are terminated, try launching the LocalRadio app again.", processConflictReportString];
     
     [alert setInformativeText:informativeText];
     
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
 
     [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            // Quit button clicked
+            exit(0);
+        }
+
         if (returnCode == NSAlertSecondButtonReturn) {
             // Show LocalRadio Clean-Up Workflow button
             
@@ -657,21 +675,27 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
             [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
             
             exit(0);
-            
-            return;
         }
-        
-        // Quit button clicked
-        exit(0);
+
+        if (returnCode == NSAlertThirdButtonReturn) {
+            // Quit and Run LocalRadio Clean-Up App button clicked
+            
+            NSURL * cleanupAppURL = [NSBundle.mainBundle URLForResource:@"LocalRadio Clean-Up" withExtension:@"app"];
+            [[NSWorkspace sharedWorkspace] openURL:cleanupAppURL];        // launch "LocalRadio Clean-Up.app""
+
+            exit(0);
+        }
+
+        exit(1);
     }];
 }
 
 //==================================================================================
-//	poseAppPathErrorAlert
+//    poseAppPathErrorAlert
 //==================================================================================
 
-- (void)poseAppPathErrorAlert:(NSString *)folderName
-{
+    - (void)poseAppPathErrorAlert:(NSString *)folderName
+    {
     NSAlert *alert = [[NSAlert alloc] init];
     
     [alert addButtonWithTitle:@"Quit"];
