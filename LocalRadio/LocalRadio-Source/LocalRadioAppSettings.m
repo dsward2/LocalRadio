@@ -16,7 +16,7 @@
 {
     // set default key-store values in local_radio_config SQLite table
     
-    [self setDefaultInteger:4 forKey:@"LocalRadioConfigVersion"];
+    [self setDefaultInteger:kCurrentLocalRadioConfigVersion forKey:@"LocalRadioConfigVersion"];
     
     [self setDefaultInteger:17002 forKey:@"LocalRadioServerHTTPPort"];
     [self setDefaultInteger:17004 forKey:@"StreamingServerHTTPPort"];
@@ -26,14 +26,14 @@
 
     [self setDefaultInteger:1 forKey:@"CaptureStderr"];
 
-    [self setDefaultValue:@"64000" forKey:@"AACBitrate"];
+    [self setDefaultValue:@"128000" forKey:@"AACBitrate"];
 }
 
 - (void) setDefaultSettings
 {
     // set default key-store values in local_radio_config SQLite table
     
-    [self setInteger:4 forKey:@"LocalRadioConfigVersion"];
+    [self setInteger:kCurrentLocalRadioConfigVersion forKey:@"LocalRadioConfigVersion"];
     
     [self setInteger:17002 forKey:@"LocalRadioServerHTTPPort"];
     [self setInteger:17004 forKey:@"StreamingServerHTTPPort"];
@@ -43,7 +43,7 @@
 
     [self setInteger:1 forKey:@"CaptureStderr"];
     
-    [self setValue:@"64000" forKey:@"AACBitrate"];
+    [self setValue:@"128000" forKey:@"AACBitrate"];
 }
 
 
@@ -105,7 +105,7 @@
 {
     NSNumber * integerNumber = [NSNumber numberWithInteger:aInteger];
     
-    [self.sqliteController storeLocalRadioAppSettingsValue:integerNumber ForKey:key];
+    [self.sqliteController storeLocalRadioAppSettingsValue:integerNumber forKey:key];
 }
 
 
@@ -135,7 +135,7 @@
 
 - (void) setValue:(NSString *)aString forKey:(NSString *)key
 {
-    [self.sqliteController storeLocalRadioAppSettingsValue:aString ForKey:key];
+    [self.sqliteController storeLocalRadioAppSettingsValue:aString forKey:key];
 }
 
 

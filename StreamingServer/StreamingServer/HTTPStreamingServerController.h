@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HTTPStreamingServerController : NSObject
 
 @property(strong) HTTPStreamingServer * _Nullable httpStreamingServer;
+@property(assign) int streamingServerPort;
 
 - (BOOL)startProcessingWithPort:(int)port;
 - (void)addAudioDataToConnections:(NSMutableData *)audioData;

@@ -11,6 +11,8 @@
 @class SQLiteController;
 @class AppDelegate;
 
+#define kCurrentLocalRadioConfigVersion 5
+
 @interface LocalRadioAppSettings : NSObject
 
 @property (strong) IBOutlet AppDelegate * appDelegate;

@@ -331,7 +331,7 @@ void logAudioConverterProperties()
     }
     else
     {
-        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPrimeInfo error = %d\n", (int)primeInfoStatus);
+        fprintf(stderr, "AudioMonitor2 AudioConverterGetProperty kAudioConverterPrimeInfo error = %d (OK)\n", (int)primeInfoStatus);
     }
 
 
@@ -695,6 +695,7 @@ void * runInputBufferOnThread(void * ptr)
     // works in all cases.
 
     const int maxWhiteNoiseBufferLength = 24000;
+    //const int maxWhiteNoiseBufferLength = 192000;
 
     // instead of silence, send some white noise when needed
     char whiteNoiseBuffer[maxWhiteNoiseBufferLength];
@@ -719,15 +720,20 @@ void * runInputBufferOnThread(void * ptr)
 
     //CFTimeInterval inputTimeoutInterval = 0.025f;
     //CFTimeInterval inputTimeoutInterval = 20000.0f / sampleRate;
+    //CFTimeInterval inputTimeoutInterval = 6.0f;
     CFTimeInterval inputTimeoutInterval = 6.0f;
-    
+
     float whiteNoiseBufferLengthFloat = (float)sampleRate * (float)inputChannels * inputTimeoutInterval;
     int whiteNoiseBufferLength = whiteNoiseBufferLengthFloat;
     if (whiteNoiseBufferLength > maxWhiteNoiseBufferLength)
     {
         whiteNoiseBufferLength = maxWhiteNoiseBufferLength;
     }
-    
+    if (whiteNoiseBufferLength > inputBufferSize)
+    {
+        whiteNoiseBufferLength = inputBufferSize;
+    }
+
     fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputTimeoutInterval=%f, whiteNoiseBufferLength=%d\n", inputTimeoutInterval, whiteNoiseBufferLength);
 
     int packetIndex = 0;
@@ -740,6 +746,14 @@ void * runInputBufferOnThread(void * ptr)
     fprintf(stderr, "AudioMonitor2 runInputBufferOnThread inputCircularBuffer=%p, circularBufferLength = %d\n", &inputCircularBuffer, circularBufferLength);
 
     unsigned char * rtlsdrBuffer = (unsigned char *)malloc(circularBufferLength);
+
+    UInt32 initialBytesAvailableCount = 0;
+    int initial_ioctl_result = ioctl(STDIN_FILENO, FIONREAD, &initialBytesAvailableCount);
+    if (initialBytesAvailableCount < whiteNoiseBufferLength / 2)
+    {
+        fprintf(stderr, "AudioMonitor2 priming input buffer\n");
+        bool produceBytesPrimeResult = TPCircularBufferProduceBytes(&inputCircularBuffer, &whiteNoiseBuffer, whiteNoiseBufferLength / 2);
+    }
     
     UInt64 loopCount = 0;
 
@@ -839,6 +853,35 @@ void * runInputBufferOnThread(void * ptr)
             }
         }
 
+        // send some white noise during periods of silence (no audio input received from source, the buffer is empty)
+        /*
+        int32_t bytesAvailableToReadCount = 0;
+        void * circularBufferDataPtr = TPCircularBufferTail(&inputCircularBuffer, &bytesAvailableToReadCount);    // get pointer to read buffer
+        if (bytesAvailableToReadCount == 0)
+        {
+            bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, &whiteNoiseBuffer, whiteNoiseBufferLength);
+
+            //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - buffer is empty, write white noise - interval=%f, inputTimeoutInterval=%f, length=%d\n", currentAbsoluteTime - lastValidPacketAbsoluteTime, inputTimeoutInterval, whiteNoiseBufferLength);
+
+            lastValidPacketAbsoluteTime = currentAbsoluteTime;
+        }
+        */
+        
+        // send some white noise during periods of silence (no audio input received from source, the buffer is low)
+        int32_t bytesAvailableToReadCount = 0;
+        void * circularBufferDataPtr = TPCircularBufferTail(&inputCircularBuffer, &bytesAvailableToReadCount);    // get pointer to read buffer
+        if (bytesAvailableToReadCount < 1000)
+        {
+            //bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, &whiteNoiseBuffer, whiteNoiseBufferLength);
+            bool produceBytesResult = TPCircularBufferProduceBytes(&inputCircularBuffer, &whiteNoiseBuffer, 500);
+
+            fprintf(stderr, "bytesAvailableToReadCount = %d, whiteNoiseBufferLength = %d, currentAbsoluteTime = %f\n", bytesAvailableToReadCount, whiteNoiseBufferLength, currentAbsoluteTime);
+            //fprintf(stderr, "AudioMonitor2 runInputBufferOnThread - buffer is low, write white noise - interval=%f, inputTimeoutInterval=%f, length=%d\n", currentAbsoluteTime - lastValidPacketAbsoluteTime, inputTimeoutInterval, whiteNoiseBufferLength);
+
+            lastValidPacketAbsoluteTime = currentAbsoluteTime;
+        }
+
+        /*
         // In scanning mode with squelch, we might not get continuous audio data,
         // so send some white noise periodically during long periods of silence
         if (currentAbsoluteTime - lastValidPacketAbsoluteTime >= inputTimeoutInterval)
@@ -849,6 +892,7 @@ void * runInputBufferOnThread(void * ptr)
 
             lastValidPacketAbsoluteTime = currentAbsoluteTime;
         }
+        */
         
         usleep(1000);
         

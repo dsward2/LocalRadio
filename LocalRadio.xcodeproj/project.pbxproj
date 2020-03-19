@@ -508,36 +508,6 @@
 			name = "Copy RTL-SDR Tools";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0EA2128A1ED72D4D004DE453 /* Copy Icecast Admin Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = icecast/admin;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy Icecast Admin Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0EA212941ED72D7A004DE453 /* Copy Icecast Web Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = icecast/web;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy Icecast Web Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0EA2129E1ED72DAB004DE453 /* Copy Icecast Doc Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = icecast/doc;
-			dstSubfolderSpec = 7;
-			files = (
-			);
-			name = "Copy Icecast Doc Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -1406,6 +1376,7 @@
 		0E87456023F3683900D34F1B /* StreamingServer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StreamingServer.xcodeproj; path = StreamingServer/StreamingServer.xcodeproj; sourceTree = "<group>"; };
 		0E880CF51EDA606E007BEB99 /* viewfavorite.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = viewfavorite.html; sourceTree = "<group>"; };
 		0E88520F241A0FCE001AF9E2 /* LocalRadio Clean-Up.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = "LocalRadio Clean-Up.app"; sourceTree = "<group>"; };
+		0E8852AC241BDE06001AF9E2 /* LocalRadio copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LocalRadio copy2-Info.plist"; path = "/Volumes/Mercury/Users/dsward/Documents/ArkPhone_LLC_Projects/LocalRadio/LocalRadio copy2-Info.plist"; sourceTree = "<absolute>"; };
 		0E96D56623FB80B5002F8968 /* StreamingServerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StreamingServerController.h; sourceTree = "<group>"; };
 		0E96D56723FB80B5002F8968 /* StreamingServerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StreamingServerController.m; sourceTree = "<group>"; };
 		0E96D56A23FC84A2002F8968 /* fix_sox.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = fix_sox.sh; sourceTree = "<group>"; };
@@ -2756,6 +2727,7 @@
 			children = (
 				0E274FD121DF54F600337560 /* Assets.xcassets */,
 				0E274FCF21DF546D00337560 /* Info.plist */,
+				0E8852AC241BDE06001AF9E2 /* LocalRadio copy2-Info.plist */,
 				0E9B3CB021DC0C17004A91E6 /* LocalRadio-Source */,
 				0E84C9BB1ED935E00065864B /* SQLiteLibrary-master */,
 				0E1BA0EF1EC8929800130DB9 /* sox-build */,
@@ -4423,9 +4395,6 @@
 				0E4ECFB91EAB633B00D2157B /* Resources */,
 				0E4ED21E1EABDC6900D2157B /* Copy Tools */,
 				0E0C693D1F1C9D4800A7EE5E /* Run Fix stereodemux Script */,
-				0EA2128A1ED72D4D004DE453 /* Copy Icecast Admin Files */,
-				0EA212941ED72D7A004DE453 /* Copy Icecast Web Files */,
-				0EA2129E1ED72DAB004DE453 /* Copy Icecast Doc Files */,
 				0E84C9A31ED8FFC90065864B /* Run Copy HTTP Files Script */,
 				0E82BEBD2201586B0042D275 /* Run fix_rtl_sdr_tools.sh Script */,
 				0E82BEB422012A850042D275 /* Copy RTL-SDR Tools */,
@@ -5689,7 +5658,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -5746,7 +5715,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;

@@ -111,15 +111,14 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 //==================================================================================
 //    serverClassPortNumber
 //==================================================================================
-
+/*
 - (NSNumber *)serverClassPortNumber
 {
-    NSString * serverClassPortKey = [self serverClassPortKey];
+    //NSString * serverClassPortKey = [self serverClassPortKey];
     //NSNumber * serverClassPortNumber = [self.appDelegate.localRadioAppSettings integerNumberForKey:serverClassPortKey];
-    NSLog(@"FIXME: set streaming server port with app settings");
-    NSNumber * serverClassPortNumber = [NSNumber numberWithInt:17004];
     return serverClassPortNumber;
 }
+*/
 
 //==================================================================================
 //    startProcessingWithPort:
@@ -132,11 +131,13 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     {
         // port number result depends on http or https
 
-        NSNumber * serverClassPortNumber = [self serverClassPortNumber];
+        self.streamingServerPort = port;
+        NSNumber * serverClassPortNumber = [NSNumber numberWithInt:port];
         
         if (serverClassPortNumber.integerValue <= 0)
         {
             DDLogError(@"HTTPWebServerController - startProcessing - invalid localRadioServerHTTPPort");
+            self.streamingServerPort = 17004;
             serverClassPortNumber = [NSNumber numberWithInteger:17004];
         }
 

@@ -9,6 +9,7 @@
 #import "SQLiteController.h"
 #import "SQLiteLibrary.h"
 #import "NSFileManager+DirectoryLocations.h"
+#import "LocalRadioAppSettings.h"
 
 @implementation SQLiteController
 
@@ -46,22 +47,19 @@
         if (existingLocalRadioV5Found == NO)
         {
             //check for earlier database versions, and migrate data if found
-            if ([databaseUpgradeDictionary count] == 0)
-            {
-                databaseUpgradeDictionary = [self getDatabaseV4Data];
-            }
+            databaseUpgradeDictionary = [self getDatabaseV4Data];
 
-            if ([databaseUpgradeDictionary count] == 0)
+            if (databaseUpgradeDictionary == NULL)
             {
                 databaseUpgradeDictionary = [self getDatabaseV3Data];
             }
 
-            if ([databaseUpgradeDictionary count] == 0)
+            if (databaseUpgradeDictionary == NULL)
             {
                 databaseUpgradeDictionary = [self getDatabaseV2Data];
             }
 
-            if ([databaseUpgradeDictionary count] == 0)
+            if (databaseUpgradeDictionary == NULL)
             {
                 databaseUpgradeDictionary = [self getDatabaseV1Data];
             }
@@ -75,12 +73,14 @@
 
         if (databaseUpgradeDictionary != NULL)
         {
+            // delete the default records
             [self emptyTable:@"custom_task"];
             [self emptyTable:@"freq_cat"];
             [self emptyTable:@"frequency"];
             [self emptyTable:@"category"];
             [self emptyTable:@"local_radio_config"];
 
+            // import records from old database
             [self importPreviousVersionData:databaseUpgradeDictionary];
         }
 
@@ -124,6 +124,8 @@
             }
         }
     }
+    
+   [self storeLocalRadioAppSettingsValue:[NSNumber numberWithInteger:kCurrentLocalRadioConfigVersion] forKey:@"LocalRadioConfigVersion"];
 }
 
 //==================================================================================
@@ -133,7 +135,7 @@
 - (NSMutableDictionary *)getDatabaseV1Data
 {
     // If current version database is missing, attempt to access a V1 database and copy the data for deferred import.
-    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary * databaseUpgradeDictionary = NULL;
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
     NSString * databaseV1PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio.sqlite3"];
@@ -141,6 +143,8 @@
     
     if (localRadioV1Found == YES)
     {
+        databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+        
         [SQLiteLibrary setDatabaseFile:databaseV1PathString];
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
@@ -185,7 +189,7 @@
 - (NSMutableDictionary *)getDatabaseV2Data
 {
     // If current version database is missing, attempt to access a V2 database and copy the data for deferred import.
-    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+    NSMutableDictionary * databaseUpgradeDictionary = NULL;
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
     NSString * databaseV2PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V2.sqlite3"];
@@ -193,6 +197,8 @@
     
     if (localRadioV2Found == YES)
     {
+        databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+    
         [SQLiteLibrary setDatabaseFile:databaseV2PathString];
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
@@ -279,8 +285,8 @@
 
 - (NSMutableDictionary *)getDatabaseV3Data
 {
-    // If current version database is missing, attempt to access a V2 database and copy the data for deferred import.
-    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+    // If current version database is missing, attempt to access a V3 database and copy the data for deferred import.
+    NSMutableDictionary * databaseUpgradeDictionary = NULL;
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
     NSString * databaseV3PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V3.sqlite3"];
@@ -288,6 +294,8 @@
     
     if (localRadioV3Found == YES)
     {
+        databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+        
         [SQLiteLibrary setDatabaseFile:databaseV3PathString];
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
@@ -300,7 +308,7 @@
         
         NSMutableArray * allLocalRadioConfigRecords = [[self allLocalRadioConfigRecords] mutableCopy];
         
-        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:4 forKey:@"LocalRadioConfigVersion"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:3 forKey:@"LocalRadioConfigVersion"];
 
         [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17002 forKey:@"LocalRadioServerHTTPPort"];
         [self setConfigRecordInArray:allLocalRadioConfigRecords integer:17003 forKey:@"LocalRadioServerHTTPSPort"];
@@ -344,8 +352,8 @@
 
 - (NSMutableDictionary *)getDatabaseV4Data
 {
-    // If current version database is missing, attempt to access a V2 database and copy the data for deferred import.
-    NSMutableDictionary * databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+    // If current version database is missing, attempt to access a V4 database and copy the data for deferred import.
+    NSMutableDictionary * databaseUpgradeDictionary = NULL;
 
     NSString * applicationSupportDirectoryPath = [[NSFileManager defaultManager] applicationSupportDirectory];
     NSString * databaseV4PathString = [applicationSupportDirectoryPath stringByAppendingPathComponent:@"LocalRadio-V4.sqlite3"];
@@ -353,6 +361,8 @@
     
     if (localRadioV4Found == YES)
     {
+        databaseUpgradeDictionary = [NSMutableDictionary dictionary];
+    
         [SQLiteLibrary setDatabaseFile:databaseV4PathString];
         [SQLiteLibrary setupDatabaseAndForceReset:NO];
         BOOL sqliteIsRunning = [SQLiteLibrary begin];
@@ -393,7 +403,7 @@
         
         NSMutableArray * allLocalRadioConfigRecords = [[self allLocalRadioConfigRecords] mutableCopy];
         
-        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:5 forKey:@"LocalRadioConfigVersion"];
+        [self setConfigRecordInArray:allLocalRadioConfigRecords integer:4 forKey:@"LocalRadioConfigVersion"];
 
         if (allFrequencyRecords != NULL)
         {
@@ -455,7 +465,7 @@
 //	storeLocalRadioAppSettingsValueForKey:
 //==================================================================================
 
-- (void)storeLocalRadioAppSettingsValue:(id)aValue ForKey:(NSString *)aKey
+- (void)storeLocalRadioAppSettingsValue:(id)aValue forKey:(NSString *)aKey
 {
     // This stores to the app's general-purpose key-store database for the settings and preferences
 

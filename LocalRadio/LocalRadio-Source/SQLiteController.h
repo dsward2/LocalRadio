@@ -15,7 +15,7 @@
 - (void)startSQLiteConnection;
 
 - (id)localRadioAppSettingsValueForKey:(NSString *)aKey;
-- (void)storeLocalRadioAppSettingsValue:(id)aValue ForKey:(NSString *)aKey;
+- (void)storeLocalRadioAppSettingsValue:(id)aValue forKey:(NSString *)aKey;
 
 - (NSArray *)allFrequencyRecords;
 - (NSDictionary *)frequencyRecordForID:(NSString *)frequencyIDString;

@@ -12,6 +12,8 @@
 
 # install mackylibbundler from https://github.com/auriamg/macdylibbundler
 
+exit(1);    // this script no longer used
+
 echo BUILT_PRODUCTS_DIR = ${BUILT_PRODUCTS_DIR}
 
 EXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}

@@ -248,7 +248,6 @@
 				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				INFOPLIST_FILE = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -263,7 +262,6 @@
 				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../LocalRadio/CocoaAsyncSocket-7.6.3/Source\"/**";
 				INFOPLIST_FILE = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};

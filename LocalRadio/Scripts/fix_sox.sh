@@ -139,7 +139,9 @@ for TARGET in ${TARGETS[*]} ; do
 
                 #code="install_name_tool -change '${quoted_dyl}' '${quoted_new_libname}' '${quoted_filename%.}'"
 
-                code="/opt/local/bin/dylibbundler -b -x ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/LocalRadio -d ./LocalRadio.app/Contents/Frameworks -p ${NEWLOADERPATH}"
+                #code="/opt/local/bin/dylibbundler -b -x ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/LocalRadio -d ./LocalRadio.app/Contents/Frameworks -p ${NEWLOADERPATH}"
+                
+                code="/opt/local/bin/dylibbundler -b -x ${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/MacOS/${PRODUCT_NAME} -d ./LocalRadio.app/Contents/Frameworks -p ${NEWLOADERPATH}"
 
                 echo "9 " code="$code"
                 #eval "$code"

@@ -303,6 +303,8 @@ typedef struct kinfo_proc kinfo_proc;
             [tasksString appendString:streamingServerTasksString];
         }
 
+        [tasksString appendString:@"\n\n"];
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.statusCurrentTasksTextView setString:tasksString];
         });
