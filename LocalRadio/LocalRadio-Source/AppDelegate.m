@@ -652,12 +652,18 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     NSAlert *alert = [[NSAlert alloc] init];
     
     [alert addButtonWithTitle:@"Quit"];
-    [alert addButtonWithTitle:@"Show LocalRadio Clean-Up Workflow"];
-    [alert addButtonWithTitle:@"Run LocalRadio Clean-Up App"];
+    [alert addButtonWithTitle:@"Show Clean-Up Workflow"];
+    
+    NSString * cleanupAppSuggestion = @"Note: For easier clean-up, export the Automator workflow as an app saved to the /Applications folder\n\n";
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/LocalRadio Clean-Up.app"] == YES)
+    {
+        [alert addButtonWithTitle:@"Run Clean-Up App"];
+        cleanupAppSuggestion = @"";
+    }
     
     [alert setMessageText:@"Some conflicting processes must be terminated"];
     
-    NSString * informativeText = [NSString stringWithFormat:@"LocalRadio must quit due to a process conflict, probably due to a previous crash.  One or more conflicting processes should be terminated before launching LocalRadio.\n\nRun the \"LocalRadio Clean-up\" app or workflow to automatically terminate the conflicting processes, or use Activity Monitor to terminate these processes: \n\n%@\n\nAfter the conflicting processes are terminated, try launching the LocalRadio app again.", processConflictReportString];
+    NSString * informativeText = [NSString stringWithFormat:@"LocalRadio must quit due to a process conflict, probably due to a previous crash.  One or more conflicting processes should be terminated before launching LocalRadio.\n\nRun the \"LocalRadio Clean-up\" app or workflow to automatically terminate the conflicting processes, or use Activity Monitor to terminate these processes: \n\n%@\n\n%@", processConflictReportString, cleanupAppSuggestion];
     
     [alert setInformativeText:informativeText];
     
@@ -682,7 +688,7 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         if (returnCode == NSAlertThirdButtonReturn) {
             // Quit and Run LocalRadio Clean-Up App button clicked
             
-            NSURL * cleanupAppURL = [NSBundle.mainBundle URLForResource:@"LocalRadio Clean-Up" withExtension:@"app"];
+            NSURL * cleanupAppURL = [NSURL fileURLWithPath:@"/Applications/LocalRadio Clean-Up.app"];
             [[NSWorkspace sharedWorkspace] openURL:cleanupAppURL];        // launch "LocalRadio Clean-Up.app""
 
             exit(0);
