@@ -523,6 +523,7 @@
 		0E1746BE24058E3400E4D719 /* HTTPStreamingServerConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStreamingServerConnection.m; sourceTree = "<group>"; };
 		0E1746C024058E5B00E4D719 /* HTTPStreamingServerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPStreamingServerController.h; sourceTree = "<group>"; };
 		0E1746C124058E5B00E4D719 /* HTTPStreamingServerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStreamingServerController.m; sourceTree = "<group>"; };
+		0E2A4DF3242458D40070F7A5 /* StreamingServer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StreamingServer.entitlements; sourceTree = "<group>"; };
 		0E87455623F3683900D34F1B /* StreamingServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = StreamingServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E87455923F3683900D34F1B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0E8748F823F505C800D34F1B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -1562,6 +1563,7 @@
 		0E87455823F3683900D34F1B /* StreamingServer */ = {
 			isa = PBXGroup;
 			children = (
+				0E2A4DF3242458D40070F7A5 /* StreamingServer.entitlements */,
 				0E87455923F3683900D34F1B /* main.m */,
 				0E1746BD24058E3400E4D719 /* HTTPStreamingServerConnection.h */,
 				0E1746BE24058E3400E4D719 /* HTTPStreamingServerConnection.m */,
@@ -3230,24 +3232,30 @@
 		0E87455E23F3683900D34F1B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = StreamingServer/StreamingServer.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		0E87455F23F3683900D34F1B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = StreamingServer/StreamingServer.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = YES;
+				DEVELOPMENT_TEAM = MMFBWVS455;
+				ENABLE_HARDENED_RUNTIME = NO;
 				HEADER_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

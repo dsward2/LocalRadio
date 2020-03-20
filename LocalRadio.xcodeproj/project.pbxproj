@@ -57,7 +57,6 @@
 		0E87444223ECEDCD00D34F1B /* libsox.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA3EB7121FD846300DF4099 /* libsox.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E87444323ECEDCD00D34F1B /* libsndfile.1.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E87444523ECEDCD00D34F1B /* libusb-1.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0E274E9B21DDCCC200337560 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0E885234241A0FCE001AF9E2 /* LocalRadio Clean-Up.app in Resources */ = {isa = PBXBuildFile; fileRef = 0E88520F241A0FCE001AF9E2 /* LocalRadio Clean-Up.app */; };
 		0E96D56823FB80B5002F8968 /* StreamingServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E96D56723FB80B5002F8968 /* StreamingServerController.m */; };
 		0E96D56923FC435E002F8968 /* StreamingServer in Copy Tools */ = {isa = PBXBuildFile; fileRef = 0E87456523F3683A00D34F1B /* StreamingServer */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0E9A64EA1EC290C000F12613 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9A64E91EC290C000F12613 /* CoreAudio.framework */; };
@@ -1375,7 +1374,6 @@
 		0E84C9C81ED945E90065864B /* data_skeleton.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = data_skeleton.sqlite3; sourceTree = "<group>"; };
 		0E87456023F3683900D34F1B /* StreamingServer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StreamingServer.xcodeproj; path = StreamingServer/StreamingServer.xcodeproj; sourceTree = "<group>"; };
 		0E880CF51EDA606E007BEB99 /* viewfavorite.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = viewfavorite.html; sourceTree = "<group>"; };
-		0E88520F241A0FCE001AF9E2 /* LocalRadio Clean-Up.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = "LocalRadio Clean-Up.app"; sourceTree = "<group>"; };
 		0E8852AC241BDE06001AF9E2 /* LocalRadio copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LocalRadio copy2-Info.plist"; path = "/Volumes/Mercury/Users/dsward/Documents/ArkPhone_LLC_Projects/LocalRadio/LocalRadio copy2-Info.plist"; sourceTree = "<absolute>"; };
 		0E96D56623FB80B5002F8968 /* StreamingServerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StreamingServerController.h; sourceTree = "<group>"; };
 		0E96D56723FB80B5002F8968 /* StreamingServerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StreamingServerController.m; sourceTree = "<group>"; };
@@ -3537,7 +3535,6 @@
 		0E7309181F3EBB6300004907 /* Automator Scripts */ = {
 			isa = PBXGroup;
 			children = (
-				0E88520F241A0FCE001AF9E2 /* LocalRadio Clean-Up.app */,
 				0E7309191F3EBB6300004907 /* LocalRadio Clean-Up.workflow */,
 			);
 			name = "Automator Scripts";
@@ -4938,7 +4935,6 @@
 				0E84C9C91ED945E90065864B /* data_skeleton.sqlite3 in Resources */,
 				0E274FD221DF54F600337560 /* Assets.xcassets in Resources */,
 				0E560FAA21FB04E4007C6DB3 /* sox git and build notes.txt in Resources */,
-				0E885234241A0FCE001AF9E2 /* LocalRadio Clean-Up.app in Resources */,
 				0EF173871F6410B70067E8C0 /* LocalRadio Clean-Up.workflow in Resources */,
 				0EB8CB691F794A2B004B6D05 /* LocalRadio-animation.svg in Resources */,
 				0EF1735E1F60D2B30067E8C0 /* zip_lat_long.txt in Resources */,
