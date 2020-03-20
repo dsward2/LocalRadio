@@ -37,6 +37,8 @@
 	<string>The current location is used to query the U.S. FCC database to find local radio stations.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>LocalRadio allow microphone selection on the Devices page.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
