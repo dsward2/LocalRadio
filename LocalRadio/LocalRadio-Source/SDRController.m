@@ -16,6 +16,9 @@
 #import "TaskItem.h"
 #import "SQLiteController.h"
 
+#import <AudioToolbox/AudioServices.h>
+
+
 @implementation SDRController
 
 //==================================================================================
@@ -106,7 +109,7 @@
 
         NSArray * frequenciesArray = [NSArray arrayWithObject:frequencyDictionary];
         
-        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:NULL device:NULL customTaskID:NULL];
+        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:NULL device:NULL deviceAudioOutputFilter:NULL customTaskID:NULL];
     });
 }
 
@@ -136,7 +139,7 @@
     
     //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
     dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
-        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary device:NULL customTaskID:NULL];
+        [self dispatchedStartRtlsdrTasksForFrequencies:frequenciesArray category:categoryDictionary device:NULL deviceAudioOutputFilter:NULL customTaskID:NULL];
     });
 }
 
@@ -144,7 +147,7 @@
 //    startTasksForDevice:
 //==================================================================================
 
-- (void)startTasksForDevice:(NSString *)deviceName
+- (void)startTasksForDevice:(NSString *)deviceName deviceAudioOutputFilter:(NSString *)deviceAudioOutputFilter
 {
     //NSLog(@"startTasksForDevice:category");
 
@@ -160,13 +163,14 @@
 
     self.rtlsdrTaskMode = @"device";
     self.deviceName = deviceName;
+    self.deviceAudioOutputFilterString = deviceAudioOutputFilter;
 
     int64_t dispatchDelay = (int64_t)(delay * NSEC_PER_SEC);
     dispatch_time_t dispatchTime = dispatch_time(DISPATCH_TIME_NOW, dispatchDelay);
     
     //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
     dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
-        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:deviceName customTaskID:NULL];
+        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:deviceName deviceAudioOutputFilter:deviceAudioOutputFilter customTaskID:NULL];
     });
 }
 
@@ -196,7 +200,7 @@
     
     //dispatch_after(dispatchTime, dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
     dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
-        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:NULL customTaskID:customTaskID];
+        [self dispatchedStartRtlsdrTasksForFrequencies:NULL category:NULL device:NULL deviceAudioOutputFilter:NULL customTaskID:customTaskID];
     });
 }
 
@@ -204,7 +208,7 @@
 //	dispatchedStartRtlsdrTasksForFrequencies:category:device:customTaskID:
 //==================================================================================
 
-- (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary device:(NSString *)audioInputDeviceName customTaskID:(NSString *)customTaskID
+- (void)dispatchedStartRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSDictionary *)categoryDictionary device:(NSString *)audioInputDeviceName deviceAudioOutputFilter:(NSString *)deviceAudioOutputFilter customTaskID:(NSString *)customTaskID
 {
     // All of the "Listen" button actions eventually call this method
     
@@ -247,7 +251,7 @@
 
         [self.appDelegate setStatusNameString:audioInputDeviceName];
 
-        TaskItem * audioSourceTaskItem = [self makeCoreAudioSourceTaskItem:audioInputDeviceName];
+        TaskItem * audioSourceTaskItem = [self makeCoreAudioSourceTaskItem:audioInputDeviceName deviceAudioOutputFilter:deviceAudioOutputFilter];
         [audioSourceTaskItems addObject:audioSourceTaskItem];
     }
     else
@@ -450,9 +454,11 @@
 //    makeCoreAudioSourceTaskItem:
 //==================================================================================
 
-- (TaskItem *)makeCoreAudioSourceTaskItem:(NSString *)audioInputDeviceName
+- (TaskItem *)makeCoreAudioSourceTaskItem:(NSString *)audioInputDeviceName deviceAudioOutputFilter:(NSString *)deviceAudioOutputFilter
 {
-    self.tunerSampleRateNumber = [NSNumber numberWithInteger:48000];    // needed for audioMonitorTaskItem
+    //self.tunerSampleRateNumber = [NSNumber numberWithInteger:48000];   // needed for audioMonitorTaskItem
+    
+    self.tunerSampleRateNumber = [self getCoreAudioInputDeviceSampleRate:audioInputDeviceName];      // needed for audioMonitorTaskItem
 
     TaskItem * audioSourceTaskItem = [self.radioTaskPipelineManager makeTaskItemWithExecutable:@"sox" functionName:@"sox"];
 
@@ -462,7 +468,8 @@
     // input args
 
     [audioSourceTaskItem addArgument:@"-r"];
-    [audioSourceTaskItem addArgument:@"48000"];      // assume input from AudioMonitor already resampled to 48000 Hz
+    NSString * sampleRateString = self.tunerSampleRateNumber.stringValue;
+    [audioSourceTaskItem addArgument:sampleRateString];      // assume input from AudioMonitor already resampled to 48000 Hz
 
     [audioSourceTaskItem addArgument:@"-e"];
     [audioSourceTaskItem addArgument:@"float"];
@@ -494,6 +501,23 @@
 
     [audioSourceTaskItem addArgument:@"-"];             // stdout
 
+    /*
+    NSString * trimmedFilterString = [self.audioOutputFilterString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (trimmedFilterString.length == 0)
+    {
+        trimmedFilterString = @"vol 1";
+    }
+    
+    NSArray * audioOutputFilterStringArray = [trimmedFilterString componentsSeparatedByString:@" "];
+
+    for (NSString * audioOutputFilterStringItem in audioOutputFilterStringArray)
+    {
+        [audioSourceTaskItem addArgument:audioOutputFilterStringItem];
+    }
+    */
+
+
     self.statusFunctionString = [NSString stringWithFormat:@"Using Core Audio Input '%@'", audioInputDeviceName];
 
     self.frequencyString = [@"N/A" mutableCopy];
@@ -501,7 +525,7 @@
     self.squelchLevelNumber = [NSNumber numberWithInteger:0];
     self.tunerGainNumber = [NSNumber numberWithInteger:0];
     self.optionsString = @"";
-    self.audioOutputFilterString = @"";
+    self.audioOutputFilterString = deviceAudioOutputFilter;
 
     //[audioSourceTaskItem addArgument:@"rate"];
     //[audioSourceTaskItem addArgument:@"48000"];
@@ -514,6 +538,64 @@
 }
 
 
+//==================================================================================
+//    getCoreAudioInputDeviceSampleRate:
+//==================================================================================
+
+- (NSNumber *)getCoreAudioInputDeviceSampleRate:(NSString *)audioInputDeviceName
+{
+    NSNumber * result = [NSNumber numberWithInteger:48000];     // default
+
+    AudioObjectPropertyAddress  propertyAddress;
+    AudioObjectID               *deviceIDs;
+    UInt32                      propertySize;
+    NSInteger                   numDevices;
+    
+    propertyAddress.mSelector = kAudioHardwarePropertyDevices;
+    propertyAddress.mScope = kAudioObjectPropertyScopeGlobal;
+    propertyAddress.mElement = kAudioObjectPropertyElementMaster;
+    if (AudioObjectGetPropertyDataSize(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &propertySize) == noErr)
+    {
+        numDevices = propertySize / sizeof(AudioDeviceID);
+        deviceIDs = (AudioDeviceID *)calloc(numDevices, sizeof(AudioDeviceID));
+
+        if (AudioObjectGetPropertyData(kAudioObjectSystemObject, &propertyAddress, 0, NULL, &propertySize, deviceIDs) == noErr)
+        {
+            for (NSInteger idx=0; idx<numDevices; idx++)
+            {
+                AudioObjectPropertyAddress      deviceAddress;
+
+                char deviceName[64];
+                propertySize = sizeof(deviceName);
+                deviceAddress.mSelector = kAudioDevicePropertyDeviceName;
+                deviceAddress.mScope = kAudioObjectPropertyScopeGlobal;
+                deviceAddress.mElement = kAudioObjectPropertyElementMaster;
+                if (AudioObjectGetPropertyData(deviceIDs[idx], &deviceAddress, 0, NULL, &propertySize, deviceName) == noErr)
+                {
+                }
+
+                NSString * deviceNameString = [NSString stringWithCString:deviceName encoding:NSUTF8StringEncoding];
+
+                if ([deviceNameString isEqualToString:audioInputDeviceName] == YES)
+                {
+                    Float64 sampleRate;
+                    propertySize = sizeof(sampleRate);
+                    deviceAddress.mSelector = kAudioDevicePropertyNominalSampleRate;
+                    deviceAddress.mScope = kAudioObjectPropertyScopeGlobal;
+                    deviceAddress.mElement = kAudioObjectPropertyElementMaster;
+                    if (AudioObjectGetPropertyData(deviceIDs[idx], &deviceAddress, 0, NULL, &propertySize, &sampleRate) == noErr)
+                    {
+                        result = [NSNumber numberWithFloat:sampleRate];
+                    }
+                }
+            }
+        }
+
+        free(deviceIDs);
+    }
+    
+    return result;
+}
 
 
 //==================================================================================

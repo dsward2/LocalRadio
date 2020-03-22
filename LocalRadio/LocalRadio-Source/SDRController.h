@@ -32,7 +32,9 @@
 @property (strong) NSNumber * tunerSampleRateNumber;
 @property (strong) NSString * statusFunctionString;
 
-@property (strong) NSString * deviceName;
+@property (strong) NSString * deviceName;       // for playing from Core Audio device input
+@property (strong) NSString * deviceAudioOutputFilterString;
+
 @property (strong) NSString * customTaskID;
 
 @property (assign) BOOL enableDirectSamplingQBranchMode;
@@ -48,7 +50,7 @@
 
 - (void)startRtlsdrTasksForFrequency:(NSDictionary *)frequencyDictionary;
 - (void)startRtlsdrTasksForFrequencies:(NSArray *)frequenciesArray category:(NSMutableDictionary *)categoryDictionary;
-- (void)startTasksForDevice:(NSString *)deviceName;
+- (void)startTasksForDevice:(NSString *)deviceName deviceAudioOutputFilter:(NSString *)deviceAudioOutputFilter;
 - (void)startTasksForCustomTaskID:(NSString *)customTaskID;
 
 @end

@@ -576,20 +576,34 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             {
                 NSArray * deviceArray = object;
                 
-                if (deviceArray.count == 1)
+                if (deviceArray.count == 2)
                 {
-                    id deviceArrayObject = deviceArray.firstObject;
-                    if ([deviceArrayObject isKindOfClass:[NSDictionary class]] == YES)
+                    NSString * inputDeviceNameString = NULL;
+                    NSString * deviceAudioOutputFilter = NULL;
+                    
+                    for (id deviceArrayObject in deviceArray)
                     {
-                        NSMutableDictionary * deviceDictionary = [deviceArrayObject mutableCopy];
-                        
-                        NSString * settingName = [deviceDictionary objectForKey:@"name"];
-                        if ([settingName isEqualToString:@"audio_input"] == YES)
+                        if ([deviceArrayObject isKindOfClass:[NSDictionary class]] == YES)
                         {
-                            NSString * deviceName = [deviceDictionary objectForKey:@"value"];
-                        
-                            [self listenButtonClickedForDevice:deviceName];
+                            NSMutableDictionary * deviceDictionary = [deviceArrayObject mutableCopy];
+                            
+                            NSString * settingName = [deviceDictionary objectForKey:@"name"];
+                            
+                            if ([settingName isEqualToString:@"audio_input"] == YES)
+                            {
+                                inputDeviceNameString = [deviceDictionary objectForKey:@"value"];
+                            }
+                            
+                            if ([settingName isEqualToString:@"audio_output_filter"] == YES)
+                            {
+                                deviceAudioOutputFilter = [deviceDictionary objectForKey:@"value"];
+                            }
                         }
+                    }
+                    
+                    if ((inputDeviceNameString != NULL) && (inputDeviceNameString != NULL))
+                    {
+                        [self listenButtonClickedForDevice:inputDeviceNameString deviceAudioOutputFilter:deviceAudioOutputFilter];
                     }
                 }
             }
@@ -2268,13 +2282,13 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 //    listenButtonClickedForDevice:
 //==================================================================================
 
-- (void)listenButtonClickedForDevice:(NSString *)deviceName
+- (void)listenButtonClickedForDevice:(NSString *)deviceName deviceAudioOutputFilter:(NSString *)deviceAudioOutputFilter
 {
     if (deviceName != NULL)
     {
         [self startStreamingServer];
 
-        [self.sdrController startTasksForDevice:deviceName];
+        [self.sdrController startTasksForDevice:deviceName deviceAudioOutputFilter:deviceAudioOutputFilter];
     }
 }
 
@@ -2699,7 +2713,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [formString appendFormat:@"<option value='ale' %@>ale</option>", atanMathAleSelected];
         [formString appendString:@"</select>"];
 
-        NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='frequency'>Sox Audio Output Filter:</label><input class='twelve columns value-prop' type='text' id='scan_audio_output_filter' name='scan_audio_output_filter' value='%@'>", scanAudioOutputFilterString];
+        NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='scan_audio_output_filter'>Sox Audio Output Filter:</label><input class='twelve columns value-prop' type='text' id='scan_audio_output_filter' name='scan_audio_output_filter' value='%@'>", scanAudioOutputFilterString];
         [formString appendString:formAudioOutputFilterString];
 
 
@@ -2771,9 +2785,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
 
     NSArray * audioDeviceArray = [self generateAudioDeviceList];
     
-    [formString appendString:@"<label for='audio_input'>Select Audio Input</label>\n"];
+    [formString appendString:@"<label for='audio_input'>Select Audio Input:</label>\n"];
     [formString appendString:@"<select name='audio_input' class='twelve columns value-prop' title='The Audio Input setting selects a Core Audio device, like \"Built-in Input\".'>\n"];
-    
+
     for (NSDictionary * deviceDictionary in audioDeviceArray)
     {
         NSNumber * inputChannelCountNumber = [deviceDictionary objectForKey:@"inputChannelCount"];
@@ -2797,6 +2811,9 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         }
     }
     [formString appendString:@"</select>\n"];
+
+    NSString * formAudioOutputFilterString = @"<label for='audio_output_filter'>Sox Audio Output Filter:</label>\n<input class='twelve columns value-prop' type='text' id='audio_output_filter' name='audio_output_filter' value='vol 1' title='The Audio Output Filter is used by the Sox audio tool for several purposes.  This filter is for the final Sox output.  The default value is \"vol 1\".  Do not set a \"rate\" command here, LocalRadio automatically sets the sample rate to 48000.'>\n";
+    [formString appendString:formAudioOutputFilterString];
 
     NSString * listenButtonString = @"<br><br><input class='twelve columns button button-primary' type='button' value='Listen' onclick=\"var deviceForm=getElementById('deviceForm'); deviceListenButtonClicked(deviceForm);\"  title=\"Click the Listen button for the selected device.  You may also need to click on the Play button in the audio controls below.\">";
     [formString appendString:listenButtonString];
@@ -3238,7 +3255,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
         [formString appendFormat:@"<option value='ale' %@>ale</option>", atanMathAleSelected];
         [formString appendString:@"</select>\n"];
 
-        NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='frequency'>Sox Audio Output Filter:</label>\n<input class='twelve columns value-prop' type='text' id='audio_output_filter' name='audio_output_filter' value='%@' title='The Audio Output Filter is used by the Sox audio tool for several purposes.  This filter is for the final Sox output.  The default value is \"vol 1\".  Do not set a \"rate\" command here, LocalRadio automatically sets the sample rate to 48000.'>\n", audioOutputFilterString];
+        NSString * formAudioOutputFilterString = [NSString stringWithFormat:@"<label for='audio_output_filter'>Sox Audio Output Filter:</label>\n<input class='twelve columns value-prop' type='text' id='audio_output_filter' name='audio_output_filter' value='%@' title='The Audio Output Filter is used by the Sox audio tool for several purposes.  This filter is for the final Sox output.  The default value is \"vol 1\".  Do not set a \"rate\" command here, LocalRadio automatically sets the sample rate to 48000.'>\n", audioOutputFilterString];
         [formString appendString:formAudioOutputFilterString];
 
         [formString appendString:@"&nbsp;<br>\n"];
