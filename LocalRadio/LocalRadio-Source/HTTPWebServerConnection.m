@@ -1507,6 +1507,17 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_WARN; // | HTTP_LOG_FLAG_TRACE;
             }
         }
 
+        [self.appDelegate checkForRTLSDRUSBDevice];
+
+        if (self.appDelegate.rtlsdrDeviceFound == NO)
+        {
+            [replacementDict setObject:@"<div style='text-align: center; color: red; font-weight: bold;'>RTL-SDR device not found</div>" forKey:@"ERROR_MESSAGE"];
+        }
+        else
+        {
+            [replacementDict setObject:@"" forKey:@"ERROR_MESSAGE"];
+        }
+
 		return [[HTTPDynamicFileResponse alloc] initWithFilePath:[self filePathForURI:path]
                 forConnection:self
                 separator:@"%%"

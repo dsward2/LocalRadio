@@ -130,30 +130,35 @@ typedef struct kinfo_proc kinfo_proc;
     BOOL conflictsFound = NO;
 
     [self checkForRTLSDRUSBDevice];
-    
+
+    if (self.rtlsdrDeviceFound == NO)
+    {
+        [self performSelectorOnMainThread:@selector(poseRTLSDRNotFoundAlert) withObject:NULL waitUntilDone:YES];
+    }
+
     if (self.rtlsdrDeviceFound  == YES)
     {
         conflictsFound = [self checkForProcessConflicts];
-        
-        if (conflictsFound == NO)
-        {
-            [self.sqliteController startSQLiteConnection];
-
-            [self.localRadioAppSettings registerDefaultSettings];
-
-            NSString * bonjourName = [self localHostString];
-            [self.localRadioAppSettings setValue:bonjourName forKey:@"StreamingServerHost"];
-            
-            [self performSelectorOnMainThread:@selector(finishConfigureServices) withObject:NULL waitUntilDone:YES];
-        }
-        else
-        {
-            // app termination in progress due to process confict
-        }
     }
     else
     {
-        // app termination in progress due RTL-SDR device not found
+        // app termination could be in progress due RTL-SDR device not found
+    }
+
+    if (conflictsFound == NO)
+    {
+        [self.sqliteController startSQLiteConnection];
+
+        [self.localRadioAppSettings registerDefaultSettings];
+
+        NSString * bonjourName = [self localHostString];
+        [self.localRadioAppSettings setValue:bonjourName forKey:@"StreamingServerHost"];
+        
+        [self performSelectorOnMainThread:@selector(finishConfigureServices) withObject:NULL waitUntilDone:YES];
+    }
+    else
+    {
+        // app termination in progress due to process confict
     }
 }
 
@@ -806,11 +811,6 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
         }
         IOObjectRelease(iter);
     }
-    
-    if (self.rtlsdrDeviceFound == NO)
-    {
-        [self performSelectorOnMainThread:@selector(poseRTLSDRNotFoundAlert) withObject:NULL waitUntilDone:YES];
-    }
 }
 
 //==================================================================================
@@ -823,25 +823,31 @@ static int GetBSDProcessList(kinfo_proc **procList, size_t *procCount)
     
     [alert addButtonWithTitle:@"Quit"];
     [alert addButtonWithTitle:@"More Info"];
-    
+    [alert addButtonWithTitle:@"Continue"];
+
     [alert setMessageText:@"RTL-SDR USB Device Not Found"];
     
-    NSString * informativeText = @"LocalRadio requires an RTL-SDR device plugged into this Mac's USB port.  Please check the USB connection and try again.  For additional information, click the \"More Info\" button to open the LocalRadio project web page.";
+    NSString * informativeText = @"LocalRadio requires an RTL-SDR device plugged into this Mac's USB port.  Please check the USB connection and try again.\n\nFor additional information, click the \"More Info\" button to open the LocalRadio project web page.\n\nClick the \"Continue\" button to proceed without an RTL-SDR device.";
     
     [alert setInformativeText:informativeText];
     
-    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setAlertStyle:NSAlertStyleWarning];
 
     [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            // Quit LocalRadio.app
+            
+            exit(0);
+        }
         if (returnCode == NSAlertSecondButtonReturn) {
             // Show LocalRadio Clean-Up Workflow button
             [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/dsward2/LocalRadio"]];
             
             exit(0);
         }
-        
+
         // Quit button clicked
-        exit(0);
+        //exit(0);
     }];
 }
 

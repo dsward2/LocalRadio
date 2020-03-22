@@ -177,5 +177,7 @@
 
 - (void)restartStreamingServerIfNeeded;
 
+- (void)checkForRTLSDRUSBDevice;
+
 @end
 
