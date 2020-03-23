@@ -17,7 +17,6 @@
 		DCC96AD7152E11210064C500 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DCC96AD5152E11210064C500 /* InfoPlist.strings */; };
 		DCC96AD9152E11210064C500 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96AD8152E11210064C500 /* main.m */; };
 		DCC96ADD152E11210064C500 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96ADC152E11210064C500 /* AppDelegate.m */; };
-		DCC96AE0152E11210064C500 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96ADF152E11210064C500 /* ViewController.m */; };
 		DCC96AE3152E11210064C500 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCC96AE1152E11210064C500 /* ViewController.xib */; };
 		DCC96AFE152E11450064C500 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96AEF152E11450064C500 /* DDAbstractDatabaseLogger.m */; };
 		DCC96AFF152E11450064C500 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC96AF1152E11450064C500 /* DDASLLogger.m */; };
@@ -248,7 +247,6 @@
 				DCC96AD9152E11210064C500 /* main.m in Sources */,
 				DCC96ADD152E11210064C500 /* AppDelegate.m in Sources */,
 				11C32862186CDD2A00F6D762 /* DDDispatchQueueLogFormatter.m in Sources */,
-				DCC96AE0152E11210064C500 /* ViewController.m in Sources */,
 				DCC96AFE152E11450064C500 /* DDAbstractDatabaseLogger.m in Sources */,
 				DCC96AFF152E11450064C500 /* DDASLLogger.m in Sources */,
 				11C32861186CDD2A00F6D762 /* DDContextFilterLogFormatter.m in Sources */,

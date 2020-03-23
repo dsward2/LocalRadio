@@ -41,6 +41,8 @@
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler
 {
     [self.appDelegate showInformationSheetWithMessage:@"LocalRadio" informativeText:message];
+    
+    completionHandler();
 }
 
 
