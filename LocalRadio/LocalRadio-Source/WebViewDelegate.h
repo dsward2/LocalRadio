@@ -10,10 +10,10 @@
 #import <WebKit/WebKit.h>
 #import "AppDelegate.h"
 
-@interface WebViewDelegate : NSObject <WebUIDelegate, WebPolicyDelegate, WebDownloadDelegate, WebFrameLoadDelegate, WebResourceLoadDelegate>
+@interface WebViewDelegate : NSObject <WKUIDelegate, WKNavigationDelegate>
 
 @property (weak) IBOutlet AppDelegate * appDelegate;
-@property (strong) IBOutlet WebView * webView;    // allocated in code
+@property (strong) IBOutlet WKWebView * webView;    // allocated in code
 @property (weak) IBOutlet NSView * webViewParentView;
 @property (weak) IBOutlet NSWindow * webViewWindow;
 
