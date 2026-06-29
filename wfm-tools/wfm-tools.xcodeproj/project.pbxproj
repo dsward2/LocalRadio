@@ -165,7 +165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo bash ${SRCROOT}/build_stereodemux.sh\n\nbash ${SRCROOT}/build_stereodemux.sh\n";
+			shellScript = "echo bash \"${SRCROOT}/build_stereodemux.sh\"\n\nbash \"${SRCROOT}/build_stereodemux.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -184,6 +184,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -243,6 +244,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -309,6 +311,7 @@
 					"\"$(SRCROOT)/\"",
 					"$(PROJECT_DIR)/../../../../../../../../opt/local/lib",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-std=c++11",
@@ -351,6 +354,7 @@
 					"\"$(SRCROOT)/\"",
 					"$(PROJECT_DIR)/../../../../../../../../opt/local/lib",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-std=c++11",

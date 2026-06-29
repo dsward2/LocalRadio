@@ -30,30 +30,23 @@ echo MODIFIEDLIBPATH = ${MODIFIEDLIBPATH}
 
 NEWLOADERPATH="@executable_path/../Frameworks"
 
-# If the "Libraries_Modifed" directory exists in the built products directory,
-# assume that this script is completed, libraries are copied, modified and ready to embed in app bundle.
-if [ -d "${MODIFIEDLIBPATH}" ]; then
-  exit 0
-fi
+# Always regenerate Libraries_Modified so changes to the library list or to the
+# source dylibs are picked up on every build. Remove any previous copy first.
 
 cd ${BUILT_PRODUCTS_DIR}
 
-if [ ! -d "${WORKLIBPATH}" ]; then
-  mkdir ${WORKLIBPATH}
-fi
+rm -rf "${WORKLIBPATH}" "${MODIFIEDLIBPATH}"
+mkdir "${WORKLIBPATH}"
+mkdir "${MODIFIEDLIBPATH}"
 
-if [ ! -d "${MODIFIEDLIBPATH}" ]; then
-  mkdir ${MODIFIEDLIBPATH}
-fi
+SOXPATH="${BUILT_PRODUCTS_DIR}/sox"
+echo SOXPATH = "${SOXPATH}"
 
-SOXPATH=${BUILT_PRODUCTS_DIR}/sox
-echo SOXPATH = ${SOXPATH}
+echo cp "${SRCROOT}/sox/externals/sox/src/.libs/sox" "${SOXPATH}"
+cp "${SRCROOT}/sox/externals/sox/src/.libs/sox" "${SOXPATH}"
 
-echo cp ${SRCROOT}/sox/externals/sox/src/.libs/sox ${SOXPATH}
-cp ${SRCROOT}/sox/externals/sox/src/.libs/sox ${SOXPATH}
-
-echo cp ${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
-cp ${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
+echo cp "${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib" "${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib"
+cp "${SRCROOT}/sox/externals/sox/src/.libs/libsox.3.dylib" "${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib"
 
 echo install_name_tool -id @executable_path/../Frameworks/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
 install_name_tool -id @executable_path/../Frameworks/libsox.3.dylib ${BUILT_PRODUCTS_DIR}/Libraries_Modified/libsox.3.dylib
@@ -77,7 +70,7 @@ install_name_tool -change /usr/local/lib/libsox.3.dylib @executable_path/../Fram
 
 #####################################################################
 
-echo Copy libraries to Libraries_Modified folder
+echo "Copy libraries to Libraries_Modified folder"
 
 # Now fix the libraries copied from MacPorts to load other interdependent libraries from the app bundle instead
 
@@ -92,95 +85,79 @@ echo /opt/local/bin/dylibbundler -b -x "${EXECFILE}" -d "${MODIFIEDLIBPATH}" -p 
 
 # TARGETS should list the same files in Project Navigator in the Libraries_Modified folder, except for libsox
 
-TARGETS="libao.4.dylib libfec.dylib libfftw3f.3.dylib libFLAC.8.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib librtlsdr.0.6git.dylib libsndfile.1.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
+TARGETS="libao.4.dylib libfec.dylib libfftw3f.3.dylib libFLAC.14.dylib libliquid.dylib libltdl.7.dylib libogg.0.dylib librtlsdr.0.dylib libsndfile.1.dylib libusb-1.0.0.dylib libvorbis.0.dylib libvorbisenc.2.dylib libvorbisfile.3.dylib"
 
-for TARGET in ${TARGETS[*]} ; do
+# Pass 1: Copy each MacPorts library into Libraries_Modified and set its own
+# install id to a bundle-relative path. (dylibbundler only copies a library's
+# dependencies, not the -x library itself, so we must place each target here.)
 
-    echo "1 " TARGET = ${TARGET}
+for TARGET in ${TARGETS} ; do
+
+    echo "TARGET = ${TARGET}"
 
     MACPORTSLIBFILE=/opt/local/lib/${TARGET}
-    echo "2 " MACPORTSLIBFILE = ${MACPORTSLIBFILE}
 
-    #LIBFILE=${BUNDLELIBPATH}/${TARGET}
-    TARGETPATH=${BUILT_PRODUCTS_DIR}/${TARGET}
-    echo "3 " TARGETPATH = ${TARGETPATH}
-
-    #NEWTARGETID=${NEWLOADERPATH}/${TARGET}
-    #echo "4 " NEWTARGETID = ${NEWTARGETID}
-
-    if [ ! -d "${MODIFIEDLIBPATH}/${TARGET}" ]; then
-
-        # update the dependent library load paths in the library
-        dyl_list=(`otool -L "${MACPORTSLIBFILE}" | grep local | awk '{print $1}'`)
-
-        echo "5 " dyl_list = ${dyl_list}
-
-        for dyl in ${dyl_list[*]}; do
-
-            echo "6 " dyl = ${dyl}
-
-            libname=$(basename ${dyl})
-            libname=${libname%%.*}
-
-            echo "7 " libname = ${libname}
-
-            macos_libname=(`ls "/usr/lib/" | grep ${libname} | xargs basename`)
-
-            echo "8 " macos_libname = ${macos_libname}
-
-            #if [ $macos_libname -gt "" ] ; then
-            if [ ! -z $macos_libname ] ; then
-                new_libname="@/usr/lib/${macos_libname}"
-                bin=${BUNDLELIBPATH}/${TARGET}
-
-                quoted_dyl=$(printf %s "${dyl}" | sed "s/'/'\\\\''/g")
-                quoted_new_libname=$(printf %s "${new_libname}" | sed "s/'/'\\\\''/g")
-                quoted_filename=$(printf %s. "${bin}" | sed "s/'/'\\\\''/g")
-
-                #code="install_name_tool -change '${quoted_dyl}' '${quoted_new_libname}' '${quoted_filename%.}'"
-
-                #code="/opt/local/bin/dylibbundler -b -x ${BUILT_PRODUCTS_DIR}/LocalRadio.app/Contents/MacOS/LocalRadio -d ./LocalRadio.app/Contents/Frameworks -p ${NEWLOADERPATH}"
-                
-                code="/opt/local/bin/dylibbundler -b -x ${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/MacOS/${PRODUCT_NAME} -d ./LocalRadio.app/Contents/Frameworks -p ${NEWLOADERPATH}"
-
-                echo "9 " code="$code"
-                #eval "$code"
-
-            else
-                actual_libname=(`ls "/opt/local/lib/" | grep ${libname} | xargs basename`)
-
-                new_libname="@executable_path/../Frameworks/${actual_libname}"
-                bin=${BUNDLELIBPATH}/${TARGET}
-
-                quoted_dyl=$(printf %s "${dyl}" | sed "s/'/'\\\\''/g")
-                quoted_new_libname=$(printf %s "${new_libname}" | sed "s/'/'\\\\''/g")
-                quoted_filename=$(printf %s. "${bin}" | sed "s/'/'\\\\''/g")
-
-                #code="install_name_tool -change '${quoted_dyl}' '${quoted_new_libname}' '${quoted_filename%.}'"
-
-                echo cp ${MACPORTSLIBFILE} ${WORKLIBPATH}
-                cp ${MACPORTSLIBFILE} ${WORKLIBPATH}
-
-                WORKLIBFILE=${BUILT_PRODUCTS_DIR}/Libraries_Copy/
-
-                code="/opt/local/bin/dylibbundler -b -of -x ${WORKLIBPATH}/${TARGET} -d ${MODIFIEDLIBPATH} -p ${NEWLOADERPATH}"
-
-                 echo "10 " code="$code"
-                 eval "$code"
-            fi
-        done
-    else
-        echo "11 " ${MODIFIEDLIBPATH}/${TARGET} exists
+    if [ ! -f "${MACPORTSLIBFILE}" ]; then
+        echo "WARNING: ${MACPORTSLIBFILE} not found in MacPorts - skipping"
+        continue
     fi
+
+    cp "${MACPORTSLIBFILE}" "${MODIFIEDLIBPATH}/${TARGET}"
+    chmod u+w "${MODIFIEDLIBPATH}/${TARGET}"
+
+    install_name_tool -id @executable_path/../Frameworks/${TARGET} "${MODIFIEDLIBPATH}/${TARGET}"
+done
+
+# Pass 2: Run dylibbundler against every library now in Libraries_Modified so
+# their interdependent load paths are rewritten to the app bundle's Frameworks
+# folder, pulling in any additional dependencies (e.g. opus, mpg123, mp3lame).
+
+for LIB in "${MODIFIEDLIBPATH}"/*.dylib ; do
+    echo "dylibbundler: ${LIB}"
+    /opt/local/bin/dylibbundler -b -of -x "${LIB}" -d "${MODIFIEDLIBPATH}" -p "${NEWLOADERPATH}"
 done
 
 #####################################################################
 
-# rename librtlsdr.0.6git.dylib to librtlsdr.0.dylib
+# Embed the complete set of bundled libraries into the app's Frameworks folder.
+#
+# dylibbundler has already gathered the full transitive dependency closure into
+# Libraries_Modified (with every load path rewritten to @executable_path/../Frameworks).
+# Copying ALL of them here - rather than relying on a hand-maintained list in the
+# "Copy Libraries" build phase - means new transitive dependencies (e.g. when a
+# MacPorts library starts pulling in opus / mpg123 / mp3lame) are embedded
+# automatically and never go missing at runtime.
 
-echo mv ${MODIFIEDLIBPATH}/librtlsdr.0.6git.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
-mv ${MODIFIEDLIBPATH}/librtlsdr.0.6git.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
+echo "Embedding libraries into ${BUNDLELIBPATH}"
+mkdir -p "${BUNDLELIBPATH}"
+cp -f "${MODIFIEDLIBPATH}"/*.dylib "${BUNDLELIBPATH}/"
 
-echo install_name_tool -id @executable_path/../Frameworks/librtlsdr.0.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
-install_name_tool -id @executable_path/../Frameworks/librtlsdr.0.dylib ${MODIFIEDLIBPATH}/librtlsdr.0.dylib
+# Code-sign each embedded library with the build's signing identity (falling back
+# to ad-hoc) so the app's outer signature validates and the libraries load.
+SIGN_IDENTITY="${EXPANDED_CODE_SIGN_IDENTITY:-${CODE_SIGN_IDENTITY:--}}"
+echo "Code-signing embedded libraries with identity: ${SIGN_IDENTITY}"
+for dylib in "${BUNDLELIBPATH}"/*.dylib ; do
+    codesign --force --timestamp=none --sign "${SIGN_IDENTITY}" "${dylib}"
+done
+
+echo "Current contents of Libraries_Copied folder: ${WORKLIBPATH}"
+ls -l ${WORKLIBPATH}
+echo "Current contents of Libraries_Modified folder: ${MODIFIEDLIBPATH}"
+ls -l ${MODIFIEDLIBPATH}
+
+
+
+echo "End fix_sox.sh"
+
+exit; # test June 28, 2026
+
+#####################################################################
+
+# MacPorts now ships librtlsdr.0.dylib directly (symlink to librtlsdr.2.0.1.dylib),
+# so no rename is needed; just reassert the bundle-relative install id.
+
+echo "Run install_name_tool for librtlsdr.0.dylib"
+
+echo install_name_tool -id @executable_path/../Frameworks/librtlsdr.0.dylib "${MODIFIEDLIBPATH}/librtlsdr.0.dylib"
+install_name_tool -id @executable_path/../Frameworks/librtlsdr.0.dylib "${MODIFIEDLIBPATH}/librtlsdr.0.dylib"
 
