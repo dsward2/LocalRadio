@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -62,11 +62,14 @@
 		0E9A64EA1EC290C000F12613 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9A64E91EC290C000F12613 /* CoreAudio.framework */; };
 		0EA2125B1ED68139004DE453 /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA2125A1ED68139004DE453 /* NSFileManager+DirectoryLocations.m */; };
 		0EA82F9724000CD900B04F5E /* libfftw3f.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA82F4824000BC400B04F5E /* libfftw3f.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0EA82F9924000F6000B04F5E /* libFLAC.8.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA82F9824000F3B00B04F5E /* libFLAC.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA82F9B240010C400B04F5E /* libogg.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA82F9A2400109600B04F5E /* libogg.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA82F9E24001AC900B04F5E /* libvorbis.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA82F9D24001A8F00B04F5E /* libvorbis.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA82F9F24001ACD00B04F5E /* libvorbisenc.2.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EA82F9C24001A8F00B04F5E /* libvorbisenc.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EA9CD4E211E70AA005B792B /* CustomTaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9CD4D211E70AA005B792B /* CustomTaskController.m */; };
+		0EAEB8092FF1DF8500BA711A /* libFLAC.14.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EAEB8072FF1DF5F00BA711A /* libFLAC.14.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0EAEB8102FF1ED0B00BA711A /* libmp3lame.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EAEB80E2FF1ECBE00BA711A /* libmp3lame.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0EAEB8112FF1ED0E00BA711A /* libmpg123.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EAEB80C2FF1ECA700BA711A /* libmpg123.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0EAEB8122FF1ED1200BA711A /* libopus.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 0EAEB80A2FF1EC8E00BA711A /* libopus.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0EB5B0EF1F690813008DBE9A /* BUILD.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0EE1F690813008DBE9A /* BUILD.md */; };
 		0EB5B0F11F6915D3008DBE9A /* CREDITS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB5B0F01F6915D3008DBE9A /* CREDITS.md */; };
 		0EB8CB3F1F793880004B6D05 /* SCREENSHOTS.md in Sources */ = {isa = PBXBuildFile; fileRef = 0EB8CB3E1F793880004B6D05 /* SCREENSHOTS.md */; };
@@ -457,11 +460,14 @@
 			files = (
 				0E053FC12416F42500B320E2 /* libao.4.dylib in Copy Libraries */,
 				0E053F9B24160B8000B320E2 /* libfec.dylib in Copy Libraries */,
+				0EAEB8092FF1DF8500BA711A /* libFLAC.14.dylib in Copy Libraries */,
 				0EA82F9724000CD900B04F5E /* libfftw3f.3.dylib in Copy Libraries */,
-				0EA82F9924000F6000B04F5E /* libFLAC.8.dylib in Copy Libraries */,
 				0E87443E23ECEDCD00D34F1B /* libliquid.dylib in Copy Libraries */,
 				0E87443F23ECEDCD00D34F1B /* libltdl.7.dylib in Copy Libraries */,
+				0EAEB8102FF1ED0B00BA711A /* libmp3lame.0.dylib in Copy Libraries */,
+				0EAEB8112FF1ED0E00BA711A /* libmpg123.0.dylib in Copy Libraries */,
 				0EA82F9B240010C400B04F5E /* libogg.0.dylib in Copy Libraries */,
+				0EAEB8122FF1ED1200BA711A /* libopus.0.dylib in Copy Libraries */,
 				0E87444123ECEDCD00D34F1B /* librtlsdr.0.dylib in Copy Libraries */,
 				0E87444223ECEDCD00D34F1B /* libsox.3.dylib in Copy Libraries */,
 				0E87444323ECEDCD00D34F1B /* libsndfile.1.dylib in Copy Libraries */,
@@ -1386,12 +1392,15 @@
 		0EA3EB6A21FD25CE00DF4099 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		0EA3EB7121FD846300DF4099 /* libsox.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsox.3.dylib; path = Libraries_Modified/libsox.3.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EA82F4824000BC400B04F5E /* libfftw3f.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfftw3f.3.dylib; path = Libraries_Modified/libfftw3f.3.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		0EA82F9824000F3B00B04F5E /* libFLAC.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.8.dylib; path = Libraries_Modified/libFLAC.8.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EA82F9A2400109600B04F5E /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = Libraries_Modified/libogg.0.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EA82F9C24001A8F00B04F5E /* libvorbisenc.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvorbisenc.2.dylib; sourceTree = "<group>"; };
 		0EA82F9D24001A8F00B04F5E /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libvorbis.0.dylib; sourceTree = "<group>"; };
 		0EA9CD4C211E70AA005B792B /* CustomTaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTaskController.h; sourceTree = "<group>"; };
 		0EA9CD4D211E70AA005B792B /* CustomTaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTaskController.m; sourceTree = "<group>"; };
+		0EAEB8072FF1DF5F00BA711A /* libFLAC.14.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.14.dylib; path = Libraries_Modified/libFLAC.14.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EAEB80A2FF1EC8E00BA711A /* libopus.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopus.0.dylib; path = Libraries_Modified/libopus.0.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EAEB80C2FF1ECA700BA711A /* libmpg123.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpg123.0.dylib; path = Libraries_Modified/libmpg123.0.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		0EAEB80E2FF1ECBE00BA711A /* libmp3lame.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmp3lame.0.dylib; path = Libraries_Modified/libmp3lame.0.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EB5B0EE1F690813008DBE9A /* BUILD.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = BUILD.md; sourceTree = "<group>"; };
 		0EB5B0F01F6915D3008DBE9A /* CREDITS.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CREDITS.md; sourceTree = "<group>"; };
 		0EB8CA711F77F790004B6D05 /* icon_128x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_128x128.png; sourceTree = "<group>"; };
@@ -1877,10 +1886,13 @@
 			children = (
 				0E053FC02416F3D800B320E2 /* libao.4.dylib */,
 				0E053F9A24160B3F00B320E2 /* libfec.dylib */,
+				0EAEB8072FF1DF5F00BA711A /* libFLAC.14.dylib */,
 				0EA82F4824000BC400B04F5E /* libfftw3f.3.dylib */,
-				0EA82F9824000F3B00B04F5E /* libFLAC.8.dylib */,
 				0E4D13922316413D0064D172 /* libliquid.dylib */,
+				0EAEB80E2FF1ECBE00BA711A /* libmp3lame.0.dylib */,
+				0EAEB80C2FF1ECA700BA711A /* libmpg123.0.dylib */,
 				0EA82F9A2400109600B04F5E /* libogg.0.dylib */,
+				0EAEB80A2FF1EC8E00BA711A /* libopus.0.dylib */,
 				0E56117121FBD26E007C6DB3 /* libltdl.7.dylib */,
 				0E82BEA22201084A0042D275 /* librtlsdr.0.dylib */,
 				0E56117521FBDC6B007C6DB3 /* libsndfile.1.dylib */,
@@ -4946,6 +4958,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0E0C693D1F1C9D4800A7EE5E /* Run Fix stereodemux Script */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4956,10 +4969,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_stereodemux.sh\n";
+			shellScript = "bash \"${SRCROOT}/LocalRadio/Scripts/fix_stereodemux.sh\"\n";
 		};
 		0E82BEBD2201586B0042D275 /* Run fix_rtl_sdr_tools.sh Script */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4974,10 +4988,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_rtl_sdr_tools.sh\n";
+			shellScript = "bash \"${SRCROOT}/LocalRadio/Scripts/fix_rtl_sdr_tools.sh\"\n";
 		};
 		0E84C9A31ED8FFC90065864B /* Run Copy HTTP Files Script */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -4988,10 +5003,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# - copy macSVG.help Help Book bundle to application\necho rsync -av ${SRCROOT}/LocalRadio/Web \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\nrsync -av ${SRCROOT}/LocalRadio/Web \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\n";
+			shellScript = "# - copy macSVG.help Help Book bundle to application\necho rsync -av \"${SRCROOT}/LocalRadio/Web\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\nrsync -av \"${SRCROOT}/LocalRadio/Web\" \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\n\n";
 		};
 		0E9B3CB521DC4BEE004A91E6 /* Run fix_sox.sh Script (and import libraries for other tools too) */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -5006,7 +5022,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "bash ${SRCROOT}/LocalRadio/Scripts/fix_sox.sh\n\n";
+			shellScript = "bash \"${SRCROOT}/LocalRadio/Scripts/fix_sox.sh\"\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -5628,6 +5644,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -5677,7 +5694,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -5685,6 +5702,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -5726,8 +5744,9 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
@@ -5736,11 +5755,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LocalRadio/LocalRadio.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = MMFBWVS455;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = MMFBWVS455;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
@@ -5754,17 +5775,21 @@
 					"$(BUILD_DIR)/Libraries_Modified",
 					"$(PROJECT_DIR)/LocalRadio",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.22;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arkphone.LocalRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
-				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "LocalRadio Provisioning Profile 2026";
 				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 4.0;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
-				VALID_ARCHS = x86_64;
+				USER_HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
+					"\"$(SRCROOT)/LocalRadio/rtl-sdr/src\"",
+				);
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -5773,11 +5798,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = LocalRadio/LocalRadio.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = MMFBWVS455;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = MMFBWVS455;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
@@ -5791,17 +5818,21 @@
 					"$(BUILD_DIR)/Libraries_Modified",
 					"$(PROJECT_DIR)/LocalRadio",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.22;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.arkphone.LocalRadio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e9d86171-65a3-409a-a568-7fa34ac49b12";
-				PROVISIONING_PROFILE_SPECIFIER = "LocalRadio Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "LocalRadio Provisioning Profile 2026";
 				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 4.0;
-				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/LocalRadio/rtl-sdr/include\" \"$(SRCROOT)/LocalRadio/rtl-sdr/src\"";
-				VALID_ARCHS = x86_64;
+				USER_HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/LocalRadio/rtl-sdr/include\"",
+					"\"$(SRCROOT)/LocalRadio/rtl-sdr/src\"",
+				);
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};

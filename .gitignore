@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Xcode user-specific state
+xcuserdata/
+*.xcuserstate
+
+# Xcode build output
+build/
+DerivedData/
+
+# Editor backups
+*~
+
+# C / Autotools build artifacts (wfm-tools, etc.)
+*.o
+*.lo
+.deps/
+.libs/
+autom4te.cache/
+config.log
+config.status
+
+# Built stereodemux binary
+wfm-tools/stereodemux/stereodemux

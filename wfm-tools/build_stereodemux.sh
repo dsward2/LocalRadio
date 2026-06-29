@@ -8,11 +8,11 @@
 
 #  Build stereodemux with MacPorts libraries libliquid and libsndfile
 
-EXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}
+EXECFILE="${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}"
 
-EXECFOLDER=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}
+EXECFOLDER="${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}"
 
-LIBPATH=${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}
+LIBPATH="${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
 NEWLIBPATH="@executable_path/../Frameworks"
 
@@ -25,7 +25,7 @@ export CPLUS_INCLUDE_PATH=/opt/local/include/
 export PATH=/opt/local/bin:$PATH
 export PATH=/opt/local/sbin:$PATH
 
-cd ${SRCROOT}/stereodemux
+cd "${SRCROOT}/stereodemux"
 
 ./autogen.sh && ./configure && make
 

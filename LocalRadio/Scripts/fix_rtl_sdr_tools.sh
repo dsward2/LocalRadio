@@ -5,10 +5,10 @@ EXECPATH=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}
 
 echo cp /opt/local/bin/rtl_adsb ${BUILT_PRODUCTS_DIR}
 cp /opt/local/bin/rtl_adsb ${BUILT_PRODUCTS_DIR}
-echo install_name_tool -change /opt/local/lib/librtlsdr.0.6git.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
-install_name_tool -change /opt/local/lib/librtlsdr.0.6git.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
-echo install_name_tool -change /opt/local/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
-install_name_tool -change /opt/local/libusb/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
+echo install_name_tool -change /opt/local/lib/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
+install_name_tool -change /opt/local/lib/librtlsdr.0.dylib @executable_path/../Frameworks/librtlsdr.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
+echo install_name_tool -change /opt/local/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
+install_name_tool -change /opt/local/lib/libusb-1.0.0.dylib @executable_path/../Frameworks/libusb-1.0.0.dylib ${BUILT_PRODUCTS_DIR}/rtl_adsb
 
 echo cp /opt/local/bin/rtl_eeprom ${BUILT_PRODUCTS_DIR}
 cp /opt/local/bin/rtl_eeprom ${BUILT_PRODUCTS_DIR}
