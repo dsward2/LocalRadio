@@ -379,7 +379,8 @@
                         [fieldsArray addObject:trimmedFieldString];
                     }
 
-                    if (fieldsArray.count == 39)
+                    //if (fieldsArray.count == 39)
+                    if (fieldsArray.count >= 39)
                     {
                         NSString * recordType = [fieldsArray objectAtIndex:3];
                         
