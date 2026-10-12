@@ -2,7 +2,7 @@
 
 LocalRadio has been converted to a Swift app for Apple Silicon Macs with a new name: AntennaHead
 
-https://github.com/dsward2/AntennaHead
+[https://github.com/dsward2/AntennaHead](https://antennahead-app.github.io/)
 
 <hr>
 
