@@ -1,3 +1,11 @@
+# Breaking News for 2026
+
+LocalRadio has been converted to a Swift app for Apple Silicon Macs with a new name: AntennaHead
+
+https://github.com/dsward2/AntennaHead
+
+<hr>
+
 # LocalRadio
 
 
